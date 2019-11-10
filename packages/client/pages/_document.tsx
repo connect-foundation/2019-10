@@ -3,6 +3,8 @@ import { ServerStyleSheet as StyledComponentsSheet } from 'styled-components';
 import { ServerStyleSheets as MaterialSheet } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
+import GlobalStyles from '../components/GlobalStyles';
+
 class MyDocument extends Document {
   public static async getInitialProps(ctx) {
     const styledComponentsSheet = new StyledComponentsSheet();
@@ -17,6 +19,7 @@ class MyDocument extends Document {
               styledComponentsSheet.collectStyles(
                 <>
                   <CssBaseline />
+                  <GlobalStyles />
                   <App {...props} />
                 </>,
               ),
