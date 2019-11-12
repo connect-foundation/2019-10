@@ -1,8 +1,11 @@
 import React from 'react';
+import { withUserAgent } from 'next-useragent';
 
 import AppBar from '../../components/AppBar';
+import Drawer from '../../components/Drawer';
 
 const Main = ({ ua }) => {
+  const { isDesktop } = ua;
 
   return (
     <div
@@ -11,6 +14,7 @@ const Main = ({ ua }) => {
       }}
     >
       <AppBar />
+      <Drawer isDesktop={isDesktop} />
       <main
         style={{
           flexGrow: 1,
@@ -66,5 +70,10 @@ const Main = ({ ua }) => {
   );
 };
 
+Main.getInitialProps = context => {
+  const userAgent = context.ua.source;
 
-export default Main;
+  return { userAgent };
+};
+
+export default withUserAgent(Main);

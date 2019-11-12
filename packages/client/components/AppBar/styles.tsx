@@ -9,6 +9,7 @@ export const AppBar = styled(MaterialAppBar)`
     color: white;
     position: fixed;
     z-index: 2;
+    box-shadow: none;
   }
 `;
 
@@ -50,7 +51,6 @@ export const DesktopButtons = styled.div`
   @media only screen and (min-width: ${BREAKPOINT}px) {
     display: block;
   }
-
   a {
     button {
       height: 3.2rem;
