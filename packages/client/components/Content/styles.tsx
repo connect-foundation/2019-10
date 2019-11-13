@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { BREAKPOINT } from '../../constants';
 
-export const AppContent = styled.main`
+export const Content = styled.main`
   flex-grow: 1;
   width: 100%;
   height: 100%;

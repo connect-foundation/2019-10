@@ -1,41 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
 import * as S from './styles';
-import { LEFT, TOP, PERSISTENT, EVENT, BREAKPOINT } from '../../constants';
+import { TOP, PERSISTENT } from '../../constants';
 
 import HotlistSVG from '../../svgs/HotlistSVG';
 import LatestSVG from '../../svgs/LatestSVG';
 import TopicsSVG from '../../svgs/TopicsSVG';
 
-interface DrawerProps {
-  isDesktop: boolean;
-}
-
-function getAnchor(callback) {
-  return callback() ? LEFT : TOP;
-}
-
-function isMobileScreen() {
-  return () => window.innerWidth > BREAKPOINT;
-}
-
-export const Drawer: React.FunctionComponent<DrawerProps> = props => {
-  const { isDesktop } = props;
-
-  const [anchor, setAnchor] = useState(getAnchor(() => isDesktop));
-
-  useEffect(() => {
-    const relocate = () => {
-      setAnchor(getAnchor(isMobileScreen()));
-    };
-
-    window.addEventListener(EVENT.resize, relocate);
-    return () => window.removeEventListener(EVENT.resize, relocate);
-  }, []);
-
+const Drawer: React.FunctionComponent = () => {
   return (
-    <S.Drawer anchor={anchor} variant={PERSISTENT} open={true}>
+    <S.Drawer anchor={TOP} variant={PERSISTENT} open={true}>
       <S.Container>
         <S.MobileTabs>
           <Link href="/trending">

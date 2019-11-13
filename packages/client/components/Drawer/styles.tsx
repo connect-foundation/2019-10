@@ -11,6 +11,12 @@ export const Drawer = styled(MaterialDrawer)`
 
   && > div {
     border: 0;
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      left: 0;
+      right: auto;
+
+      height: 100%;
+    }
   }
 `;
 
