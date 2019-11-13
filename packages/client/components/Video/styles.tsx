@@ -1,8 +1,12 @@
 import styled from 'styled-components';
+import { BREAKPOINT } from '../../constants';
 
 export const Video = styled.div`
   width: 100%;
   margin-bottom: 1.4rem;
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    margin-bottom: 2.6rem;
+  }
 `;
 
 export const Thumbnail = styled.div`
@@ -12,6 +16,11 @@ export const Thumbnail = styled.div`
   padding-top: 56.25%;
   background-color: black;
   overflow: hidden;
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    margin-left: 0;
+    width: 100%;
+  }
 
   img {
     position: absolute;
