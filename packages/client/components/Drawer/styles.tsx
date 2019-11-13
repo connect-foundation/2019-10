@@ -8,6 +8,10 @@ export const Drawer = styled(MaterialDrawer)`
     z-index: 1;
     flex-shrink: 0;
   }
+
+  && > div {
+    border: 0;
+  }
 `;
 
 export const Container = styled.div`
@@ -23,7 +27,7 @@ export const Container = styled.div`
 export const MobileTabs = styled.div`
   display: flex;
   width: 100%;
-  height: 6.4rem;
+  height: 5.6rem;
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     display: none;

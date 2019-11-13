@@ -3,6 +3,7 @@ import { withUserAgent } from 'next-useragent';
 
 import AppBar from '../../components/AppBar';
 import Drawer from '../../components/Drawer';
+import AppContent from '../../components/AppContent';
 
 const Main = ({ ua }) => {
   const { isDesktop } = ua;
@@ -11,15 +12,13 @@ const Main = ({ ua }) => {
     <div
       style={{
         display: 'flex',
+        width: '100%',
+        height: '100%',
       }}
     >
       <AppBar />
       <Drawer isDesktop={isDesktop} />
-      <main
-        style={{
-          flexGrow: 1,
-        }}
-      >
+      <AppContent>
         <div>
           eget arcu dictum varius duis at consectetur lorem. Velit sed ullamco
           eget arcu dictum varius duis at consectetur lorem. Velit sed ullamco
@@ -65,7 +64,7 @@ const Main = ({ ua }) => {
           eget arcu dictum varius duis at consectetur lorem. Velit sed ullamco
           eget arcu dictum varius duis at consectetur lorem. Velit sed ullamco
         </div>
-      </main>
+      </AppContent>
     </div>
   );
 };
