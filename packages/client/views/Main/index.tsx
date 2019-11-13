@@ -14,20 +14,20 @@ const Main: React.FunctionComponent = () => {
           <HotlistSVG />
           <span>핫 리스트</span>
         </S.Title>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+        <S.ContainerGrid container spacing={2}>
+          <Grid item xs={12} md={4}>
             <Video />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={4}>
             <Video />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={4}>
             <Video />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={4}>
             <Video />
           </Grid>
-        </Grid>
+        </S.ContainerGrid>
       </S.Container>
     </Layout>
   );
