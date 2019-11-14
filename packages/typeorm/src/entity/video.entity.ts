@@ -78,13 +78,13 @@ export class Video extends Base {
     type => User,
     user => user.videos,
   )
-  user: User;
+  public user: User;
 
   @ManyToMany(
     type => Tag,
     tag => tag.videos,
   )
-  tags: Tag[];
+  public tags: Tag[];
 
   @ManyToMany(
     type => User,
@@ -101,7 +101,7 @@ export class Video extends Base {
       referencedColumnName: 'id',
     },
   })
-  likedUsers: User[];
+  public likedUsers: User[];
 
   @OneToMany(
     type => Comment,

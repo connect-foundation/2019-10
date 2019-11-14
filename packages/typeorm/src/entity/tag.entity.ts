@@ -36,5 +36,5 @@ export class Tag extends Base {
       referencedColumnName: 'id',
     },
   })
-  videos: Video[];
+  public videos: Video[];
 }

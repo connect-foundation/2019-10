@@ -61,17 +61,17 @@ export class User extends Base {
     type => Video,
     video => video.user,
   )
-  videos: Video[];
+  public videos: Video[];
 
   @ManyToMany(
     type => Video,
     video => video.likedUsers,
   )
-  likedVideos: Video[];
+  public likedVideos: Video[];
 
   @OneToMany(
     type => Comment,
     comment => comment.user,
   )
-  comments: Comment[];
+  public comments: Comment[];
 }

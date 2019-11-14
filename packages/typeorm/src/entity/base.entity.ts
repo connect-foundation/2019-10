@@ -19,14 +19,14 @@ export abstract class Base {
     type: 'datetime',
     nullable: false,
   })
-  protected createAt: string;
+  protected createdAt: string;
 
   @UpdateDateColumn({
     name: 'updatedAt',
     type: 'datetime',
     nullable: false,
   })
-  protected updateAt: string;
+  protected updatedAt: string;
 
   @Column({
     name: 'status',
