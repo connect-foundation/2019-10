@@ -12,21 +12,32 @@ export abstract class Base {
     name: 'id',
     type: 'int',
   })
-  protected id: number;
+  public id: number;
 
-  @CreateDateColumn({
+  @Column({
     name: 'createdAt',
     type: 'datetime',
     nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
   })
-  protected createdAt: string;
+  private mCreatedAt: string;
 
-  @UpdateDateColumn({
+  get createdAt(): string {
+    return this.mCreatedAt;
+  }
+
+  @Column({
     name: 'updatedAt',
     type: 'datetime',
     nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
   })
-  protected updatedAt: string;
+  private mUpdatedAt: string;
+
+  get updatedAt(): string {
+    return this.mUpdatedAt;
+  }
 
   @Column({
     name: 'status',
@@ -34,5 +45,5 @@ export abstract class Base {
     nullable: false,
     default: Status.active,
   })
-  protected status: Status;
+  public status: Status;
 }
