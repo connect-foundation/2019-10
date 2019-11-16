@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   * {
-    font-family: 'NanumSquare', sans-serif;
+    font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -10,7 +10,7 @@ const GlobalStyles = createGlobalStyle`
 
   html,
   body {
-    font-family: 'NanumSquare', sans-serif;
+    /* font-family: 'Roboto', sans-serif; */
     height: 100%;
     font-size: 10px;
   }

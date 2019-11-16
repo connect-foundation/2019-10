@@ -45,13 +45,7 @@ class MyDocument extends Document {
   public render() {
     return (
       <Html>
-        <Head>
-          <link
-            rel="stylesheet"
-            type="text/css"
-            href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css"
-          ></link>
-        </Head>
+        <Head />
         <body>
           <Main />
           <NextScript />
