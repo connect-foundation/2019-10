@@ -1,7 +1,6 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   Timestamp,
   ManyToMany,
   OneToMany,
@@ -63,20 +62,23 @@ export class Video extends Base {
     name: 'thumbnail',
     type: 'varchar',
     length: 2083,
-    nullable: true,
+    nullable: false,
   })
   public thumbnail: string;
 
   @Column({
     name: 'playtime',
     type: 'time',
-    nullable: true,
+    nullable: false,
   })
   public playtime: Timestamp;
 
   @ManyToOne(
     type => User,
     user => user.videos,
+    {
+      nullable: false,
+    },
   )
   public user: User;
 

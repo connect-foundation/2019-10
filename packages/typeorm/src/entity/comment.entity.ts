@@ -1,12 +1,10 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
-  ManyToMany,
-  JoinTable,
   JoinColumn,
+  ManyToMany,
 } from 'typeorm';
 
 import { Base } from './base.entity';
@@ -24,13 +22,11 @@ export class Comment extends Base {
   })
   public content: string;
 
-  @Column({
-    name: 'like',
-    type: 'int',
-    nullable: false,
-    default: 0,
-  })
-  public like: number;
+  @ManyToMany(
+    type => User,
+    user => user.likedComments,
+  )
+  public likedUser: User;
 
   @OneToMany(
     type => Comment,

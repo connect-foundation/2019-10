@@ -1,11 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  Timestamp,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
 
 import { Base } from './base.entity';
 import { Video } from './video.entity';

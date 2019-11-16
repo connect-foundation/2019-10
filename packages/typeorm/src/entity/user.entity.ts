@@ -1,10 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany,
-  ManyToMany,
-} from 'typeorm';
+import { Entity, Column, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 
 import { Base } from './base.entity';
 import { Video } from './video.entity';
@@ -56,6 +50,23 @@ export class User extends Base {
     unique: true,
   })
   public githubId: string;
+
+  @ManyToMany(
+    type => Video,
+    video => video.likedUsers,
+  )
+  @JoinTable({
+    name: 'liked_comments',
+    joinColumn: {
+      name: 'commentId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'userId',
+      referencedColumnName: 'id',
+    },
+  })
+  public likedComments: Comment[];
 
   @OneToMany(
     type => Video,
