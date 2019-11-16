@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
+import { routePath } from '../../constants';
 import LogoSVG from '../../svgs/LogoSVG';
 import CloudSVG from '../../svgs/CloudSVG';
 import SearchSVG from '../../svgs/SearchSVG';
@@ -17,7 +18,7 @@ export const AppBar = () => {
         </S.Logo>
 
         <S.MobileButtons>
-          <Link href="/uploads">
+          <Link href={routePath.upload}>
             <a>
               <button>
                 <CloudSVG />
@@ -29,7 +30,7 @@ export const AppBar = () => {
             <SearchSVG />
           </button>
 
-          <Link href="/login">
+          <Link href={routePath.login}>
             <a>
               <button>
                 <ProfileSVG />
@@ -39,7 +40,7 @@ export const AppBar = () => {
         </S.MobileButtons>
 
         <S.DesktopButtons>
-          <Link href="/upload">
+          <Link href={routePath.upload}>
             <a>
               <button className="primary">
                 <CloudSVG />
@@ -48,7 +49,7 @@ export const AppBar = () => {
             </a>
           </Link>
 
-          <Link href="/login">
+          <Link href={routePath.login}>
             <a>
               <button>
                 <ProfileSVG />
