@@ -2,7 +2,8 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   * {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'NanumSquare', sans-serif;
+    font-display:'block';
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
