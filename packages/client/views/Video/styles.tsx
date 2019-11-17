@@ -20,3 +20,5 @@ export const Video = styled.div`
     outline: unset;
   }
 `;
+
+export const Details = styled.div``;
