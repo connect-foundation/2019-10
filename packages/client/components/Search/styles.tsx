@@ -29,5 +29,19 @@ export const InputLayer = styled.div`
   width: 28.6rem;
   height: 3.2rem;
   background-color: #484c50;
-  border-radius: 5px;
+  border-radius: 0.5rem;
+  padding-top: 0.2rem;
+  padding-right: 1rem;
+  padding-bottom: 0.2rem;
+  padding-left: 1rem;
+  align-items: center;
+  svg {
+    vertical-align: middle;
+    width: 2rem;
+    height: 2rem;
+  }
+  span {
+    vertical-align: middle;
+    font-size: 3rem;
+  }
 `;
