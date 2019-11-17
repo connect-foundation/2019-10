@@ -8,7 +8,7 @@ const TagList: React.FunctionComponent = () => {
   return (
     <Layout>
       <S.TagList>
-        <S.ContainerGrid container spacing={0} justify="center">
+        <S.ContainerGrid container spacing={0} justify={'center'}>
           <Grid item xs={12} md={12}>
             <S.ContainerGrid container spacing={2} justify={'center'}>
               <Grid item xs={6} md={2}>
