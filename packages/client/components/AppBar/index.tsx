@@ -8,10 +8,14 @@ import ProfileSVG from '../../svgs/ProfileSVG';
 
 import * as S from './styles';
 
-export const AppBar = () => {
+interface AppBarProps {
+  maxWidth?: number;
+}
+
+export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
   return (
     <S.AppBar>
-      <S.Container>
+      <S.Container maxWidth={maxWidth}>
         <S.Logo>
           <LogoSVG />
         </S.Logo>

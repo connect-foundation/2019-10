@@ -3,13 +3,35 @@ import { BREAKPOINT } from '../../constants';
 
 export const Content = styled.main`
   flex-grow: 1;
-  width: 100%;
-  height: 100%;
   background-color: #303537;
-  margin-top: 12rem;
+`;
+
+export const Container = styled.div`
+  padding-left: 2rem;
+  padding-right: 2rem;
+  ${props =>
+    props.maxWidth
+      ? `
+        padding-top: 6.4rem;
+    `
+      : `
+        padding-top: 12rem;
+    `}
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
-    margin-top: 6.4rem;
-    margin-left: 25rem;
+    padding-top: 6.4rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
+
+    ${props =>
+      props.maxWidth
+        ? `
+      max-width: ${props.maxWidth}px;
+      margin: 0 auto;
+      padding-left: 0;
+    `
+        : `
+      padding-left: 25rem;
+    `}
   }
 `;

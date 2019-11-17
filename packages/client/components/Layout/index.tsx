@@ -8,14 +8,20 @@ import Content from '../Content';
 
 interface LayoutProps {
   children?: React.ReactNode;
+  drawer?: boolean;
 }
 
-const Layout: React.FunctionComponent<LayoutProps> = ({ children }) => {
+const Layout: React.FunctionComponent<LayoutProps> = ({
+  children,
+  drawer = true,
+}) => {
+  const maxWidth = drawer ? null : 1200;
+
   return (
     <S.Layout>
-      <AppBar />
-      <Drawer />
-      <Content>{children}</Content>
+      <AppBar maxWidth={maxWidth} />
+      {drawer && <Drawer />}
+      <Content maxWidth={maxWidth}>{children}</Content>
     </S.Layout>
   );
 };
