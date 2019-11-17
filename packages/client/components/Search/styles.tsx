@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import MaterialAppBar from '@material-ui/core/AppBar';
+import { BREAKPOINT } from '../../constants';
 
 export const Search = styled(MaterialAppBar)`
   && {
@@ -23,6 +24,9 @@ export const Container = styled.div`
 export const ArrawBack = styled.div`
   width: 2.4rem;
   height: 2.4rem;
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    display: none;
+  }
 `;
 
 export const InputLayer = styled.div`
@@ -42,6 +46,8 @@ export const InputLayer = styled.div`
   }
   span {
     vertical-align: middle;
-    font-size: 3rem;
+    font-size: 1.8rem;
+    opacity: 0.7;
+    margin-left: 1.17rem;
   }
 `;
