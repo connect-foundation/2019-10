@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 import { BREAKPOINT } from '../../constants';
 
-export const Video = styled.div`
+export const VideoItem = styled.div`
   width: 100%;
   margin-bottom: 1.4rem;
+  cursor: pointer;
+  user-select: none;
+
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin-bottom: 2.6rem;
   }
@@ -54,21 +57,34 @@ export const Avatar = styled.div`
 `;
 
 export const Info = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
   color: white;
+  width: 100%;
+  min-width: 0;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
 `;
 
 export const Title = styled.div`
+  /* https://stackoverflow.com/questions/5269713/css-ellipsis-on-second-line/19049457#19049457 */
   font-size: 1.6rem;
   font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    font-size: 1.5rem;
+  }
 `;
 
 export const Username = styled.div`
   font-size: 1.4rem;
+  display: inline-block;
 `;
 
 export const Additionals = styled.div`
