@@ -1,7 +1,6 @@
 import React from 'react';
 import * as S from './styles';
-import LogoSVG from '../../svgs/LogoSVG';
-import GitHubSVG from '../../svgs/GitHubSVG';
+import { LogoSVG, GitHubSVG } from '../../svgs';
 
 const Login: React.FunctionComponent = () => {
   return (

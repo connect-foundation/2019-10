@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import * as S from './styles';
-import HotlistSVG from '../../svgs/HotlistSVG/';
+import { HotlistSVG } from '../../svgs';
 import Layout from '../../components/Layout';
 import Video from '../../components/Video';
 

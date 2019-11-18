@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 import * as S from './styles';
 
-import FavoriteSVG from '../../svgs/FavoriteSVG';
-import ArrowDropDown from '../../svgs/ArrowDropDown';
+import { FavoriteSVG, ArrowDropDown } from '../../svgs';
 
 const replies = [
   {
