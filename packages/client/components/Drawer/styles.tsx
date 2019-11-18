@@ -25,7 +25,7 @@ export const Container = styled.div`
   background-color: #383d3f;
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
-    width: 25rem;
+    width: 22rem;
     height: 100%;
   }
 `;

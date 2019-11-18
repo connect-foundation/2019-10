@@ -31,7 +31,7 @@ export const Container = styled.div`
       padding-left: 0;
     `
         : `
-      padding-left: 25rem;
+      padding-left: 22rem;
     `}
   }
 `;
