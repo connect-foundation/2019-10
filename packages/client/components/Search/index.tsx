@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Router from 'next/router';
 
 import { ArrowBackSVG, SearchSVG } from '../../svgs';
 
@@ -10,6 +11,15 @@ interface Searchprops {
 }
 
 export const Search: React.FunctionComponent<Searchprops> = props => {
+  const sendQuery = e => {
+    if (e.key === 'Enter') {
+      Router.push({
+        pathname: '/search',
+        query: { query: e.target.value },
+      });
+    }
+  };
+
   return (
     <>
       <S.ArrowBack onClick={props.inActive} isActive={props.isActive}>
@@ -18,7 +28,7 @@ export const Search: React.FunctionComponent<Searchprops> = props => {
 
       <S.InputLayer isActive={props.isActive}>
         <SearchSVG />
-        <S.Input placeholder="검색"></S.Input>
+        <S.Input placeholder="검색" onKeyPress={sendQuery}></S.Input>
       </S.InputLayer>
     </>
   );
