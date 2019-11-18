@@ -1,25 +1,25 @@
-import React from 'react';
-import Link from 'next/link';
+import React, { useState } from 'react';
 
-import ArrawBackSVG from '../../svgs/ArrawBackSVG';
-import SearchSVG from '../../svgs/SearchSVG';
+import { ArrowBackSVG, SearchSVG } from '../../svgs';
 
 import * as S from './styles';
 
-export const Search = () => {
-  return (
-    <S.Search>
-      <S.Container>
-        <S.ArrawBack>
-          <ArrawBackSVG />
-        </S.ArrawBack>
+interface Searchprops {
+  inActive: () => void;
+}
 
-        <S.InputLayer>
-          <SearchSVG />
-          <span>검색</span>
-        </S.InputLayer>
-      </S.Container>
-    </S.Search>
+export const Search: React.FunctionComponent<Searchprops> = props => {
+  return (
+    <>
+      <S.ArrowBack onClick={props.inActive}>
+        <ArrowBackSVG />
+      </S.ArrowBack>
+
+      <S.InputLayer>
+        <SearchSVG />
+        <span>검색</span>
+      </S.InputLayer>
+    </>
   );
 };
 

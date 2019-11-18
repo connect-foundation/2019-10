@@ -2,26 +2,7 @@ import styled from 'styled-components';
 import MaterialAppBar from '@material-ui/core/AppBar';
 import { BREAKPOINT } from '../../constants';
 
-export const Search = styled(MaterialAppBar)`
-  && {
-    background-color: #383d3f;
-    color: white;
-    position: fixed;
-    z-index: 2;
-    box-shadow: none;
-  }
-`;
-
-export const Container = styled.div`
-  padding: 0 2rem;
-  display: flex;
-  height: 6.4rem;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const ArrawBack = styled.div`
+export const ArrowBack = styled.div`
   width: 2.4rem;
   height: 2.4rem;
   @media only screen and (min-width: ${BREAKPOINT}px) {

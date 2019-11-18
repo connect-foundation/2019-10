@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ArrawBackSVG = props => (
+const ArrowBackSVG = props => (
   <svg width={24} height={24} {...props}>
     <path d="M0 0h24v24H0z" fill="none" />
     <path
@@ -10,4 +10,4 @@ const ArrawBackSVG = props => (
   </svg>
 );
 
-export default ArrawBackSVG;
+export default ArrowBackSVG;

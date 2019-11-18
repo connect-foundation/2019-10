@@ -38,6 +38,7 @@ export const Content = styled.div``;
 
 export const Logo = styled.div`
   font-size: 2.8rem;
+  display: ${props => (props.isActiveSearchBar ? 'none' : 'block')};
 
   svg {
     vertical-align: middle;
@@ -45,6 +46,8 @@ export const Logo = styled.div`
 `;
 
 export const MobileButtons = styled.div`
+  display: ${props => (props.isActiveSearchBar ? 'none' : 'block')};
+
   button {
     padding: 0;
     margin-left: 1.5rem;
