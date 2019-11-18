@@ -6,6 +6,8 @@ export const Filters = styled.ul`
   padding: 0;
 
   li {
+    user-select: none;
+    cursor: pointer;
     display: inline-block;
     font-size: 1.6rem;
     line-height: 1.8rem;
