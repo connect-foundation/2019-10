@@ -1,13 +1,8 @@
-import {
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  Column,
-} from 'typeorm';
+import { PrimaryGeneratedColumn, Column } from 'typeorm';
 
 import { Status } from '../custom-type';
 
-export abstract class Base {
+export class Base {
   @PrimaryGeneratedColumn({
     name: 'id',
     type: 'int',
@@ -20,11 +15,7 @@ export abstract class Base {
     nullable: false,
     default: () => 'CURRENT_TIMESTAMP',
   })
-  private mCreatedAt: string;
-
-  get createdAt(): string {
-    return this.mCreatedAt;
-  }
+  private createdAt: string;
 
   @Column({
     name: 'updatedAt',
@@ -33,11 +24,7 @@ export abstract class Base {
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
   })
-  private mUpdatedAt: string;
-
-  get updatedAt(): string {
-    return this.mUpdatedAt;
-  }
+  private updatedAt: string;
 
   @Column({
     name: 'status',
@@ -46,4 +33,12 @@ export abstract class Base {
     default: Status.active,
   })
   public status: Status;
+
+  public getCreatedAt(): string {
+    return this.createdAt;
+  }
+
+  public getUpdatedAt(): string {
+    return this.updatedAt;
+  }
 }
