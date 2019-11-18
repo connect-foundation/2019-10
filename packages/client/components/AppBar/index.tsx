@@ -2,10 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { routePath } from '../../constants';
-import LogoSVG from '../../svgs/LogoSVG';
-import CloudSVG from '../../svgs/CloudSVG';
-import SearchSVG from '../../svgs/SearchSVG';
-import ProfileSVG from '../../svgs/ProfileSVG';
+import { LogoSVG, CloudSVG, SearchSVG, ProfileSVG } from '../../svgs';
 
 import * as S from './styles';
 

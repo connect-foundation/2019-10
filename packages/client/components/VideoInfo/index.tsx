@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as S from './styles';
 
-import FavoriteSVG from '../../svgs/FavoriteSVG';
+import { FavoriteSVG } from '../../svgs';
 
 const VideoInfo = () => {
   return (
