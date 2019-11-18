@@ -26,7 +26,7 @@ export class Comment extends Base {
     type => User,
     user => user.likedComments,
   )
-  public likedUser: User;
+  public likedUsers: User[];
 
   @OneToMany(
     type => Comment,
