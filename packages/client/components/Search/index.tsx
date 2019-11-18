@@ -18,7 +18,7 @@ export const Search: React.FunctionComponent<Searchprops> = props => {
 
       <S.InputLayer isActive={props.isActive}>
         <SearchSVG />
-        <span>검색</span>
+        <S.Input placeholder="검색"></S.Input>
       </S.InputLayer>
     </>
   );

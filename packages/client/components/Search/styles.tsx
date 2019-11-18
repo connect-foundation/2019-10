@@ -4,6 +4,7 @@ import { BREAKPOINT } from '../../constants';
 export const ArrowBack = styled.div`
   width: 2.4rem;
   height: 2.4rem;
+  margin-right: 1rem;
   display: ${props => (props.isActive ? 'block' : 'none')};
   @media only screen and (min-width: ${BREAKPOINT}px) {
     display: none;
@@ -11,7 +12,7 @@ export const ArrowBack = styled.div`
 `;
 
 export const InputLayer = styled.div`
-  width: 28.6rem;
+  width: 100%;
   height: 3.2rem;
   background-color: #484c50;
   border-radius: 0.5rem;
@@ -23,16 +24,22 @@ export const InputLayer = styled.div`
   display: ${props => (props.isActive ? 'block' : 'none')};
   @media only screen and (min-width: ${BREAKPOINT}px) {
     display: block;
+    width: 28rem;
   }
   svg {
     vertical-align: middle;
     width: 2rem;
     height: 2rem;
   }
-  span {
-    vertical-align: middle;
-    font-size: 1.8rem;
-    opacity: 0.7;
-    margin-left: 1.17rem;
-  }
+`;
+
+export const Input = styled.input`
+  background-color: #484c50;
+  vertical-align: middle;
+  font-size: 1.8rem;
+  margin-left: 1.17rem;
+  color: white;
+  border: none;
+  outline: none;
+  height: 100%;
 `;
