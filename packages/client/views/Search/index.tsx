@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 
 import * as S from './styles';
 import HotlistSVG from '../../svgs/HotlistSVG/';
+import SearchSVG from '../../svgs/SearchSVG';
 
 import Search from '../../components/Search';
 import Drawer from '../../components/Drawer';
@@ -16,20 +17,24 @@ const SearchEx: React.FunctionComponent = () => {
       <S.Content>
         <S.Container>
           <S.Title>
-            <HotlistSVG />
-            <span>핫 리스트</span>
+            <SearchSVG />
+            <span>"Azure cloud" 검색 결과</span>
           </S.Title>
+          <S.Subject> 영상 </S.Subject>
           <S.ContainerGrid container spacing={2}>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={3}>
               <Video />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={3}>
               <Video />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={3}>
               <Video />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={3}>
+              <Video />
+            </Grid>
+            <Grid item xs={12} md={3}>
               <Video />
             </Grid>
           </S.ContainerGrid>

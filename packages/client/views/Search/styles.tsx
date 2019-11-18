@@ -24,6 +24,13 @@ export const Content = styled.main`
   }
 `;
 
+// subject - 영상
+export const Subject = styled.div`
+  color: white;
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+`;
+
 /* window 의 넓이에 따라 변화하는 spacing을 정의해주기 위해 사용됨*/
 export const ContainerGrid = styled(MaterialGrid)`
   && {
