@@ -10,8 +10,8 @@ export const PERSISTENT = 'persistent';
 
 export const routePath = {
   tags: '/tags',
-  hotlists: '/hotlists',
-  latests: 'latests',
+  hotlists: '/hotlist',
+  latests: '/latest',
   upload: '/videos/upload',
   search: '/search',
   login: '/login',
