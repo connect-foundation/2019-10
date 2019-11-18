@@ -2,8 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import * as S from './styles';
-import { TOP, PERSISTENT } from '../../constants';
-
+import { TOP, PERSISTENT, routePath } from '../../constants';
 import HotlistSVG from '../../svgs/HotlistSVG';
 import LatestSVG from '../../svgs/LatestSVG';
 import TopicsSVG from '../../svgs/TopicsSVG';
@@ -13,7 +12,7 @@ const Drawer: React.FunctionComponent = () => {
     <S.Drawer anchor={TOP} variant={PERSISTENT} open={true}>
       <S.Container>
         <S.MobileTabs>
-          <Link href="/trending">
+          <Link href={routePath.hotlists}>
             <a>
               <button className="active">
                 <HotlistSVG />
@@ -22,7 +21,7 @@ const Drawer: React.FunctionComponent = () => {
             </a>
           </Link>
 
-          <Link href="/latest">
+          <Link href={routePath.latests}>
             <a>
               <button>
                 <LatestSVG />
@@ -31,7 +30,7 @@ const Drawer: React.FunctionComponent = () => {
             </a>
           </Link>
 
-          <Link href="/topics">
+          <Link href={routePath.tags}>
             <a>
               <button>
                 <TopicsSVG />
@@ -42,7 +41,7 @@ const Drawer: React.FunctionComponent = () => {
         </S.MobileTabs>
 
         <S.DesktopTabs>
-          <Link href="/trending">
+          <Link href={routePath.hotlists}>
             <a>
               <button className="active">
                 <HotlistSVG />
@@ -51,7 +50,7 @@ const Drawer: React.FunctionComponent = () => {
             </a>
           </Link>
 
-          <Link href="/latest">
+          <Link href={routePath.latests}>
             <a>
               <button>
                 <LatestSVG />
@@ -60,7 +59,7 @@ const Drawer: React.FunctionComponent = () => {
             </a>
           </Link>
 
-          <Link href="/topics">
+          <Link href={routePath.tags}>
             <a>
               <button>
                 <TopicsSVG />
