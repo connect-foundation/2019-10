@@ -1,6 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 
+import ArrawBackSVG from '../../svgs/ArrawBackSVG';
+import SearchSVG from '../../svgs/SearchSVG';
+
 import * as S from './styles';
 
 export const Search = () => {

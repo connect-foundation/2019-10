@@ -27,9 +27,16 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
             </a>
           </Link>
 
-          <button>
+          {/* <button onClick={() => SearchComponent()}>
             <SearchSVG />
-          </button>
+          </button> */}
+          <Link href="/search">
+            <a>
+              <button>
+                <SearchSVG />
+              </button>
+            </a>
+          </Link>
 
           <Link href={routePath.login}>
             <a>
