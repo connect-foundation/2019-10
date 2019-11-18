@@ -37,10 +37,12 @@ export const Container = styled.div`
 export const Content = styled.div``;
 
 export const Logo = styled.div`
-  font-size: 2.8rem;
-
   svg {
-    vertical-align: middle;
+    height: 3.3rem;
+  }
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    margin-left: 1.3rem;
   }
 `;
 
@@ -67,6 +69,8 @@ export const DesktopButtons = styled.div`
   }
   a {
     button {
+      user-select: none;
+      cursor: pointer;
       height: 3.2rem;
       padding: 0 1.6rem;
       border: 0;
