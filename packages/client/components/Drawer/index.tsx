@@ -3,9 +3,7 @@ import Link from 'next/link';
 
 import * as S from './styles';
 import { TOP, PERSISTENT, routePath } from '../../constants';
-import HotlistSVG from '../../svgs/HotlistSVG';
-import LatestSVG from '../../svgs/LatestSVG';
-import TopicsSVG from '../../svgs/TopicsSVG';
+import { HotlistSVG, LatestSVG, TopicsSVG } from '../../svgs';
 
 const Drawer: React.FunctionComponent = () => {
   return (
