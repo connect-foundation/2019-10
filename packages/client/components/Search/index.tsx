@@ -1,6 +1,7 @@
 import React from 'react';
 import Router from 'next/router';
 
+import { routePath } from '../../constants';
 import { ArrowBackSVG, SearchSVG } from '../../svgs';
 
 import * as S from './styles';
@@ -17,7 +18,7 @@ export const Search: React.FunctionComponent<Searchprops> = ({
   const sendQuery = e => {
     if (e.key === 'Enter') {
       Router.push({
-        pathname: '/search',
+        pathname: routePath.search,
         query: { query: e.target.value },
       });
     }
