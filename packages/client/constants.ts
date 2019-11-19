@@ -1,6 +1,7 @@
 export const MOBILE = 'mobile';
 export const DESKTOP = 'desktop';
 export const BREAKPOINT = 960;
+export const MAX_WIDTH = 1200;
 export const EVENT = {
   resize: 'resize',
 };

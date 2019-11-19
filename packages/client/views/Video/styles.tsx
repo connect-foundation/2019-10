@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 import Filters from '../../components/Filters';
 
 export const Video = styled.div`
@@ -36,7 +36,7 @@ export const Comments = styled.div`
 export const Title = styled.div`
   font-size: 2rem;
   color: white;
-  font-weight: 700;
+  font-weight: ${fontWeight.bold};
   margin-bottom: 2rem;
 
   @media only screen and (min-width: ${BREAKPOINT}px) {

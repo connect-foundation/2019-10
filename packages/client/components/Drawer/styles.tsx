@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import MaterialDrawer from '@material-ui/core/Drawer';
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const Drawer = styled(MaterialDrawer)`
   && {
@@ -61,7 +61,7 @@ export const MobileTabs = styled.div`
       span {
         color: white;
         font-size: 1.2rem;
-        font-weight: 700;
+        font-weight: ${fontWeight.bold};
         opacity: 0.7;
       }
     }
@@ -119,7 +119,7 @@ export const DesktopTabs = styled.div`
           vertical-align: middle;
           margin-left: 1.5rem;
           font-size: 1.7rem;
-          font-weight: 700;
+          font-weight: ${fontWeight.bold};
         }
       }
 

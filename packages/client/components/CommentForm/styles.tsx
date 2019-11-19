@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const CommentForm = styled.div`
   margin-bottom: 4rem;
@@ -23,7 +23,7 @@ export const User = styled.div`
   span {
     color: white;
     font-size: 1.6rem;
-    font-weight: 700;
+    font-weight: ${fontWeight.bold};
     vertical-align: middle;
   }
 `;
@@ -55,7 +55,7 @@ export const Form = styled.form`
       border: 0;
       border-radius: 0.5rem;
       font-size: 1.6rem;
-      font-weight: 700;
+      font-weight: ${fontWeight.bold};
       color: white;
     }
 
