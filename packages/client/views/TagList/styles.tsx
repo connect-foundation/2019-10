@@ -22,7 +22,7 @@ export const ContainerGrid = styled(MaterialGrid)`
 `;
 
 export const TagList = styled.div`
-  margin: 2rem 2rem 0 2rem;
+  margin: 2rem 0rem;
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin: 5rem 3rem 0 3rem;

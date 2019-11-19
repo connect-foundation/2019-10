@@ -1,1 +1,1 @@
-export { default } from '../views/Main';
+export { default } from '../views/Hotlist';

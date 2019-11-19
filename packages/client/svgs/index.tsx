@@ -7,7 +7,7 @@ import LatestSVG from './LatestSVG';
 import LogoSVG from './LogoSVG';
 import ProfileSVG from './ProfileSVG';
 import SearchSVG from './SearchSVG';
-import TopicsSVG from './TopicsSVG';
+import TagsSVG from './TagsSVG';
 
 export {
   ArrowDropDown,
@@ -19,5 +19,5 @@ export {
   LogoSVG,
   ProfileSVG,
   SearchSVG,
-  TopicsSVG,
+  TagsSVG,
 };

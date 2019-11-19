@@ -1,6 +1,7 @@
 export const MOBILE = 'mobile';
 export const DESKTOP = 'desktop';
 export const BREAKPOINT = 960;
+export const MAX_WIDTH = 1200;
 export const EVENT = {
   resize: 'resize',
 };
@@ -10,8 +11,8 @@ export const PERSISTENT = 'persistent';
 
 export const routePath = {
   tags: '/tags',
-  hotlists: '/hotlist',
-  latests: '/latest',
+  hotlist: '/',
+  latest: '/latest',
   upload: '/videos/upload',
   search: '/search',
   login: '/login',

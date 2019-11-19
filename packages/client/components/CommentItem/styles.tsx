@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const CommentItem = styled.div`
   margin-bottom: ${props => (props.reply ? '3rem' : '4rem')};
@@ -23,7 +23,7 @@ export const User = styled.div`
   span {
     color: white;
     font-size: 1.6rem;
-    font-weight: 700;
+    font-weight: ${fontWeight.bold};
     vertical-align: middle;
   }
 
@@ -31,7 +31,7 @@ export const User = styled.div`
     font-size: 1.4rem;
     color: white;
     opacity: 0.5;
-    font-weight: 400;
+    font-weight: ${fontWeight.regular};
     margin-left: 1rem;
   }
 `;
@@ -54,7 +54,7 @@ export const Actions = styled.div`
     padding: 0;
     margin: 0;
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: ${fontWeight.bold};
     color: white;
     opacity: 0.5;
 
@@ -108,7 +108,7 @@ export const ShowRepliesButton = styled.div`
     span {
       vertical-align: middle;
       font-size: 1.5rem;
-      font-weight: 700;
+      font-weight: ${fontWeight.bold};
       color: white;
       opacity: 0.8;
     }
