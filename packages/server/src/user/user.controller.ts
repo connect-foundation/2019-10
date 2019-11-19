@@ -7,14 +7,12 @@ import { Video } from '../../../typeorm/src/entity/video.entity';
 export class UserController {
   public constructor(private readonly userService: UserService) {}
   @Get(':userId')
-  public async findOne(@Param('userId') userId): Promise<User> {
-    return await this.userService.findOneById({
-      userId,
-    });
+  public async getUser(@Param('userId') userId: number): Promise<User> {
+    return await this.userService.findUser(userId);
   }
 
   @Get(':userId/videos')
-  public async findVideosByUser(@Param('userId') userId): Promise<Video[]> {
-    return await this.userService.findVideosByUser({ userId });
+  public async getVideos(@Param('userId') userId: number): Promise<Video[]> {
+    return await this.userService.findVideos(userId);
   }
 }

@@ -14,15 +14,15 @@ export class UserService {
     private readonly videoRepository: Repository<Video>,
   ) {}
 
-  public async findOneById({ userId }: { userId?: string }) {
+  public async findUser(id: number): Promise<User> {
     return await this.userRepository.findOne({
       where: {
-        userId,
+        id,
       },
     });
   }
 
-  public async findVideosByUser({ userId }) {
+  public async findVideos(userId: number): Promise<Video[]> {
     return await this.videoRepository.find({
       where: {
         user: {
