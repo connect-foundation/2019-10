@@ -91,8 +91,8 @@ const Searched: React.FunctionComponent = () => {
     <Layout>
       <S.Container>
         <S.ContainerGrid container spacing={2} justify="center">
-          <NoSearchResults />
-          {/* <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={8}>
+            {/*<NoSearchResults /> : 이것은 검색 결과가 없을때*/}
             <S.Title>
               <SearchSVG width={23} height={24} />
               <span>"{router.query.query}" 검색 결과</span>
@@ -138,7 +138,7 @@ const Searched: React.FunctionComponent = () => {
                 );
               })}
             </S.Topics>
-          </Grid> */}
+          </Grid>
         </S.ContainerGrid>
       </S.Container>
     </Layout>

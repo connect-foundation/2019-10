@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 
-export const NoSearchResults = styled.div`
-  height: 100%;
-`;
-
 export const Image = styled.div`
+  margin-top: 10rem;
   display: flex;
   justify-content: center;
   img {
