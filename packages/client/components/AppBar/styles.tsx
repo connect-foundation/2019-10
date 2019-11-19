@@ -40,6 +40,9 @@ export const Logo = styled.div`
   font-size: 2.8rem;
   display: ${props => (props.isActiveSearchBar ? 'none' : 'block')};
 
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    display: block;
+  }
   svg {
     vertical-align: middle;
   }
