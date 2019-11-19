@@ -38,11 +38,15 @@ export const Content = styled.div``;
 
 export const Logo = styled.div`
   svg {
-    height: 3.3rem;
+    height: 3rem;
   }
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin-left: 1.3rem;
+
+    svg {
+      height: 3.4rem;
+    }
   }
 `;
 
