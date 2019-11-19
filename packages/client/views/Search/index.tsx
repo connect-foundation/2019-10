@@ -8,6 +8,7 @@ import { SearchSVG } from '../../svgs';
 
 import Layout from '../../components/Layout';
 import VideoItem from '../../components/VideoItem';
+import NoSearchResults from '../../components/NoSearchResults';
 
 const Searched: React.FunctionComponent = () => {
   const router = useRouter();
@@ -90,7 +91,8 @@ const Searched: React.FunctionComponent = () => {
     <Layout>
       <S.Container>
         <S.ContainerGrid container spacing={2} justify="center">
-          <Grid item xs={12} md={8}>
+          <NoSearchResults />
+          {/* <Grid item xs={12} md={8}>
             <S.Title>
               <SearchSVG width={23} height={24} />
               <span>"{router.query.query}" 검색 결과</span>
@@ -136,7 +138,7 @@ const Searched: React.FunctionComponent = () => {
                 );
               })}
             </S.Topics>
-          </Grid>
+          </Grid> */}
         </S.ContainerGrid>
       </S.Container>
     </Layout>
