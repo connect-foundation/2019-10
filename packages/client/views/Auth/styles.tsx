@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { BREAKPOINT } from '../../constants';
 
-export const Login = styled.div`
+export const Auth = styled.div`
   height: 100%;
 `;
 

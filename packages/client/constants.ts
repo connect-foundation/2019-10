@@ -22,3 +22,8 @@ export const fontWeight = {
   bold: 700,
   extraBold: 800,
 };
+
+export const maxLength = {
+  username: 30,
+  introduction: 1500,
+};

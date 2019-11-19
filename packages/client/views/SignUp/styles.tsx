@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { BREAKPOINT } from '../../constants';
 
-export const LoginForm = styled.div`
+export const SignUp = styled.div`
   height: 100%;
 `;
 export const Container = styled.div`
@@ -48,7 +48,7 @@ export const RequireMark = styled.div`
   /* position: absolute; */
 `;
 
-export const Input = styled.div`
+export const Item = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -98,7 +98,7 @@ export const Input = styled.div`
   }
 `;
 
-export const InputInfo = styled.div`
+export const Label = styled.div`
   display: inline-block;
   margin-bottom: 1rem;
 
