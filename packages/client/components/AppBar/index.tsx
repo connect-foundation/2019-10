@@ -48,7 +48,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
           </Link>
         </S.MobileButtons>
 
-        <Search deActive={handleActiveSearchBar} isActive={isActiveSearchBar} />
+        <Search deactive={handleActiveSearchBar} isActive={isActiveSearchBar} />
 
         <S.DesktopButtons>
           <Link href={routePath.upload}>
