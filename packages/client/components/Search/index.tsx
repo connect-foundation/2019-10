@@ -7,12 +7,12 @@ import { ArrowBackSVG, SearchSVG } from '../../svgs';
 import * as S from './styles';
 
 interface Searchprops {
-  deactive: () => void;
+  deactivate: () => void;
   isActive: boolean;
 }
 
 export const Search: React.FunctionComponent<Searchprops> = ({
-  deactive,
+  deactivate,
   isActive,
 }) => {
   const sendQuery = e => {
@@ -26,7 +26,7 @@ export const Search: React.FunctionComponent<Searchprops> = ({
 
   return (
     <>
-      <S.ArrowBack onClick={deactive} isActive={isActive}>
+      <S.ArrowBack onClick={deactivate} isActive={isActive}>
         <ArrowBackSVG />
       </S.ArrowBack>
 
