@@ -6,11 +6,14 @@ import { ArrowBackSVG, SearchSVG } from '../../svgs';
 import * as S from './styles';
 
 interface Searchprops {
-  inActive: () => void;
+  deActive: () => void;
   isActive: boolean;
 }
 
-export const Search: React.FunctionComponent<Searchprops> = props => {
+export const Search: React.FunctionComponent<Searchprops> = ({
+  deActive,
+  isActive,
+}) => {
   const sendQuery = e => {
     if (e.key === 'Enter') {
       Router.push({
@@ -22,11 +25,11 @@ export const Search: React.FunctionComponent<Searchprops> = props => {
 
   return (
     <>
-      <S.ArrowBack onClick={props.inActive} isActive={props.isActive}>
+      <S.ArrowBack onClick={deActive} isActive={isActive}>
         <ArrowBackSVG />
       </S.ArrowBack>
 
-      <S.InputLayer isActive={props.isActive}>
+      <S.InputLayer isActive={isActive}>
         <SearchSVG />
         <S.Input placeholder="검색" onKeyPress={sendQuery}></S.Input>
       </S.InputLayer>
