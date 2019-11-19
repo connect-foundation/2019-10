@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import * as S from './styles';
@@ -198,12 +198,6 @@ const videos = [
 ];
 
 const Latest: React.FunctionComponent = () => {
-  const [activeFilter, setActiveFilter] = useState('일주일');
-
-  const handleFilterClick = filter => {
-    setActiveFilter(filter);
-  };
-
   return (
     <Layout>
       <S.Container>
