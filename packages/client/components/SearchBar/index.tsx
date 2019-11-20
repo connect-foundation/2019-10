@@ -1,23 +1,24 @@
 import React from 'react';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 
 import { routePath } from '../../constants';
 import { ArrowBackSVG, SearchSVG } from '../../svgs';
 
 import * as S from './styles';
 
-interface Searchprops {
+interface SearchBarprops {
   deactivate: () => void;
   isActive: boolean;
 }
 
-export const Search: React.FunctionComponent<Searchprops> = ({
+export const SearchBar: React.FunctionComponent<SearchBarprops> = ({
   deactivate,
   isActive,
 }) => {
+  const router = useRouter();
   const sendQuery = e => {
     if (e.key === 'Enter') {
-      Router.push({
+      router.push({
         pathname: routePath.search,
         query: { query: e.target.value },
       });
@@ -30,12 +31,12 @@ export const Search: React.FunctionComponent<Searchprops> = ({
         <ArrowBackSVG />
       </S.ArrowBack>
 
-      <S.InputLayer isActive={isActive}>
-        <SearchSVG />
-        <S.Input placeholder="검색" onKeyPress={sendQuery}></S.Input>
-      </S.InputLayer>
+      <S.Input isActive={isActive}>
+        <SearchSVG width="20" height="20" viewBox="0 0 20 20" />
+        <input type="text" placeholder="검색" onKeyPress={sendQuery} />
+      </S.Input>
     </>
   );
 };
 
-export default Search;
+export default SearchBar;

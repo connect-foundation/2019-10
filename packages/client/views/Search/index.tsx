@@ -15,7 +15,7 @@ const Searched: React.FunctionComponent = () => {
     <Layout>
       <S.Container>
         <S.Title>
-          <SearchSVG />
+          <SearchSVG width={23} height={24} />
           <span>"{router.query.query}" 검색 결과</span>
         </S.Title>
         <S.Subject> 영상 </S.Subject>

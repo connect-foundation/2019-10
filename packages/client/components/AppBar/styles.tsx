@@ -38,7 +38,7 @@ export const Content = styled.div``;
 
 export const Logo = styled.div`
   font-size: 2.8rem;
-  display: ${props => (props.isActiveSearchBar ? 'none' : 'block')};
+  display: ${props => (props.isSearchBarActive ? 'none' : 'block')};
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     display: block;
@@ -49,7 +49,7 @@ export const Logo = styled.div`
 `;
 
 export const MobileButtons = styled.div`
-  display: ${props => (props.isActiveSearchBar ? 'none' : 'block')};
+  display: ${props => (props.isSearchBarActive ? 'none' : 'block')};
 
   button {
     padding: 0;
