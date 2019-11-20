@@ -1,4 +1,5 @@
 import React from 'react';
+import uuidv4 from 'uuid/v4';
 
 const VideoUpload: React.FunctionComponent = () => {
   const fileInput = React.createRef<HTMLInputElement>();
@@ -7,7 +8,8 @@ const VideoUpload: React.FunctionComponent = () => {
     e.preventDefault();
 
     const file = fileInput.current.files[0];
-    const fileName = file.name;
+    const id = uuidv4();
+    const fileName = `${id}/${file.name}`;
 
     const preSignedUrl = await getPreSignedUrl(fileName);
     uploadToBucket(preSignedUrl, file);
@@ -29,7 +31,7 @@ const getPreSignedUrl = async fileName => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ fileName }),
+    body: JSON.stringify({ fileName: `workspace/${fileName}` }),
   });
 
   const url = await response.json();
