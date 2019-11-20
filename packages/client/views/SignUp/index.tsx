@@ -11,19 +11,17 @@ const SignUp: React.FunctionComponent = () => {
 
   const [isFetching, setIsFetching] = useState(false);
 
-  const handleUsername = e => {
-    setFormData({ ...formData, username: e.target.value });
+  const handleChange = e => {
+    const value =
+      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    const name = e.target.name;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleIntroduction = e => {
-    setFormData({ ...formData, description: e.target.value });
-  };
-
-  const handleTermsCheckbox = e => {
-    setFormData({ ...formData, isAgreed: !formData.isAgreed });
-  };
-
-  const handleSubmitButton = e => {
+  const handleSubmit = e => {
     setIsFetching(true);
   };
 
@@ -49,8 +47,10 @@ const SignUp: React.FunctionComponent = () => {
               <span>(영문, 숫자 또는 한글)</span>
             </S.Label>
             <input
+              id="username"
+              name="username"
               maxLength={maxLength.username}
-              onChange={handleUsername}
+              onChange={handleChange}
               type="text"
             />
           </S.Item>
@@ -60,23 +60,22 @@ const SignUp: React.FunctionComponent = () => {
               <span>(최대 1,500자)</span>
             </S.Label>
             <textarea
+              id="description"
+              name="description"
               maxLength={maxLength.introduction}
-              onChange={handleIntroduction}
+              onChange={handleChange}
             />
           </S.Item>
           <S.Item>
             <S.Label>
-              <input onChange={handleTermsCheckbox} type="checkbox" />
+              <input type="checkbox" name="isAgreed" onChange={handleChange} />
               <div className={'agreement'}>
                 <u>서비스 약관</u>에 동의합니다.
               </div>
             </S.Label>
           </S.Item>
           <S.SubmitButton>
-            <button
-              disabled={!checkSubmitAvailable()}
-              onClick={handleSubmitButton}
-            >
+            <button disabled={!checkSubmitAvailable()} onClick={handleSubmit}>
               가입하기
             </button>
           </S.SubmitButton>
