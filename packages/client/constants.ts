@@ -14,7 +14,7 @@ export const routePath = {
   latests: '/latest',
   upload: '/videos/upload',
   search: '/search',
-  login: '/login',
+  login: '/auth/login',
 };
 
 export const fontWeight = {

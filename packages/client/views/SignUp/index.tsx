@@ -9,7 +9,7 @@ const SignUp: React.FunctionComponent = () => {
     isAgreed: false,
   });
 
-  const [isFetching, setisFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
 
   const handleUsername = e => {
     setFormData({ ...formData, username: e.target.value });
@@ -24,14 +24,15 @@ const SignUp: React.FunctionComponent = () => {
   };
 
   const handleSubmitButton = e => {
-    setisFetching(true);
+    setIsFetching(true);
   };
 
   const checkFormVerified = () => {
-    if (isFetching) {
-      return true;
-    }
-    return !(formData.isAgreed && formData.username);
+    return formData.isAgreed && formData.username;
+  };
+
+  const checkSubmitAvailable = () => {
+    return !isFetching && checkFormVerified();
   };
 
   return (
@@ -72,7 +73,10 @@ const SignUp: React.FunctionComponent = () => {
             </S.Label>
           </S.Item>
           <S.SubmitButton>
-            <button disabled={checkFormVerified()} onClick={handleSubmitButton}>
+            <button
+              disabled={!checkSubmitAvailable()}
+              onClick={handleSubmitButton}
+            >
               가입하기
             </button>
           </S.SubmitButton>

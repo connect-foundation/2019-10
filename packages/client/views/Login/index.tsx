@@ -2,9 +2,9 @@ import React from 'react';
 import * as S from './styles';
 import { LogoSVG, GitHubSVG } from '../../svgs';
 
-const Auth: React.FunctionComponent = () => {
+const Login: React.FunctionComponent = () => {
   return (
-    <S.Auth>
+    <S.Login>
       <S.Container>
         <LogoSVG width={208} height={55} />
         <S.Message>
@@ -18,8 +18,8 @@ const Auth: React.FunctionComponent = () => {
           <span>GitHub 계정으로 로그인/회원가입</span>
         </S.AuthenticateLink>
       </S.Container>
-    </S.Auth>
+    </S.Login>
   );
 };
 
-export default Auth;
+export default Login;

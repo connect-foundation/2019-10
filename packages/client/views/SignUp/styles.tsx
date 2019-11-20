@@ -3,6 +3,7 @@ import { BREAKPOINT } from '../../constants';
 
 export const SignUp = styled.div`
   height: 100%;
+  user-select: none;
 `;
 export const Container = styled.div`
   height: 100%;
@@ -128,6 +129,7 @@ export const SubmitButton = styled.div`
   width: 100%;
   text-align: center;
   margin-top: 3rem;
+  cursor: pointer;
 
   button {
     width: 15.8rem;
