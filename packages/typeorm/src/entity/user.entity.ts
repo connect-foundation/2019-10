@@ -52,8 +52,8 @@ export class User extends Base {
   public githubId: string;
 
   @ManyToMany(
-    type => Video,
-    video => video.likedUsers,
+    type => Comment,
+    comment => comment.likedUsers,
   )
   @JoinTable({
     name: 'liked_comments',
