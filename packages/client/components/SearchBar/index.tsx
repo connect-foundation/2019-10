@@ -6,12 +6,12 @@ import { ArrowBackSVG, SearchSVG } from '../../svgs';
 
 import * as S from './styles';
 
-interface SearchBarprops {
+interface SearchBarProps {
   deactivate: () => void;
   isActive: boolean;
 }
 
-export const SearchBar: React.FunctionComponent<SearchBarprops> = ({
+export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
   deactivate,
   isActive,
 }) => {
@@ -32,7 +32,7 @@ export const SearchBar: React.FunctionComponent<SearchBarprops> = ({
       </S.ArrowBack>
 
       <S.Input isActive={isActive}>
-        <SearchSVG width="20" height="20" viewBox="0 0 20 20" />
+        <SearchSVG width={20} height={20} viewBox={'0, 0, 20, 20'} />
         <input type="text" placeholder="검색" onKeyPress={sendQuery} />
       </S.Input>
     </>
