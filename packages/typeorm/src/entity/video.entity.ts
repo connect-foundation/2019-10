@@ -34,14 +34,6 @@ export class Video extends Base {
   public description: string;
 
   @Column({
-    name: 'like',
-    type: 'int',
-    nullable: false,
-    default: 0,
-  })
-  public like: number;
-
-  @Column({
     name: 'hit',
     type: 'int',
     nullable: false,
