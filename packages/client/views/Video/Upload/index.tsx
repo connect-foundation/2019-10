@@ -1,5 +1,6 @@
 import React from 'react';
 import uuidv4 from 'uuid/v4';
+import { UploadedVideoInfo } from '../dto/upload-video.dto';
 
 const VideoUpload: React.FunctionComponent = () => {
   const fileInput = React.createRef<HTMLInputElement>();
@@ -12,7 +13,24 @@ const VideoUpload: React.FunctionComponent = () => {
     const fileName = `${id}/${file.name}`;
 
     const preSignedUrl = await getPreSignedUrl(fileName);
-    uploadToBucket(preSignedUrl, file);
+
+    if (!preSignedUrl) {
+      return;
+    }
+
+    const isUploadSuccess = await uploadToBucket(preSignedUrl, file);
+
+    if (!isUploadSuccess) {
+      return;
+    }
+
+    const video = await sendVideoInfo(
+      new UploadedVideoInfo(id, 'title', 'description', 0, ['tag1', 'tag2']),
+    );
+
+    if (!video) {
+      return;
+    }
   };
 
   return (
@@ -25,26 +43,60 @@ const VideoUpload: React.FunctionComponent = () => {
   );
 };
 
-const getPreSignedUrl = async fileName => {
-  const response = await fetch(process.env.AUTH_LAMBDA_HOST, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ fileName: `workspace/${fileName}` }),
-  });
+const getPreSignedUrl = async (fileName): Promise<string> => {
+  try {
+    const option = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ fileName: `workspace/${fileName}` }),
+    };
 
-  const url = await response.json();
-  return url;
+    const response = await fetch(process.env.AUTH_LAMBDA_HOST, option);
+    const url = await response.json();
+
+    return url;
+  } catch (err) {
+    // TODO: 예외처리
+    return null;
+  }
 };
 
-const uploadToBucket = async (preSignedUrl, file) => {
-  const option = {
-    method: 'PUT',
-    body: file,
-  };
+const uploadToBucket = async (preSignedUrl, file): Promise<boolean> => {
+  try {
+    const option = {
+      method: 'PUT',
+      body: file,
+    };
 
-  await fetch(preSignedUrl, option);
+    const response = await fetch(preSignedUrl, option);
+
+    return response.ok;
+  } catch (err) {
+    // TODO: 예외처리
+    return null;
+  }
+};
+
+const sendVideoInfo = async (videoInfo: UploadedVideoInfo) => {
+  try {
+    const option = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(videoInfo),
+    };
+
+    const response = await fetch(process.env.API_SERVER_URL, option);
+    const video = await response.json();
+
+    return video;
+  } catch (err) {
+    // TODO: 예외 처리
+    return null;
+  }
 };
 
 export default VideoUpload;
