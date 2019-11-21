@@ -74,9 +74,7 @@ export const Thumbnail = styled.div`
         width: calc(100% + 4rem);
       `;
     } else {
-      return `
-        width: 24.6rem;
-      `;
+      return ``;
     }
   }}
 
@@ -88,7 +86,9 @@ export const Thumbnail = styled.div`
           width: 100%;
         `;
       } else {
-        return ``;
+        return `
+          width: 24.6rem;
+        `;
       }
     }}
   }
