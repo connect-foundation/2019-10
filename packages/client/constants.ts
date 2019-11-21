@@ -15,11 +15,16 @@ export const routePath = {
   latest: '/latest',
   upload: '/videos/upload',
   search: '/search',
-  login: '/login',
+  login: '/auth/login',
 };
 
 export const fontWeight = {
   regular: 400,
   bold: 700,
   extraBold: 800,
+};
+
+export const maxLength = {
+  username: 30,
+  introduction: 1500,
 };

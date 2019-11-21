@@ -3,6 +3,7 @@ import { BREAKPOINT } from '../../constants';
 
 export const Login = styled.div`
   height: 100%;
+  user-select: none;
 `;
 
 export const Container = styled.div`
