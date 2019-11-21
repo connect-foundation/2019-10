@@ -7,6 +7,7 @@ import Layout from '../../components/Layout';
 import UserProfile from '../../components/UserProfile';
 import VideoItem from '../../components/VideoItem';
 import Filters from '../../components/Filters';
+import { chunkVideoList } from '../../libs/videoList';
 
 const videos = [
   {
@@ -194,17 +195,7 @@ const videos = [
 ];
 
 const User = () => {
-  const videoChunks = videos.reduce((acc, next, index) => {
-    const chunkIndex = Math.floor(index / 3);
-
-    if (!acc[chunkIndex]) {
-      acc[chunkIndex] = [];
-    }
-
-    acc[chunkIndex].push(next);
-
-    return acc;
-  }, []);
+  const videoChunks = chunkVideoList(videos, 3);
 
   return (
     <Layout drawer={false}>
