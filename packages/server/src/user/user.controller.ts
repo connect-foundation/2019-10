@@ -6,9 +6,9 @@ import { Video } from '../../../typeorm/src/entity/video.entity';
 @Controller('users')
 export class UserController {
   public constructor(private readonly userService: UserService) {}
-  @Get(':userId')
-  public async getUser(@Param('userId') userId: number): Promise<User> {
-    return await this.userService.findUser(userId);
+  @Get(':id')
+  public async getUser(@Param('id') id: number): Promise<UserResponseDto> {
+    return await this.userService.findUser(id);
   }
 
   @Get(':userId/videos')
