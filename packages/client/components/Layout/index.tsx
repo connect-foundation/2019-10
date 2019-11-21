@@ -2,6 +2,8 @@ import React from 'react';
 
 import * as S from './styles';
 
+import { MAX_WIDTH } from '../../constants';
+
 import AppBar from '../AppBar';
 import Drawer from '../Drawer';
 import Content from '../Content';
@@ -15,7 +17,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   children,
   drawer = true,
 }) => {
-  const maxWidth = drawer ? null : 1200;
+  const maxWidth = drawer ? null : MAX_WIDTH;
 
   return (
     <S.Layout>

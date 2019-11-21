@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const VideoInfo = styled.div`
   position: relative;
@@ -28,7 +28,7 @@ export const VideoInfo = styled.div`
 export const ViewsAndDates = styled.div`
   span {
     font-size: 1.4rem;
-    font-weight: 400;
+    font-weight: ${fontWeight.regular};
     color: white;
   }
 
@@ -64,7 +64,7 @@ export const Tag = styled.div`
   height: 2.2rem;
   line-height: 2.2rem;
   font-size: 1.4rem;
-  font-weight: 400;
+  font-weight: ${fontWeight.regular};
   color: white;
   background: #484c50;
   border-radius: 10rem;
@@ -115,6 +115,6 @@ export const Like = styled.div`
     vertical-align: middle;
     color: white;
     font-size: 1.4rem;
-    font-weight: 700;
+    font-weight: ${fontWeight.bold};
   }
 `;

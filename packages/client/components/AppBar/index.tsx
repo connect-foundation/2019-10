@@ -23,7 +23,11 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
     <S.AppBar>
       <S.Container maxWidth={maxWidth}>
         <S.Logo isSearchBarActive={isSearchBarActive}>
-          <LogoSVG />
+          <Link href="/">
+            <a>
+              <LogoSVG />
+            </a>
+          </Link>
         </S.Logo>
 
         <S.MobileButtons isSearchBarActive={isSearchBarActive}>

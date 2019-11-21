@@ -44,7 +44,15 @@ export const Logo = styled.div`
     display: block;
   }
   svg {
-    vertical-align: middle;
+    height: 3rem;
+  }
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    margin-left: 1.3rem;
+
+    svg {
+      height: 3.4rem;
+    }
   }
 `;
 
@@ -73,6 +81,8 @@ export const DesktopButtons = styled.div`
   }
   a {
     button {
+      user-select: none;
+      cursor: pointer;
       height: 3.2rem;
       padding: 0 1.6rem;
       border: 0;
