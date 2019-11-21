@@ -13,10 +13,10 @@ interface AppBarProps {
 }
 
 export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
-  const [isSearchBarActive, SearchBarActive] = useState(false);
+  const [isSearchBarActive, setSearchBarActive] = useState(false);
 
-  const handleActiveSearchBar = () => {
-    SearchBarActive(!isSearchBarActive);
+  const handleSearchBar = () => {
+    setSearchBarActive(!isSearchBarActive);
   };
 
   return (
@@ -35,7 +35,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
             </a>
           </Link>
 
-          <button onClick={handleActiveSearchBar}>
+          <button onClick={handleSearchBar}>
             <SearchSVG width={23} height={24} />
           </button>
 
@@ -48,10 +48,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
           </Link>
         </S.MobileButtons>
 
-        <SearchBar
-          deactivate={handleActiveSearchBar}
-          isActive={isSearchBarActive}
-        />
+        <SearchBar deactivate={handleSearchBar} isActive={isSearchBarActive} />
 
         <S.DesktopButtons>
           <Link href={routePath.upload}>
