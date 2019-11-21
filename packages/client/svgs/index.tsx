@@ -7,6 +7,7 @@ import LatestSVG from './LatestSVG';
 import LogoSVG from './LogoSVG';
 import ProfileSVG from './ProfileSVG';
 import SearchSVG from './SearchSVG';
+import ArrowBackSVG from './ArrowBackSVG';
 import TagsSVG from './TagsSVG';
 
 export {
@@ -19,5 +20,6 @@ export {
   LogoSVG,
   ProfileSVG,
   SearchSVG,
+  ArrowBackSVG,
   TagsSVG,
 };

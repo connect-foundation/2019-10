@@ -37,6 +37,12 @@ export const Container = styled.div`
 export const Content = styled.div``;
 
 export const Logo = styled.div`
+  font-size: 2.8rem;
+  display: ${props => (props.isSearchBarActive ? 'none' : 'block')};
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    display: block;
+  }
   svg {
     height: 3rem;
   }
@@ -51,6 +57,8 @@ export const Logo = styled.div`
 `;
 
 export const MobileButtons = styled.div`
+  display: ${props => (props.isSearchBarActive ? 'none' : 'block')};
+
   button {
     padding: 0;
     margin-left: 1.5rem;

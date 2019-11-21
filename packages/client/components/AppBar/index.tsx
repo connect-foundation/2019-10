@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 
 import { routePath } from '../../constants';
@@ -6,15 +6,23 @@ import { LogoSVG, CloudSVG, SearchSVG, ProfileSVG } from '../../svgs';
 
 import * as S from './styles';
 
+import SearchBar from '../SearchBar';
+
 interface AppBarProps {
   maxWidth?: number;
 }
 
 export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
+  const [isSearchBarActive, setSearchBarActive] = useState(false);
+
+  const handleSearchBar = () => {
+    setSearchBarActive(!isSearchBarActive);
+  };
+
   return (
     <S.AppBar>
       <S.Container maxWidth={maxWidth}>
-        <S.Logo>
+        <S.Logo isSearchBarActive={isSearchBarActive}>
           <Link href="/">
             <a>
               <LogoSVG />
@@ -22,7 +30,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
           </Link>
         </S.Logo>
 
-        <S.MobileButtons>
+        <S.MobileButtons isSearchBarActive={isSearchBarActive}>
           <Link href={routePath.upload}>
             <a>
               <button>
@@ -31,8 +39,8 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
             </a>
           </Link>
 
-          <button>
-            <SearchSVG />
+          <button onClick={handleSearchBar}>
+            <SearchSVG width={23} height={24} />
           </button>
 
           <Link href={routePath.login}>
@@ -43,6 +51,8 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
             </a>
           </Link>
         </S.MobileButtons>
+
+        <SearchBar deactivate={handleSearchBar} isActive={isSearchBarActive} />
 
         <S.DesktopButtons>
           <Link href={routePath.upload}>
