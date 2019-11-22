@@ -14,6 +14,14 @@ export class Tag extends Base {
   })
   public name: string;
 
+  @Column({
+    name: 'videosCount',
+    type: 'int',
+    nullable: false,
+    default: 0,
+  })
+  public videosCount: number;
+
   @ManyToMany(
     type => Video,
     video => video.tags,
