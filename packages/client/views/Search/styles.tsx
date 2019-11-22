@@ -57,7 +57,9 @@ export const Subject = styled.div`
   color: white;
   font-size: 2.2rem;
 `;
-
+export const Videos = styled.div`
+  margin-bottom: 2rem;
+`;
 export const Users = styled.div``;
 export const User = styled.div`
   display: flex;
@@ -71,6 +73,7 @@ export const Avatar = styled.div`
     border-radius: 100%;
     background-color: red;
     vertical-align: middle;
+    cursor: pointer;
   }
 `;
 
@@ -98,4 +101,23 @@ export const Topic = styled.span`
   border-radius: 10rem;
   margin-bottom: 2rem;
   cursor: pointer;
+`;
+
+export const ViewMore = styled.div`
+  display: flex;
+  justify-content: center;
+
+  button {
+    width: 15.8rem;
+    height: 4.4rem;
+    background-color: #484c50;
+    border-radius: 5px;
+    border: none;
+  }
+  span {
+    color: white;
+    font-size: 1.6rem;
+    user-select: none;
+    cursor: pointer;
+  }
 `;
