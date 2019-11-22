@@ -51,6 +51,14 @@ export class User extends Base {
   })
   public githubId: string;
 
+  @Column({
+    name: 'videosCount',
+    type: 'int',
+    nullable: false,
+    default: 0,
+  })
+  public videosCount: number;
+
   @ManyToMany(
     type => Comment,
     comment => comment.likedUsers,

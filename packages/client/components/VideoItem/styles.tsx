@@ -2,27 +2,95 @@ import styled from 'styled-components';
 import { BREAKPOINT } from '../../constants';
 
 export const VideoItem = styled.div`
-  width: 100%;
-  margin-bottom: 1.4rem;
-  cursor: pointer;
   user-select: none;
+  cursor: pointer;
+  width: 100%;
+
+  ${props => {
+    if (props.mobileType === 'vertical') {
+      return `
+        margin-bottom: 1.4rem;
+      `;
+    } else {
+      return `
+        display: flex;
+        flex-direction: row;
+      `;
+    }
+  }}
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
-    margin-bottom: 2.6rem;
+    ${props => {
+      if (props.desktopType === 'vertical') {
+        return `
+          display: inherit;
+          margin-bottom: 2.6rem;
+        `;
+      } else {
+        return `
+          display: flex;
+        `;
+      }
+    }}
+  }
+
+  && > a {
+    ${props => {
+      if (props.mobileType === 'vertical') {
+        return ``;
+      } else {
+        return `
+          flex: 1;
+          margin-right: 0.8rem;
+        `;
+      }
+    }}
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      ${props => {
+        if (props.desktopType === 'vertical') {
+          return ``;
+        } else {
+          return `
+            margin-right: 1.2rem;
+            flex: unset;
+          `;
+        }
+      }}
+    }
   }
 `;
 
 export const Thumbnail = styled.div`
   position: relative;
-  margin-left: -2rem;
-  width: calc(100% + 4rem);
   padding-top: 56.25%;
-  background-color: black;
   overflow: hidden;
+  background-color: black;
+
+  ${props => {
+    if (props.mobileType === 'vertical') {
+      return `
+        margin-left: -2rem;
+        width: calc(100% + 4rem);
+      `;
+    } else {
+      return ``;
+    }
+  }}
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
-    margin-left: 0;
-    width: 100%;
+    ${props => {
+      if (props.desktopType === 'vertical') {
+        return `
+          margin-left: 0;
+          width: 100%;
+        `;
+      } else {
+        return `
+          width: 24.6rem;
+        `;
+      }
+    }}
   }
 
   img {
@@ -37,12 +105,37 @@ export const Thumbnail = styled.div`
 `;
 
 export const Details = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-direction: row;
-  margin-top: 1rem;
+  ${props => {
+    if (props.mobileType === 'vertical') {
+      return `
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: row;
+        margin-top: 1rem;
+      `;
+    } else {
+      return `
+        flex: 1;
+        margin-left: 0.8rem;
+      `;
+    }
+  }}
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    ${props => {
+      if (props.desktopType === 'vertical') {
+        return `
+        `;
+      } else {
+        return `
+          flex: unset;
+          margin-left: 1.2rem;
+        `;
+      }
+    }}
+  }
 `;
 
 export const Avatar = styled.div`
@@ -52,7 +145,6 @@ export const Avatar = styled.div`
     width: 4rem;
     height: 4rem;
     border-radius: 100%;
-    background-color: red;
   }
 `;
 
@@ -69,17 +161,13 @@ export const Info = styled.div`
 
 export const Title = styled.div`
   /* https://stackoverflow.com/questions/5269713/css-ellipsis-on-second-line/19049457#19049457 */
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 800;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
-  @media only screen and (min-width: ${BREAKPOINT}px) {
-    font-size: 1.5rem;
-  }
 `;
 
 export const Username = styled.div`

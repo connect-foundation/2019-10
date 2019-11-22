@@ -51,7 +51,7 @@ export const Logo = styled.div`
     margin-left: 1.3rem;
 
     svg {
-      height: 3.4rem;
+      height: 3.6rem;
     }
   }
 `;
