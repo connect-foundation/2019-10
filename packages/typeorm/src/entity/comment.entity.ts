@@ -5,11 +5,17 @@ import {
   ManyToOne,
   JoinColumn,
   ManyToMany,
+  BeforeInsert,
 } from 'typeorm';
 
 import { Base } from './base.entity';
 import { User } from './user.entity';
 import { Video } from './video.entity';
+
+const popularityWeight = {
+  childrenCount: 4,
+  likedUsersCount: 1,
+};
 
 @Entity({
   name: 'comments',
@@ -22,17 +28,29 @@ export class Comment extends Base {
   })
   public content: string;
 
-  @ManyToMany(
-    type => User,
-    user => user.likedComments,
-  )
-  public likedUsers: User[];
+  @Column({
+    name: 'likedUsersCount',
+    type: 'int',
+    nullable: false,
+    default: 0,
+  })
+  public likedUsersCount: number;
 
-  @OneToMany(
-    type => Comment,
-    comment => comment.parent,
-  )
-  public children: Comment[];
+  @Column({
+    name: 'childrenCount',
+    type: 'int',
+    nullable: false,
+    default: 0,
+  })
+  public childrenCount: number;
+
+  @Column({
+    name: 'popularity',
+    type: 'int',
+    nullable: false,
+    default: 0,
+  })
+  public popularity: number;
 
   @ManyToOne(
     type => Comment,
@@ -61,4 +79,23 @@ export class Comment extends Base {
     },
   )
   public video: Video;
+
+  @ManyToMany(
+    type => User,
+    user => user.likedComments,
+  )
+  public likedUsers: User[];
+
+  @OneToMany(
+    type => Comment,
+    comment => comment.parent,
+  )
+  public children: Comment[];
+
+  @BeforeInsert()
+  public updatePopularity() {
+    this.popularity =
+      this.childrenCount * popularityWeight.childrenCount +
+      this.likedUsersCount * popularityWeight.likedUsersCount;
+  }
 }
