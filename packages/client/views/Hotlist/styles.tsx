@@ -22,9 +22,7 @@ export const ContainerGrid = styled(MaterialGrid)`
 
 export const Container = styled.div`
   height: 100%;
-  /* padding: 0 2rem; */
 
-  /* md */
   @media only screen and (min-width: ${BREAKPOINT}px) {
     padding: 0 3rem;
   }

@@ -17,6 +17,9 @@ const VideoItem = ({
   tags,
   likedUsers,
   comments,
+  showUser = true,
+  mobileType = 'vertical',
+  desktopType = 'vertical',
 }) => {
   const router = useRouter();
 
@@ -25,33 +28,41 @@ const VideoItem = ({
   };
 
   return (
-    <S.VideoItem onClick={handleClick}>
+    <S.VideoItem
+      onClick={handleClick}
+      mobileType={mobileType}
+      desktopType={desktopType}
+    >
       <Link href="/videos/[videoId]" as={`/videos/${id}`}>
         <a onClick={e => e.stopPropagation()}>
-          <S.Thumbnail>
+          <S.Thumbnail mobileType={mobileType} desktopType={desktopType}>
             <img src={thumbnail} />
           </S.Thumbnail>
         </a>
       </Link>
-      <S.Details>
-        <Link href="/users/[userId]" as={`/users/1`}>
-          <a onClick={e => e.stopPropagation()}>
-            <S.Avatar>
-              <img src={user.avatar} />
-            </S.Avatar>
-          </a>
-        </Link>
+      <S.Details mobileType={mobileType} desktopType={desktopType}>
+        {showUser && (
+          <Link href="/users/[userId]" as={`/users/1`}>
+            <a onClick={e => e.stopPropagation()}>
+              <S.Avatar>
+                <img src={user.avatar} />
+              </S.Avatar>
+            </a>
+          </Link>
+        )}
         <S.Info>
           <Link href="/videos/[videoId]" as={`/videos/${id}`}>
             <a onClick={e => e.stopPropagation()}>
               <S.Title>{title}</S.Title>
             </a>
           </Link>
-          <Link href="/users/[userId]" as={`/users/1`}>
-            <a onClick={e => e.stopPropagation()}>
-              <S.Username>{user.username}</S.Username>
-            </a>
-          </Link>
+          {showUser && (
+            <Link href="/users/[userId]" as={`/users/1`}>
+              <a onClick={e => e.stopPropagation()}>
+                <S.Username>{user.username}</S.Username>
+              </a>
+            </Link>
+          )}
           <S.Additionals>
             <span>조회 수 {hit}</span>
             <span> · </span>
