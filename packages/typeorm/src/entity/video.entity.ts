@@ -6,12 +6,19 @@ import {
   OneToMany,
   ManyToOne,
   JoinTable,
+  BeforeInsert,
 } from 'typeorm';
 
 import { Base } from './base.entity';
 import { Tag } from './tag.entity';
 import { User } from './user.entity';
 import { Comment } from './comment.entity';
+
+const popularityWeight = {
+  views: 1,
+  likedUsersCount: 2,
+  commentsCount: 4,
+};
 
 @Entity({
   name: 'videos',
@@ -34,20 +41,20 @@ export class Video extends Base {
   public description: string;
 
   @Column({
-    name: 'like',
+    name: 'likedUsersCount',
     type: 'int',
     nullable: false,
     default: 0,
   })
-  public like: number;
+  public likedUsersCount: number;
 
   @Column({
-    name: 'hit',
+    name: 'views',
     type: 'int',
     nullable: false,
     default: 0,
   })
-  public hit: number;
+  public views: number;
 
   @Column({
     name: 'sourceUrl',
@@ -71,6 +78,22 @@ export class Video extends Base {
     nullable: false,
   })
   public playtime: Timestamp;
+
+  @Column({
+    name: 'commentsCount',
+    type: 'int',
+    nullable: false,
+    default: 0,
+  })
+  public commentsCount: number;
+
+  @Column({
+    name: 'popularity',
+    type: 'int',
+    nullable: false,
+    default: 0,
+  })
+  public popularity: number;
 
   @ManyToOne(
     type => User,
@@ -109,4 +132,12 @@ export class Video extends Base {
     comment => comment.video,
   )
   public comments: Comment;
+
+  @BeforeInsert()
+  public updatePopularity() {
+    this.popularity =
+      this.likedUsersCount * popularityWeight.likedUsersCount +
+      this.views * popularityWeight.views +
+      this.commentsCount * popularityWeight.commentsCount;
+  }
 }
