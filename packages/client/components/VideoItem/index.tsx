@@ -1,22 +1,18 @@
 import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import * as S from './styles';
-import Link from 'next/link';
-import { useRouter } from 'next/dist/client/router';
+import { parsePlaytime } from '../../libs/parsePlaytime';
 
 const VideoItem = ({
   id,
   title,
-  description,
-  like,
-  hit,
-  sourceUrl,
+  views,
   thumbnail,
   playtime,
+  createdAt,
   user,
-  tags,
-  likedUsers,
-  comments,
   showUser = true,
   mobileType = 'vertical',
   desktopType = 'vertical',
@@ -37,6 +33,7 @@ const VideoItem = ({
         <a onClick={e => e.stopPropagation()}>
           <S.Thumbnail mobileType={mobileType} desktopType={desktopType}>
             <img src={thumbnail} />
+            <div>{parsePlaytime(playtime)}</div>
           </S.Thumbnail>
         </a>
       </Link>
@@ -64,7 +61,7 @@ const VideoItem = ({
             </Link>
           )}
           <S.Additionals>
-            <span>조회 수 {hit}</span>
+            <span>조회 수 {views}</span>
             <span> · </span>
             <span>{3}일전</span>
           </S.Additionals>

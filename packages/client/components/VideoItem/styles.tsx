@@ -102,6 +102,20 @@ export const Thumbnail = styled.div`
     width: 100%;
     margin: auto;
   }
+
+  div {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    font-size: 1.2rem;
+    padding: 0 0.5rem;
+    color: white;
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 0.3rem;
+    height: 2.3rem;
+    line-height: 2.3rem;
+  }
 `;
 
 export const Details = styled.div`
