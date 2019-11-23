@@ -207,13 +207,13 @@ const Latest: React.FunctionComponent = () => {
         </S.Title>
 
         <S.ContainerGrid container spacing={2}>
-          {videos.map(video => {
+          {/* {videos.map(video => {
             return (
               <Grid key={video.id} item xs={12} md={3}>
                 <VideoItem {...video} />
               </Grid>
             );
-          })}
+          })} */}
         </S.ContainerGrid>
       </S.Container>
     </Layout>

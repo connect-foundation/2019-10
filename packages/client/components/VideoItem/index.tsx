@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { format } from '../../libs/timeago';
+
 import * as S from './styles';
 import { parsePlaytime } from '../../libs/parsePlaytime';
 
@@ -63,7 +65,7 @@ const VideoItem = ({
           <S.Additionals>
             <span>조회 수 {views}</span>
             <span> · </span>
-            <span>{3}일전</span>
+            <span>{format(createdAt, 'ko')}</span>
           </S.Additionals>
         </S.Info>
       </S.Details>
