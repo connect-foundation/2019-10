@@ -18,6 +18,32 @@ export const routePath = {
   login: '/auth/login',
 };
 
+export const periods = {
+  week: 'week',
+  month: 'month',
+  year: 'year',
+  all: 'all',
+};
+
+export const hotlistFilters = [
+  {
+    label: '일주일',
+    value: periods.week,
+  },
+  {
+    label: '한달',
+    value: periods.month,
+  },
+  {
+    label: '일년',
+    value: periods.year,
+  },
+  {
+    label: '전체',
+    value: periods.all,
+  },
+];
+
 export const fontWeight = {
   regular: 400,
   bold: 700,

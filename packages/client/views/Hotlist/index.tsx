@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 
+import { hotlistFilters } from '../../constants';
+
 import * as S from './styles';
 import HotlistSVG from '../../svgs/HotlistSVG/';
 import Layout from '../../components/Layout';
@@ -198,10 +200,12 @@ const videos = [
 ];
 
 const Hotlist: React.FunctionComponent = () => {
-  const [activeFilter, setActiveFilter] = useState('일주일');
+  const [activeFilterValue, setActiveFilterValue] = useState(
+    hotlistFilters[0].value,
+  );
 
-  const handleFilterClick = filter => {
-    setActiveFilter(filter);
+  const handleFilterClick = value => {
+    setActiveFilterValue(value);
   };
 
   return (
@@ -213,8 +217,8 @@ const Hotlist: React.FunctionComponent = () => {
         </S.Title>
 
         <S.StyledFilters
-          filters={['일주일', '한달', '일년', '전체']}
-          activeFilter={activeFilter}
+          filters={hotlistFilters}
+          activeValue={activeFilterValue}
           onClick={handleFilterClick}
         />
 
