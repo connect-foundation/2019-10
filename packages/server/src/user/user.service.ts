@@ -15,28 +15,16 @@ export class UserService {
     private readonly videoRepository: Repository<Video>,
   ) {}
 
-  private createUserResponse(user: User): UserResponseDto {
-    const UserResponse: UserResponseDto = {
-      id: user.id,
-      username: user.username,
-      description: user.description,
-      avatar: user.avatar,
-      email: user.email,
-      githubId: user.githubId,
-    };
-    return UserResponse;
-  }
-
   public async findUser(id: number): Promise<UserResponseDto> {
     const user = await this.userRepository.findOne(id);
     return this.createUserResponse(user);
   }
 
-  public async findVideos(userId: number): Promise<Video[]> {
+  public async findVideos(id: number): Promise<Video[]> {
     return await this.videoRepository.find({
       where: {
         user: {
-          id: userId,
+          id,
         },
       },
     });
@@ -54,10 +42,25 @@ export class UserService {
     return this.createUserResponse(user);
   }
 
-  public async putUser(id, putUserDto: UserDto): Promise<UserResponseDto> {
-    const user = await this.userRepository.findOne(id);
+  public async putUser(putUserDto: UserDto): Promise<UserResponseDto> {
+    const user = await this.userRepository.findOne({
+      where: {
+        githubId: putUserDto.githubId,
+      },
+    });
     this.userRepository.merge(user, putUserDto);
     const result = await this.userRepository.save(user);
     return this.createUserResponse(user);
+  }
+
+  private createUserResponse(user: User): UserResponseDto {
+    return new UserResponseDto(
+      user.id,
+      user.username,
+      user.description,
+      user.avatar,
+      user.email,
+      user.githubId,
+    );
   }
 }
