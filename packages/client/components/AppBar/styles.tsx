@@ -23,15 +23,6 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  @media only screen and (min-width: ${BREAKPOINT}px) {
-    ${props =>
-      props.maxWidth &&
-      `
-      max-width: ${props.maxWidth}px;
-      margin: 0 auto;
-      padding: 0;
-    `}
-  }
 `;
 
 export const Content = styled.div``;

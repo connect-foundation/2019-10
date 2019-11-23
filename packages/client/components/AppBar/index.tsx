@@ -12,7 +12,7 @@ interface AppBarProps {
   maxWidth?: number;
 }
 
-export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
+export const AppBar: React.FunctionComponent<AppBarProps> = () => {
   const [isSearchBarActive, setSearchBarActive] = useState(false);
 
   const handleSearchBar = () => {
@@ -21,7 +21,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
 
   return (
     <S.AppBar>
-      <S.Container maxWidth={maxWidth}>
+      <S.Container>
         <S.Logo isSearchBarActive={isSearchBarActive}>
           <Link href="/">
             <a>
