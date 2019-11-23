@@ -1,5 +1,6 @@
-export class UserDto {
+export class UserResponseDto {
   public constructor(
+    public readonly id: number,
     public readonly username: string,
     public readonly description: string,
     public readonly avatar: string,
