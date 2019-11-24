@@ -140,12 +140,17 @@ const Searched: React.FunctionComponent = () => {
 
   const topics = ['javascript', 'python', 'aws', 'kubernetes', 'docker'];
 
+  /*
+    검색 결과가 있을때는 줄 150~152을 주석처리하면 됩니다.
+  */
   return (
     <Layout>
       <S.Container>
         <S.ContainerGrid container spacing={2} justify="center">
           <Grid item xs={12} md={8}>
-            {/*<NoSearchResults /> : 이것은 검색 결과가 없을때*/}
+            <NoSearchResults />
+          </Grid>
+          {/* <Grid item xs={12} md={8}>
             <S.Title>
               <SearchSVG width={23} height={24} />
               <span>"{router.query.query}" 검색 결과</span>
@@ -214,7 +219,7 @@ const Searched: React.FunctionComponent = () => {
                 );
               })}
             </S.Topics>
-          </Grid>
+          </Grid> */}
         </S.ContainerGrid>
       </S.Container>
     </Layout>

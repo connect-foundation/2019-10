@@ -17,7 +17,7 @@ export const NoSearchResults = () => {
       </S.Image>
 
       <S.Content>
-        <SearchSVG />
+        <SearchSVG width={23} height={24} />
         <span>"{router.query.query}"에 대한 검색결과가 없습니다.</span>
       </S.Content>
     </>
