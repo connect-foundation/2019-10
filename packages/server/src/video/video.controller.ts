@@ -19,4 +19,9 @@ export class VideoController {
       sort,
     });
   }
+
+  @Get('/')
+  public async getSearchResults(@Query() query: string): Promise<Video[]> {
+    return await this.videoService.findVideosBySearchResults(query);
+  }
 }

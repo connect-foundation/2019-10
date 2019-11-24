@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { Video } from '../../../typeorm/src/entity/video.entity';
 import { LATEST, POPULAR, VIDEO_ITEMS_PER_PAGE } from './constants';
-import { VideosQueryDto } from './dto/videos-query.dto';
+import { VideosQueryDto, SearchedResultsResponseDto } from './dto';
 
 @Injectable()
 export class VideoService {
@@ -42,4 +42,8 @@ export class VideoService {
         .getMany();
     }
   }
+
+  public async findVideosBySearchResults(
+    query: string,
+  ): Promise<SearchedResultsResponseDto[]> {}
 }
