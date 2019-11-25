@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 import { BREAKPOINT } from '../../constants';
 
 import MaterialGrid from '@material-ui/core/Grid';
@@ -54,4 +56,12 @@ export const Title = styled.div`
       fill: white;
     }
   }
+`;
+
+export const StyledInfiniteScroll = styled(InfiniteScroll)`
+  height: auto;
+  overflow: visible !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
