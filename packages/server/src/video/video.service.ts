@@ -12,7 +12,7 @@ import {
   MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS,
   MOMENT_DATETIME_FORMAT,
 } from './constants';
-import { VideosQueryDto } from './dto/videos-query.dto';
+import { VideosQueryDto, VideoResponseDto } from './dto';
 
 @Injectable()
 export class VideoService {
@@ -29,7 +29,20 @@ export class VideoService {
     const qb = this.videoRepository
       .createQueryBuilder()
       .leftJoin('Video.user', 'User')
-      .select('Video')
+      .select([
+        'Video.id',
+        'Video.title',
+        'Video.description',
+        'Video.sourceUrl',
+        'Video.thumbnail',
+        'Video.playtime',
+        'Video.likedUsersCount',
+        'Video.commentsCount',
+        'Video.views',
+        'Video.popularity',
+        'Video.createdAt',
+        'Video.updatedAt',
+      ])
       .addSelect(['User.id', 'User.username', 'User.avatar'])
       .limit(VIDEO_ITEMS_PER_PAGE)
       .offset(offset);
