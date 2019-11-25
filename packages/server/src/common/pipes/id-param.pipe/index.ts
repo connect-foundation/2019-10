@@ -1,19 +1,19 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { ValidateIdParamPipeDto } from './dto';
+import { IdParamPipeDto } from './dto';
 
 @Injectable()
-export class ValidateIdParamPipe implements PipeTransform {
-  public async transform(validateIdPipeDto: ValidateIdParamPipeDto) {
+export class IdParamPipe implements PipeTransform {
+  public async transform(validateIdPipeDto: IdParamPipeDto) {
     const { id } = validateIdPipeDto;
 
-    if (!this.validateIdPipeDto(validateIdPipeDto)) {
+    if (!this.validateIdParamPipeDto(validateIdPipeDto)) {
       throw new BadRequestException();
     }
 
     return { id: parseInt(id, 10) };
   }
 
-  private validateIdPipeDto({ id }: ValidateIdParamPipeDto) {
+  private validateIdParamPipeDto({ id }: IdParamPipeDto) {
     return id && this.validateId(id);
   }
 

@@ -10,15 +10,15 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Video } from '../../../typeorm/src/entity/video.entity';
-import { UserDto, UserResponseDto, UserIdParamDto } from './dto';
-import { ValidateIdParamPipe } from '../common/pipes';
+import { UserRequestDto, UserResponseDto, UserIdParamDto } from './dto';
+import { IdParamPipe } from '../common/pipes';
 import { ValidateUserPipe } from './pipes';
 
 @Controller('users')
 export class UserController {
   public constructor(private readonly userService: UserService) {}
   @Get('/:id')
-  @UsePipes(ValidateIdParamPipe)
+  @UsePipes(IdParamPipe)
   public async getUser(
     @Param() { id }: UserIdParamDto,
   ): Promise<UserResponseDto> {
@@ -26,7 +26,7 @@ export class UserController {
   }
 
   @Get('/:id/videos')
-  @UsePipes(ValidateIdParamPipe)
+  @UsePipes(IdParamPipe)
   public async getVideos(@Param() { id }: UserIdParamDto): Promise<Video[]> {
     return await this.userService.findVideos(id);
   }
@@ -34,13 +34,13 @@ export class UserController {
   @Post('/')
   @UsePipes(ValidateUserPipe)
   public async createUser(
-    @Body() createUserDto: UserDto,
+    @Body() createUserDto: UserRequestDto,
   ): Promise<UserResponseDto> {
     return await this.userService.insertUser(createUserDto);
   }
 
   @Delete('/:id')
-  @UsePipes(ValidateIdParamPipe)
+  @UsePipes(IdParamPipe)
   public async deleteUser(
     @Param() { id }: UserIdParamDto,
   ): Promise<UserResponseDto> {
@@ -49,7 +49,9 @@ export class UserController {
 
   @Put('/')
   @UsePipes(ValidateUserPipe)
-  public async updateUser(@Body() userDto: UserDto): Promise<UserResponseDto> {
-    return await this.userService.putUser(userDto);
+  public async updateUser(
+    @Body() userDto: UserRequestDto,
+  ): Promise<UserResponseDto> {
+    return await this.userService.updateUser(userDto);
   }
 }

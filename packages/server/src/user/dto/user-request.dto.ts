@@ -1,4 +1,4 @@
-export class UserDto {
+export class UserRequestDto {
   public constructor(
     public readonly username: string,
     public readonly description: string,

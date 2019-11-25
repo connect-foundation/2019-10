@@ -3,7 +3,7 @@ import { User } from '../../../typeorm/src/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Video } from '../../../typeorm/src/entity/video.entity';
-import { UserDto, UserResponseDto } from './dto';
+import { UserRequestDto, UserResponseDto } from './dto';
 
 @Injectable()
 export class UserService {
@@ -30,25 +30,29 @@ export class UserService {
     });
   }
 
-  public async insertUser(createUserDto: UserDto): Promise<UserResponseDto> {
+  public async insertUser(
+    createUserDto: UserRequestDto,
+  ): Promise<UserResponseDto> {
     const user = this.userRepository.create(createUserDto);
     const result = await this.userRepository.insert(user);
     return this.createUserResponse(user);
   }
 
-  public async deleteUser(id): Promise<UserResponseDto> {
+  public async deleteUser(id: number): Promise<UserResponseDto> {
     const user = await this.userRepository.findOne(id);
     const result = await this.userRepository.delete(user);
     return this.createUserResponse(user);
   }
 
-  public async putUser(putUserDto: UserDto): Promise<UserResponseDto> {
+  public async updateUser(
+    updateUserDto: UserRequestDto,
+  ): Promise<UserResponseDto> {
     const user = await this.userRepository.findOne({
       where: {
-        githubId: putUserDto.githubId,
+        githubId: updateUserDto.githubId,
       },
     });
-    this.userRepository.merge(user, putUserDto);
+    this.userRepository.merge(user, updateUserDto);
     const result = await this.userRepository.save(user);
     return this.createUserResponse(user);
   }
