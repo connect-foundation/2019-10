@@ -1,15 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-<<<<<<< develop
 import { Repository } from 'typeorm';
 
 import { Video } from '../../../typeorm/src/entity/video.entity';
 import { LATEST, POPULAR, VIDEO_ITEMS_PER_PAGE } from './constants';
 import { VideosQueryDto } from './dto/videos-query.dto';
-=======
-import { Video } from '../../../typeorm/src/entity/video.entity';
-import { Repository } from 'typeorm';
->>>>>>> [client] | feat(transcoder-webhook): Transcoder의 작업 상태에 따른 동작 구현
 
 @Injectable()
 export class VideoService {
@@ -17,7 +12,6 @@ export class VideoService {
     @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
   ) {}
-<<<<<<< develop
 
   public async findVideos(videosQueryDto: VideosQueryDto): Promise<Video[]> {
     const { page, sort } = videosQueryDto;
@@ -48,6 +42,4 @@ export class VideoService {
         .getMany();
     }
   }
-=======
->>>>>>> [client] | feat(transcoder-webhook): Transcoder의 작업 상태에 따른 동작 구현
 }
