@@ -1,24 +1,22 @@
-import * as _ from 'lodash';
 import { Controller, Post, Body, Get } from '@nestjs/common';
 import { VideoService } from './video.service';
-import { UploadedVideoInfo } from '../webhook/transcoder/dto/uploaded-video-info.dto';
+import { UploadedVideoInfo } from 'src/uploaded-video/dto/uploaded-video-info.dto';
 import { UploadedVideoTableService } from 'src/uploaded-video/uploaded-video-table.service';
-import { Repository } from 'typeorm';
-import { Video } from '../../../typeorm/src/entity/video.entity';
 
 @Controller('videos')
 export class VideoController {
   public constructor(
     private readonly videoService: VideoService,
     private readonly uploadedVideoTableService: UploadedVideoTableService,
-    private readonly videoRepository: Repository<Video>,
   ) {}
 
   // @Post('/')
   // public async listenTranscoderNotification(
   //   @Body() notificationMessage: TranscoderNotificationDto,
   // ) {
+  // tslint:disable-next-line: max-line-length
   //   if (notificationMessage.state === TranscoderNotificationState.completed) {
+  // tslint:disable-next-line: max-line-length
   //     const mpdSourceUrl = `https://${process.env.BUCKET_NAME}.s3-${process.env.BUCKET_REGION}.amazonaws.com/${notificationMessage.outputKeyPrefix}${notificationMessage.playlists[0].name}`;
 
   //     const path = notificationMessage.outputKeyPrefix.split('/');
