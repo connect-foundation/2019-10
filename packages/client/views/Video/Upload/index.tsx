@@ -89,7 +89,10 @@ const sendVideoInfo = async (videoInfo: UploadedVideoInfo) => {
       body: JSON.stringify(videoInfo),
     };
 
-    const response = await fetch(process.env.API_SERVER_URL, option);
+    const response = await fetch(
+      process.env.VIDEO_UPLOAD_API_SERVER_URL,
+      option,
+    );
     const video = await response.json();
 
     return video;
