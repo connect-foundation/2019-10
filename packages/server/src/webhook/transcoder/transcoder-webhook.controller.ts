@@ -5,13 +5,15 @@ import { Repository } from 'typeorm';
 import { Video } from '../../../../typeorm/src/entity/video.entity';
 import { Tag } from '../../../../typeorm/src/entity/tag.entity';
 import { UploadedVideoTableService } from 'src/uploaded-video/uploaded-video-table.service';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Controller('webhook/transcoder')
 export class TranscoderWebhookController {
   public constructor(
     private readonly uploadedVideoTableService: UploadedVideoTableService,
+    @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
-    private readonly tagRepository: Repository<Tag>,
+    @InjectRepository(Tag) private readonly tagRepository: Repository<Tag>,
   ) {}
 
   @Post('/')
