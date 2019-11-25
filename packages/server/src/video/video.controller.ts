@@ -3,7 +3,8 @@ import { VideoService } from './video.service';
 import { Video } from '../../../typeorm/src/entity/video.entity';
 import { VideosQueryDto } from './dto/videos-query.dto';
 import { GetVideosPipe } from '../common/pipes/get-videos.pipe';
-import { UploadedVideoInfo } from '../webhook/transcoder/dto/uploaded-video-info.dto';
+// tslint:disable-next-line: max-line-length
+// import { UploadedVideoInfo } from '../webhook/transcoder/dto/uploaded-video-info.dto';
 import { UploadedVideoTableService } from 'src/uploaded-video/uploaded-video-table.service';
 import { Repository } from 'typeorm';
 

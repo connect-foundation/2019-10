@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UploadedVideoInfo } from 'src/video/dto/uploaded-video-info.dto';
+import { UploadedVideoInfo } from './dto/uploaded-video-info.dto';
 
 @Injectable()
 export class UploadedVideoTableService {
