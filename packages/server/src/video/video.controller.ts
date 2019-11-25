@@ -3,17 +3,14 @@ import { VideoService } from './video.service';
 import { Video } from '../../../typeorm/src/entity/video.entity';
 import { VideosQueryDto } from './dto/videos-query.dto';
 import { GetVideosPipe } from '../common/pipes/get-videos.pipe';
-// tslint:disable-next-line: max-line-length
-// import { UploadedVideoInfo } from '../webhook/transcoder/dto/uploaded-video-info.dto';
 import { UploadedVideoTableService } from 'src/uploaded-video/uploaded-video-table.service';
-import { Repository } from 'typeorm';
+import { UploadedVideoInfo } from 'src/uploaded-video/dto/uploaded-video-info.dto';
 
 @Controller('videos')
 export class VideoController {
   public constructor(
     private readonly videoService: VideoService,
     private readonly uploadedVideoTableService: UploadedVideoTableService,
-    private readonly videoRepository: Repository<Video>,
   ) {}
 
   // @Post('/')
