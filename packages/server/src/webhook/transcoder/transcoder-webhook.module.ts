@@ -5,9 +5,13 @@ import { UploadedVideoTableModule } from 'src/uploaded-video/uploaded-video-tabl
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Video } from '../../../../typeorm/src/entity/video.entity';
 import { Tag } from '../../../../typeorm/src/entity/tag.entity';
+import { User } from '../../../../typeorm/src/entity/user.entity';
 
 @Module({
-  imports: [UploadedVideoTableModule, TypeOrmModule.forFeature([Video, Tag])],
+  imports: [
+    UploadedVideoTableModule,
+    TypeOrmModule.forFeature([Video, Tag, User]),
+  ],
   providers: [TranscoderWebhookService],
   controllers: [TranscoderWebhookController],
   exports: [TranscoderWebhookService],
