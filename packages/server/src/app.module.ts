@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../../typeorm/src/entity/user.entity';
+import { VideoModule } from './video/video.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([User])],
+  imports: [TypeOrmModule.forRoot(), VideoModule],
   controllers: [AppController],
   providers: [AppService],
 })
