@@ -5,5 +5,7 @@ import { VideoModule } from './video/video.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot(), UserModule, VideoModule],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
