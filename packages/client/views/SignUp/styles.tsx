@@ -1,15 +1,12 @@
 import styled from 'styled-components';
 import { BREAKPOINT } from '../../constants';
+import MaterialGrid from '@material-ui/core/Grid';
 
 export const SignUp = styled.div`
   height: 100%;
   user-select: none;
 `;
-export const Container = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+export const ContainerGrid = styled(MaterialGrid)`
   background-color: #303537;
   padding: 8rem 2rem 0 2rem;
 
@@ -34,9 +31,9 @@ export const Form = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
   vertical-align: top;
-  max-width: 58.8rem;
 `;
 
 export const RequireMark = styled.div`
@@ -46,7 +43,6 @@ export const RequireMark = styled.div`
   border-radius: 100%;
   background-color: #02cf5d;
   margin: 0rem 0rem 0.9rem 0.2rem;
-  /* position: absolute; */
 `;
 
 export const Item = styled.div`
@@ -54,6 +50,7 @@ export const Item = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  max-width: 58.8rem;
 
   input[type='text'] {
     display: block;
