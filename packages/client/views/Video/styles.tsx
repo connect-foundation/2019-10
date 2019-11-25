@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { BREAKPOINT, fontWeight } from '../../constants';
-import Filters from '../../components/Filters';
+import Tabs from '../../components/Tabs';
 
 export const Video = styled.div`
   background: black;
@@ -45,10 +45,12 @@ export const Title = styled.div`
   }
 `;
 
-export const StyledFilters = styled(Filters)`
-  margin-bottom: 2rem;
+export const StyledTabs = styled(Tabs)`
+  && {
+    margin-bottom: 2rem;
 
-  @media only screen and (min-width: ${BREAKPOINT}px) {
-    margin-bottom: 3rem;
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      margin-bottom: 3rem;
+    }
   }
 `;

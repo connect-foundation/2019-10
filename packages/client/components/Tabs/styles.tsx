@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { fontWeight } from '../../constants';
 
-export const Filters = styled.ul`
+export const Tabs = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;

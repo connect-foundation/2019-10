@@ -3,10 +3,11 @@ import { Grid } from '@material-ui/core';
 
 import * as S from './styles';
 
+import { sortOptions } from '../../constants';
+
 import Layout from '../../components/Layout';
 import VideoInfo from '../../components/VideoInfo';
 import VideoMeta from '../../components/VideoMeta';
-import Filters from '../../components/Filters';
 import CommentForm from '../../components/CommentForm';
 import CommentList from '../../components/CommentList';
 
@@ -95,10 +96,10 @@ const Video = () => {
             <VideoMeta />
             <S.Comments>
               <S.Title>213개의 댓글</S.Title>
-              <S.StyledFilters
-                filters={['인기 순', '최신 순']}
-                activeFilter="인기 순"
-                onClick={filter => null}
+              <S.StyledTabs
+                items={sortOptions}
+                activeValue={sortOptions[0].value}
+                onClick={value => null}
               />
               <CommentForm />
               <CommentList comments={comments} />

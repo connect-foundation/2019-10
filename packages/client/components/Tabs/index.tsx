@@ -2,21 +2,21 @@ import React from 'react';
 
 import * as S from './styles';
 
-interface FiltersProps {
-  filters: Array<{ label: string; value: string }>;
+interface TabsProps {
+  items: Array<{ label: string; value: string }>;
   activeValue: string;
   onClick: (value: string) => void;
 }
 
-const Filters: React.FunctionComponent<FiltersProps> = ({
-  filters,
+const Tabs: React.FunctionComponent<TabsProps> = ({
+  items,
   activeValue,
   onClick,
   ...rest
 }) => {
   return (
-    <S.Filters {...rest}>
-      {filters.map(({ label, value }) => {
+    <S.Tabs {...rest}>
+      {items.map(({ label, value }) => {
         const className = activeValue === value ? 'active' : '';
         return (
           <li
@@ -30,8 +30,8 @@ const Filters: React.FunctionComponent<FiltersProps> = ({
           </li>
         );
       })}
-    </S.Filters>
+    </S.Tabs>
   );
 };
 
-export default Filters;
+export default Tabs;
