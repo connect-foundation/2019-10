@@ -21,18 +21,23 @@ export class TranscoderWebhookController {
     @Body() notificationMessage: TranscoderNotificationDto,
   ) {
     notificationMessage = JSON.parse(notificationMessage.toString().trim());
-    // console.log(notificationMessage);
+     //console.log(notificationMessage);
     if (notificationMessage.state === TranscoderNotificationState.completed) {
       const mpdSourceUrl = `https://${process.env.BUCKET_NAME}.s3-${process.env.BUCKET_REGION}.amazonaws.com/${notificationMessage.outputKeyPrefix}${notificationMessage.playlists[0].name}.mpd`;
-      // console.log(mpdSourceUrl);
+      //console.log(mpdSourceUrl);
 
       const path = notificationMessage.outputKeyPrefix.split('/');
-      const id = path[path.find.length - 2];
-      // console.log(id);
+      //console.log(path);
+      const id = path[path.length - 2];
+      //console.log("id", id);
 
       const videoInfo = this.uploadedVideoTableService.find(id);
+      //console.log(videoInfo);
+      //console.log(this.uploadedVideoTableService.table);
+
       videoInfo.sourceUrl = mpdSourceUrl;
-      // console.log(mpdSourceUrl);
+      //console.log(videoInfo);
+
 
       // const user;
 
