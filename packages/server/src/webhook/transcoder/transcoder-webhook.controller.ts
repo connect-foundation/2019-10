@@ -20,9 +20,11 @@ export class TranscoderWebhookController {
   public async listenTranscoderNotification(
     @Body() notificationMessage: TranscoderNotificationDto,
   ) {
+    notificationMessage = JSON.parse(notificationMessage.toString().trim());
     // console.log(notificationMessage);
     if (notificationMessage.state === TranscoderNotificationState.completed) {
-      const mpdSourceUrl = `https://${process.env.BUCKET_NAME}.s3-${process.env.BUCKET_REGION}.amazonaws.com/${notificationMessage.outputKeyPrefix}${notificationMessage.playlists[0].name}`;
+      const mpdSourceUrl = `https://${process.env.BUCKET_NAME}.s3-${process.env.BUCKET_REGION}.amazonaws.com/${notificationMessage.outputKeyPrefix}${notificationMessage.playlists[0].name}.mpd`;
+      // console.log(mpdSourceUrl);
 
       const path = notificationMessage.outputKeyPrefix.split('/');
       const id = path[path.find.length - 2];
