@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { hotlistFilters } from '../../constants';
 
@@ -26,7 +25,7 @@ const Hotlist: React.FunctionComponent = () => {
     setPage(1);
   };
 
-  const handleNextPage = () => {
+  const handlePageChange = () => {
     setPage(page + 1);
   };
 
@@ -46,7 +45,7 @@ const Hotlist: React.FunctionComponent = () => {
 
         <S.StyledInfiniteScroll
           dataLength={videos.length}
-          next={handleNextPage}
+          next={handlePageChange}
           hasMore={hasMore}
           loader={<CircularProgress size={28} thickness={4.5} />}
         >

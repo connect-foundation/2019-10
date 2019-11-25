@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import MaterialGrid from '@material-ui/core/Grid';
 
 import { BREAKPOINT } from '../../constants';
 
-import MaterialGrid from '@material-ui/core/Grid';
 import Filters from '../../components/Filters';
 
 /* window 의 넓이에 따라 변화하는 spacing을 정의해주기 위해 사용됨 */
