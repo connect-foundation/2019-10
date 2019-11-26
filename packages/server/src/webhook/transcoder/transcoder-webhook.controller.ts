@@ -33,7 +33,7 @@ export class TranscoderWebhookController {
       const videoInfo = this.uploadedVideoTableService.find(id);
       videoInfo.sourceUrl = mpdSourceUrl;
 
-      const user = await this.userRepository.find({ where: { id: 0 } });
+      const user = await this.userRepository.find({ where: { id: 1 } });
 
       const tags = await videoInfo.tags.reduce(
         // tslint:disable-next-line: no-any
