@@ -1,9 +1,10 @@
-// import { config } from 'dotenv';
-const { config } = require('dotenv');
-config();
+const { parsed: localEnv } = require('dotenv').config();
+const webpack = require('webpack');
 
 module.exports = {
-  env: {
-    API_URL_HOST: process.env.API_URL_HOST,
+  webpack(config) {
+    config.plugins.push(new webpack.EnvironmentPlugin(localEnv));
+
+    return config;
   },
 };

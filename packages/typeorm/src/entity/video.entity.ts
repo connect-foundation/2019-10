@@ -137,6 +137,10 @@ export class Video extends Base {
   @BeforeInsert()
   @BeforeUpdate()
   public updatePopularity() {
+    if (!this.popularity) {
+      return;
+    }
+
     this.popularity =
       this.likedUsersCount * popularityWeight.likedUsersCount +
       this.views * popularityWeight.views +

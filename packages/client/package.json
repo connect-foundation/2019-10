@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3000",
     "lint": "tslint -p tsconfig.json -c tslint.json"
   },
   "dependencies": {
@@ -19,7 +19,10 @@
     "react-fetching-library": "^1.5.12",
     "react-infinite-scroll-component": "^5.0.3",
     "styled-components": "^4.4.1",
-    "timeago.js": "^4.0.1"
+    "timeago.js": "^4.0.1",
+    "aws-sdk": "^2.573.0",
+    "uuid": "^3.3.3",
+    "webpack": "^4.41.2"
   },
   "devDependencies": {
     "@types/node": "^12.12.7",
