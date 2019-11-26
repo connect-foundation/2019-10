@@ -6,6 +6,7 @@ import {
   JoinColumn,
   ManyToMany,
   BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
 
 import { Base } from './base.entity';
@@ -93,6 +94,7 @@ export class Comment extends Base {
   public children: Comment[];
 
   @BeforeInsert()
+  @BeforeUpdate()
   public updatePopularity() {
     this.popularity =
       this.childrenCount * popularityWeight.childrenCount +

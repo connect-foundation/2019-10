@@ -32,7 +32,7 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
       </S.ArrowBack>
 
       <S.Input isActive={isActive}>
-        <SearchSVG width={20} height={20} viewBox={'0, 0, 20, 20'} />
+        <SearchSVG width={20} height={20} viewBox="0 0 24 24" />
         <input type="text" placeholder="검색" onKeyPress={sendQuery} />
       </S.Input>
     </>
