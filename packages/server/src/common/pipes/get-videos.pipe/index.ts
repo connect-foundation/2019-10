@@ -1,7 +1,7 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 import { GetVideosPipeDto } from './dto';
-import { LATEST, POPULAR, PERIODS } from 'src/video/constants';
-import { VideosQueryDto } from 'src/video/dto/videos-query.dto';
+import { LATEST, POPULAR, PERIODS } from '../../../video/constants';
+import { VideosQueryDto } from '../../../video/dto/videos-query.dto';
 
 const defaultValue: VideosQueryDto = {
   page: 1,

@@ -13,7 +13,8 @@ import {
   MOMENT_DATETIME_FORMAT,
   VIDEO_QUERY_SELECT_COLUMNS,
 } from './constants';
-import { VideosQueryDto, VideoResponseDto } from './dto';
+import { VideosQueryDto } from './dto';
+import { getOffset } from '../common/utils/get-offset';
 
 @Injectable()
 export class VideoService {
@@ -25,25 +26,12 @@ export class VideoService {
   public async findVideos(videosQueryDto: VideosQueryDto): Promise<Video[]> {
     const { page, sort, period } = videosQueryDto;
 
-    const offset = (page - 1) * VIDEO_ITEMS_PER_PAGE;
+    const offset = getOffset(page, VIDEO_ITEMS_PER_PAGE);
 
     const qb = this.videoRepository
       .createQueryBuilder()
       .leftJoin('Video.user', 'User')
-      .select([
-        'Video.id',
-        'Video.title',
-        'Video.description',
-        'Video.sourceUrl',
-        'Video.thumbnail',
-        'Video.playtime',
-        'Video.likedUsersCount',
-        'Video.commentsCount',
-        'Video.views',
-        'Video.popularity',
-        'Video.createdAt',
-        'Video.updatedAt',
-      ])
+      .select(VIDEO_QUERY_SELECT_COLUMNS)
       .addSelect(['User.id', 'User.username', 'User.avatar'])
       .limit(VIDEO_ITEMS_PER_PAGE)
       .offset(offset);
