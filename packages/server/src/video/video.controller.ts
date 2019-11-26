@@ -1,4 +1,15 @@
-import { Controller, Body, Get, Post, Query, UsePipes } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  Get,
+  Query,
+  UsePipes,
+  Param,
+  NotFoundException,
+  Post,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { VideoService } from './video.service';
 
 import { GetVideosPipe } from '../common/pipes/get-videos.pipe';
@@ -27,13 +38,7 @@ export class VideoController {
   public async getVideos(
     @Query() videosQueryDto: VideosQueryDto,
   ): Promise<VideoResponseDto[]> {
-    const { page, sort, period } = videosQueryDto;
-
-    const videos = await this.videoService.findVideos({
-      page,
-      sort,
-      period,
-    });
+    const videos = await this.videoService.findVideos(videosQueryDto);
 
     return videos.map(video => new VideoResponseDto(video));
   }
