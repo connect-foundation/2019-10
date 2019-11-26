@@ -1,18 +1,13 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { User } from '../../../typeorm/src/entity/user.entity';
+import { Controller, Get, Param, UsePipes, Post, Body } from '@nestjs/common';
 import { UserService } from './user.service';
-import { Video } from '../../../typeorm/src/entity/video.entity';
+import { IdParserPipe } from 'src/common/pipes/id-parser/id-parser.pipe';
 
 @Controller('users')
 export class UserController {
   public constructor(private readonly userService: UserService) {}
-  @Get(':userId')
-  public async getUser(@Param('userId') userId: number): Promise<User> {
-    return await this.userService.findUser(userId);
-  }
 
-  @Get(':userId/videos')
-  public async getVideos(@Param('userId') userId: number): Promise<Video[]> {
-    return await this.userService.findVideos(userId);
+  @Get('/:id')
+  public getUserDetail(@Param(IdParserPipe) userId: number) {
+    // console.log(userId);
   }
 }

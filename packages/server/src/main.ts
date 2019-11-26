@@ -8,10 +8,10 @@ async function bootstrap() {
   app.enableCors({
     origin: process.env.CORS_ALLOWED_ORIGINS.split(','),
   });
-  
+
   app.use(helmet());
   app.use(bodyParser.text());
-  
+
   await app.listen(4000);
 }
 bootstrap();

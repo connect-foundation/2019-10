@@ -4,3 +4,7 @@ export const TranscoderNotificationState = {
   warning: 'WARNING',
   error: 'ERROR',
 };
+
+export const endpoint = {
+  auth: 'auth',
+};
