@@ -17,3 +17,18 @@ export const MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS = {
 export const MOMENT_DATETIME_FORMAT = 'YYYY-MM-DD HH:MM:ss';
 
 export const VIDEO_ITEMS_PER_PAGE = 20;
+
+export const VIDEO_QUERY_SELECT_COLUMNS = [
+  'Video.id',
+  'Video.title',
+  'Video.description',
+  'Video.sourceUrl',
+  'Video.thumbnail',
+  'Video.playtime',
+  'Video.likedUsersCount',
+  'Video.commentsCount',
+  'Video.views',
+  'Video.popularity',
+  'Video.createdAt',
+  'Video.updatedAt',
+];

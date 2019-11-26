@@ -11,6 +11,7 @@ import {
   PERIODS,
   MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS,
   MOMENT_DATETIME_FORMAT,
+  VIDEO_QUERY_SELECT_COLUMNS,
 } from './constants';
 import { VideosQueryDto, VideoResponseDto } from './dto';
 
@@ -62,5 +63,15 @@ export class VideoService {
 
       return await qb.orderBy('Video_popularity', 'DESC').getMany();
     }
+  }
+
+  public async findVideo(id: number): Promise<Video> {
+    return await this.videoRepository
+      .createQueryBuilder()
+      .select(VIDEO_QUERY_SELECT_COLUMNS)
+      .where({
+        id,
+      })
+      .getOne();
   }
 }

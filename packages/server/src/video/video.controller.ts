@@ -42,4 +42,16 @@ export class VideoController {
 
     return videos.map(video => new VideoResponseDto(video));
   }
+
+  @Get('/:id')
+  public async getVideo(@Param('id') id: string): Promise<VideoResponseDto> {
+    // TODO: merge 후, id 변환 pipe 사용
+    const video = await this.videoService.findVideo(parseInt(id, 10));
+
+    if (!video) {
+      throw new NotFoundException();
+    }
+
+    return new VideoResponseDto(video);
+  }
 }
