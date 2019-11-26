@@ -7,7 +7,7 @@ import * as S from './styles';
 import { SearchSVG } from '../../svgs';
 
 import Layout from '../../components/Layout';
-import Video from '../../components/Video';
+import VideoItem from '../../components/VideoItem';
 
 const Searched: React.FunctionComponent = () => {
   const router = useRouter();
@@ -20,21 +20,6 @@ const Searched: React.FunctionComponent = () => {
         </S.Title>
         <S.Subject> 영상 </S.Subject>
         <S.ContainerGrid container spacing={2}>
-          <Grid item xs={12} md={3}>
-            <Video />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Video />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Video />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Video />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Video />
-          </Grid>
         </S.ContainerGrid>
       </S.Container>
     </Layout>
