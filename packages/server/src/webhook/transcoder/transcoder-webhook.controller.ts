@@ -31,7 +31,6 @@ export class TranscoderWebhookController {
       const id = path[path.length - 2];
 
       const videoInfo = this.uploadedVideoTableService.find(id);
-
       videoInfo.sourceUrl = mpdSourceUrl;
 
       const user = await this.userRepository.find({ where: { id: 0 } });
@@ -41,9 +40,10 @@ export class TranscoderWebhookController {
         async (promiseTagIds: Promise<Tag[]>, tagName: any) => {
           const tagIds = await promiseTagIds;
 
-          const tag = await this.tagRepository.find({
+          const tagEntities = await this.tagRepository.find({
             where: { name: tagName },
-          })[0];
+          });
+          const tag = tagEntities[0];
 
           if (!tag) {
             const newTag = this.tagRepository.create({ name: tagName });
