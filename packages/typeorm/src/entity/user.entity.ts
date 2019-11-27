@@ -44,12 +44,11 @@ export class User extends Base {
 
   @Column({
     name: 'githubId',
-    type: 'varchar',
-    length: 40,
+    type: 'int',
     nullable: false,
     unique: true,
   })
-  public githubId: string;
+  public githubId: number;
 
   @Column({
     name: 'videosCount',
