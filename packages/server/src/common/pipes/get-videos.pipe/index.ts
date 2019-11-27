@@ -1,6 +1,12 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 import { GetVideosPipeDto } from './dto';
-import { LATEST, POPULAR, PERIODS } from 'src/video/constants';
+import {
+  LATEST,
+  POPULAR,
+  ALL,
+  VIDEOS,
+  PERIODS,
+} from 'src/video/constants';
 import { VideosQueryDto } from 'src/video/dto/videos-query.dto';
 
 const defaultValue: VideosQueryDto = {
@@ -11,7 +17,7 @@ const defaultValue: VideosQueryDto = {
 @Injectable()
 export class GetVideosPipe implements PipeTransform {
   public async transform(getVideosPipeDto: GetVideosPipeDto) {
-    const { page, sort, period } = getVideosPipeDto;
+    const { page, sort, period, keyword } = getVideosPipeDto;
 
     const value = defaultValue;
 
@@ -22,11 +28,16 @@ export class GetVideosPipe implements PipeTransform {
     value.page = parseInt(page, 10);
     value.sort = sort;
     value.period = period;
+    value.keyword = keyword;
 
     return value;
   }
 
-  private validateGetVideosPipeDto({ page, sort, period }: GetVideosPipeDto) {
+  private validateGetVideosPipeDto({
+    page,
+    sort,
+    period,
+  }: GetVideosPipeDto): boolean {
     return (
       this.validatePage(page) &&
       this.validateSort(sort) &&
@@ -34,16 +45,23 @@ export class GetVideosPipe implements PipeTransform {
     );
   }
 
-  private validatePage(page: string) {
+  private validatePage(page: string): boolean {
     const parsedPage = parseInt(page, 10);
     return page && !isNaN(parsedPage) && parsedPage > 0;
   }
 
-  private validateSort(sort: string) {
-    return sort && (sort === LATEST || sort === POPULAR);
+  private validateSort(sort: string): boolean {
+    return (
+      sort &&
+      (sort === LATEST ||
+        sort === POPULAR ||
+        sort === ALL ||
+        sort === VIDEOS
+      )
+    );
   }
 
-  private validatePeriod(period: string, sort: string) {
+  private validatePeriod(period: string, sort: string): boolean {
     let isValid = true;
 
     if (sort === POPULAR && !period) {

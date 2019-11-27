@@ -8,6 +8,9 @@ import { Video } from '../../../typeorm/src/entity/video.entity';
 import {
   LATEST,
   POPULAR,
+  ALL,
+  VIDEOS,
+  SEARCHED_VIDEO_NUMBER,
   VIDEO_ITEMS_PER_PAGE,
   PERIODS,
   MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS,
@@ -23,10 +26,8 @@ export class VideoService {
   ) {}
 
   public async findVideos(videosQueryDto: VideosQueryDto): Promise<Video[]> {
-    const { page, sort, period } = videosQueryDto;
-
-    const offset = (page - 1) * VIDEO_ITEMS_PER_PAGE;
-
+    const { page, sort, period, keyword } = videosQueryDto;
+  
     const qb = this.videoRepository
       .createQueryBuilder()
       .leftJoin('Video.user', 'User')
@@ -44,28 +45,63 @@ export class VideoService {
         'Video.createdAt',
         'Video.updatedAt',
       ])
-      .addSelect(['User.id', 'User.username', 'User.avatar'])
-      .limit(VIDEO_ITEMS_PER_PAGE)
-      .offset(offset);
+      .addSelect(['User.id', 'User.username', 'User.avatar']);
 
-    if (sort === LATEST) {
-      return await qb.orderBy('Video_createdAt', 'DESC').getMany();
-    }
+    const offset = (page - 1) * VIDEO_ITEMS_PER_PAGE;
 
-    if (sort === POPULAR) {
-      if (period !== PERIODS.all) {
-        const startDatetime = moment()
-          .subtract(...MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS[period])
-          .format(MOMENT_DATETIME_FORMAT);
-
-        qb.where('Video.createdAt > :startDatetime', { startDatetime });
+    if (keyword) {
+      if (sort === VIDEOS) {
+        return await qb
+          .where(
+            '(Video.title like :titleKeyword) or (Video.description like :descriptionKeyword)',
+            {
+              titleKeyword: '%' + keyword + '%',
+              descriptionKeyword: '%' + keyword + '%',
+            },
+          )
+          .limit(SEARCHED_VIDEO_NUMBER)
+          .offset(0)
+          .orderBy('Video_popularity', 'DESC')
+          .getMany();
+      }
+      if (sort === ALL) {
+        return await qb
+          .where(
+            '(title like :titleKeyword) or (description like :descriptionKeyword)',
+            {
+              titleKeyword: '%' + keyword + '%',
+              descriptionKeyword: '%' + keyword + '%',
+            },
+          )
+          .limit(VIDEO_ITEMS_PER_PAGE)
+          .offset(offset)
+          .orderBy('Video_popularity', 'DESC')
+          .getMany();
+      }
+    } else {
+      if (sort === LATEST) {
+        return await qb
+          .limit(VIDEO_ITEMS_PER_PAGE)
+          .offset(offset)
+          .orderBy('Video_createdAt', 'DESC')
+          .getMany();
       }
 
-      return await qb.orderBy('Video_popularity', 'DESC').getMany();
+      if (sort === POPULAR) {
+        if (period !== PERIODS.all) {
+          const startDatetime = moment()
+            .subtract(...MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS[period])
+            .format(MOMENT_DATETIME_FORMAT);
+
+          qb.where('Video.createdAt > :startDatetime', { startDatetime });
+        }
+
+        return await qb
+          .limit(VIDEO_ITEMS_PER_PAGE)
+          .offset(offset)
+          .orderBy('Video_popularity', 'DESC')
+          .getMany();
+      }
     }
   }
-
-  // public async findVideosBySearchResults(
-  //   query: string,
-  // ): Promise<SearchedResultsResponseDto[]> {}
 }

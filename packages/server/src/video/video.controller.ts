@@ -27,19 +27,15 @@ export class VideoController {
   public async getVideos(
     @Query() videosQueryDto: VideosQueryDto,
   ): Promise<VideoResponseDto[]> {
-    const { page, sort, period } = videosQueryDto;
+    const { page, sort, period, keyword } = videosQueryDto;
 
     const videos = await this.videoService.findVideos({
       page,
       sort,
       period,
+      keyword,
     });
 
     return videos.map(video => new VideoResponseDto(video));
-  }
-
-  @Get('/')
-  public async getSearchResults(@Query() query: string): Promise<Video[]> {
-    return await this.videoService.findVideosBySearchResults(query);
   }
 }

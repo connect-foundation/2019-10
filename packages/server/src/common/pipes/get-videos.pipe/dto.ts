@@ -3,5 +3,6 @@ export class GetVideosPipeDto {
     public readonly page?: string,
     public readonly sort?: string,
     public readonly period?: string,
+    public readonly keyword?: string,
   ) {}
 }
