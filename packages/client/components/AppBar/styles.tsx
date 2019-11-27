@@ -23,15 +23,6 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  @media only screen and (min-width: ${BREAKPOINT}px) {
-    ${props =>
-      props.maxWidth &&
-      `
-      max-width: ${props.maxWidth}px;
-      margin: 0 auto;
-      padding: 0;
-    `}
-  }
 `;
 
 export const Content = styled.div``;
@@ -41,16 +32,16 @@ export const Logo = styled.div`
   display: ${props => (props.isSearchBarActive ? 'none' : 'block')};
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
+    flex: 1;
+    margin-left: 1.3rem;
     display: block;
   }
+
   svg {
     height: 3rem;
-  }
+    vertical-align: middle;
 
-  @media only screen and (min-width: ${BREAKPOINT}px) {
-    margin-left: 1.3rem;
-
-    svg {
+    @media only screen and (min-width: ${BREAKPOINT}px) {
       height: 3.6rem;
     }
   }
@@ -77,8 +68,12 @@ export const DesktopButtons = styled.div`
   display: none;
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
+    flex: 1;
     display: block;
+    display: flex;
+    justify-content: flex-end;
   }
+
   a {
     button {
       user-select: none;

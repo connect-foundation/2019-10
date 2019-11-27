@@ -3,30 +3,30 @@ import React from 'react';
 import * as S from './styles';
 
 interface FiltersProps {
-  filters: string[];
-  activeFilter: string;
-  onClick: (filter: string) => void;
+  filters: Array<{ label: string; value: string }>;
+  activeValue: string;
+  onClick: (value: string) => void;
 }
 
 const Filters: React.FunctionComponent<FiltersProps> = ({
   filters,
-  activeFilter,
+  activeValue,
   onClick,
   ...rest
 }) => {
   return (
     <S.Filters {...rest}>
-      {filters.map(filter => {
-        const className = activeFilter === filter ? 'active' : '';
+      {filters.map(({ label, value }) => {
+        const className = activeValue === value ? 'active' : '';
         return (
           <li
-            key={filter}
+            key={value}
             className={className}
             onClick={() => {
-              onClick(filter);
+              onClick(value);
             }}
           >
-            {filter}
+            {label}
           </li>
         );
       })}

@@ -21,7 +21,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
 
   return (
     <S.Layout>
-      <AppBar maxWidth={maxWidth} />
+      <AppBar />
       {drawer && <Drawer />}
       <Content maxWidth={maxWidth}>{children}</Content>
     </S.Layout>

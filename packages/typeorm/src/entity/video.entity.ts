@@ -7,6 +7,7 @@ import {
   ManyToOne,
   JoinTable,
   BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
 
 import { Base } from './base.entity';
@@ -134,7 +135,12 @@ export class Video extends Base {
   public comments: Comment;
 
   @BeforeInsert()
+  @BeforeUpdate()
   public updatePopularity() {
+    if (!this.popularity) {
+      return;
+    }
+
     this.popularity =
       this.likedUsersCount * popularityWeight.likedUsersCount +
       this.views * popularityWeight.views +
