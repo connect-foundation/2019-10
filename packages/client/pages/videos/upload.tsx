@@ -1,1 +1,1 @@
-export { default } from '../../views/Video/Upload';
+export { default } from '../../views/Upload';

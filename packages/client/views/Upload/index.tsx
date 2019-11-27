@@ -1,6 +1,6 @@
 import React from 'react';
 import uuidv4 from 'uuid/v4';
-import { UploadedVideoInfo } from '../dto/upload-video.dto';
+import { UploadedVideoInfo } from './dto/upload-video.dto';
 
 const VideoUpload: React.FunctionComponent = () => {
   const fileInput = React.createRef<HTMLInputElement>();
