@@ -2,7 +2,7 @@ import { VideoUserDto } from './video-user.dto';
 import { Video } from '../../../../typeorm/src/entity/video.entity';
 
 export class VideoResponseDto {
-  public constructor(private readonly video: Video) {
+  public constructor(video: Video) {
     this.id = video.id;
     this.title = video.title;
     this.description = video.description;
