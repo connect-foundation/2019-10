@@ -1,9 +1,5 @@
 export const LATEST = 'latest';
 export const POPULAR = 'popular';
-export const ALL = 'all';
-export const VIDEOS = 'videos';
-export const USERS = 'users';
-export const TAGS = 'tags';
 
 export const PERIODS = {
   week: 'week',
@@ -21,4 +17,4 @@ export const MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS = {
 export const MOMENT_DATETIME_FORMAT = 'YYYY-MM-DD HH:MM:ss';
 
 export const VIDEO_ITEMS_PER_PAGE = 20;
-export const SEARCHED_VIDEO_NUMBER = 5;
+export const SEARCHED_ITEM_NUMBER = 5;

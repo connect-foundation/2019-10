@@ -4,5 +4,6 @@ export class VideosQueryDto {
     public sort: string,
     public period?: string,
     public keyword?: string,
+    public limit?: number,
   ) {}
 }
