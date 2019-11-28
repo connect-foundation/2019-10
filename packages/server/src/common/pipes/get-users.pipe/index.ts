@@ -4,6 +4,7 @@ import { UsersQueryDto } from 'src/user/dto/users-query.dto';
 
 const defaultValue: UsersQueryDto = {
   page: 1,
+  limit: 5,
 };
 
 @Injectable()
@@ -24,12 +25,11 @@ export class GetUsersPipe implements PipeTransform {
     return value;
   }
 
-  private validateGetUsersPipeDto({
-    page,
-    keyword,
-    limit,
-  }: GetUsersPipeDto): boolean {
-    return this.validatePage(page) && this.validateLimit(limit);
+  private validateGetUsersPipeDto({ page, limit }: GetUsersPipeDto): boolean {
+    if (limit) {
+      return this.validateLimit(limit);
+    }
+    return this.validatePage(page);
   }
 
   private validatePage(page: string): boolean {

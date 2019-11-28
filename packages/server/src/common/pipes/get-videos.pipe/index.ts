@@ -6,6 +6,7 @@ import { VideosQueryDto } from 'src/video/dto/videos-query.dto';
 const defaultValue: VideosQueryDto = {
   page: 1,
   sort: POPULAR,
+  limit: 5,
 };
 
 @Injectable()

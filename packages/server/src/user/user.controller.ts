@@ -18,19 +18,19 @@ export class UserController {
     return await this.userService.findVideos(userId);
   }
 
-  // @Get('/')
-  // @UsePipes(GetUsersPipe)
-  // public async getUsers(
-  //   @Query() usersQueryDto: UsersQueryDto,
-  // ): Promise<UserResponseDto[]> {
-  //   const { page, keyword, limit } = usersQueryDto;
+  @Get('/')
+  @UsePipes(GetUsersPipe)
+  public async getUsers(
+    @Query() usersQueryDto: UsersQueryDto,
+  ): Promise<UserResponseDto[]> {
+    const { page, keyword, limit } = usersQueryDto;
 
-  //   const users = await this.userService.findUsers({
-  //     page,
-  //     keyword,
-  //     limit,
-  //   });
+    const users = await this.userService.findUsers({
+      page,
+      keyword,
+      limit,
+    });
 
-  //   return users.map(user => new UserResponseDto(user));
-  // }
+    return users.map(user => new UserResponseDto(user));
+  }
 }

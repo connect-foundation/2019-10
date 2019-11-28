@@ -35,32 +35,45 @@ export class UserService {
     });
   }
 
-  // public async findUsers(usersQueryDto: UsersQueryDto): Promise<User[]> {
-  //   const { page, keyword, limit } = usersQueryDto;
+  public async findUsers(usersQueryDto: UsersQueryDto): Promise<User[]> {
+    const { page, keyword, limit } = usersQueryDto;
 
-  //   const qb = this.userRepository
-  //     .createQueryBuilder()
-  //     .select(['User.id', 'User.username', 'User.avatar']);
+    const qb = this.userRepository
+      .createQueryBuilder()
+      .select(['User.id', 'User.username', 'User.avatar']);
 
-  //   const offset = (page - 1) * ITEMS_PER_PAGE;
+    if (limit) {
+      return await qb
+        .where(
+          '(User.username like :usernameKeyword) or (User.description like :descriptionKeyword)',
+          {
+            usernameKeyword: '%' + keyword + '%',
+            descriptionKeyword: '%' + keyword + '%',
+          },
+        )
+        .limit(SEARCHED_ITEM_NUMBER)
+        .orderBy('videosCount', 'DESC')
+        .addOrderBy('createdAt', 'DESC')
+        .addOrderBy('id', 'DESC')
+        .getMany();
+    }
 
-  //   // if (limit) {
-  //   //   return await qb
-  //   //   .where(
-  //   //       '(User.username like :usernameKeyword) or (User.description like: descriptionKeyword',
-  //   //       {
-  //   //         usernameKeyword: '%' + keyword + '%',
-  //   //         descriptionKeyword: '%' + keyword + '%',
-  //   //       },
-  //   //     )
-  //   //     .limit(SEARCHED_ITEM_NUMBER)
-  //   //     .orderBy('videoCount', 'DESC')
-  //   //     .addOrderBy('createdAt', 'DESC')
-  //   //     .addOrderBy('id', 'DESC');
-  //   // }
-  //   // return await qb
-  //   //   .where(
-  //   //     'username like :'
-  //   //   )
-  // }
+    const offset = (page - 1) * ITEMS_PER_PAGE;
+
+    return await qb
+      .where(
+        // tslint:disable-next-line:max-line-length
+        '(User.username like :usernameKeyword) or (User.description like :descriptionKeyword)',
+        {
+          usernameKeyword: '%' + keyword + '%',
+          descriptionKeyword: '%' + keyword + '%',
+        },
+      )
+      .limit(ITEMS_PER_PAGE)
+      .offset(offset)
+      .orderBy('videosCount', 'DESC')
+      .addOrderBy('createdAt', 'DESC')
+      .addOrderBy('id', 'DESC')
+      .getMany();
+  }
 }
