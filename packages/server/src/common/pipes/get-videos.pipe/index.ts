@@ -35,9 +35,11 @@ export class GetVideosPipe implements PipeTransform {
     keyword,
     limit,
   }: GetVideosPipeDto): boolean {
-
     if (keyword) {
-      return this.validatePage(page) && this.validateLimit(limit);
+      if (limit) {
+        return this.validateLimit(limit);
+      }
+      return this.validatePage(page);
     }
     return (
       this.validatePage(page) &&

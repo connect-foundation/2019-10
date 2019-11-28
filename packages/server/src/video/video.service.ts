@@ -67,7 +67,7 @@ export class VideoService {
       return await qb
         .where(
           // tslint:disable-next-line:max-line-length
-          '(title like :titleKeyword) or (description like :descriptionKeyword)',
+          '(Video.title like :titleKeyword) or (Video.description like :descriptionKeyword)',
           {
             titleKeyword: '%' + keyword + '%',
             descriptionKeyword: '%' + keyword + '%',
