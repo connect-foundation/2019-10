@@ -27,7 +27,7 @@ export class VideoService {
 
   public async findVideos(videosQueryDto: VideosQueryDto): Promise<Video[]> {
     const { page, sort, period, keyword } = videosQueryDto;
-  
+
     const qb = this.videoRepository
       .createQueryBuilder()
       .leftJoin('Video.user', 'User')
@@ -95,7 +95,6 @@ export class VideoService {
 
           qb.where('Video.createdAt > :startDatetime', { startDatetime });
         }
-
         return await qb
           .limit(VIDEO_ITEMS_PER_PAGE)
           .offset(offset)
