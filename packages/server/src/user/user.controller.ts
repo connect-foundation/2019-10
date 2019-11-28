@@ -2,8 +2,10 @@ import { Controller, Get, Param, Query, UsePipes } from '@nestjs/common';
 import { User } from '../../../typeorm/src/entity/user.entity';
 import { UserService } from './user.service';
 import { Video } from '../../../typeorm/src/entity/video.entity';
-import { GetUsersPipe } from '../common/pipes/get-users.pipe';
-import { UsersQueryDto, UserResponseDto } from './dto';
+
+import { GetQueryStringPipe } from '../common/pipes/query-string.pipe';
+import { QueryStringDto } from '../common/pipes/query-string.pipe/requestDto';
+import { UserResponseDto } from './dto';
 
 @Controller('users')
 export class UserController {
@@ -19,9 +21,9 @@ export class UserController {
   }
 
   @Get('/')
-  @UsePipes(GetUsersPipe)
+  @UsePipes(GetQueryStringPipe)
   public async getUsers(
-    @Query() usersQueryDto: UsersQueryDto,
+    @Query() usersQueryDto: QueryStringDto,
   ): Promise<UserResponseDto[]> {
     const { page, keyword, limit } = usersQueryDto;
 

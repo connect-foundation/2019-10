@@ -1,20 +1,20 @@
 import { Controller, Get, Query, UsePipes } from '@nestjs/common';
 import { TagService } from './tag.service';
 
-import { GetTagsPipe } from '../common/pipes/get-tags.pipe';
-
-import { TagsQueryDto, TagResponseDto } from './dto';
+import { GetQueryStringPipe } from '../common/pipes/query-string.pipe';
+import { QueryStringDto } from '../common/pipes/query-string.pipe/requestDto';
+import { TagResponseDto } from './dto';
 
 @Controller('tags')
 export class TagController {
   public constructor(private readonly tagService: TagService) {}
 
   @Get('/')
-  @UsePipes(GetTagsPipe)
+  @UsePipes(GetQueryStringPipe)
   public async getTags(
-    @Query() tagsQueryDto: TagsQueryDto,
+    @Query() queryStringDto: QueryStringDto,
   ): Promise<TagResponseDto[]> {
-    const { page, keyword, limit } = tagsQueryDto;
+    const { page, keyword, limit } = queryStringDto;
 
     const tags = await this.tagService.findTags({ page, keyword, limit });
 

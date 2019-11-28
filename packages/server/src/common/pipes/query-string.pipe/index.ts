@@ -1,22 +1,22 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { GetVideosPipeDto } from './dto';
-import { LATEST, POPULAR, PERIODS } from 'src/video/constants';
-import { VideosQueryDto } from 'src/video/dto/videos-query.dto';
+import { GetQueryStringPipeDto } from './getDto';
+import { QueryStringDto } from './requestDto';
+import { LATEST, POPULAR, PERIODS } from '../../../constants';
 
-const defaultValue: VideosQueryDto = {
+const defaultValue: QueryStringDto = {
   page: 1,
   sort: POPULAR,
   limit: 5,
 };
 
 @Injectable()
-export class GetVideosPipe implements PipeTransform {
-  public async transform(getVideosPipeDto: GetVideosPipeDto) {
-    const { page, sort, period, keyword, limit } = getVideosPipeDto;
+export class GetQueryStringPipe implements PipeTransform {
+  public async transform(getQueryStringPipeDto: GetQueryStringPipeDto) {
+    const { page, sort, period, keyword, limit } = getQueryStringPipeDto;
 
     const value = defaultValue;
 
-    if (!this.validateGetVideosPipeDto(getVideosPipeDto)) {
+    if (!this.validateGetQueryStringPipeDto(getQueryStringPipeDto)) {
       throw new BadRequestException();
     }
 
@@ -29,13 +29,13 @@ export class GetVideosPipe implements PipeTransform {
     return value;
   }
 
-  private validateGetVideosPipeDto({
+  private validateGetQueryStringPipeDto({
     page,
     sort,
     period,
     keyword,
     limit,
-  }: GetVideosPipeDto): boolean {
+  }: GetQueryStringPipeDto): boolean {
     if (keyword) {
       if (limit) {
         return this.validateLimit(limit);

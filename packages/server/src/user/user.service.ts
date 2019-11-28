@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Video } from '../../../typeorm/src/entity/video.entity';
-import { UsersQueryDto } from './dto';
+import { QueryStringDto } from '../common/pipes/query-string.pipe/requestDto';
 import { ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from 'src/constants';
 
 @Injectable()
@@ -35,8 +35,8 @@ export class UserService {
     });
   }
 
-  public async findUsers(usersQueryDto: UsersQueryDto): Promise<User[]> {
-    const { page, keyword, limit } = usersQueryDto;
+  public async findUsers(queryStringDto: QueryStringDto): Promise<User[]> {
+    const { page, keyword, limit } = queryStringDto;
 
     const qb = this.userRepository
       .createQueryBuilder()

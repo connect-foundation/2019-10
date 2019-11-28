@@ -3,7 +3,7 @@ import { Tag } from '../../../typeorm/src/entity/tag.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { TagsQueryDto } from './dto';
+import { QueryStringDto } from '../common/pipes/query-string.pipe/requestDto';
 import { ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from 'src/constants';
 
 @Injectable()
@@ -13,8 +13,8 @@ export class TagService {
     private readonly tagRepository: Repository<Tag>,
   ) {}
 
-  public async findTags(tagsQueryDto: TagsQueryDto): Promise<Tag[]> {
-    const { page, keyword, limit } = tagsQueryDto;
+  public async findTags(queryStringDto: QueryStringDto): Promise<Tag[]> {
+    const { page, keyword, limit } = queryStringDto;
 
     const qb = this.tagRepository
       .createQueryBuilder()

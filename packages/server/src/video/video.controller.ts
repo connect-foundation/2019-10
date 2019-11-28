@@ -1,11 +1,12 @@
 import { Controller, Body, Get, Post, Query, UsePipes } from '@nestjs/common';
 import { VideoService } from './video.service';
 
-import { GetVideosPipe } from '../common/pipes/get-videos.pipe';
+import { GetQueryStringPipe } from '../common/pipes/query-string.pipe';
 import { UploadedVideoTableService } from 'src/uploaded-video/uploaded-video-table.service';
 import { UploadedVideoInfo } from 'src/uploaded-video/dto/uploaded-video-info.dto';
 
-import { VideosQueryDto, VideoResponseDto } from './dto';
+import { VideoResponseDto } from './dto';
+import { QueryStringDto } from '../common/pipes/query-string.pipe/requestDto';
 
 @Controller('videos')
 export class VideoController {
@@ -23,11 +24,11 @@ export class VideoController {
   }
 
   @Get('/')
-  @UsePipes(GetVideosPipe)
+  @UsePipes(GetQueryStringPipe)
   public async getVideos(
-    @Query() videosQueryDto: VideosQueryDto,
+    @Query() queryStringDto: QueryStringDto,
   ): Promise<VideoResponseDto[]> {
-    const { page, sort, period, keyword, limit } = videosQueryDto;
+    const { page, sort, period, keyword, limit } = queryStringDto;
 
     const videos = await this.videoService.findVideos({
       page,

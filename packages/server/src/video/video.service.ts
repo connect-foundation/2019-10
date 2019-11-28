@@ -9,12 +9,13 @@ import {
   LATEST,
   POPULAR,
   SEARCHED_ITEM_NUMBER,
-  VIDEO_ITEMS_PER_PAGE,
+  ITEMS_PER_PAGE,
   PERIODS,
   MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS,
   MOMENT_DATETIME_FORMAT,
-} from './constants';
-import { VideosQueryDto } from './dto';
+} from '../constants';
+
+import { QueryStringDto } from '../common/pipes/query-string.pipe/requestDto';
 
 @Injectable()
 export class VideoService {
@@ -23,8 +24,8 @@ export class VideoService {
     private readonly videoRepository: Repository<Video>,
   ) {}
 
-  public async findVideos(videosQueryDto: VideosQueryDto): Promise<Video[]> {
-    const { page, sort, period, keyword, limit } = videosQueryDto;
+  public async findVideos(queryStringDto: QueryStringDto): Promise<Video[]> {
+    const { page, sort, period, keyword, limit } = queryStringDto;
 
     const qb = this.videoRepository
       .createQueryBuilder()
@@ -45,7 +46,7 @@ export class VideoService {
       ])
       .addSelect(['User.id', 'User.username', 'User.avatar']);
 
-    const offset = (page - 1) * VIDEO_ITEMS_PER_PAGE;
+    const offset = (page - 1) * ITEMS_PER_PAGE;
 
     if (keyword) {
       if (limit) {
@@ -73,7 +74,7 @@ export class VideoService {
             descriptionKeyword: '%' + keyword + '%',
           },
         )
-        .limit(VIDEO_ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE)
         .offset(offset)
         .orderBy('Video_popularity', 'DESC')
         .addOrderBy('Video_createdAt', 'DESC')
@@ -83,7 +84,7 @@ export class VideoService {
 
     if (sort === LATEST) {
       return await qb
-        .limit(VIDEO_ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE)
         .offset(offset)
         .orderBy('Video_createdAt', 'DESC')
         .addOrderBy('Video_popularity', 'DESC')
@@ -100,7 +101,7 @@ export class VideoService {
         qb.where('Video.createdAt > :startDatetime', { startDatetime });
       }
       return await qb
-        .limit(VIDEO_ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE)
         .offset(offset)
         .orderBy('Video_popularity', 'DESC')
         .addOrderBy('Video_createdAt', 'DESC')

@@ -6,8 +6,13 @@ import { TagModule } from './tag/tag.module';
 import { WebhookModule } from './webhook/webhook.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), 
-    WebhookModule, UserModule, VideoModule, TagModule],
+  imports: [
+    TypeOrmModule.forRoot(),
+    WebhookModule,
+    UserModule,
+    VideoModule,
+    TagModule,
+  ],
   controllers: [],
   providers: [],
 })
