@@ -58,9 +58,9 @@ export class VideoService {
             },
           )
           .limit(SEARCHED_ITEM_NUMBER)
-          .offset(0)
           .orderBy('Video_popularity', 'DESC')
           .addOrderBy('Video_createdAt', 'DESC')
+          .addOrderBy('Video_id', 'DESC')
           .getMany();
       }
 
@@ -77,6 +77,7 @@ export class VideoService {
         .offset(offset)
         .orderBy('Video_popularity', 'DESC')
         .addOrderBy('Video_createdAt', 'DESC')
+        .addOrderBy('Video_id', 'DESC')
         .getMany();
     }
 
@@ -85,7 +86,8 @@ export class VideoService {
         .limit(VIDEO_ITEMS_PER_PAGE)
         .offset(offset)
         .orderBy('Video_createdAt', 'DESC')
-        .addOrderBy('Video_createdAt', 'DESC')
+        .addOrderBy('Video_popularity', 'DESC')
+        .addOrderBy('Video_id', 'DESC')
         .getMany();
     }
 
@@ -102,6 +104,7 @@ export class VideoService {
         .offset(offset)
         .orderBy('Video_popularity', 'DESC')
         .addOrderBy('Video_createdAt', 'DESC')
+        .addOrderBy('Video_id', 'DESC')
         .getMany();
     }
   }
