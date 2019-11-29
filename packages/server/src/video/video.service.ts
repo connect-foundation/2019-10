@@ -23,7 +23,9 @@ export class VideoService {
     private readonly videoRepository: Repository<Video>,
   ) {}
 
-  public async findVideos(videosQueryDto: VideosQueryDto): Promise<Video[]> {
+  public async findVideos(
+    videosQueryDto: VideosQueryDto,
+  ): Promise<[Video[], number]> {
     const { page, sort, period } = videosQueryDto;
 
     const offset = getOffset(page, VIDEO_ITEMS_PER_PAGE);
@@ -37,7 +39,7 @@ export class VideoService {
       .offset(offset);
 
     if (sort === LATEST) {
-      return await qb.orderBy('Video_createdAt', 'DESC').getMany();
+      return await qb.orderBy('Video_createdAt', 'DESC').getManyAndCount();
     }
 
     if (sort === POPULAR) {
@@ -49,14 +51,16 @@ export class VideoService {
         qb.where('Video.createdAt > :startDatetime', { startDatetime });
       }
 
-      return await qb.orderBy('Video_popularity', 'DESC').getMany();
+      return await qb.orderBy('Video_popularity', 'DESC').getManyAndCount();
     }
   }
 
   public async findVideo(id: number): Promise<Video> {
     return await this.videoRepository
       .createQueryBuilder()
+      .leftJoin('Video.user', 'User')
       .select(VIDEO_QUERY_SELECT_COLUMNS)
+      .addSelect(['User.id', 'User.username', 'User.avatar'])
       .where({
         id,
       })

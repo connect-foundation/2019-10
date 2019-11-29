@@ -19,6 +19,7 @@ import { UploadedVideoInfo } from '../uploaded-video/dto/uploaded-video-info.dto
 import { VideosQueryDto, VideoResponseDto } from './dto';
 import { CommentService } from '../comment/comment.service';
 import { CommentResponseDto } from './dto/comment-response.dto';
+import { VideosResponseDto } from './dto/videos-response.dto';
 import { CommentsResponseDto } from './dto/comments-response.dto';
 
 import { CommentsParamPipe } from './pipe/comments-param-pipe';
@@ -50,10 +51,13 @@ export class VideoController {
   @UsePipes(GetVideosPipe)
   public async getVideos(
     @Query() videosQueryDto: VideosQueryDto,
-  ): Promise<VideoResponseDto[]> {
-    const videos = await this.videoService.findVideos(videosQueryDto);
+  ): Promise<VideosResponseDto> {
+    const [videos, count] = await this.videoService.findVideos(videosQueryDto);
 
-    return videos.map(video => new VideoResponseDto(video));
+    return {
+      count,
+      data: videos.map(video => new VideoResponseDto(video)),
+    };
   }
 
   @Get('/:id')
