@@ -1,7 +1,7 @@
 import { Injectable, HttpService } from '@nestjs/common';
 import { AccessToken } from 'src/third-party-api/github-api/dto/github-oauth-access-token.dto';
 import { GithubUserDetailDto } from './dto/github-user-detail-dto';
-import { UserDetail } from '../model/user-detail';
+import { GithubUserDetail } from '../model/github-user-detail';
 
 @Injectable()
 export class GithubApiService {
@@ -29,7 +29,7 @@ export class GithubApiService {
 
     const userDetail = new GithubUserDetailDto(response.data);
 
-    return new UserDetail(userDetail);
+    return new GithubUserDetail(userDetail);
   }
 
   private parseJsonData(textData: string) {

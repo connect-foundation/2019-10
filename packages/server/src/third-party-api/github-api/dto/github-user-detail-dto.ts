@@ -1,7 +1,4 @@
-import { UserDetailDto } from 'src/third-party-api/dto/user-detail-dto';
-
-/* tslint:disable: variable-name*/
-export class GithubUserDetailDto implements UserDetailDto {
+export class GithubUserDetailDto {
   public readonly login: string;
   public readonly githubId: number;
   public readonly nodeId: string;
