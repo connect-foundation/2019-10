@@ -37,6 +37,13 @@ export const ViewsAndDates = styled.div`
   }
 `;
 
+export const ViewsAndDatesSkeleton = styled.div`
+  > div {
+    width: 18rem;
+    height: 2rem;
+  }
+`;
+
 export const Title = styled.h1`
   font-size: 2rem;
   color: white;
@@ -50,10 +57,41 @@ export const Title = styled.h1`
   }
 `;
 
+export const TitleSkeleton = styled.div`
+  > div {
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+    width: 25rem;
+    height: 2.8rem;
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      height: 3.2rem;
+    }
+  }
+`;
+
 export const Tags = styled.div`
   margin-bottom: 2rem;
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin-bottom: 0rem;
+  }
+`;
+
+export const TagsSkeleton = styled.div`
+  display: flex;
+  margin-bottom: 2rem;
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    margin-bottom: 0rem;
+  }
+
+  > div {
+    width: 8rem;
+    height: 2.2rem;
+    margin-right: 1rem;
+    border-radius: 100rem;
   }
 `;
 
@@ -76,7 +114,7 @@ export const Like = styled.div`
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     position: absolute;
-    top: 3rem;
+    bottom: 2.3rem;
     right: 0;
   }
 
@@ -96,13 +134,15 @@ export const Like = styled.div`
     }
 
     svg {
+      opacity: 0.5;
       margin: 0.6rem;
       margin-top: 0.7rem;
       width: 1.8rem;
       height: 1.8rem;
       @media only screen and (min-width: ${BREAKPOINT}px) {
-        width: 2.4rem;
-        height: 2.4rem;
+        width: 2rem;
+        height: 2rem;
+        margin: 0.8rem;
       }
 
       path:nth-child(2) {
@@ -116,5 +156,37 @@ export const Like = styled.div`
     color: white;
     font-size: 1.4rem;
     font-weight: ${fontWeight.bold};
+  }
+`;
+
+export const LikeSkeleton = styled.div`
+  display: flex;
+  align-items: center;
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    position: absolute;
+    bottom: 2.3rem;
+    right: 0;
+  }
+
+  .MuiSkeleton-circle {
+    width: 3rem;
+    height: 3rem;
+    margin-right: 0.5rem;
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: 3.6rem;
+      height: 3.6rem;
+      margin-right: 1rem;
+    }
+  }
+
+  .MuiSkeleton-text {
+    width: 7rem;
+    height: 2.4rem;
+  }
+
+  .MuiSkeleton-text:empty:before {
+    content: '';
   }
 `;

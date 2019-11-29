@@ -37,8 +37,6 @@ const Video = () => {
       <S.Details>
         <Grid container justify="center">
           <Grid item xs={12} md={8}>
-            <VideoInfo />
-            <VideoMeta />
             <S.Comments>
               <S.Title>213개의 댓글</S.Title>
               <S.StyledTabs
@@ -49,6 +47,19 @@ const Video = () => {
               <CommentForm />
               <CommentList comments={comments} />
             </S.Comments>
+            <VideoInfo
+              skeleton={!hasData}
+              views={video.views}
+              createdAt={video.createdAt}
+              title={video.title}
+              likedUsersCount={video.likedUsersCount}
+            />
+            <VideoMeta
+              skeleton={!hasData}
+              username={video.user.username}
+              avatar={video.user.avatar}
+              description={video.description}
+            />
           </Grid>
         </Grid>
       </S.Details>

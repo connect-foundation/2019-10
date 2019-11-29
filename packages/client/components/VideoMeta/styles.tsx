@@ -44,8 +44,31 @@ export const User = styled.div`
   }
 `;
 
+export const UserSkeleton = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.6rem;
+
+  .MuiSkeleton-circle {
+    width: 4rem;
+    height: 4rem;
+    margin-right: 1.6rem;
+  }
+
+  .MuiSkeleton-text {
+    width: 8rem;
+    height: 2.4rem;
+  }
+`;
+
 export const Description = styled.div`
   font-size: 1.6rem;
   line-height: 2.1rem;
   color: white;
+`;
+
+export const DescriptionSkeleton = styled.div`
+  > div {
+    height: 2.4rem;
+  }
 `;
