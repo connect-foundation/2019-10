@@ -18,7 +18,7 @@ export class CommentService {
     private readonly commentRepository: Repository<Comment>,
   ) {}
 
-  public async findComment(id) {
+  public async findComment(id): Promise<Comment> {
     return await this.commentRepository
       .createQueryBuilder()
       .select('Comment')
@@ -30,7 +30,7 @@ export class CommentService {
     videoId,
     page,
     sort,
-  }): Promise<Comment[]> {
+  }): Promise<[Comment[], number]> {
     const offset = getOffset(page, COMMENT_ITEMS_PER_PAGE);
 
     const qb = this.commentRepository
@@ -50,13 +50,25 @@ export class CommentService {
       });
 
     if (sort === POPULAR) {
-      return qb.orderBy('Comment_popularity', 'DESC').getMany();
+      return qb
+        .orderBy('Comment_popularity', 'DESC')
+        .addOrderBy('Comment_createdAt', 'DESC')
+        .addOrderBy('Comment_id', 'DESC')
+        .getManyAndCount();
     }
 
-    return qb.orderBy('Comment_createdAt', 'DESC').getMany();
+    return qb
+      .orderBy('Comment_createdAt', 'DESC')
+      .addOrderBy('Comment_popularity', 'DESC')
+      .addOrderBy('Comment_id', 'DESC')
+      .getManyAndCount();
   }
 
-  public async findReplies({ id, videoId, page }): Promise<Comment[]> {
+  public async findReplies({
+    id,
+    videoId,
+    page,
+  }): Promise<[Comment[], number]> {
     const offset = getOffset(page, COMMENT_ITEMS_PER_PAGE);
 
     return await this.commentRepository
@@ -74,7 +86,9 @@ export class CommentService {
           id: videoId,
         },
       })
-      .orderBy('Comment_createdAt', 'ASC')
-      .getMany();
+      .orderBy('Comment_popularity', 'DESC')
+      .addOrderBy('Comment_createdAt', 'DESC')
+      .addOrderBy('Comment_id', 'DESC')
+      .getManyAndCount();
   }
 }
