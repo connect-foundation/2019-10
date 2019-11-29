@@ -11,12 +11,12 @@ export const useLatestVideos = page => {
   const [hasMore, setHasMore] = useState(true);
 
   const action = createLatestAction(page);
-  const { payload, ...rest } = useQuery(action);
+  const { payload, error, ...rest } = useQuery(action);
 
   useEffect(() => {
-    if (payload) {
-      setHasMore(payload.length >= 20);
-      setVideos([...videos, ...payload]);
+    if (payload && !error) {
+      setHasMore(payload.data.length >= 20);
+      setVideos([...videos, ...payload.data]);
     }
   }, [payload]);
 

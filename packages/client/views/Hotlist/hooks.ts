@@ -11,16 +11,16 @@ export const useHotlistVideos = (page, period) => {
   const [hasMore, setHasMore] = useState(true);
 
   const action = createHotlistAction(page, period);
-  const { payload, ...rest } = useQuery(action);
+  const { payload, error, ...rest } = useQuery(action);
 
   useEffect(() => {
     setVideos([]);
   }, [period]);
 
   useEffect(() => {
-    if (payload) {
-      setHasMore(payload.length >= 20);
-      setVideos([...videos, ...payload]);
+    if (payload && !error) {
+      setHasMore(payload.data.length >= 20);
+      setVideos([...videos, ...payload.data]);
     }
   }, [payload]);
 
