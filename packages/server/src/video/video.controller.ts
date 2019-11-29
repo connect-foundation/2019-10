@@ -13,12 +13,18 @@ import {
 import { VideoService } from './video.service';
 
 import { GetVideosPipe } from '../common/pipes/get-videos.pipe';
-import { UploadedVideoTableService } from 'src/uploaded-video/uploaded-video-table.service';
-import { UploadedVideoInfo } from 'src/uploaded-video/dto/uploaded-video-info.dto';
+import { UploadedVideoTableService } from '../uploaded-video/uploaded-video-table.service';
+import { UploadedVideoInfo } from '../uploaded-video/dto/uploaded-video-info.dto';
 
 import { VideosQueryDto, VideoResponseDto } from './dto';
 import { CommentService } from '../comment/comment.service';
 import { CommentResponseDto } from './dto/comment-response.dto';
+import { CommentsResponseDto } from './dto/comments-response.dto';
+
+import { CommentsParamPipe } from './pipe/comments-param-pipe';
+import { CommentsQueryPipe } from './pipe/comments-query-pipe';
+import { CommentsQueryDto } from './dto/comments-query.dto';
+import { CommentsParamDto } from './dto/comments-param.dto';
 
 @Controller('videos')
 export class VideoController {
@@ -48,7 +54,6 @@ export class VideoController {
 
   @Get('/:id')
   public async getVideo(@Param('id') id: string): Promise<VideoResponseDto> {
-    // TODO: merge 후, id 변환 pipe 사용
     const video = await this.videoService.findVideo(parseInt(id, 10));
 
     if (!video) {
@@ -60,23 +65,28 @@ export class VideoController {
 
   @Get('/:id/comments')
   public async getComments(
-    @Param('id') id: string,
-    @Query('page') page: string,
-    @Query('sort') sort: string,
-  ): Promise<CommentResponseDto[]> {
-    const video = await this.videoService.findVideo(parseInt(id, 10));
+    @Param(null, new CommentsParamPipe()) commentsParamDto: CommentsParamDto,
+    @Query(null, new CommentsQueryPipe()) commentsQueryDto: CommentsQueryDto,
+  ): Promise<CommentsResponseDto> {
+    const { id } = commentsParamDto;
+    const { page, sort } = commentsQueryDto;
+
+    const video = await this.videoService.findVideo(id);
 
     if (!video) {
       throw new NotFoundException();
     }
 
-    const comments = await this.commentService.findCommentsByVideo({
-      videoId: parseInt(id, 10),
-      page: parseInt(page, 10),
+    const [comments, count] = await this.commentService.findCommentsByVideo({
+      videoId: id,
+      page,
       sort,
     });
 
-    return comments.map(comment => new CommentResponseDto(comment));
+    return {
+      count,
+      data: comments.map(comment => new CommentResponseDto(comment)),
+    };
   }
 
   @Get('/:id/comments/:commentId/replies')
