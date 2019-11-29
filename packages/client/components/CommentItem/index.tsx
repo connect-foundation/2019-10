@@ -1,108 +1,121 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useRouter } from 'next/router';
+
+import { format } from '../../libs/timeago';
 
 import * as S from './styles';
-
-import { FavoriteSVG, ArrowDropDown } from '../../svgs';
-
-const replies = [
-  {
-    id: 7,
-    content: '어쩌라고? 깝치지 말자.',
-    children: [],
-    parent: null,
-    video: {},
-    user: {
-      username: '알렉스 권',
-      avatar: 'https://miro.medium.com/max/3150/1*n4VB9UbNNoB78-vGIhulag.jpeg',
-    },
-    likedUsers: [{}],
-    createdAt: '2019-11-15T00:51:57+00:00',
-    updatedAt: '2019-11-15T00:51:57+00:00',
-  },
-  {
-    id: 8,
-    content: '응 너 고소 ^3^',
-    children: [],
-    parent: null,
-    video: {},
-    user: {
-      username: '리채니',
-      avatar:
-        'https://scontent-icn1-1.cdninstagram.com/vp/36d31a1ed72020cf7aa877cee7ada28e/5E53CEE5/t51.2885-19/s320x320/70138700_424910224803642_8758881047598333952_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-    },
-    likedUsers: [],
-    createdAt: '2019-11-17T00:51:57+00:00',
-    updatedAt: '2019-11-17T00:51:57+00:00',
-  },
-];
+import {
+  FavoriteSVG,
+  ArrowDropDownSVG,
+  SubdirectoryArrowRightSVG,
+} from '../../svgs';
+import { useReplies } from './hooks';
+import { CircularProgress } from '@material-ui/core';
 
 const CommentItem = ({
-  reply = false,
+  reply,
   id,
   content,
-  children,
-  parent,
+  likedUsersCount,
+  childrenCount,
   user,
-  likedUsers,
   createdAt,
   updatedAt,
 }) => {
-  const [isRepliesOpen, setIsRepliesOpen] = useState(false);
+  const router = useRouter();
+  const { videoId } = router.query;
 
-  const handleRepliesOpen = () => {
-    setIsRepliesOpen(true);
-  };
+  const {
+    replies,
+    open,
+    hasData,
+    hasMore,
+    loading,
+    onNext,
+    onOpen,
+  } = useReplies(videoId, id);
+
+  const loader = (
+    <S.Loader>
+      <CircularProgress thickness={4} />
+    </S.Loader>
+  );
 
   return (
     <S.CommentItem reply={reply}>
-      <S.User reply={reply}>
+      <S.Avatar reply={reply}>
         <img src={user.avatar} />
-        <span>{user.username}</span>
-        <span className="dates-ago">3일 전</span>
-      </S.User>
+      </S.Avatar>
+      <S.Content>
+        <S.User>
+          <span>{user.username}</span>
+          <span className="dates-ago">{format(createdAt, 'ko')}</span>
+        </S.User>
+        <S.Description>{content}</S.Description>
 
-      <S.Description>{content}</S.Description>
+        <S.Actions>
+          <button type="button">
+            <FavoriteSVG />
 
-      <S.Actions>
-        <button type="button">
-          <FavoriteSVG />
+            {likedUsersCount !== 0 && (
+              <span className="likes">{likedUsersCount}</span>
+            )}
+          </button>
 
-          {likedUsers.length !== 0 && (
-            <span className="likes">{likedUsers.length}</span>
+          {!reply && (
+            <>
+              <span className="dot">・</span>
+              <button>댓글 달기</button>
+            </>
           )}
-        </button>
 
-        {!reply && (
-          <>
-            <span className="dot">・</span>
-            <button>댓글</button>
-          </>
+          <span className="dot">・</span>
+          <button>수정</button>
+          <span className="dot">・</span>
+          <button>삭제</button>
+        </S.Actions>
+
+        {childrenCount !== 0 && !open && (
+          <S.MoreRepliesButton>
+            <button type="button" onClick={onOpen}>
+              <S.StyledSubdirectoryArrowRightSVG />
+              <span>댓글 {childrenCount}개 더 보기</span>
+            </button>
+          </S.MoreRepliesButton>
         )}
 
-        <span className="dot">・</span>
-        <button>수정</button>
-        <span className="dot">・</span>
-        <button>삭제</button>
-      </S.Actions>
-
-      {children.length !== 0 && !isRepliesOpen && (
-        <S.ShowRepliesButton>
-          <button type="button" onClick={handleRepliesOpen}>
-            <ArrowDropDown />
-            <span>댓글 {children.length}개 더 보기</span>
-          </button>
-        </S.ShowRepliesButton>
-      )}
-
-      {isRepliesOpen && (
-        <S.Replies>
-          {replies.map(replyComment => {
-            return (
-              <CommentItem key={replyComment.id} reply {...replyComment} />
-            );
-          })}
-        </S.Replies>
-      )}
+        {open && (
+          <S.Replies>
+            {hasData ? (
+              <>
+                {replies.map(replyComment => {
+                  return (
+                    <CommentItem
+                      key={replyComment.id}
+                      reply
+                      {...replyComment}
+                    />
+                  );
+                })}
+                {hasMore ? (
+                  loading ? (
+                    loader
+                  ) : (
+                    <S.LoadMoreRepliesButton>
+                      <button type="button" onClick={onNext}>
+                        <S.StyledArrowDropDownSVG />
+                        <span>댓글 더 불러오기</span>
+                      </button>
+                    </S.LoadMoreRepliesButton>
+                  )
+                ) : null}
+              </>
+            ) : (
+              loader
+            )}
+          </S.Replies>
+        )}
+      </S.Content>
     </S.CommentItem>
   );
 };
