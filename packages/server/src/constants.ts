@@ -15,4 +15,6 @@ export const clientPath = {
   main: 'http://localhost:3000',
 };
 
-export const ONE_DAY = 24 * 3600 * 1000;
+export const ONE_DAY_MILLISECONDS = 24 * 3600 * 1000;
+
+export const ONE_DAY_SECONDS = 24 * 3600;
