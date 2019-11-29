@@ -25,6 +25,10 @@ import { CommentsParamPipe } from './pipe/comments-param-pipe';
 import { CommentsQueryPipe } from './pipe/comments-query-pipe';
 import { CommentsQueryDto } from './dto/comments-query.dto';
 import { CommentsParamDto } from './dto/comments-param.dto';
+import { RepliesParamPipe } from './pipe/replies-param-pipe';
+import { RepliesParamDto } from './dto/replies-param.dto';
+import { RepliesQueryPipe } from './pipe/replies-query-pipe';
+import { RepliesQueryDto } from './dto/replies-query.dto';
 
 @Controller('videos')
 export class VideoController {
@@ -91,31 +95,34 @@ export class VideoController {
 
   @Get('/:id/comments/:commentId/replies')
   public async getReplies(
-    @Param('id') id: string,
-    @Param('commentId') commentId: string,
-    @Query('page') page: string,
-  ): Promise<CommentResponseDto[]> {
-    const video = await this.videoService.findVideo(parseInt(id, 10));
+    @Param(null, new RepliesParamPipe()) repliesParamDto: RepliesParamDto,
+    @Query(null, new RepliesQueryPipe()) repliesQueryDto: RepliesQueryDto,
+  ): Promise<CommentsResponseDto> {
+    const { id, commentId } = repliesParamDto;
+    const { page } = repliesQueryDto;
+
+    const video = await this.videoService.findVideo(id);
 
     if (!video) {
       throw new NotFoundException();
     }
 
-    const comment = await this.commentService.findComment(
-      parseInt(commentId, 10),
-    );
+    const comment = await this.commentService.findComment(commentId);
 
     if (!comment) {
       throw new NotFoundException();
     }
 
-    const comments = await this.commentService.findReplies({
-      id: parseInt(commentId, 10),
-      videoId: parseInt(id, 10),
-      page: parseInt(page, 10),
+    const [comments, count] = await this.commentService.findReplies({
+      id: commentId,
+      videoId: id,
+      page,
     });
 
-    return comments.map(item => new CommentResponseDto(item));
+    return {
+      count,
+      data: comments.map(item => new CommentResponseDto(item)),
+    };
   }
 
   // @Post('/:id/comments')
