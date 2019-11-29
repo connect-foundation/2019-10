@@ -58,6 +58,13 @@ export class User extends Base {
   })
   public videosCount: number;
 
+  @Column({
+    name: 'githubAccessToken',
+    type: 'varchar',
+    nullable: true,
+  })
+  public githubAccessToken: string;
+
   @ManyToMany(
     type => Comment,
     comment => comment.likedUsers,
