@@ -1,5 +1,5 @@
 export class CustomMap<T> {
-  public readonly table: Map<string, T>;
+  private readonly table: Map<string, T>;
 
   public constructor() {
     this.table = new Map<string, T>();
