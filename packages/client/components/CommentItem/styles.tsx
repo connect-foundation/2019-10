@@ -3,6 +3,7 @@ import MaterialCircularProgress from '@material-ui/core/CircularProgress';
 
 import { BREAKPOINT, fontWeight } from '../../constants';
 import { ArrowDropDownSVG, SubdirectoryArrowRightSVG } from '../../svgs';
+import CommentForm from '../CommentForm';
 
 export const CommentItem = styled.div`
   margin-bottom: ${props => (props.reply ? '3rem' : '4rem')};
@@ -72,6 +73,7 @@ export const Actions = styled.div`
   align-items: center;
 
   button {
+    cursor: pointer;
     user-select: none;
     background-color: unset;
     border: unset;
@@ -92,12 +94,11 @@ export const Actions = styled.div`
     }
 
     span.likes {
-      vertical-align: middle;
-
-      margin-left: 0.3rem;
+      margin-left: 0.5rem;
     }
 
     span {
+      vertical-align: middle;
     }
   }
 
@@ -108,6 +109,11 @@ export const Actions = styled.div`
     padding: 0 0.5rem;
     vertical-align: middle;
   }
+`;
+
+export const StyledCommentForm = styled(CommentForm)`
+  margin-bottom: 0rem;
+  padding-top: 3rem;
 `;
 
 export const MoreRepliesButton = styled.div`

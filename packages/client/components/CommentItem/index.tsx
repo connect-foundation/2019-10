@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { format } from '../../libs/timeago';
@@ -9,8 +9,9 @@ import {
   ArrowDropDownSVG,
   SubdirectoryArrowRightSVG,
 } from '../../svgs';
-import { useReplies } from './hooks';
+import { useReplies, useReplyForm } from './hooks';
 import { CircularProgress } from '@material-ui/core';
+import CommentForm from '../CommentForm';
 
 const CommentItem = ({
   reply,
@@ -25,14 +26,26 @@ const CommentItem = ({
   const router = useRouter();
   const { videoId } = router.query;
 
+  // TODO: refactor to an actual data
+  const myComment = false;
+
+  const {
+    open: formOpen,
+    value,
+    onOpen: onFormOpen,
+    onChange,
+    onCancel,
+    onSubmit,
+  } = useReplyForm();
+
   const {
     replies,
-    open,
+    open: repliesOpen,
     hasData,
     hasMore,
     loading,
     onNext,
-    onOpen,
+    onOpen: onRepliesOpen,
   } = useReplies(videoId, id);
 
   const loader = (
@@ -57,34 +70,49 @@ const CommentItem = ({
           <button type="button">
             <FavoriteSVG />
 
-            {likedUsersCount !== 0 && (
-              <span className="likes">{likedUsersCount}</span>
-            )}
+            <span className="likes">
+              좋아요 {likedUsersCount !== 0 && `${likedUsersCount}개`}
+            </span>
           </button>
 
           {!reply && (
             <>
               <span className="dot">・</span>
-              <button>댓글 달기</button>
+              <button onClick={onFormOpen}>댓글 달기</button>
             </>
           )}
 
-          <span className="dot">・</span>
-          <button>수정</button>
-          <span className="dot">・</span>
-          <button>삭제</button>
+          {myComment && (
+            <>
+              <span className="dot">・</span>
+              <button>수정</button>
+              <span className="dot">・</span>
+              <button>삭제</button>
+            </>
+          )}
         </S.Actions>
 
-        {childrenCount !== 0 && !open && (
+        {formOpen && (
+          <S.StyledCommentForm
+            reply
+            rows={1}
+            value={value}
+            onChange={onChange}
+            onCancel={onCancel}
+            onSubmit={onSubmit}
+          />
+        )}
+
+        {childrenCount !== 0 && !repliesOpen && (
           <S.MoreRepliesButton>
-            <button type="button" onClick={onOpen}>
+            <button type="button" onClick={onRepliesOpen}>
               <S.StyledSubdirectoryArrowRightSVG />
               <span>댓글 {childrenCount}개 더 보기</span>
             </button>
           </S.MoreRepliesButton>
         )}
 
-        {open && (
+        {repliesOpen && (
           <S.Replies>
             {hasData ? (
               <>

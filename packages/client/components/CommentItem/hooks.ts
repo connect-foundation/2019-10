@@ -45,3 +45,33 @@ export const useReplies = (videoId, commentId) => {
     onOpen: () => setOpen(true),
   };
 };
+
+export const useReplyForm = () => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleChange = e => {
+    setValue(e.target.value);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = () => {
+    return null;
+  };
+
+  return {
+    open,
+    value,
+    onOpen: handleOpen,
+    onChange: handleChange,
+    onCancel: handleCancel,
+    onSubmit: handleSubmit,
+  };
+};
