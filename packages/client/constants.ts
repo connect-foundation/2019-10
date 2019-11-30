@@ -50,7 +50,7 @@ export const fontWeight = {
   extraBold: 800,
 };
 
-export const maxLength = {
+export const signUpFormDataMaxLength = {
   username: 30,
   introduction: 1500,
 };

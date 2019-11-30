@@ -16,5 +16,7 @@ export const clientPath = {
 };
 
 export const ONE_DAY_MILLISECONDS = 24 * 3600 * 1000;
+export const ONE_HOUR__MILLISECONDS = 3600 * 1000;
 
 export const ONE_DAY_SECONDS = 24 * 3600;
+export const ONE_HOUR_SECONDS = 3600;
