@@ -20,6 +20,10 @@ export class DeserializerMiddleware implements NestMiddleware {
   public use(request: Request, response: Response, next: () => void): void {
     const sessionToken = request.cookies.SessionToken;
 
+    if (!sessionToken) {
+      return next();
+    }
+
     // tslint:disable-next-line: no-any
     const token: any = jwt.verify(sessionToken, process.env.JWT_SECRET);
 

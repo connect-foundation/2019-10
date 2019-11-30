@@ -16,10 +16,7 @@ async function bootstrap() {
 
   app.use(helmet());
   app.use(bodyParser.text());
-<<<<<<< HEAD
   app.use(cookieParser());
-=======
->>>>>>> develop
 
   await app.listen(4000);
 }
