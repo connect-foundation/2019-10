@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Res } from '@nestjs/common';
+import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 import { endpoint, clientPath, ONE_DAY_MILLISECONDS } from 'src/constants';
@@ -7,6 +7,7 @@ import { AuthenticationService } from './authentication.service';
 import { User } from '../../../typeorm/src/entity/user.entity';
 import { CookieOptions } from 'express-serve-static-core';
 import { GithubUserDetail } from 'src/third-party-api/model/github-user-detail';
+import { OnlyGuestGuard } from 'src/common/guards/only-guest.guard';
 
 @Controller(endpoint.auth)
 export class AuthenticationController {
@@ -15,6 +16,7 @@ export class AuthenticationController {
   ) {}
 
   @Get(endpoint.githubLogin)
+  @UseGuards(OnlyGuestGuard)
   public async login(
     @Query() codeDto: GithubOauthCodeDto,
     @Res() response: Response,
