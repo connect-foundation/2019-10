@@ -1,5 +1,5 @@
-export const chunkVideoList = (videos, itemsPerChunk) => {
-  return videos.reduce((acc, next, index) => {
+export const chunkList = (list, itemsPerChunk: number) => {
+  return list.reduce((acc, next, index) => {
     const chunkIndex = Math.floor(index / itemsPerChunk);
 
     if (!acc[chunkIndex]) {

@@ -7,7 +7,7 @@ import Layout from '../../components/Layout';
 import UserProfile from '../../components/UserProfile';
 import VideoItem from '../../components/VideoItem';
 import Filters from '../../components/Filters';
-import { chunkVideoList } from '../../libs/videoList';
+import { chunkList } from '../../libs/chunkList';
 
 const videos = [
   {
@@ -195,7 +195,7 @@ const videos = [
 ];
 
 const User = () => {
-  const videoChunks = chunkVideoList(videos, 3);
+  const videoChunks = chunkList(videos, 3);
 
   return (
     <Layout drawer={false}>
