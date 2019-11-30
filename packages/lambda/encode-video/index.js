@@ -21,7 +21,7 @@ const segmentDuration = "5";
 const thumbPattern = "thumbnail_{count}";
 
 function makeOutputs() {
-  return outputKeys.reduce((acc, outputKey, index) => {
+  return outputKeys.map((outputKey, index) => {
     const output = {
       Key: outputKey,
       PresetId: presets[index],
@@ -32,8 +32,22 @@ function makeOutputs() {
       output.ThumbnailPattern = thumbPattern + outputKey;
     }
 
-    return [...acc, output];
-  }, []);
+    return output;
+  });
+
+  // return outputKeys.reduce((acc, outputKey, index) => {
+  //   const output = {
+  //     Key: outputKey,
+  //     PresetId: presets[index],
+  //     SegmentDuration: segmentDuration
+  //   };
+
+  //   if (outputKey !== "audio") {
+  //     output.ThumbnailPattern = thumbPattern + outputKey;
+  //   }
+
+  //   return [...acc, output];
+  // }, []);
 }
 
 exports.handler = async (event, context, callback) => {
@@ -49,9 +63,12 @@ exports.handler = async (event, context, callback) => {
 
   const path = inputKey.split("/");
   path.splice(path.length - 1, 1);
-  const outputKey = path.reduce((acc, cur) => {
-    return `${acc}/${cur}`;
-  });
+
+  const outputKey = path.join("/");
+
+  // const outputKey = path.reduce((acc, cur) => {
+  //   return `${acc}/${cur}`;
+  // });
 
   const playlistName = fileName;
 

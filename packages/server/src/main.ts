@@ -1,8 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import * as helmet from 'helmet';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
+
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,7 +16,10 @@ async function bootstrap() {
 
   app.use(helmet());
   app.use(bodyParser.text());
+<<<<<<< HEAD
   app.use(cookieParser());
+=======
+>>>>>>> develop
 
   await app.listen(4000);
 }
