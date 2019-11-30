@@ -42,3 +42,37 @@ export const useComments = videoId => {
     onSort: value => setSort(value),
   };
 };
+
+export const useCommentForm = () => {
+  const [value, setValue] = useState('');
+  const [active, setActive] = useState(false);
+
+  const handleChange = e => {
+    setValue(e.target.value);
+  };
+
+  const handleFocus = () => {
+    setActive(true);
+  };
+
+  const handleBlur = () => {
+    if (value === '') {
+      setActive(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setActive(false);
+    setValue('');
+  };
+
+  return {
+    value,
+    active,
+    onChange: handleChange,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
+    onCancel: handleCancel,
+    onSubmit: () => null,
+  };
+};
