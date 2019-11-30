@@ -8,6 +8,7 @@ export const EVENT = {
 export const LEFT = 'left';
 export const TOP = 'top';
 export const PERSISTENT = 'persistent';
+export const TAGS_PER_PAGE = 24;
 
 export const routePath = {
   tags: '/tags',
