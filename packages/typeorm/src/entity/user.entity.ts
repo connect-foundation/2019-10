@@ -38,7 +38,6 @@ export class User extends Base {
     type: 'varchar',
     length: 100,
     nullable: false,
-    unique: true,
   })
   public email: string;
 
@@ -61,7 +60,7 @@ export class User extends Base {
   @Column({
     name: 'githubAccessToken',
     type: 'varchar',
-    nullable: true,
+    nullable: false,
   })
   public githubAccessToken: string;
 
