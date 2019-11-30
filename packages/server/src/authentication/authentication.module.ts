@@ -5,12 +5,14 @@ import { GithubApiModule } from 'src/third-party-api/github-api/github-api.modul
 import { UserSessionModule } from 'src/user-session/user-session.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../../../typeorm/src/entity/user.entity';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     GithubApiModule,
     UserSessionModule,
+    UserModule,
   ],
   providers: [AuthenticationService],
   controllers: [AuthenticationController],

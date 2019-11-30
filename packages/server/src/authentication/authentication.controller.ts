@@ -6,6 +6,7 @@ import { GithubOauthCodeDto } from '../third-party-api/github-api/dto/github-oau
 import { AuthenticationService } from './authentication.service';
 import { User } from '../../../typeorm/src/entity/user.entity';
 import { CookieOptions } from 'express-serve-static-core';
+import { GithubUserDetail } from 'src/third-party-api/model/github-user-detail';
 
 @Controller(endpoint.auth)
 export class AuthenticationController {
@@ -27,6 +28,7 @@ export class AuthenticationController {
     );
 
     if (!user) {
+      this.setAccessTokenCookie(response, userDetail);
       return response.redirect(clientPath.signUp);
     }
 
@@ -37,7 +39,7 @@ export class AuthenticationController {
 
     const sessionId = this.authenticationService.serializeUser(user);
 
-    response = await this.setTokenCookie(response, user, sessionId);
+    response = this.setSessionTokenCookie(response, user, sessionId);
 
     return response.redirect(clientPath.main);
   }
@@ -53,12 +55,33 @@ export class AuthenticationController {
     return response;
   }
 
-  private async setTokenCookie(
+  private setAccessTokenCookie(
+    response: Response,
+    userDetail: GithubUserDetail,
+  ) {
+    const githubUserJWT = this.authenticationService.makGithubUserJWT(
+      userDetail,
+    );
+
+    response = this.makeTokenCookie(
+      response,
+      'githubUserDetail',
+      githubUserJWT,
+      {
+        maxAge: ONE_DAY_MILLISECONDS,
+        httpOnly: true,
+      },
+    );
+
+    return response;
+  }
+
+  private setSessionTokenCookie(
     response: Response,
     userEntity: User,
     sessionId: string,
-  ): Promise<Response> {
-    const sessionToken = await this.authenticationService.makeSessionToken(
+  ): Response {
+    const sessionToken = this.authenticationService.makeSessionJWT(
       sessionId,
       userEntity,
     );

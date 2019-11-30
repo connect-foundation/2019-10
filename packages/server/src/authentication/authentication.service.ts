@@ -12,7 +12,7 @@ import { GithubUserDetail } from 'src/third-party-api/model/github-user-detail';
 import { UserToken } from 'src/user-session/model/user-session-token';
 import { TokenizableUserDetail } from './model/tokenizable-user-detail';
 import { UserPublicInfo } from './model/user-public-info';
-import { ONE_DAY_SECONDS } from 'src/constants';
+import { ONE_DAY_SECONDS, ONE_HOUR_SECONDS } from 'src/constants';
 
 @Injectable()
 export class AuthenticationService {
@@ -62,13 +62,27 @@ export class AuthenticationService {
     this.userRepository.save(userEntity);
   }
 
-  public async makeSessionToken(
-    sessionId: string,
-    userEntity: User,
-  ): Promise<string> {
+  public makGithubUserJWT(githubUserDetail: GithubUserDetail): string {
+    const githubAccessTokenJWT = jwt.sign(
+      {
+        avatar: githubUserDetail.avatar,
+        email: githubUserDetail.email,
+        githubId: githubUserDetail.githubId,
+        githubAccessToken: githubUserDetail.getAccessToken(),
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: ONE_HOUR_SECONDS,
+      },
+    );
+
+    return githubAccessTokenJWT;
+  }
+
+  public makeSessionJWT(sessionId: string, userEntity: User): string {
     const userPublicInfo = new UserPublicInfo(userEntity);
 
-    const sessionToken = jwt.sign(
+    const sessionJWT = jwt.sign(
       {
         data: { sessionId, userPublicInfo },
       },
@@ -78,6 +92,6 @@ export class AuthenticationService {
       },
     );
 
-    return sessionToken;
+    return sessionJWT;
   }
 }
