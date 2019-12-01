@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useMutation } from 'react-fetching-library';
 
 import * as S from './styles';
-import { signUpFormDataMaxLength, routePath } from '../../constants';
+import { signUpFormDataMaxLength, endpoint } from '../../constants';
 import { responseStatus } from '../../response';
-
-class FormData {
-  public constructor(
-    public readonly username: string,
-    public readonly description: string,
-    public readonly isAgreed: boolean,
-  ) {}
-}
+import { FormData } from './model/form-data';
+import { makeSignUpAction } from './action/sign-up-action';
 
 const SignUp: React.FunctionComponent = () => {
   const [formData, setFormData] = useState(new FormData('', '', false));
-
   const [isFetching, setIsFetching] = useState(false);
+
+  const { loading, payload, error, mutate } = useMutation(makeSignUpAction);
+
   const router = useRouter();
 
   const handleFormChange = e => {
@@ -32,8 +29,7 @@ const SignUp: React.FunctionComponent = () => {
   const handleSubmit = async e => {
     setIsFetching(true);
 
-    // 실제 요청 보내기
-    const response = await submitFormData(formData);
+    const response = await mutate(formData);
 
     if (response.status === responseStatus.unprocessableEntity) {
       setIsFetching(false);
@@ -41,11 +37,11 @@ const SignUp: React.FunctionComponent = () => {
     }
 
     if (response.status === responseStatus.unAuthorized) {
-      router.push(routePath.login);
+      router.push(endpoint.login);
     }
 
-    if (response.ok) {
-      router.push(routePath.hotlist);
+    if (!error) {
+      router.push(endpoint.hotlist);
     }
   };
 
@@ -76,6 +72,7 @@ const SignUp: React.FunctionComponent = () => {
               maxLength={signUpFormDataMaxLength.username}
               onChange={handleFormChange}
               type="text"
+              autoComplete="off"
             />
           </S.Item>
           <S.Item>
@@ -111,19 +108,6 @@ const SignUp: React.FunctionComponent = () => {
       </S.Container>
     </S.SignUp>
   );
-};
-
-const submitFormData = async (formData: FormData): Promise<Response> => {
-  const response = await fetch(process.env.SIGN_UP_API_SERVER_URL, {
-    body: JSON.stringify({ ...formData }),
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  return response;
 };
 
 export default SignUp;
