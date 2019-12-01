@@ -9,13 +9,14 @@ export const LEFT = 'left';
 export const TOP = 'top';
 export const PERSISTENT = 'persistent';
 
-export const routePath = {
+export const endpoint = {
   tags: '/tags',
   hotlist: '/',
   latest: '/latest',
   upload: '/videos/upload',
   search: '/search',
   login: '/auth/login',
+  users: '/users',
 };
 
 export const periods = {
