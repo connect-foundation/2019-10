@@ -4,10 +4,9 @@ import { Response } from 'express';
 import { endpoint, clientPath, ONE_DAY_MILLISECONDS } from 'src/constants';
 import { GithubOauthCodeDto } from '../third-party-api/github-api/dto/github-oauth-code.dto';
 import { AuthenticationService } from './authentication.service';
-import { User } from '../../../typeorm/src/entity/user.entity';
-import { CookieOptions } from 'express-serve-static-core';
 import { GithubUserDetail } from 'src/third-party-api/model/github-user-detail';
 import { OnlyGuestGuard } from 'src/common/guards/only-guest.guard';
+import { makeTokenCookie, setSessionTokenCookie } from 'src/set-cookie';
 
 @Controller(endpoint.auth)
 export class AuthenticationController {
@@ -20,7 +19,7 @@ export class AuthenticationController {
   public async login(
     @Query() codeDto: GithubOauthCodeDto,
     @Res() response: Response,
-  ) {
+  ): Promise<void> {
     const userDetail = await this.authenticationService.getGithubUserDetail(
       codeDto,
     );
@@ -39,22 +38,11 @@ export class AuthenticationController {
       userDetail.getAccessToken(),
     );
 
-    const sessionId = this.authenticationService.serializeUser(user);
+    const sessionId = this.authenticationService.instructToSerialize(user);
 
-    response = this.setSessionTokenCookie(response, user, sessionId);
+    response = setSessionTokenCookie(response, user, sessionId);
 
     return response.redirect(clientPath.main);
-  }
-
-  private makeTokenCookie(
-    response: Response,
-    key: string,
-    token: string,
-    option: CookieOptions,
-  ): Response {
-    response.cookie(key, token, option);
-
-    return response;
   }
 
   private setAccessTokenCookie(
@@ -65,31 +53,8 @@ export class AuthenticationController {
       userDetail,
     );
 
-    response = this.makeTokenCookie(
-      response,
-      'githubUserDetail',
-      githubUserJWT,
-      {
-        maxAge: ONE_DAY_MILLISECONDS,
-        httpOnly: true,
-      },
-    );
-
-    return response;
-  }
-
-  private setSessionTokenCookie(
-    response: Response,
-    userEntity: User,
-    sessionId: string,
-  ): Response {
-    const sessionToken = this.authenticationService.makeSessionJWT(
-      sessionId,
-      userEntity,
-    );
-
-    response = this.makeTokenCookie(response, 'SessionToken', sessionToken, {
-      maxAge: 30 * ONE_DAY_MILLISECONDS,
+    response = makeTokenCookie(response, 'githubUserDetail', githubUserJWT, {
+      maxAge: ONE_DAY_MILLISECONDS,
       httpOnly: true,
     });
 
