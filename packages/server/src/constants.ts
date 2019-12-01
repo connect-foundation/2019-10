@@ -8,6 +8,7 @@ export const TranscoderNotificationState = {
 export const endpoint = {
   auth: 'auth',
   githubLogin: '/github/login',
+  users: 'users',
 };
 
 export const clientPath = {

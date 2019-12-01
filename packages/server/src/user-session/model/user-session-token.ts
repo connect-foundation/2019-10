@@ -1,4 +1,4 @@
-import { TokenizableUserDetail } from 'src/authentication/model/tokenizable-user-detail';
+import { User } from '../../../../typeorm/src/entity/user.entity';
 
 export class UserToken {
   public readonly userId: number;
@@ -7,11 +7,11 @@ export class UserToken {
   public readonly githubAccessToken: string;
   public readonly username: string;
 
-  public constructor(tokenizableUserDetail: TokenizableUserDetail) {
-    this.userId = tokenizableUserDetail.userId;
-    this.email = tokenizableUserDetail.email;
-    this.avatar = tokenizableUserDetail.avatar;
-    this.githubAccessToken = tokenizableUserDetail.githubAccessToken;
-    this.username = tokenizableUserDetail.username;
+  public constructor(userEntity: User) {
+    this.userId = userEntity.id;
+    this.email = userEntity.email;
+    this.avatar = userEntity.avatar;
+    this.githubAccessToken = userEntity.githubAccessToken;
+    this.username = userEntity.username;
   }
 }
