@@ -25,3 +25,4 @@ export const MOMENT_DATETIME_FORMAT = 'YYYY-MM-DD HH:MM:ss';
 
 export const ITEMS_PER_PAGE = 20;
 export const SEARCHED_ITEM_NUMBER = 5;
+export const TAGS_PER_PAGE = 24;

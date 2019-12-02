@@ -22,13 +22,7 @@ export class VideoService {
     private readonly videoRepository: Repository<Video>,
   ) {}
 
-  public async findVideos({
-    page,
-    sort,
-    period,
-    keyword,
-    limit,
-  }): Promise<Video[]> {
+  public async findVideos({ page, sort, period, keyword }): Promise<Video[]> {
     const qb = this.videoRepository
       .createQueryBuilder()
       .leftJoin('Video.user', 'User')
@@ -50,46 +44,46 @@ export class VideoService {
 
     const offset = (page - 1) * ITEMS_PER_PAGE;
 
-    if (keyword) {
-      const search = await qb.where(
-        '(Video.title like :titleKeyword) or (Video.description like :descriptionKeyword)',
-        {
-          titleKeyword: '%' + keyword + '%',
-          descriptionKeyword: '%' + keyword + '%',
-        },
-      );
-
-      if (limit) {
-        return await this.popularityQuery(search.limit(SEARCHED_ITEM_NUMBER));
+    if (!keyword) {
+      if (sort === LATEST) {
+        return await qb
+          .limit(ITEMS_PER_PAGE)
+          .offset(offset)
+          .orderBy('Video_createdAt', 'DESC')
+          .addOrderBy('Video_popularity', 'DESC')
+          .addOrderBy('Video_id', 'DESC')
+          .getMany();
       }
 
+      if (sort === POPULAR) {
+        if (period !== PERIODS.all) {
+          const startDatetime = moment()
+            .subtract(...MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS[period])
+            .format(MOMENT_DATETIME_FORMAT);
+
+          qb.where('Video.createdAt > :startDatetime', { startDatetime });
+        }
+        return await this.popularityQuery(
+          qb.limit(ITEMS_PER_PAGE).offset(offset),
+        );
+      }
+    }
+
+    const search = await qb.where(
+      '(Video.title like :titleKeyword) or (Video.description like :descriptionKeyword)',
+      {
+        titleKeyword: '%' + keyword + '%',
+        descriptionKeyword: '%' + keyword + '%',
+      },
+    );
+
+    if (page) {
       return await this.popularityQuery(
         search.limit(ITEMS_PER_PAGE).offset(offset),
       );
     }
 
-    if (sort === LATEST) {
-      return await qb
-        .limit(ITEMS_PER_PAGE)
-        .offset(offset)
-        .orderBy('Video_createdAt', 'DESC')
-        .addOrderBy('Video_popularity', 'DESC')
-        .addOrderBy('Video_id', 'DESC')
-        .getMany();
-    }
-
-    if (sort === POPULAR) {
-      if (period !== PERIODS.all) {
-        const startDatetime = moment()
-          .subtract(...MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS[period])
-          .format(MOMENT_DATETIME_FORMAT);
-
-        qb.where('Video.createdAt > :startDatetime', { startDatetime });
-      }
-      return await this.popularityQuery(
-        qb.limit(ITEMS_PER_PAGE).offset(offset),
-      );
-    }
+    return await this.popularityQuery(search.limit(SEARCHED_ITEM_NUMBER));
   }
 
   private async popularityQuery(qb): Promise<Video[]> {

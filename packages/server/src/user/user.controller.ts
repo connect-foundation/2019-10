@@ -25,12 +25,11 @@ export class UserController {
   public async getUsers(
     @Query() userQueryStringDto: UserQueryStringDto,
   ): Promise<UserResponseDto[]> {
-    const { page, keyword, limit } = userQueryStringDto;
+    const { page, keyword } = userQueryStringDto;
 
     const users = await this.userService.findUsers({
       page,
       keyword,
-      limit,
     });
 
     return users.map(user => new UserResponseDto(user));

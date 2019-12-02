@@ -1,7 +1,3 @@
 export class TagQueryStringDto {
-  public constructor(
-    public page?: number,
-    public keyword?: string,
-    public limit?: number,
-  ) {}
+  public constructor(public page?: number, public keyword?: string) {}
 }

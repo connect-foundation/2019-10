@@ -3,7 +3,7 @@ import { TagService } from './tag.service';
 
 import { TagQueryStringPipe } from './pipe/tag-query.pipe';
 import { TagQueryStringDto } from './pipe/query-dto';
-import { TagResponseDto } from './dto';
+import { TagListResponseDto } from './dto/tag-list-response.dto';
 
 @Controller('tags')
 export class TagController {
@@ -13,11 +13,14 @@ export class TagController {
   @UsePipes(TagQueryStringPipe)
   public async getTags(
     @Query() tagQueryStringDto: TagQueryStringDto,
-  ): Promise<TagResponseDto[]> {
-    const { page, keyword, limit } = tagQueryStringDto;
+  ): Promise<TagListResponseDto> {
+    const { page, keyword } = tagQueryStringDto;
 
-    const tags = await this.tagService.findTags({ page, keyword, limit });
+    const [tags, count] = await this.tagService.findTags({
+      page,
+      keyword,
+    });
 
-    return tags.map(tag => new TagResponseDto(tag));
+    return new TagListResponseDto(tags, count);
   }
 }

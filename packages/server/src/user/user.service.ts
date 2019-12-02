@@ -34,7 +34,7 @@ export class UserService {
     });
   }
 
-  public async findUsers({ page, keyword, limit }): Promise<User[]> {
+  public async findUsers({ page, keyword }): Promise<User[]> {
     const qb = this.userRepository
       .createQueryBuilder()
       .select(['User.id', 'User.username', 'User.avatar'])
@@ -46,14 +46,15 @@ export class UserService {
         },
       );
 
-    if (limit) {
-      return await this.uploadVideoCountQuery(qb.limit(SEARCHED_ITEM_NUMBER));
+    if (page) {
+      const offset = (page - 1) * ITEMS_PER_PAGE;
+
+      return await this.uploadVideoCountQuery(
+        qb.limit(ITEMS_PER_PAGE).offset(offset),
+      );
     }
 
-    const offset = (page - 1) * ITEMS_PER_PAGE;
-
-    return await this.uploadVideoCountQuery(qb.limit(ITEMS_PER_PAGE)
-      .offset(offset));
+    return await this.uploadVideoCountQuery(qb.limit(SEARCHED_ITEM_NUMBER));
   }
 
   private async uploadVideoCountQuery(qb): Promise<User[]> {

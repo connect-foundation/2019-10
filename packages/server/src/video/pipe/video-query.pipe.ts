@@ -3,45 +3,29 @@ import { VideoRequestQueryStringPipeDto } from './request-query-dto';
 import { VideoQueryStringDto } from './query-dto';
 import { LATEST, POPULAR, PERIODS } from '../../constants';
 
-const defaultValue = new VideoQueryStringDto();
-page: 1,
-  sort; : POPULAR,
-  limit; : 5,  ;
-}
-
 @Injectable()
 export class VideoQueryStringPipe implements PipeTransform {
   public async transform(
     value: VideoRequestQueryStringPipeDto,
-  ) {
-    const {
-      page,
-      sort,
-      period,
-      keyword,
-      limit,
-    } = value;
+  ): Promise<VideoQueryStringDto> {
+    const { page, sort, period, keyword } = value;
 
     if (
-      !this.validateVideoRequestQueryStringPipeDto(
-        {
-          page,
-          sort,
-          period,
-          keyword,
-          limit,
-        },
-      )
+      !this.validateVideoRequestQueryStringPipeDto({
+        page,
+        sort,
+        period,
+        keyword,
+      })
     ) {
       throw new BadRequestException();
     }
 
     return {
-      page = parseInt(page, 10),
-      sort = sort,
-      period = period,
-      keyword = keyword,
-      limit = parseInt(limit, 10),
+      page: parseInt(page, 10),
+      sort,
+      period,
+      keyword,
     };
   }
 
@@ -50,13 +34,12 @@ export class VideoQueryStringPipe implements PipeTransform {
     sort,
     period,
     keyword,
-    limit,
   }: VideoRequestQueryStringPipeDto): boolean {
     if (keyword) {
-      if (limit) {
-        return this.validateLimit(limit);
+      if (page) {
+        return this.validatePage(page);
       }
-      return this.validatePage(page);
+      return true;
     }
     return (
       this.validatePage(page) &&
@@ -66,13 +49,8 @@ export class VideoQueryStringPipe implements PipeTransform {
   }
 
   private validatePage(page: string): boolean {
-    const regx = /^[0-9]+$/;
-    if (!regx.test(page)) {
-      return false;
-    }
-
-    const parsedPage = parseInt(page, 10);
-    return page && !isNaN(parsedPage) && parsedPage > 0;
+    const onlyNaturalNumberRegex = /^[1-9]\d*$/;
+    return onlyNaturalNumberRegex.test(page);
   }
 
   private validateSort(sort: string): boolean {
@@ -101,10 +79,5 @@ export class VideoQueryStringPipe implements PipeTransform {
     }
 
     return isValid;
-  }
-
-  private validateLimit(limit: string): boolean {
-    const parsedLimit = parseInt(limit, 10);
-    return limit && !isNaN(parsedLimit) && parsedLimit === 5;
   }
 }

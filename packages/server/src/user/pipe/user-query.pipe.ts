@@ -2,55 +2,34 @@ import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 import { UserRequestQueryStringPipeDto } from './request-query-dto';
 import { UserQueryStringDto } from './query-dto';
 
-const defaultValue: UserQueryStringDto = {
-  page: 1,
-  limit: 5,
-};
-
 @Injectable()
 export class UserQueryStringPipe implements PipeTransform {
   public async transform(
-    userRequestQueryStringPipeDto: UserRequestQueryStringPipeDto,
-  ) {
-    const { page, keyword, limit } = userRequestQueryStringPipeDto;
+    value: UserRequestQueryStringPipeDto,
+  ): Promise<UserQueryStringDto> {
+    const { page, keyword } = value;
 
-    const value = defaultValue;
-
-    if (
-      !this.validateUserRequestQueryStringPipeDto(userRequestQueryStringPipeDto)
-    ) {
+    if (!this.validateUserRequestQueryStringPipeDto({ page, keyword })) {
       throw new BadRequestException();
     }
 
-    value.page = parseInt(page, 10);
-    value.keyword = keyword;
-    value.limit = parseInt(limit, 10);
-
-    return value;
+    return {
+      page: parseInt(page, 10),
+      keyword,
+    };
   }
 
   private validateUserRequestQueryStringPipeDto({
     page,
-    limit,
   }: UserRequestQueryStringPipeDto): boolean {
-    if (limit) {
-      return this.validateLimit(limit);
+    if (page) {
+      return this.validatePage(page);
     }
-    return this.validatePage(page);
+    return true;
   }
 
   private validatePage(page: string): boolean {
-    const regx = /^[0-9]+$/;
-    if (!regx.test(page)) {
-      return false;
-    }
-
-    const parsedPage = parseInt(page, 10);
-    return page && !isNaN(parsedPage) && parsedPage > 0;
-  }
-
-  private validateLimit(limit: string): boolean {
-    const parsedLimit = parseInt(limit, 10);
-    return limit && !isNaN(parsedLimit) && parsedLimit === 5;
+    const onlyNaturalNumberRegex = /^[1-9]\d*$/;
+    return onlyNaturalNumberRegex.test(page);
   }
 }
