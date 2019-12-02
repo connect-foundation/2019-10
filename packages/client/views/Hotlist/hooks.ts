@@ -8,6 +8,7 @@ const createHotlistAction: Action = (page, period) => ({
 
 export const useHotlistVideos = (page, period) => {
   const [videos, setVideos] = useState([]);
+  const [hasData, setHasData] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
   const action = createHotlistAction(page, period);
@@ -15,14 +16,18 @@ export const useHotlistVideos = (page, period) => {
 
   useEffect(() => {
     setVideos([]);
+    setHasData(false);
   }, [period]);
 
   useEffect(() => {
     if (payload && !error) {
+      setHasData(true);
       setHasMore(payload.data.length >= 20);
-      setVideos([...videos, ...payload.data]);
+      page === 1
+        ? setVideos(payload.data)
+        : setVideos([...videos, ...payload.data]);
     }
-  }, [payload]);
+  }, [payload, error]);
 
-  return { videos, hasMore, ...rest };
+  return { videos, hasMore, hasData, ...rest };
 };
