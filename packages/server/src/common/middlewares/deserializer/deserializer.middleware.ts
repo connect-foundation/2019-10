@@ -37,7 +37,10 @@ export class DeserializerMiddleware implements NestMiddleware {
     }
 
     const userToken = this.userSessionService.find(tokenData.sessionId);
-    request.user = userToken;
+
+    if (userToken) {
+      request.user = userToken;
+    }
 
     return next();
   }

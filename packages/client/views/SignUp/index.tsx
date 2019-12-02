@@ -12,7 +12,7 @@ const SignUp: React.FunctionComponent = () => {
   const [formData, setFormData] = useState(new FormData('', '', false));
   const [isFetching, setIsFetching] = useState(false);
 
-  const { loading, payload, error, mutate } = useMutation(makeSignUpAction);
+  const { mutate } = useMutation(makeSignUpAction);
 
   const router = useRouter();
 
@@ -33,14 +33,14 @@ const SignUp: React.FunctionComponent = () => {
 
     if (response.status === responseStatus.unprocessableEntity) {
       setIsFetching(false);
-      window.alert('중복된 계정입니다');
+      window.alert('이미 가입된 유저입니다.');
     }
 
-    if (response.status === responseStatus.unAuthorized) {
+    if (response.status === responseStatus.unauthorized) {
       router.push(endpoint.login);
     }
 
-    if (!error) {
+    if (!response.error) {
       router.push(endpoint.hotlist);
     }
   };

@@ -51,7 +51,7 @@ export class AuthenticationService {
     accessToken: string,
   ) {
     userEntity.githubAccessToken = accessToken;
-    this.userRepository.save(userEntity);
+    await this.userRepository.save(userEntity);
   }
 
   public makeGithubUserJWT(githubUserDetail: GithubUserDetail): string {
