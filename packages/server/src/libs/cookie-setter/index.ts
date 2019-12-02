@@ -1,34 +1,41 @@
 import { Response, CookieOptions } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import { User } from '../../../typeorm/src/entity/user.entity';
-import { ONE_DAY_MILLISECONDS, ONE_DAY_SECONDS } from 'src/constants';
+import { User } from '../../../../typeorm/src/entity/user.entity';
+import {
+  ONE_DAY_MILLISECONDS,
+  ONE_DAY_SECONDS,
+  SESSION_TOKEN,
+} from 'src/constants';
 import { UserPublicInfo } from 'src/authentication/model/user-public-info';
+
+export function deleteCookie(response: Response, name: string): void {
+  setTokenOnResponseCookie(response, name, '', {
+    maxAge: 0,
+    httpOnly: true,
+  });
+}
 
 export function setSessionTokenCookie(
   response: Response,
   userEntity: User,
   sessionId: string,
-): Response {
+): void {
   const sessionToken = makeSessionJWT(sessionId, userEntity);
 
-  response = this.makeTokenCookie(response, 'SessionToken', sessionToken, {
+  setTokenOnResponseCookie(response, SESSION_TOKEN, sessionToken, {
     maxAge: 30 * ONE_DAY_MILLISECONDS,
     httpOnly: true,
   });
-
-  return response;
 }
 
-export function makeTokenCookie(
+export function setTokenOnResponseCookie(
   response: Response,
   key: string,
   token: string,
   option: CookieOptions,
-): Response {
+): void {
   response.cookie(key, token, option);
-
-  return response;
 }
 
 function makeSessionJWT(sessionId: string, userEntity: User): string {

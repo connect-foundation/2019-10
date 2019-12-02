@@ -1,4 +1,4 @@
 export const responseStatus = {
-  unAuthorized: 401,
+  unauthorized: 401,
   unprocessableEntity: 422,
 };

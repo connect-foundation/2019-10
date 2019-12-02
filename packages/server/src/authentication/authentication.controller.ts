@@ -1,12 +1,20 @@
 import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
-import { endpoint, clientPath, ONE_DAY_MILLISECONDS } from 'src/constants';
+import {
+  endpoint,
+  clientPath,
+  ONE_DAY_MILLISECONDS,
+  GITHUB_USER_DETAIL,
+} from 'src/constants';
 import { GithubOauthCodeDto } from '../third-party-api/github-api/dto/github-oauth-code.dto';
 import { AuthenticationService } from './authentication.service';
 import { GithubUserDetail } from 'src/third-party-api/model/github-user-detail';
 import { OnlyGuestGuard } from 'src/common/guards/only-guest.guard';
-import { makeTokenCookie, setSessionTokenCookie } from 'src/set-cookie';
+import {
+  setTokenOnResponseCookie,
+  setSessionTokenCookie,
+} from 'src/libs/cookie-setter';
 
 @Controller(endpoint.auth)
 export class AuthenticationController {
@@ -40,7 +48,7 @@ export class AuthenticationController {
 
     const sessionId = this.authenticationService.instructToSerialize(user);
 
-    response = setSessionTokenCookie(response, user, sessionId);
+    setSessionTokenCookie(response, user, sessionId);
 
     return response.redirect(clientPath.main);
   }
@@ -53,11 +61,9 @@ export class AuthenticationController {
       userDetail,
     );
 
-    response = makeTokenCookie(response, 'githubUserDetail', githubUserJWT, {
+    setTokenOnResponseCookie(response, GITHUB_USER_DETAIL, githubUserJWT, {
       maxAge: ONE_DAY_MILLISECONDS,
       httpOnly: true,
     });
-
-    return response;
   }
 }

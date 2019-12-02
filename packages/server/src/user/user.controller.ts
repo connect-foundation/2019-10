@@ -18,8 +18,8 @@ import { IdParserPipe } from 'src/common/pipes/id-parser/id-parser.pipe';
 import { SignUpFormDataDto } from './dto/sign-up-user-form.dto';
 import { ParsedGithubUserDetail } from './model/parsed-github-user-detail';
 import { errName, errCode } from 'src/error';
-import { endpoint, clientPath } from 'src/constants';
-import { setSessionTokenCookie } from 'src/set-cookie';
+import { endpoint, GITHUB_USER_DETAIL } from 'src/constants';
+import { setSessionTokenCookie, deleteCookie } from 'src/libs/cookie-setter';
 import { User } from '../../../typeorm/src/entity/user.entity';
 
 @Controller(endpoint.users)
@@ -40,7 +40,7 @@ export class UserController {
   ): Promise<Response> {
     try {
       const parsedTokenData = new ParsedGithubUserDetail(
-        jwt.verify(request.cookies.githubUserDetail, process.env.JWT_SECRET),
+        jwt.verify(request.cookies.GithubUserDetail, process.env.JWT_SECRET),
       );
 
       const user = await this.userService.registerUser(
@@ -48,8 +48,8 @@ export class UserController {
         signUpUserFormDto,
       );
 
-      response = this.login(response, user);
-      response.header('Access-Control-Allow-Credentials', 'true');
+      this.login(response, user);
+      deleteCookie(response, GITHUB_USER_DETAIL);
 
       return response.sendStatus(201);
     } catch (err) {
@@ -68,10 +68,8 @@ export class UserController {
     }
   }
 
-  private login(response: Response, user: User): Response {
+  private login(response: Response, user: User): void {
     const sessionId = this.userService.instructToSerialize(user);
-    response = setSessionTokenCookie(response, user, sessionId);
-
-    return response;
+    setSessionTokenCookie(response, user, sessionId);
   }
 }

@@ -16,6 +16,9 @@ export const clientPath = {
   main: 'http://localhost:3000',
 };
 
+export const SESSION_TOKEN = 'SessionToken';
+export const GITHUB_USER_DETAIL = 'GithubUserDetail';
+
 export const ONE_DAY_MILLISECONDS = 24 * 3600 * 1000;
 export const ONE_HOUR__MILLISECONDS = 3600 * 1000;
 

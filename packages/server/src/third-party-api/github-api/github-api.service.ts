@@ -16,7 +16,7 @@ export class GithubApiService {
       })
       .toPromise();
 
-    const acessToken = this.parseJsonData(response.data);
+    const acessToken = this.parseAccessToken(response.data);
     return acessToken;
   }
 
@@ -32,7 +32,7 @@ export class GithubApiService {
     return new GithubUserDetail(userDetail);
   }
 
-  private parseJsonData(textData: string) {
+  private parseAccessToken(textData: string) {
     const dataList = textData.split('&');
     const parsedData = dataList.reduce<AccessToken>((result, pair: string) => {
       const [key, value] = pair.split('=');
