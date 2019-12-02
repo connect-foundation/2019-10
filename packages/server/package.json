@@ -36,7 +36,9 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
-    "typeorm": "^0.2.20"
+    "typeorm": "^0.2.20",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.3.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.0",
