@@ -20,7 +20,7 @@ export class User extends Base {
   @Column({
     name: 'description',
     type: 'varchar',
-    length: 3000,
+    length: 1500,
     nullable: false,
   })
   public description: string;
