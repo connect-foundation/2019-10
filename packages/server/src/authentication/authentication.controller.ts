@@ -49,7 +49,7 @@ export class AuthenticationController {
     response: Response,
     userDetail: GithubUserDetail,
   ) {
-    const githubUserJWT = this.authenticationService.makGithubUserJWT(
+    const githubUserJWT = this.authenticationService.makeGithubUserJWT(
       userDetail,
     );
 
