@@ -54,7 +54,7 @@ export class AuthenticationService {
     this.userRepository.save(userEntity);
   }
 
-  public makGithubUserJWT(githubUserDetail: GithubUserDetail): string {
+  public makeGithubUserJWT(githubUserDetail: GithubUserDetail): string {
     const githubAccessTokenJWT = jwt.sign(
       {
         avatar: githubUserDetail.avatar,
