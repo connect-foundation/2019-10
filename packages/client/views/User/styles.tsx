@@ -30,17 +30,16 @@ export const Title = styled.div`
 `;
 
 export const StyledTabs = styled(Tabs)`
-  margin-bottom: 3rem;
-  @media only screen and (min-width: ${BREAKPOINT}px) {
-    margin-bottom: 2rem;
-  }
+  margin-bottom: 2rem;
 `;
 
 export const ContainerGrid = styled(MaterialGrid)`
   && {
+    margin-bottom: 0.8rem;
     @media only screen and (min-width: ${BREAKPOINT}px) {
       width: calc(100% + 24px);
       margin: -12px;
+      margin-bottom: 1.2rem;
     }
   }
 
