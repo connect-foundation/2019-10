@@ -9,13 +9,14 @@ export const LEFT = 'left';
 export const TOP = 'top';
 export const PERSISTENT = 'persistent';
 
-export const routePath = {
+export const endpoint = {
   tags: '/tags',
   hotlist: '/',
   latest: '/latest',
   upload: '/videos/upload',
   search: '/search',
   login: '/auth/login',
+  users: '/users',
 };
 
 export const periods = {
@@ -50,7 +51,7 @@ export const fontWeight = {
   extraBold: 800,
 };
 
-export const maxLength = {
+export const signUpFormDataMaxLength = {
   username: 30,
   introduction: 1500,
 };

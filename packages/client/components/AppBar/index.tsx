@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-import { routePath } from '../../constants';
+import { endpoint } from '../../constants';
 import { LogoSVG, CloudSVG, SearchSVG, ProfileSVG } from '../../svgs';
 
 import * as S from './styles';
@@ -31,7 +31,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
         </S.Logo>
 
         <S.MobileButtons isSearchBarActive={isSearchBarActive}>
-          <Link href={routePath.upload}>
+          <Link href={endpoint.upload}>
             <a>
               <button>
                 <CloudSVG />
@@ -43,7 +43,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
             <SearchSVG width={24} height={24} />
           </button>
 
-          <Link href={routePath.login}>
+          <Link href={endpoint.login}>
             <a>
               <button>
                 <ProfileSVG />
@@ -55,7 +55,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
         <SearchBar deactivate={handleSearchBar} isActive={isSearchBarActive} />
 
         <S.DesktopButtons>
-          <Link href={routePath.upload}>
+          <Link href={endpoint.upload}>
             <a>
               <button className="primary">
                 <CloudSVG />
@@ -64,7 +64,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
             </a>
           </Link>
 
-          <Link href={routePath.login}>
+          <Link href={endpoint.login}>
             <a>
               <button>
                 <ProfileSVG />

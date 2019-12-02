@@ -2,10 +2,10 @@ import { Controller, Body, Get, Post, Query, UsePipes } from '@nestjs/common';
 import { VideoService } from './video.service';
 
 import { GetVideosPipe } from '../common/pipes/get-videos.pipe';
-import { UploadedVideoTableService } from 'src/uploaded-video/uploaded-video-table.service';
-import { UploadedVideoInfo } from 'src/uploaded-video/dto/uploaded-video-info.dto';
-
+import { UploadedVideoTableService } from 'src/uploaded-video-table/uploaded-video-table.service';
+import { UploadedVideoInfoDto } from 'src/video/dto/uploaded-video-info.dto';
 import { VideosQueryDto, VideoResponseDto } from './dto';
+import { UploadedVideoInfo } from 'src/uploaded-video-table/model/uploaded-video-info';
 
 @Controller('videos')
 export class VideoController {
@@ -15,10 +15,10 @@ export class VideoController {
   ) {}
 
   @Post('upload')
-  public saveVideoInfo(@Body() uploadedVideoInfo: UploadedVideoInfo) {
+  public saveVideoInfo(@Body() uploadedVideoInfoDto: UploadedVideoInfoDto) {
     return this.uploadedVideoTableService.insert(
-      uploadedVideoInfo.id,
-      uploadedVideoInfo,
+      uploadedVideoInfoDto.id,
+      new UploadedVideoInfo(uploadedVideoInfoDto),
     );
   }
 
