@@ -12,7 +12,6 @@ import {
 } from '@nestjs/common';
 import { VideoService } from './video.service';
 
-import { GetVideosPipe } from '../common/pipes/get-videos.pipe';
 import { UploadedVideoTableService } from '../uploaded-video/uploaded-video-table.service';
 import { UploadedVideoInfo } from '../uploaded-video/dto/uploaded-video-info.dto';
 
@@ -31,6 +30,7 @@ import { RepliesParamPipe } from './pipe/replies-param-pipe';
 import { RepliesParamDto } from './dto/replies-param.dto';
 import { RepliesQueryPipe } from './pipe/replies-query-pipe';
 import { RepliesQueryDto } from './dto/replies-query.dto';
+import { VideosQueryPipe } from './pipe/videos-query-pipe';
 
 @Controller('videos')
 export class VideoController {
@@ -49,9 +49,8 @@ export class VideoController {
   }
 
   @Get('/')
-  @UsePipes(GetVideosPipe)
   public async getVideos(
-    @Query() videosQueryDto: VideosQueryDto,
+    @Query(null, new VideosQueryPipe()) videosQueryDto: VideosQueryDto,
   ): Promise<VideosResponseDto> {
     const [videos, count] = await this.videoService.findVideos(videosQueryDto);
 
