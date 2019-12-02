@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 
-import { routePath } from '../../constants';
+import { endpoint } from '../../constants';
 import { ArrowBackSVG, SearchSVG } from '../../svgs';
 
 import * as S from './styles';
@@ -19,7 +19,7 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
   const sendQuery = e => {
     if (e.key === 'Enter') {
       router.push({
-        pathname: routePath.search,
+        pathname: endpoint.search,
         query: { query: e.target.value },
       });
     }

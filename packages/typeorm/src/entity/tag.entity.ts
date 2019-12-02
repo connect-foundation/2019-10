@@ -11,6 +11,7 @@ export class Tag extends Base {
     name: 'name',
     type: 'varchar',
     length: 45,
+    unique: true,
   })
   public name: string;
 
