@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import MaterialGrid from '@material-ui/core/Grid';
 
 import { BREAKPOINT } from '../../constants';
-import Filters from '../../components/Filters';
+import Tabs from '../../components/Tabs';
 
 export const Container = styled.div`
   position: relative;
@@ -29,7 +29,7 @@ export const Title = styled.div`
   }
 `;
 
-export const StyledFilters = styled(Filters)`
+export const StyledTabs = styled(Tabs)`
   margin-bottom: 3rem;
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin-bottom: 2rem;

@@ -26,7 +26,7 @@ export const periods = {
   all: 'all',
 };
 
-export const hotlistFilters = [
+export const periodOptions = [
   {
     label: '일주일',
     value: periods.week,
@@ -42,6 +42,17 @@ export const hotlistFilters = [
   {
     label: '전체',
     value: periods.all,
+  },
+];
+
+export const sortOptions = [
+  {
+    label: '인기 순',
+    value: 'popular',
+  },
+  {
+    label: '최신 순',
+    value: 'latest',
   },
 ];
 

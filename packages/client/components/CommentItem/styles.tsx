@@ -1,36 +1,61 @@
 import styled from 'styled-components';
+import MaterialCircularProgress from '@material-ui/core/CircularProgress';
+
 import { BREAKPOINT, fontWeight } from '../../constants';
+import { ArrowDropDownSVG, SubdirectoryArrowRightSVG } from '../../svgs';
+import CommentForm from '../CommentForm';
 
 export const CommentItem = styled.div`
   margin-bottom: ${props => (props.reply ? '3rem' : '4rem')};
+  display: flex;
+  align-items: flex-start;
+
+  ${props =>
+    props.reply &&
+    `
+  &&:last-child {
+    margin-bottom: 0;
+  }
+  `}
+
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
-    margin-bottom: ${props => (props.reply ? '3rem' : '5rem')};
+    margin-bottom: ${props => (props.reply ? '4rem' : '5rem')};
   }
+`;
+
+export const Avatar = styled.div`
+  img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100%;
+    vertical-align: middle;
+    margin-right: 1.3rem;
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: ${props => (props.reply ? '3rem' : '3.6rem')};
+      height: ${props => (props.reply ? '3rem' : '3.6rem')};
+    }
+  }
+`;
+
+export const Content = styled.div`
+  width: 100%;
 `;
 
 export const User = styled.div`
   margin-bottom: 1rem;
 
-  img {
-    width: ${props => (props.reply ? '3rem' : '4rem')};
-    height: ${props => (props.reply ? '3rem' : '4rem')};
-    border-radius: 100%;
-    vertical-align: middle;
-    margin-right: 1.3rem;
-  }
-
   span {
     color: white;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: ${fontWeight.bold};
     vertical-align: middle;
   }
 
   span.dates-ago {
     font-size: 1.4rem;
-    color: white;
-    opacity: 0.5;
+    color: rgba(255, 255, 255, 0.6);
     font-weight: ${fontWeight.regular};
     margin-left: 1rem;
   }
@@ -48,6 +73,7 @@ export const Actions = styled.div`
   align-items: center;
 
   button {
+    cursor: pointer;
     user-select: none;
     background-color: unset;
     border: unset;
@@ -55,26 +81,24 @@ export const Actions = styled.div`
     margin: 0;
     font-size: 1.5rem;
     font-weight: ${fontWeight.bold};
-    color: white;
-    opacity: 0.5;
+    color: rgba(255, 255, 255, 0.6);
 
     svg {
       width: 2rem;
       height: 2rem;
       vertical-align: middle;
       path:nth-child(2) {
-        opacity: 0.5;
+        opacity: 0.6;
         fill: white;
       }
     }
 
     span.likes {
-      vertical-align: middle;
-
-      margin-left: 0.3rem;
+      margin-left: 0.5rem;
     }
 
     span {
+      vertical-align: middle;
     }
   }
 
@@ -82,15 +106,20 @@ export const Actions = styled.div`
     user-select: none;
     color: white;
     opacity: 0.5;
-    padding: 0 0.3rem;
+    padding: 0 0.5rem;
     vertical-align: middle;
   }
 `;
 
-export const ShowRepliesButton = styled.div`
-  margin-top: 1rem;
+export const StyledCommentForm = styled(CommentForm)`
+  margin-bottom: 0rem;
+  padding-top: 3rem;
+`;
 
+export const MoreRepliesButton = styled.div`
+  margin-top: 2rem;
   button {
+    cursor: pointer;
     background: none;
     border: 0;
     padding: 0;
@@ -99,10 +128,6 @@ export const ShowRepliesButton = styled.div`
     svg {
       vertical-align: middle;
       margin-right: 0.5rem;
-      path:first-child {
-        fill: white;
-        opacity: 0.8;
-      }
     }
 
     span {
@@ -110,12 +135,62 @@ export const ShowRepliesButton = styled.div`
       font-size: 1.5rem;
       font-weight: ${fontWeight.bold};
       color: white;
-      opacity: 0.8;
+      opacity: 1;
     }
+  }
+`;
+
+export const LoadMoreRepliesButton = styled.div`
+  margin-top: -2rem;
+  button {
+    cursor: pointer;
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+
+    svg {
+      vertical-align: middle;
+      margin-right: 0.5rem;
+    }
+
+    span {
+      vertical-align: middle;
+      font-size: 1.5rem;
+      font-weight: ${fontWeight.bold};
+      color: white;
+      opacity: 1;
+    }
+  }
+`;
+
+export const StyledArrowDropDownSVG = styled(ArrowDropDownSVG)`
+  path:first-child {
+    fill: white;
+  }
+`;
+
+export const StyledSubdirectoryArrowRightSVG = styled(
+  SubdirectoryArrowRightSVG,
+)`
+  width: 2rem;
+  height: 2rem;
+  path:last-child {
+    fill: white;
   }
 `;
 
 export const Replies = styled.div`
   padding-top: 3rem;
-  padding-left: 5rem;
+`;
+
+export const Loader = styled.div`
+  display: flex;
+  justify-content: flex-start;
+
+  > div {
+    width: 3rem !important;
+    height: 3rem !important;
+    color: rgba(255, 255, 255, 0.1);
+  }
 `;

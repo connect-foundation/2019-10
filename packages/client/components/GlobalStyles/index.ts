@@ -20,6 +20,10 @@ const GlobalStyles = createGlobalStyle`
   #__next {
     height: 100%;
   }
+
+  .MuiSkeleton-root {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+  }
 `;
 
 export default GlobalStyles;

@@ -4,7 +4,7 @@ import MaterialGrid from '@material-ui/core/Grid';
 
 import { BREAKPOINT } from '../../constants';
 
-import Filters from '../../components/Filters';
+import Tabs from '../../components/Tabs';
 
 /* window 의 넓이에 따라 변화하는 spacing을 정의해주기 위해 사용됨 */
 export const ContainerGrid = styled(MaterialGrid)`
@@ -30,7 +30,7 @@ export const Container = styled.div`
   }
 `;
 
-export const StyledFilters = styled(Filters)`
+export const StyledTabs = styled(Tabs)`
   margin-bottom: 2rem;
 `;
 

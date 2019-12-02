@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 
-import { hotlistFilters } from '../../constants';
+import { periodOptions } from '../../constants';
 
 import * as S from './styles';
 
@@ -13,15 +13,13 @@ import CircularProgress from '../../components/CircularProgress';
 import { useHotlistVideos } from './hooks';
 
 const Hotlist: React.FunctionComponent = () => {
-  const [activeFilterValue, setActiveFilterValue] = useState(
-    hotlistFilters[0].value,
-  );
+  const [activePeriod, setActivePeriod] = useState(periodOptions[0].value);
   const [page, setPage] = useState(1);
 
-  const { videos, hasMore } = useHotlistVideos(page, activeFilterValue);
+  const { videos, hasMore } = useHotlistVideos(page, activePeriod);
 
   const handleFilterClick = value => {
-    setActiveFilterValue(value);
+    setActivePeriod(value);
     setPage(1);
   };
 
@@ -37,9 +35,9 @@ const Hotlist: React.FunctionComponent = () => {
           <span>핫 리스트</span>
         </S.Title>
 
-        <S.StyledFilters
-          filters={hotlistFilters}
-          activeValue={activeFilterValue}
+        <S.StyledTabs
+          items={periodOptions}
+          activeValue={activePeriod}
           onClick={handleFilterClick}
         />
 
