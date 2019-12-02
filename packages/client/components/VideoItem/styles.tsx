@@ -118,6 +118,39 @@ export const Thumbnail = styled.div`
   }
 `;
 
+export const ThumbnailSkeleton = styled.div`
+  > div {
+    padding-top: 56.25%;
+    overflow: hidden;
+
+    ${props => {
+      if (props.mobileType === 'vertical') {
+        return `
+        margin-left: -2rem;
+        width: calc(100% + 4.8rem);
+      `;
+      } else {
+        return ``;
+      }
+    }}
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      ${props => {
+        if (props.desktopType === 'vertical') {
+          return `
+          margin-left: 0;
+          width: 100%;
+        `;
+        } else {
+          return `
+          width: 24.6rem;
+        `;
+        }
+      }}
+    }
+  }
+`;
+
 export const Details = styled.div`
   ${props => {
     if (props.mobileType === 'vertical') {
@@ -131,6 +164,7 @@ export const Details = styled.div`
       `;
     } else {
       return `
+        width: 100%;
         flex: 1;
         margin-left: 0.8rem;
       `;
@@ -141,6 +175,9 @@ export const Details = styled.div`
     ${props => {
       if (props.desktopType === 'vertical') {
         return `
+          display: flex;
+          align-items: flex-start;
+          margin-left: 0;
         `;
       } else {
         return `
@@ -159,6 +196,15 @@ export const Avatar = styled.div`
     width: 4rem;
     height: 4rem;
     border-radius: 100%;
+  }
+`;
+
+export const AvatarSkeleton = styled.div`
+  margin-right: 1rem;
+
+  > div {
+    width: 4rem;
+    height: 4rem;
   }
 `;
 
@@ -184,13 +230,42 @@ export const Title = styled.div`
   -webkit-box-orient: vertical;
 `;
 
+export const TitleSkeleton = styled.div`
+  > div {
+    width: 100%;
+    height: 2.25rem;
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: 70%;
+    }
+  }
+`;
+
 export const Username = styled.div`
   font-size: 1.4rem;
   display: inline-block;
 `;
 
+export const UsernameSkeleton = styled.div`
+  > div {
+    width: 50%;
+    height: 2.1rem;
+  }
+`;
+
 export const Additionals = styled.div`
   span {
     font-size: 1.2rem;
+  }
+`;
+
+export const AdditionalsSkeleton = styled.div`
+  > div {
+    width: 50%;
+    height: 1.8rem;
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: 30%;
+    }
   }
 `;
