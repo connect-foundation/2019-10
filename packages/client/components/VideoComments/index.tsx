@@ -40,7 +40,7 @@ const VideoComments = () => {
 
   return (
     <S.VideoComments>
-      <S.Title>{hasData && count !== 0 ? `${count}개의 댓글` : '댓글'}</S.Title>
+      <S.Title>{count === 0 ? '댓글' : `${count}개의 댓글`}</S.Title>
       <S.StyledTabs items={sortOptions} activeValue={sort} onClick={onSort} />
       <CommentForm
         value={value}
