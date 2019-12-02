@@ -10,23 +10,25 @@ import {
   UnprocessableEntityException,
   Res,
   Query,
+  NotFoundException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import { setSessionTokenCookie, deleteCookie } from 'libs/cookie-setter';
-import { IdParserPipe } from 'common/pipes/id-parser/id-parser.pipe';
-import { errName, errCode } from 'common/errors';
 import { endpoint, GITHUB_USER_DETAIL } from 'common/constants';
-
 import { UserService } from 'user/user.service';
-import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
-import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
-
-import { User } from '../../../typeorm/src/entity/user.entity';
 import { UserListQueryPipe } from 'user/pipe/user-list-query-pipe';
 import { UserListQueryDto } from 'user/dto/user-list-query.dto';
 import { UserListResponseDto } from 'user/dto/user-list-response.dto';
+import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
+import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
+import { deleteCookie, setSessionTokenCookie } from 'libs/cookie-setter';
+import { errName, errCode } from 'common/errors';
+import { UserParamPipe } from 'user/pipe/user-param.pipe';
+import { UserResponseDto } from 'user/dto/user-response.dto';
+import { VideosResponseDto } from 'user/dto/videos-response.dto';
+import { VideoResponseDto } from 'user/dto/video-response.dto';
+import { User } from '../../../typeorm/src/entity/user.entity';
 
 @Controller(endpoint.users)
 export class UserController {
@@ -39,11 +41,6 @@ export class UserController {
     const [users, count] = await this.userService.findUsers(userListqueryDto);
 
     return new UserListResponseDto(users, count);
-  }
-
-  @Get('/:id')
-  public getUserDetail(@Param(IdParserPipe) userId: number) {
-    // console.log(userId);
   }
 
   @Post()
@@ -86,5 +83,38 @@ export class UserController {
   private login(response: Response, user: User): void {
     const sessionId = this.userService.instructToSerialize(user);
     setSessionTokenCookie(response, user, sessionId);
+  }
+
+  @Get('/:id')
+  public async getUser(
+    @Param(null, new UserParamPipe()) userParamDto,
+  ): Promise<UserResponseDto> {
+    const { id } = userParamDto;
+    const user = await this.userService.findUser(id);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    return new UserResponseDto(user);
+  }
+
+  @Get('/:id/videos')
+  public async getVideos(
+    @Param() videosParamDto,
+    @Query() videosQueryDto,
+  ): Promise<VideosResponseDto> {
+    const { id } = videosParamDto;
+    const { page, sort } = videosQueryDto;
+    const [videos, count] = await this.userService.findVideosByUser({
+      id,
+      page,
+      sort,
+    });
+
+    return {
+      count,
+      data: videos.map(video => new VideoResponseDto(video)),
+    };
   }
 }

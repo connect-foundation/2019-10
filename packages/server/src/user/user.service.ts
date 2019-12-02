@@ -1,28 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
 import { UserSerializerService } from 'serializer/user-serializer.service';
-
-import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
-import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
-import { SignUpUserData } from 'user/model/sign-up-form-data';
-
 import { User } from '../../../typeorm/src/entity/user.entity';
+import { Video } from '../../../typeorm/src/entity/video.entity';
 import { UserListQueryDto } from 'user/dto/user-list-query.dto';
 import { getOffset } from 'libs/get-offset';
 import {
   USER_ITEMS_PER_PAGE,
   USER_QUERY_SELECT_COLUMNS,
-  SEARCHED_ITEM_NUMBER,
   USER_SEARCH_QUERY,
+  SEARCHED_ITEM_NUMBER,
+  VIDEO_ITEMS_PER_PAGE,
+  VIDEO_QUERY_SELECT_COLUMNS,
 } from 'common/constants';
+import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
+import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
+import { SignUpUserData } from 'user/model/sign-up-form-data';
 
 @Injectable()
 export class UserService {
   public constructor(
     private readonly userSerializerService: UserSerializerService,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Video)
+    private readonly videoRepository: Repository<Video>,
   ) {}
 
   private async uploadVideoCountQuery(qb): Promise<[User[], number]> {
@@ -77,4 +79,63 @@ export class UserService {
 
     return tokenId;
   }
+
+  public async findUser(id): Promise<User> {
+    return this.userRepository
+      .createQueryBuilder()
+      .where({
+        id,
+      })
+      .getOne();
+  }
+
+  public async findVideosByUser({
+    id,
+    page,
+    sort,
+  }): Promise<[Video[], number]> {
+    const offset = getOffset(page, VIDEO_ITEMS_PER_PAGE);
+
+    const qb = this.videoRepository
+      .createQueryBuilder()
+      .where({
+        user: {
+          id,
+        },
+      })
+      .select(VIDEO_QUERY_SELECT_COLUMNS)
+      .limit(VIDEO_ITEMS_PER_PAGE)
+      .offset(offset);
+
+    if (sort === 'latest') {
+      return qb.orderBy('Video_createdAt', 'DESC').getManyAndCount();
+    }
+
+    if (sort === 'popular') {
+      return qb.orderBy('Video_popularity', 'DESC').getManyAndCount();
+    }
+  }
+
+  // public constructor(
+  //   @InjectRepository(User)
+  //   private readonly userRepository: Repository<User>,
+  //   @InjectRepository(Video)
+  //   private readonly videoRepository: Repository<Video>,
+  // ) {}
+  // public async findUser(id: number): Promise<User> {
+  //   return await this.userRepository.findOne({
+  //     where: {
+  //       id,
+  //     },
+  //   });
+  // }
+  // public async findVideos(userId: number): Promise<Video[]> {
+  //   return await this.videoRepository.find({
+  //     where: {
+  //       user: {
+  //         id: userId,
+  //       },
+  //     },
+  //   });
+  // }
 }
