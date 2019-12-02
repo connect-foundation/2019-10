@@ -1,28 +1,48 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useMutation } from 'react-fetching-library';
+
 import * as S from './styles';
-import { maxLength } from '../../constants';
+import { signUpFormDataMaxLength, endpoint } from '../../constants';
+import { responseStatus } from '../../response';
+import { FormData } from './model/form-data';
+import { makeSignUpAction } from './action/sign-up-action';
 
 const SignUp: React.FunctionComponent = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    description: '',
-    isAgreed: false,
-  });
-
+  const [formData, setFormData] = useState(new FormData('', '', false));
   const [isFetching, setIsFetching] = useState(false);
 
-  const handleChange = e => {
-    const value =
-      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    const name = e.target.name;
+  const { mutate } = useMutation(makeSignUpAction);
+
+  const router = useRouter();
+
+  const handleFormChange = e => {
+    const { checked, name, value, type } = e.target;
+    const valueToUpdate = type === 'checkbox' ? checked : value;
+
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: valueToUpdate,
     });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     setIsFetching(true);
+
+    const response = await mutate(formData);
+
+    if (response.status === responseStatus.unprocessableEntity) {
+      setIsFetching(false);
+      window.alert('이미 가입된 유저입니다.');
+    }
+
+    if (response.status === responseStatus.unauthorized) {
+      router.push(endpoint.login);
+    }
+
+    if (!response.error) {
+      router.push(endpoint.hotlist);
+    }
   };
 
   const checkFormVerified = () => {
@@ -49,9 +69,10 @@ const SignUp: React.FunctionComponent = () => {
             <input
               id="username"
               name="username"
-              maxLength={maxLength.username}
-              onChange={handleChange}
+              maxLength={signUpFormDataMaxLength.username}
+              onChange={handleFormChange}
               type="text"
+              autoComplete="off"
             />
           </S.Item>
           <S.Item>
@@ -62,13 +83,17 @@ const SignUp: React.FunctionComponent = () => {
             <textarea
               id="description"
               name="description"
-              maxLength={maxLength.introduction}
-              onChange={handleChange}
+              maxLength={signUpFormDataMaxLength.introduction}
+              onChange={handleFormChange}
             />
           </S.Item>
           <S.Item>
             <S.Label>
-              <input type="checkbox" name="isAgreed" onChange={handleChange} />
+              <input
+                type="checkbox"
+                name="isAgreed"
+                onChange={handleFormChange}
+              />
               <div className={'agreement'}>
                 <u>서비스 약관</u>에 동의합니다.
               </div>

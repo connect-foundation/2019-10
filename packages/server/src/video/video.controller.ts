@@ -12,9 +12,9 @@ import {
 } from '@nestjs/common';
 import { VideoService } from './video.service';
 
-import { UploadedVideoTableService } from '../uploaded-video/uploaded-video-table.service';
-import { UploadedVideoInfo } from '../uploaded-video/dto/uploaded-video-info.dto';
-
+import { UploadedVideoTableService } from 'src/uploaded-video-table/uploaded-video-table.service';
+import { UploadedVideoInfoDto } from 'src/video/dto/uploaded-video-info.dto';
+import { UploadedVideoInfo } from 'src/uploaded-video-table/model/uploaded-video-info';
 import { VideoResponseDto } from './dto/video-response.dto';
 import { VideosQueryDto } from './dto/videos-query.dto';
 import { CommentService } from '../comment/comment.service';
@@ -42,10 +42,10 @@ export class VideoController {
   ) {}
 
   @Post('upload')
-  public saveVideoInfo(@Body() uploadedVideoInfo: UploadedVideoInfo) {
+  public saveVideoInfo(@Body() uploadedVideoInfoDto: UploadedVideoInfoDto) {
     return this.uploadedVideoTableService.insert(
-      uploadedVideoInfo.id,
-      uploadedVideoInfo,
+      uploadedVideoInfoDto.id,
+      new UploadedVideoInfo(uploadedVideoInfoDto),
     );
   }
 
