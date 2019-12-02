@@ -27,19 +27,19 @@ export class videos1573489863767 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'like',
+            name: 'likedUsersCount',
             type: 'int',
             isNullable: false,
             default: 0,
           },
           {
-            name: 'hit',
+            name: 'views',
             type: 'int',
             isNullable: false,
             default: 0,
           },
           {
-            name: 'sourceUrl',
+            name: 'source',
             type: 'varchar',
             length: '2083',
             isNullable: false,
@@ -52,7 +52,7 @@ export class videos1573489863767 implements MigrationInterface {
           },
           {
             name: 'playtime',
-            type: 'time',
+            type: 'int',
             isNullable: false,
           },
           {
@@ -61,7 +61,7 @@ export class videos1573489863767 implements MigrationInterface {
             default: 'CURRENT_TIMESTAMP',
           },
           {
-            name: 'updateAt',
+            name: 'updatedAt',
             type: 'datetime',
             default: 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
           },

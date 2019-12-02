@@ -70,6 +70,10 @@ export class Comment extends Base {
       nullable: false,
     },
   )
+  @JoinColumn({
+    name: 'userId',
+    referencedColumnName: 'id',
+  })
   public user: User;
 
   @ManyToOne(
@@ -79,6 +83,10 @@ export class Comment extends Base {
       nullable: false,
     },
   )
+  @JoinColumn({
+    name: 'videoId',
+    referencedColumnName: 'id',
+  })
   public video: Video;
 
   @ManyToMany(

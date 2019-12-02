@@ -20,7 +20,7 @@ export class User extends Base {
   @Column({
     name: 'description',
     type: 'varchar',
-    length: 3000,
+    length: 1500,
     nullable: false,
   })
   public description: string;
@@ -44,12 +44,11 @@ export class User extends Base {
 
   @Column({
     name: 'githubId',
-    type: 'varchar',
-    length: 40,
+    type: 'int',
     nullable: false,
     unique: true,
   })
-  public githubId: string;
+  public githubId: number;
 
   @Column({
     name: 'videosCount',
