@@ -16,7 +16,8 @@ import { GetVideosPipe } from '../common/pipes/get-videos.pipe';
 import { UploadedVideoTableService } from '../uploaded-video/uploaded-video-table.service';
 import { UploadedVideoInfo } from '../uploaded-video/dto/uploaded-video-info.dto';
 
-import { VideosQueryDto, VideoResponseDto } from './dto';
+import { VideoResponseDto } from './dto/video-response.dto';
+import { VideosQueryDto } from './dto/videos-query.dto';
 import { CommentService } from '../comment/comment.service';
 import { CommentResponseDto } from './dto/comment-response.dto';
 import { VideosResponseDto } from './dto/videos-response.dto';

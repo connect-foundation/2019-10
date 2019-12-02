@@ -13,7 +13,7 @@ import {
   MOMENT_DATETIME_FORMAT,
   VIDEO_QUERY_SELECT_COLUMNS,
 } from './constants';
-import { VideosQueryDto } from './dto';
+import { VideosQueryDto } from './dto/videos-query.dto';
 import { getOffset } from '../common/utils/get-offset';
 
 @Injectable()
