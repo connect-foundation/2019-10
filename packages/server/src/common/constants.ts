@@ -94,3 +94,5 @@ export const COMMENT_QUERY_SELECT_COLUMNS = [
   'Comment.createdAt',
   'Comment.updatedAt',
 ];
+
+export const USER_VIDEO_ITEMS_PER_PAGE = 12;

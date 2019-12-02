@@ -4,8 +4,6 @@ import * as moment from 'moment';
 import { Repository } from 'typeorm';
 
 import {
-  LATEST,
-  POPULAR,
   VIDEO_ITEMS_PER_PAGE,
   PERIODS,
   MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS,
@@ -14,6 +12,8 @@ import {
   USER_QUERY_SELECT_COLUMNS,
   SEARCHED_ITEM_NUMBER,
   VIDEO_SEARCH_QUERY,
+  LATEST,
+  POPULAR,
 } from 'common/constants';
 
 import { getOffset } from 'libs/get-offset';

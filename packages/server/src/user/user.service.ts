@@ -11,8 +11,10 @@ import {
   USER_QUERY_SELECT_COLUMNS,
   USER_SEARCH_QUERY,
   SEARCHED_ITEM_NUMBER,
-  VIDEO_ITEMS_PER_PAGE,
+  USER_VIDEO_ITEMS_PER_PAGE,
   VIDEO_QUERY_SELECT_COLUMNS,
+  LATEST,
+  POPULAR,
 } from 'common/constants';
 import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
 import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
@@ -94,7 +96,7 @@ export class UserService {
     page,
     sort,
   }): Promise<[Video[], number]> {
-    const offset = getOffset(page, VIDEO_ITEMS_PER_PAGE);
+    const offset = getOffset(page, USER_VIDEO_ITEMS_PER_PAGE);
 
     const qb = this.videoRepository
       .createQueryBuilder()
@@ -104,38 +106,15 @@ export class UserService {
         },
       })
       .select(VIDEO_QUERY_SELECT_COLUMNS)
-      .limit(VIDEO_ITEMS_PER_PAGE)
+      .limit(USER_VIDEO_ITEMS_PER_PAGE)
       .offset(offset);
 
-    if (sort === 'latest') {
+    if (sort === LATEST) {
       return qb.orderBy('Video_createdAt', 'DESC').getManyAndCount();
     }
 
-    if (sort === 'popular') {
+    if (sort === POPULAR) {
       return qb.orderBy('Video_popularity', 'DESC').getManyAndCount();
     }
   }
-
-  // public constructor(
-  //   @InjectRepository(User)
-  //   private readonly userRepository: Repository<User>,
-  //   @InjectRepository(Video)
-  //   private readonly videoRepository: Repository<Video>,
-  // ) {}
-  // public async findUser(id: number): Promise<User> {
-  //   return await this.userRepository.findOne({
-  //     where: {
-  //       id,
-  //     },
-  //   });
-  // }
-  // public async findVideos(userId: number): Promise<Video[]> {
-  //   return await this.videoRepository.find({
-  //     where: {
-  //       user: {
-  //         id: userId,
-  //       },
-  //     },
-  //   });
-  // }
 }

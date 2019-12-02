@@ -1,6 +1,7 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 import { VideosRequestQueryDto } from '../dto/videos-request-query.dto';
 import { VideosQueryDto } from '../dto/videos-query.dto';
+import { POPULAR, LATEST } from '../../constants';
 
 @Injectable()
 export class VideosQueryPipe implements PipeTransform {
@@ -29,6 +30,6 @@ export class VideosQueryPipe implements PipeTransform {
   }
 
   private validateSort(sort: string) {
-    return sort && (sort === 'popular' || sort === 'latest');
+    return sort && (sort === POPULAR || sort === LATEST);
   }
 }
