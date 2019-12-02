@@ -15,8 +15,6 @@ import {
   MOMENT_DATETIME_FORMAT,
 } from '../constants';
 
-import { QueryStringDto } from '../common/pipes/query-string.pipe/requestDto';
-
 @Injectable()
 export class VideoService {
   public constructor(
@@ -24,9 +22,13 @@ export class VideoService {
     private readonly videoRepository: Repository<Video>,
   ) {}
 
-  public async findVideos(queryStringDto: QueryStringDto): Promise<Video[]> {
-    const { page, sort, period, keyword, limit } = queryStringDto;
-
+  public async findVideos({
+    page,
+    sort,
+    period,
+    keyword,
+    limit,
+  }): Promise<Video[]> {
     const qb = this.videoRepository
       .createQueryBuilder()
       .leftJoin('Video.user', 'User')
@@ -49,37 +51,21 @@ export class VideoService {
     const offset = (page - 1) * ITEMS_PER_PAGE;
 
     if (keyword) {
+      const search = await qb.where(
+        '(Video.title like :titleKeyword) or (Video.description like :descriptionKeyword)',
+        {
+          titleKeyword: '%' + keyword + '%',
+          descriptionKeyword: '%' + keyword + '%',
+        },
+      );
+
       if (limit) {
-        return await qb
-          .where(
-            '(Video.title like :titleKeyword) or (Video.description like :descriptionKeyword)',
-            {
-              titleKeyword: '%' + keyword + '%',
-              descriptionKeyword: '%' + keyword + '%',
-            },
-          )
-          .limit(SEARCHED_ITEM_NUMBER)
-          .orderBy('Video_popularity', 'DESC')
-          .addOrderBy('Video_createdAt', 'DESC')
-          .addOrderBy('Video_id', 'DESC')
-          .getMany();
+        return await this.popularityQuery(search.limit(SEARCHED_ITEM_NUMBER));
       }
 
-      return await qb
-        .where(
-          // tslint:disable-next-line:max-line-length
-          '(Video.title like :titleKeyword) or (Video.description like :descriptionKeyword)',
-          {
-            titleKeyword: '%' + keyword + '%',
-            descriptionKeyword: '%' + keyword + '%',
-          },
-        )
-        .limit(ITEMS_PER_PAGE)
-        .offset(offset)
-        .orderBy('Video_popularity', 'DESC')
-        .addOrderBy('Video_createdAt', 'DESC')
-        .addOrderBy('Video_id', 'DESC')
-        .getMany();
+      return await this.popularityQuery(
+        search.limit(ITEMS_PER_PAGE).offset(offset),
+      );
     }
 
     if (sort === LATEST) {
@@ -100,13 +86,17 @@ export class VideoService {
 
         qb.where('Video.createdAt > :startDatetime', { startDatetime });
       }
-      return await qb
-        .limit(ITEMS_PER_PAGE)
-        .offset(offset)
-        .orderBy('Video_popularity', 'DESC')
-        .addOrderBy('Video_createdAt', 'DESC')
-        .addOrderBy('Video_id', 'DESC')
-        .getMany();
+      return await this.popularityQuery(
+        qb.limit(ITEMS_PER_PAGE).offset(offset),
+      );
     }
+  }
+
+  private async popularityQuery(qb): Promise<Video[]> {
+    return await qb
+      .orderBy('Video_popularity', 'DESC')
+      .addOrderBy('Video_createdAt', 'DESC')
+      .addOrderBy('Video_id', 'DESC')
+      .getMany();
   }
 }

@@ -1,41 +1,57 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { GetQueryStringPipeDto } from './getDto';
-import { QueryStringDto } from './requestDto';
-import { LATEST, POPULAR, PERIODS } from '../../../constants';
+import { VideoRequestQueryStringPipeDto } from './request-query-dto';
+import { VideoQueryStringDto } from './query-dto';
+import { LATEST, POPULAR, PERIODS } from '../../constants';
 
-const defaultValue: QueryStringDto = {
-  page: 1,
-  sort: POPULAR,
-  limit: 5,
-};
+const defaultValue = new VideoQueryStringDto();
+page: 1,
+  sort; : POPULAR,
+  limit; : 5,  ;
+}
 
 @Injectable()
-export class GetQueryStringPipe implements PipeTransform {
-  public async transform(getQueryStringPipeDto: GetQueryStringPipeDto) {
-    const { page, sort, period, keyword, limit } = getQueryStringPipeDto;
+export class VideoQueryStringPipe implements PipeTransform {
+  public async transform(
+    value: VideoRequestQueryStringPipeDto,
+  ) {
+    const {
+      page,
+      sort,
+      period,
+      keyword,
+      limit,
+    } = value;
 
-    const value = defaultValue;
-
-    if (!this.validateGetQueryStringPipeDto(getQueryStringPipeDto)) {
+    if (
+      !this.validateVideoRequestQueryStringPipeDto(
+        {
+          page,
+          sort,
+          period,
+          keyword,
+          limit,
+        },
+      )
+    ) {
       throw new BadRequestException();
     }
 
-    value.page = parseInt(page, 10);
-    value.sort = sort;
-    value.period = period;
-    value.keyword = keyword;
-    value.limit = parseInt(limit, 10);
-
-    return value;
+    return {
+      page = parseInt(page, 10),
+      sort = sort,
+      period = period,
+      keyword = keyword,
+      limit = parseInt(limit, 10),
+    };
   }
 
-  private validateGetQueryStringPipeDto({
+  private validateVideoRequestQueryStringPipeDto({
     page,
     sort,
     period,
     keyword,
     limit,
-  }: GetQueryStringPipeDto): boolean {
+  }: VideoRequestQueryStringPipeDto): boolean {
     if (keyword) {
       if (limit) {
         return this.validateLimit(limit);
@@ -50,6 +66,11 @@ export class GetQueryStringPipe implements PipeTransform {
   }
 
   private validatePage(page: string): boolean {
+    const regx = /^[0-9]+$/;
+    if (!regx.test(page)) {
+      return false;
+    }
+
     const parsedPage = parseInt(page, 10);
     return page && !isNaN(parsedPage) && parsedPage > 0;
   }

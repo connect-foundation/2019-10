@@ -3,8 +3,8 @@ import { User } from '../../../typeorm/src/entity/user.entity';
 import { UserService } from './user.service';
 import { Video } from '../../../typeorm/src/entity/video.entity';
 
-import { GetQueryStringPipe } from '../common/pipes/query-string.pipe';
-import { QueryStringDto } from '../common/pipes/query-string.pipe/requestDto';
+import { UserQueryStringPipe } from './pipe/user-query.pipe';
+import { UserQueryStringDto } from './pipe/query-dto';
 import { UserResponseDto } from './dto';
 
 @Controller('users')
@@ -21,11 +21,11 @@ export class UserController {
   }
 
   @Get('/')
-  @UsePipes(GetQueryStringPipe)
+  @UsePipes(UserQueryStringPipe)
   public async getUsers(
-    @Query() usersQueryDto: QueryStringDto,
+    @Query() userQueryStringDto: UserQueryStringDto,
   ): Promise<UserResponseDto[]> {
-    const { page, keyword, limit } = usersQueryDto;
+    const { page, keyword, limit } = userQueryStringDto;
 
     const users = await this.userService.findUsers({
       page,

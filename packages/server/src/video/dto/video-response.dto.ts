@@ -14,7 +14,7 @@ export class VideoResponseDto {
     this.views = video.views;
     this.popularity = video.popularity;
     this.createdAt = video.getCreatedAt();
-    this.createdAt = video.getUpdatedAt();
+    this.updatedAt = video.getUpdatedAt();
     this.user = video.user;
   }
 
