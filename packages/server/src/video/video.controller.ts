@@ -21,16 +21,17 @@ import { CommentService } from '../comment/comment.service';
 import { CommentResponseDto } from './dto/comment-response.dto';
 import { VideosResponseDto } from './dto/videos-response.dto';
 import { CommentsResponseDto } from './dto/comments-response.dto';
-
-import { CommentsParamPipe } from './pipe/comments-param-pipe';
-import { CommentsQueryPipe } from './pipe/comments-query-pipe';
 import { CommentsQueryDto } from './dto/comments-query.dto';
 import { CommentsParamDto } from './dto/comments-param.dto';
-import { RepliesParamPipe } from './pipe/replies-param-pipe';
 import { RepliesParamDto } from './dto/replies-param.dto';
-import { RepliesQueryPipe } from './pipe/replies-query-pipe';
 import { RepliesQueryDto } from './dto/replies-query.dto';
+import { CommentsParamPipe } from './pipe/comments-param-pipe';
+import { CommentsQueryPipe } from './pipe/comments-query-pipe';
+import { RepliesParamPipe } from './pipe/replies-param-pipe';
+import { RepliesQueryPipe } from './pipe/replies-query-pipe';
 import { VideosQueryPipe } from './pipe/videos-query-pipe';
+import { VideoParamPipe } from './pipe/video-param-pipe';
+import { VideoParamDto } from './dto/video-param.dto';
 
 @Controller('videos')
 export class VideoController {
@@ -61,8 +62,11 @@ export class VideoController {
   }
 
   @Get('/:id')
-  public async getVideo(@Param('id') id: string): Promise<VideoResponseDto> {
-    const video = await this.videoService.findVideo(parseInt(id, 10));
+  public async getVideo(
+    @Param(null, new VideoParamPipe()) videoParamDto: VideoParamDto,
+  ): Promise<VideoResponseDto> {
+    const { id } = videoParamDto;
+    const video = await this.videoService.findVideo(id);
 
     if (!video) {
       throw new NotFoundException();
