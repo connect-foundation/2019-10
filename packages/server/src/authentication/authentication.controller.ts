@@ -1,20 +1,20 @@
 import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
+import {
+  setTokenOnResponseCookie,
+  setSessionTokenCookie,
+} from 'libs/cookie-setter';
+import { GithubOauthCodeDto } from 'third-party-api/github-api/dto/github-oauth-code.dto';
+import { GithubUserDetail } from 'third-party-api/model/github-user-detail';
+import { AuthenticationService } from 'authentication/authentication.service';
 
+import { OnlyGuestGuard } from 'common/guards/only-guest.guard';
 import {
   endpoint,
   clientPath,
   ONE_DAY_MILLISECONDS,
   GITHUB_USER_DETAIL,
-} from 'src/constants';
-import { GithubOauthCodeDto } from '../third-party-api/github-api/dto/github-oauth-code.dto';
-import { AuthenticationService } from './authentication.service';
-import { GithubUserDetail } from 'src/third-party-api/model/github-user-detail';
-import { OnlyGuestGuard } from 'src/common/guards/only-guest.guard';
-import {
-  setTokenOnResponseCookie,
-  setSessionTokenCookie,
-} from 'src/libs/cookie-setter';
+} from 'common/constants';
 
 @Controller(endpoint.auth)
 export class AuthenticationController {

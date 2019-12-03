@@ -1,8 +1,8 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PipeTransform } from '@nestjs/common/interfaces';
 
-import { VideoRequestParamDto } from '../dto/video-request-param.dto';
-import { VideoParamDto } from '../dto/video-param.dto';
+import { VideoRequestParamDto } from 'video/dto/video-request-param.dto';
+import { VideoParamDto } from 'video/dto/video-param.dto';
 
 @Injectable()
 export class VideoParamPipe implements PipeTransform {

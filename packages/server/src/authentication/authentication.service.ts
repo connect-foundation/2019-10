@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as jwt from 'jsonwebtoken';
 
-import { GithubApiService } from 'src/third-party-api/github-api/github-api.service';
+import { GithubApiService } from 'third-party-api/github-api/github-api.service';
+import { GithubOauthCodeDto } from 'third-party-api/github-api/dto/github-oauth-code.dto';
+import { GithubUserDetail } from 'third-party-api/model/github-user-detail';
+import { UserSerializerService } from 'serializer/user-serializer.service';
+
+import { ONE_HOUR_SECONDS } from 'common/constants';
+
 import { User } from '../../../typeorm/src/entity/user.entity';
-import { GithubOauthCodeDto } from 'src/third-party-api/github-api/dto/github-oauth-code.dto';
-import { GithubUserDetail } from 'src/third-party-api/model/github-user-detail';
-import { ONE_HOUR_SECONDS } from 'src/constants';
-import { UserSerializerService } from 'src/serializer/user-serializer.service';
 
 @Injectable()
 export class AuthenticationService {

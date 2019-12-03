@@ -1,11 +1,13 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { TranscoderNotificationDto } from './dto/elastic-transcoder/transcoder-notification.dto';
-import { TranscoderNotificationState } from 'src/constants';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
+import { TranscoderNotificationState } from 'common/constants';
+import { UploadedVideoTableService } from 'uploaded-video-table/uploaded-video-table.service';
+import { TranscoderNotificationDto } from 'webhook/transcoder/dto/elastic-transcoder/transcoder-notification.dto';
+
 import { Video } from '../../../../typeorm/src/entity/video.entity';
 import { Tag } from '../../../../typeorm/src/entity/tag.entity';
-import { UploadedVideoTableService } from 'src/uploaded-video-table/uploaded-video-table.service';
-import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../../../typeorm/src/entity/user.entity';
 
 @Controller('webhook/transcoder')

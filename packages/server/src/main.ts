@@ -3,7 +3,7 @@ import * as helmet from 'helmet';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 
-import { AppModule } from './app.module';
+import { AppModule } from 'app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

@@ -1,7 +1,7 @@
 import { Injectable, HttpService } from '@nestjs/common';
-import { AccessToken } from 'src/third-party-api/github-api/dto/github-oauth-access-token.dto';
-import { GithubUserDetailDto } from './dto/github-user-detail-dto';
-import { GithubUserDetail } from '../model/github-user-detail';
+import { AccessToken } from 'third-party-api/github-api/dto/github-oauth-access-token.dto';
+import { GithubUserDetailDto } from 'third-party-api/github-api/dto/github-user-detail-dto';
+import { GithubUserDetail } from 'third-party-api/model/github-user-detail';
 
 @Injectable()
 export class GithubApiService {

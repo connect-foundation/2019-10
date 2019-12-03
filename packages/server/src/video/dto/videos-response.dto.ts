@@ -1,4 +1,4 @@
-import { VideoResponseDto } from './video-response.dto';
+import { VideoResponseDto } from 'video/dto/video-response.dto';
 
 export class VideosResponseDto {
   public constructor(

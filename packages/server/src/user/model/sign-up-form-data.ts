@@ -1,5 +1,5 @@
-import { SignUpFormDataDto } from '../dto/sign-up-user-form.dto';
-import { ParsedGithubUserDetail } from './parsed-github-user-detail';
+import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
+import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
 
 export class SignUpUserData {
   public constructor(

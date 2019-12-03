@@ -1,7 +1,7 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 
-import { RepliesRequestQueryDto } from '../dto/replies-request-query.dto';
-import { RepliesQueryDto } from '../dto/replies-query.dto';
+import { RepliesRequestQueryDto } from 'video/dto/replies-request-query.dto';
+import { RepliesQueryDto } from 'video/dto/replies-query.dto';
 
 @Injectable()
 export class RepliesQueryPipe implements PipeTransform {

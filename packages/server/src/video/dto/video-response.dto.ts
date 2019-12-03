@@ -1,4 +1,4 @@
-import { VideoUserDto } from './video-user.dto';
+import { VideoUserDto } from 'video/dto/video-user.dto';
 import { Video } from '../../../../typeorm/src/entity/video.entity';
 
 export class VideoResponseDto {

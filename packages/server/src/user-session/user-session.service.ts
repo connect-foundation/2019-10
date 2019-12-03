@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { UserToken } from './model/user-session-token';
-import { CustomMap } from 'src/libs/custom-map/custom-map';
+import { CustomMap } from 'libs/custom-map';
+import { UserToken } from 'user-session/model/user-session-token';
 
 @Injectable()
 export class UserSessionService extends CustomMap<UserToken> {

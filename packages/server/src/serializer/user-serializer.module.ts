@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { UserSerializerService } from './user-serializer.service';
-import { UserSessionModule } from 'src/user-session/user-session.module';
+import { UserSessionModule } from 'user-session/user-session.module';
+import { UserSerializerService } from 'serializer/user-serializer.service';
 
 @Module({
   imports: [UserSessionModule],

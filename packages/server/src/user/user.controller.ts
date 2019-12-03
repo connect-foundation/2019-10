@@ -13,13 +13,15 @@ import {
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import { UserService } from './user.service';
-import { IdParserPipe } from 'src/common/pipes/id-parser/id-parser.pipe';
-import { SignUpFormDataDto } from './dto/sign-up-user-form.dto';
-import { ParsedGithubUserDetail } from './model/parsed-github-user-detail';
-import { errName, errCode } from 'src/error';
-import { endpoint, GITHUB_USER_DETAIL } from 'src/constants';
-import { setSessionTokenCookie, deleteCookie } from 'src/libs/cookie-setter';
+import { setSessionTokenCookie, deleteCookie } from 'libs/cookie-setter';
+import { IdParserPipe } from 'common/pipes/id-parser/id-parser.pipe';
+import { errName, errCode } from 'common/errors';
+import { endpoint, GITHUB_USER_DETAIL } from 'common/constants';
+
+import { UserService } from 'user/user.service';
+import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
+import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
+
 import { User } from '../../../typeorm/src/entity/user.entity';
 
 @Controller(endpoint.users)
