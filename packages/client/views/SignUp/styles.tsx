@@ -24,11 +24,12 @@ export const HeadMessage = styled.div`
   width: 100%;
   text-align: center;
   color: white;
-  font-size: 3.2rem;
+  font-size: 2.8rem;
   font-weight: bold;
   margin-bottom: 5.5rem;
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin-bottom: 6rem;
+    font-size: 3.2rem;
   }
 `;
 
