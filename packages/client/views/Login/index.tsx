@@ -19,7 +19,12 @@ const Login: React.FunctionComponent = () => {
             커뮤니티에 가입하고, 여러분의 소중한 개발 경험을 공유해 주세요!
           </S.Message>
           <S.Link>
-            <S.AuthenticateLink href="#">
+            <S.AuthenticateLink
+              href={
+                process.env.GITHUB_REQUEST_USER_IDENTITY_URL +
+                `?client_id=${process.env.GITHUB_CLIENT_ID}`
+              }
+            >
               <GitHubSVG />
               <span>GitHub 계정으로 로그인/회원가입</span>
             </S.AuthenticateLink>

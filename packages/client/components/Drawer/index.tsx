@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import * as S from './styles';
-import { TOP, PERSISTENT, routePath } from '../../constants';
+import { TOP, PERSISTENT, endpoint } from '../../constants';
 import { HotlistSVG, LatestSVG, TagsSVG } from '../../svgs';
 import { useRouter } from 'next/router';
 
@@ -13,12 +13,10 @@ const Drawer: React.FunctionComponent = () => {
     <S.Drawer anchor={TOP} variant={PERSISTENT} open={true}>
       <S.Container>
         <S.MobileTabs>
-          <Link href={routePath.hotlist}>
+          <Link href={endpoint.hotlist}>
             <a>
               <button
-                className={
-                  router.pathname === routePath.hotlist ? 'active' : ''
-                }
+                className={router.pathname === endpoint.hotlist ? 'active' : ''}
               >
                 <HotlistSVG />
                 <span>핫 리스트</span>
@@ -26,10 +24,10 @@ const Drawer: React.FunctionComponent = () => {
             </a>
           </Link>
 
-          <Link href={routePath.latest}>
+          <Link href={endpoint.latest}>
             <a>
               <button
-                className={router.pathname === routePath.latest ? 'active' : ''}
+                className={router.pathname === endpoint.latest ? 'active' : ''}
               >
                 <LatestSVG />
                 <span>최신 영상</span>
@@ -37,10 +35,10 @@ const Drawer: React.FunctionComponent = () => {
             </a>
           </Link>
 
-          <Link href={routePath.tags}>
+          <Link href={endpoint.tags}>
             <a>
               <button
-                className={router.pathname === routePath.tags ? 'active' : ''}
+                className={router.pathname === endpoint.tags ? 'active' : ''}
               >
                 <TagsSVG />
                 <span>인기 태그</span>
@@ -50,12 +48,10 @@ const Drawer: React.FunctionComponent = () => {
         </S.MobileTabs>
 
         <S.DesktopTabs>
-          <Link href={routePath.hotlist}>
+          <Link href={endpoint.hotlist}>
             <a>
               <button
-                className={
-                  router.pathname === routePath.hotlist ? 'active' : ''
-                }
+                className={router.pathname === endpoint.hotlist ? 'active' : ''}
               >
                 <HotlistSVG />
                 <span>핫 리스트</span>
@@ -63,10 +59,10 @@ const Drawer: React.FunctionComponent = () => {
             </a>
           </Link>
 
-          <Link href={routePath.latest}>
+          <Link href={endpoint.latest}>
             <a>
               <button
-                className={router.pathname === routePath.latest ? 'active' : ''}
+                className={router.pathname === endpoint.latest ? 'active' : ''}
               >
                 <LatestSVG />
                 <span>최신 영상</span>
@@ -74,10 +70,10 @@ const Drawer: React.FunctionComponent = () => {
             </a>
           </Link>
 
-          <Link href={routePath.tags}>
+          <Link href={endpoint.tags}>
             <a>
               <button
-                className={router.pathname === routePath.tags ? 'active' : ''}
+                className={router.pathname === endpoint.tags ? 'active' : ''}
               >
                 <TagsSVG />
                 <span>인기 태그</span>

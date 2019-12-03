@@ -6,8 +6,8 @@ import * as S from './styles';
 import Layout from '../../components/Layout';
 import UserProfile from '../../components/UserProfile';
 import VideoItem from '../../components/VideoItem';
-import Filters from '../../components/Filters';
 import { chunkVideoList } from '../../libs/videoList';
+import { sortOptions } from '../../constants';
 
 const videos = [
   {
@@ -213,10 +213,10 @@ const User = () => {
                 <Grid item xs={12} md={12}>
                   <S.Title>6개의 영상</S.Title>
 
-                  <S.StyledFilters
-                    filters={['인기 순', '최신 순']}
-                    activeFilter="인기 순"
-                    onClick={filter => null}
+                  <S.StyledTabs
+                    items={sortOptions}
+                    activeValue={sortOptions[0].value}
+                    onClick={value => null}
                   />
                 </Grid>
               </S.ContainerGrid>

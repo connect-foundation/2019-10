@@ -6,6 +6,7 @@ import {
   JoinColumn,
   ManyToMany,
   BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
 
 import { Base } from './base.entity';
@@ -69,6 +70,10 @@ export class Comment extends Base {
       nullable: false,
     },
   )
+  @JoinColumn({
+    name: 'userId',
+    referencedColumnName: 'id',
+  })
   public user: User;
 
   @ManyToOne(
@@ -78,6 +83,10 @@ export class Comment extends Base {
       nullable: false,
     },
   )
+  @JoinColumn({
+    name: 'videoId',
+    referencedColumnName: 'id',
+  })
   public video: Video;
 
   @ManyToMany(
@@ -93,6 +102,7 @@ export class Comment extends Base {
   public children: Comment[];
 
   @BeforeInsert()
+  @BeforeUpdate()
   public updatePopularity() {
     this.popularity =
       this.childrenCount * popularityWeight.childrenCount +

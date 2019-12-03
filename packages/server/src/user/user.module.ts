@@ -1,11 +1,15 @@
-import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
-import { User } from '../../../typeorm/src/entity/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Video } from '../../../typeorm/src/entity/video.entity';
+import { Module } from '@nestjs/common';
+
+import { UserService } from 'user/user.service';
+import { UserController } from 'user/user.controller';
+
+import { UserSerializerModule } from 'serializer/user-serializer.module';
+
+import { User } from '../../../typeorm/src/entity/user.entity';
+
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Video])],
+  imports: [TypeOrmModule.forFeature([User]), UserSerializerModule],
   providers: [UserService],
   controllers: [UserController],
 })

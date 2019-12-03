@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-import { routePath } from '../../constants';
+import { endpoint } from '../../constants';
 import { LogoSVG, CloudSVG, SearchSVG, ProfileSVG } from '../../svgs';
 
 import * as S from './styles';
@@ -12,7 +12,7 @@ interface AppBarProps {
   maxWidth?: number;
 }
 
-export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
+export const AppBar: React.FunctionComponent<AppBarProps> = () => {
   const [isSearchBarActive, setSearchBarActive] = useState(false);
 
   const handleSearchBar = () => {
@@ -21,7 +21,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
 
   return (
     <S.AppBar>
-      <S.Container maxWidth={maxWidth}>
+      <S.Container>
         <S.Logo isSearchBarActive={isSearchBarActive}>
           <Link href="/">
             <a>
@@ -31,7 +31,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
         </S.Logo>
 
         <S.MobileButtons isSearchBarActive={isSearchBarActive}>
-          <Link href={routePath.upload}>
+          <Link href={endpoint.upload}>
             <a>
               <button>
                 <CloudSVG />
@@ -40,10 +40,10 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
           </Link>
 
           <button onClick={handleSearchBar}>
-            <SearchSVG width={23} height={24} />
+            <SearchSVG width={24} height={24} />
           </button>
 
-          <Link href={routePath.login}>
+          <Link href={endpoint.login}>
             <a>
               <button>
                 <ProfileSVG />
@@ -55,7 +55,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
         <SearchBar deactivate={handleSearchBar} isActive={isSearchBarActive} />
 
         <S.DesktopButtons>
-          <Link href={routePath.upload}>
+          <Link href={endpoint.upload}>
             <a>
               <button className="primary">
                 <CloudSVG />
@@ -64,7 +64,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({ maxWidth }) => {
             </a>
           </Link>
 
-          <Link href={routePath.login}>
+          <Link href={endpoint.login}>
             <a>
               <button>
                 <ProfileSVG />

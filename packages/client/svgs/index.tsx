@@ -1,4 +1,4 @@
-import ArrowDropDown from './ArrowDropDown';
+import ArrowDropDownSVG from './ArrowDropDownSVG';
 import CloudSVG from './CloudSVG';
 import FavoriteSVG from './FavoriteSVG';
 import GitHubSVG from './GitHubSVG';
@@ -9,9 +9,10 @@ import ProfileSVG from './ProfileSVG';
 import SearchSVG from './SearchSVG';
 import ArrowBackSVG from './ArrowBackSVG';
 import TagsSVG from './TagsSVG';
+import SubdirectoryArrowRightSVG from './SubdirectoryArrowRightSVG';
 
 export {
-  ArrowDropDown,
+  ArrowDropDownSVG,
   CloudSVG,
   FavoriteSVG,
   GitHubSVG,
@@ -22,4 +23,5 @@ export {
   SearchSVG,
   ArrowBackSVG,
   TagsSVG,
+  SubdirectoryArrowRightSVG,
 };

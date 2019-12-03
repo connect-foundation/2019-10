@@ -24,7 +24,7 @@ export class users1573489846558 implements MigrationInterface {
           {
             name: 'description',
             type: 'varchar',
-            length: '3000',
+            length: '1500',
             isNullable: false,
           },
           {
@@ -42,8 +42,7 @@ export class users1573489846558 implements MigrationInterface {
           },
           {
             name: 'githubId',
-            type: 'varchar',
-            length: '40',
+            type: 'int',
             isNullable: false,
             isUnique: true,
           },

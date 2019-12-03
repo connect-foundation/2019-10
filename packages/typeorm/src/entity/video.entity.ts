@@ -6,7 +6,9 @@ import {
   OneToMany,
   ManyToOne,
   JoinTable,
+  JoinColumn,
   BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
 
 import { Base } from './base.entity';
@@ -57,7 +59,7 @@ export class Video extends Base {
   public views: number;
 
   @Column({
-    name: 'sourceUrl',
+    name: 'source',
     type: 'varchar',
     length: 2083,
     nullable: false,
@@ -74,7 +76,7 @@ export class Video extends Base {
 
   @Column({
     name: 'playtime',
-    type: 'time',
+    type: 'int',
     nullable: false,
   })
   public playtime: Timestamp;
@@ -102,6 +104,10 @@ export class Video extends Base {
       nullable: false,
     },
   )
+  @JoinColumn({
+    name: 'userId',
+    referencedColumnName: 'id',
+  })
   public user: User;
 
   @ManyToMany(
@@ -134,7 +140,12 @@ export class Video extends Base {
   public comments: Comment;
 
   @BeforeInsert()
+  @BeforeUpdate()
   public updatePopularity() {
+    if (!this.popularity) {
+      return;
+    }
+
     this.popularity =
       this.likedUsersCount * popularityWeight.likedUsersCount +
       this.views * popularityWeight.views +

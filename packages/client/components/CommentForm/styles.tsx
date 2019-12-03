@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import { BREAKPOINT, fontWeight } from '../../constants';
+import { TextareaAutosize } from '@material-ui/core';
 
 export const CommentForm = styled.div`
   margin-bottom: 4rem;
+  display: flex;
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin-bottom: 5rem;
@@ -13,34 +15,21 @@ export const User = styled.div`
   margin-bottom: 1rem;
 
   img {
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 100%;
     vertical-align: middle;
-    margin-right: 1.6rem;
-  }
+    margin-right: 1.3rem;
 
-  span {
-    color: white;
-    font-size: 1.6rem;
-    font-weight: ${fontWeight.bold};
-    vertical-align: middle;
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: 3.6rem;
+      height: 3.6rem;
+    }
   }
 `;
 
 export const Form = styled.form`
-  textarea {
-    width: 100%;
-    height: 5rem;
-    resize: unset;
-    font-size: 1.6rem;
-    line-height: 2.4rem;
-    color: white;
-    padding: 1.3rem 1.6rem;
-    border: 0;
-    border-radius: 0.5rem;
-    background-color: #484c50;
-  }
+  width: 100%;
 
   div {
     margin-top: 1rem;
@@ -48,6 +37,7 @@ export const Form = styled.form`
     justify-content: flex-end;
 
     button {
+      cursor: pointer;
       background: unset;
       height: 3.2rem;
       line-height: 3.4rem;
@@ -66,5 +56,21 @@ export const Form = styled.form`
     button[type='submit'] {
       background-color: #02cf5d;
     }
+  }
+`;
+
+export const StyledTextarea = styled(TextareaAutosize)`
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  background-color: #484c50;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: white;
+  resize: unset;
+  padding: 1.3rem 1.6rem;
+  border-radius: 0.5rem;
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
   }
 `;
