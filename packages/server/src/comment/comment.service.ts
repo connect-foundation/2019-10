@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { POPULAR } from 'common/constants';
 import {
+  POPULAR,
   COMMENT_ITEMS_PER_PAGE,
   COMMENT_QUERY_SELECT_COLUMNS,
   USER_QUERY_SELECT_COLUMNS,
