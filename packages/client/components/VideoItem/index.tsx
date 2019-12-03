@@ -35,7 +35,7 @@ const VideoItem = ({
         <a onClick={e => e.stopPropagation()}>
           <S.Thumbnail mobileType={mobileType} desktopType={desktopType}>
             <img src={thumbnail} />
-            <div>{parsePlaytime(playtime)}</div>
+            <div>{playtime}</div>
           </S.Thumbnail>
         </a>
       </Link>
