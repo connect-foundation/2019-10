@@ -10,6 +10,7 @@ import {
 import Cookies from 'universal-cookie';
 
 import { client } from '../libs/fetching';
+import { UserProvider } from '../components/UserProvider';
 
 const theme = {};
 
@@ -65,13 +66,16 @@ class MyApp extends App<AppProps> {
   }
 
   public render() {
-    const { Component, pageProps, cacheItems } = this.props;
+    const { Component, pageProps, cacheItems, user } = this.props;
+
     client.cache.setItems(cacheItems);
 
     return (
       <FetchingProvider client={client}>
         <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
+          <UserProvider user={user}>
+            <Component {...pageProps} />
+          </UserProvider>
         </ThemeProvider>
       </FetchingProvider>
     );
