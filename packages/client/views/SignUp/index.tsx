@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import Grid from '@material-ui/core/Grid';
+
 import * as S from './styles';
 import { maxLength } from '../../constants';
-import Grid from '@material-ui/core/Grid';
 
 const SignUp: React.FunctionComponent = () => {
   const [formData, setFormData] = useState({

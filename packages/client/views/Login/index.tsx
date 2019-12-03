@@ -1,7 +1,8 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
+
 import * as S from './styles';
 import { LogoSVG, GitHubSVG } from '../../svgs';
-import Grid from '@material-ui/core/Grid';
 
 const Login: React.FunctionComponent = () => {
   return (

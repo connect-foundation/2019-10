@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { BREAKPOINT } from '../../constants';
 import MaterialGrid from '@material-ui/core/Grid';
+
+import { BREAKPOINT } from '../../constants';
 
 export const SignUp = styled.div`
   height: 100%;
