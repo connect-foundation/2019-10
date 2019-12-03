@@ -6,20 +6,24 @@ export const SignUp = styled.div`
   height: 100%;
   user-select: none;
 `;
-export const ContainerGrid = styled(MaterialGrid)`
-  background-color: #303537;
+
+export const Container = styled.div`
+  margin: 0 auto;
   padding: 8rem 2rem 0 2rem;
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     padding: 12rem 0 0 0;
+    max-width: 120rem;
   }
 `;
+
+export const ContainerGrid = styled(MaterialGrid)``;
 
 export const HeadMessage = styled.div`
   width: 100%;
   text-align: center;
   color: white;
-  font-size: 2.8rem;
+  font-size: 3.2rem;
   font-weight: bold;
   margin-bottom: 5.5rem;
   @media only screen and (min-width: ${BREAKPOINT}px) {
@@ -50,7 +54,6 @@ export const Item = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  max-width: 58.8rem;
 
   input[type='text'] {
     display: block;
@@ -62,10 +65,6 @@ export const Item = styled.div`
     margin-bottom: 3rem;
     color: white;
     padding: 1rem;
-
-    @media only screen and (min-width: ${BREAKPOINT}px) {
-      max-width: 58.8rem;
-    }
   }
 
   input[type='checkbox'] {
@@ -76,6 +75,7 @@ export const Item = styled.div`
     margin: 0;
     margin-right: 1rem;
     vertical-align: middle;
+    cursor: pointer;
   }
 
   textarea {
@@ -89,10 +89,6 @@ export const Item = styled.div`
     margin-bottom: 3rem;
     color: white;
     padding: 1rem;
-
-    @media only screen and (min-width: ${BREAKPOINT}px) {
-      max-width: 58.8rem;
-    }
   }
 `;
 
@@ -119,6 +115,10 @@ export const Label = styled.div`
     font-weight: bold;
     font-weight: normal;
     vertical-align: middle;
+
+    u {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -137,12 +137,14 @@ export const SubmitButton = styled.div`
     font-weight: bold;
     color: white;
     background-color: #02cf5d;
+    cursor: pointer;
   }
 
   button:disabled {
     /* 추후 디자인 추가되면 색상 변경해야함 */
     color: white;
     background-color: gray /*#02cf5d*/;
+    cursor: default;
   }
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
