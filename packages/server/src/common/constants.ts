@@ -9,6 +9,8 @@ export const endpoint = {
   auth: 'auth',
   githubLogin: '/github/login',
   users: 'users',
+  tags: 'tags',
+  videos: 'videos',
 };
 
 export const clientPath = {
