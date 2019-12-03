@@ -9,7 +9,7 @@ import {
   TAG_ITEMS_PER_PAGE,
   TAG_QUERY_SELECT_COLUMNS,
   SEARCHED_ITEM_NUMBER,
-} from './constants';
+} from 'common/constants';
 
 @Injectable()
 export class TagService {

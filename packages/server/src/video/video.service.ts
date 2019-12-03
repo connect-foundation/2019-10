@@ -11,8 +11,11 @@ import {
   MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS,
   MOMENT_DATETIME_FORMAT,
   VIDEO_QUERY_SELECT_COLUMNS,
+  USER_QUERY_SELECT_COLUMNS,
   SEARCHED_ITEM_NUMBER,
-} from './constants';
+  VIDEO_SEARCH_QUERY,
+} from 'common/constants';
+
 import { getOffset } from 'libs/get-offset';
 
 import { VideoListQueryDto } from 'video/dto/video-list-query.dto';
@@ -45,7 +48,7 @@ export class VideoService {
       .createQueryBuilder()
       .leftJoin('Video.user', 'User')
       .select(VIDEO_QUERY_SELECT_COLUMNS)
-      .addSelect(['User.id', 'User.username', 'User.avatar']);
+      .addSelect(USER_QUERY_SELECT_COLUMNS);
 
     if (!keyword) {
       if (sort === LATEST) {
@@ -72,13 +75,10 @@ export class VideoService {
       }
     }
 
-    const search = await qb.where(
-      '(Video.title like :titleKeyword) or (Video.description like :descriptionKeyword)',
-      {
-        titleKeyword: '%' + keyword + '%',
-        descriptionKeyword: '%' + keyword + '%',
-      },
-    );
+    const search = await qb.where(VIDEO_SEARCH_QUERY, {
+      titleKeyword: '%' + keyword + '%',
+      descriptionKeyword: '%' + keyword + '%',
+    });
 
     if (page) {
       return await this.popularityQuery(
@@ -94,7 +94,7 @@ export class VideoService {
       .createQueryBuilder()
       .leftJoin('Video.user', 'User')
       .select(VIDEO_QUERY_SELECT_COLUMNS)
-      .addSelect(['User.id', 'User.username', 'User.avatar'])
+      .addSelect(USER_QUERY_SELECT_COLUMNS)
       .where({
         id,
       })

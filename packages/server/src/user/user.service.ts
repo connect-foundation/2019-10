@@ -15,7 +15,8 @@ import {
   USER_ITEMS_PER_PAGE,
   USER_QUERY_SELECT_COLUMNS,
   SEARCHED_ITEM_NUMBER,
-} from './constants';
+  USER_SEARCH_QUERY,
+} from 'common/constants';
 
 @Injectable()
 export class UserService {
@@ -42,13 +43,10 @@ export class UserService {
     const qb = this.userRepository
       .createQueryBuilder()
       .select(USER_QUERY_SELECT_COLUMNS)
-      .where(
-        '(User.username like :usernameKeyword) or (User.description like :descriptionKeyword)',
-        {
-          usernameKeyword: '%' + keyword + '%',
-          descriptionKeyword: '%' + keyword + '%',
-        },
-      );
+      .where(USER_SEARCH_QUERY, {
+        usernameKeyword: '%' + keyword + '%',
+        descriptionKeyword: '%' + keyword + '%',
+      });
 
     if (page) {
       return await this.uploadVideoCountQuery(

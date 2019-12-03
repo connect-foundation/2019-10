@@ -1,5 +1,6 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
+import { NATURAL_NUMBER } from 'common/regexes';
 
 @Injectable()
 export class TagListQueryPipe implements PipeTransform {
@@ -25,7 +26,6 @@ export class TagListQueryPipe implements PipeTransform {
   }
 
   private validatePage(page: string): boolean {
-    const onlyNaturalNumberRegex = /^[1-9]\d*$/;
-    return onlyNaturalNumberRegex.test(page);
+    return NATURAL_NUMBER.test(page);
   }
 }

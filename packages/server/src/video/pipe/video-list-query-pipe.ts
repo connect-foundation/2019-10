@@ -1,6 +1,7 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 import { VideoListQueryDto } from 'video/dto/video-list-query.dto';
-import { LATEST, POPULAR, PERIODS } from 'video/constants';
+import { LATEST, POPULAR, PERIODS } from 'common/constants';
+import { NATURAL_NUMBER } from 'common/regexes';
 
 @Injectable()
 export class VideoListQueryPipe implements PipeTransform {
@@ -35,8 +36,7 @@ export class VideoListQueryPipe implements PipeTransform {
   }
 
   private validatePage(page: string): boolean {
-    const onlyNaturalNumberRegex = /^[1-9]\d*$/;
-    return onlyNaturalNumberRegex.test(page);
+    return NATURAL_NUMBER.test(page);
   }
 
   private validateSort(sort: string): boolean {

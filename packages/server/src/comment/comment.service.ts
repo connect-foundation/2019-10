@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { POPULAR } from 'video/constants';
+import { POPULAR } from 'common/constants';
 import {
   COMMENT_ITEMS_PER_PAGE,
   COMMENT_QUERY_SELECT_COLUMNS,
-} from 'comment/constants';
+  USER_QUERY_SELECT_COLUMNS,
+} from 'common/constants';
 import { getOffset } from 'libs/get-offset';
 
 import { Comment } from '../../../typeorm/src/entity/comment.entity';
@@ -37,7 +38,7 @@ export class CommentService {
       .createQueryBuilder()
       .leftJoin('Comment.user', 'User')
       .select(COMMENT_QUERY_SELECT_COLUMNS)
-      .addSelect(['User.id', 'User.username', 'User.avatar'])
+      .addSelect(USER_QUERY_SELECT_COLUMNS)
       .limit(COMMENT_ITEMS_PER_PAGE)
       .offset(offset)
       .where({
@@ -75,7 +76,7 @@ export class CommentService {
       .createQueryBuilder()
       .leftJoin('Comment.user', 'User')
       .select(COMMENT_QUERY_SELECT_COLUMNS)
-      .addSelect(['User.id', 'User.username', 'User.avatar'])
+      .addSelect(USER_QUERY_SELECT_COLUMNS)
       .limit(COMMENT_ITEMS_PER_PAGE)
       .offset(offset)
       .where({
