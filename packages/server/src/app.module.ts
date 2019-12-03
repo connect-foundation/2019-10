@@ -1,7 +1,7 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { TagModule } from './tag/tag.module';
+import { TagModule } from 'tag/tag.module';
 import { UserModule } from 'user/user.module';
 import { VideoModule } from 'video/video.module';
 import { CommentModule } from 'comment/comment.module';
