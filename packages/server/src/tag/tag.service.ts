@@ -17,7 +17,7 @@ export class TagService {
   ) {}
 
   public async findTags({ page, keyword }): Promise<[Tag[], number]> {
-    const offset = (page - 1) * ITEMS_PER_PAGE;
+    const offset = (page - 1) * TAGS_PER_PAGE;
 
     if (!keyword) {
       return await this.tagRepository.findAndCount({
@@ -39,7 +39,7 @@ export class TagService {
 
     if (page) {
       return await this.uploadVideoCountQuery(
-        qb.limit(ITEMS_PER_PAGE).offset(offset),
+        qb.limit(TAGS_PER_PAGE).offset(offset),
       );
     }
 
