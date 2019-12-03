@@ -23,6 +23,10 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    padding: 0 3rem 0 2rem;
+  }
 `;
 
 export const Content = styled.div``;
@@ -57,6 +61,12 @@ export const MobileButtons = styled.div`
     background: none;
     border: none;
     margin-left: 1.5rem;
+
+    img {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 100%;
+    }
   }
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
@@ -101,6 +111,14 @@ export const DesktopButtons = styled.div`
 
     button.primary {
       background-color: #02cf5d;
+    }
+
+    img {
+      display: block;
+      width: 3.2rem;
+      height: 3.2rem;
+      border-radius: 100%;
+      margin-left: 2rem;
     }
   }
 `;
