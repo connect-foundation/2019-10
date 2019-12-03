@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { format } from '../../libs/timeago';
 
 import * as S from './styles';
-import { parsePlaytime } from '../../libs/parsePlaytime';
 
 const VideoItem = ({
   id,
@@ -35,7 +34,7 @@ const VideoItem = ({
         <a onClick={e => e.stopPropagation()}>
           <S.Thumbnail mobileType={mobileType} desktopType={desktopType}>
             <img src={thumbnail} />
-            <div>{parsePlaytime(playtime)}</div>
+            <div>{playtime}</div>
           </S.Thumbnail>
         </a>
       </Link>
