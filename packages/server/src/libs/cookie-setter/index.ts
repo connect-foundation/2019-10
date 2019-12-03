@@ -6,8 +6,8 @@ import {
   ONE_DAY_MILLISECONDS,
   ONE_DAY_SECONDS,
   SESSION_TOKEN,
-} from 'src/constants';
-import { UserPublicInfo } from 'src/authentication/model/user-public-info';
+} from 'common/constants';
+import { UserPublicInfo } from 'authentication/model/user-public-info';
 
 export function deleteCookie(response: Response, name: string): void {
   setTokenOnResponseCookie(response, name, '', {

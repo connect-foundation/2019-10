@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../../../typeorm/src/entity/user.entity';
 import { Repository } from 'typeorm';
-import { SignUpFormDataDto } from './dto/sign-up-user-form.dto';
-import { SignUpUserData } from './model/sign-up-form-data';
-import { ParsedGithubUserDetail } from './model/parsed-github-user-detail';
-import { UserSerializerService } from 'src/serializer/user-serializer.service';
+
+import { UserSerializerService } from 'serializer/user-serializer.service';
+
+import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
+import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
+import { SignUpUserData } from 'user/model/sign-up-form-data';
+
+import { User } from '../../../typeorm/src/entity/user.entity';
 
 @Injectable()
 export class UserService {

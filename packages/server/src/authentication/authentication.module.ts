@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AuthenticationService } from './authentication.service';
-import { AuthenticationController } from './authentication.controller';
-import { GithubApiModule } from 'src/third-party-api/github-api/github-api.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { GithubApiModule } from 'third-party-api/github-api/github-api.module';
+import { UserModule } from 'user/user.module';
+import { UserSerializerModule } from 'serializer/user-serializer.module';
+
+import { AuthenticationService } from 'authentication/authentication.service';
+import { AuthenticationController } from 'authentication/authentication.controller';
+
 import { User } from '../../../typeorm/src/entity/user.entity';
-import { UserModule } from 'src/user/user.module';
-import { UserSerializerModule } from 'src/serializer/user-serializer.module';
 
 @Module({
   imports: [

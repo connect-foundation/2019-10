@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as moment from 'moment';
 import { Repository } from 'typeorm';
 
-import { Video } from '../../../typeorm/src/entity/video.entity';
 import {
   LATEST,
   POPULAR,
@@ -13,8 +12,11 @@ import {
   MOMENT_DATETIME_FORMAT,
   VIDEO_QUERY_SELECT_COLUMNS,
 } from './constants';
-import { VideosQueryDto } from './dto/videos-query.dto';
-import { getOffset } from '../common/utils/get-offset';
+import { getOffset } from 'libs/get-offset';
+
+import { VideosQueryDto } from 'video/dto/videos-query.dto';
+
+import { Video } from '../../../typeorm/src/entity/video.entity';
 
 @Injectable()
 export class VideoService {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { UploadedVideoInfo } from './model/uploaded-video-info';
-import { CustomMap } from 'src/libs/custom-map/custom-map';
+import { CustomMap } from 'libs/custom-map';
+import { UploadedVideoInfo } from 'uploaded-video-table/model/uploaded-video-info';
 
 @Injectable()
 export class UploadedVideoTableService extends CustomMap<UploadedVideoInfo> {

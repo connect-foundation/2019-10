@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UploadedVideoTableService } from './uploaded-video-table.service';
+import { UploadedVideoTableService } from 'uploaded-video-table/uploaded-video-table.service';
 
 @Module({
   providers: [UploadedVideoTableService],

@@ -2,8 +2,8 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import { UserSessionService } from 'src/user-session/user-session.service';
-import { SessionJWTData } from 'src/authentication/model/session-jwt-data';
+import { UserSessionService } from 'user-session/user-session.service';
+import { SessionJWTData } from 'authentication/model/session-jwt-data';
 
 declare global {
   namespace Express {

@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Comment } from '../../../typeorm/src/entity/comment.entity';
-
-import { POPULAR } from '../video/constants';
+import { POPULAR } from 'video/constants';
 import {
   COMMENT_ITEMS_PER_PAGE,
   COMMENT_QUERY_SELECT_COLUMNS,
-} from './constants';
-import { getOffset } from '../common/utils/get-offset';
+} from 'comment/constants';
+import { getOffset } from 'libs/get-offset';
+
+import { Comment } from '../../../typeorm/src/entity/comment.entity';
 
 @Injectable()
 export class CommentService {
