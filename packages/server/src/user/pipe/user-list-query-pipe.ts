@@ -1,15 +1,13 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { UserListRequestQueryDto } from 'user/dto/user-list-request-query.dto';
 import { UserListQueryDto } from 'user/dto/user-list-query.dto';
 
 @Injectable()
 export class UserListQueryPipe implements PipeTransform {
-  public async transform(
-    value: UserListRequestQueryDto,
-  ): Promise<UserListQueryDto> {
-    const { page, keyword } = value;
+  public async transform(value: UserListQueryDto): Promise<UserListQueryDto> {
+    const page = value.page as string;
+    const { keyword } = value;
 
-    if (!this.validateUserQueryPipeDto({ page, keyword })) {
+    if (!this.validateUserQueryPipeDto(page)) {
       throw new BadRequestException();
     }
 
@@ -19,7 +17,7 @@ export class UserListQueryPipe implements PipeTransform {
     };
   }
 
-  private validateUserQueryPipeDto({ page }: UserListRequestQueryDto): boolean {
+  private validateUserQueryPipeDto(page: string): boolean {
     if (page) {
       return this.validatePage(page);
     }

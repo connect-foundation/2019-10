@@ -1,14 +1,12 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { VideoListRequestQueryDto } from 'video/dto/video-list-request-query.dto';
 import { VideoListQueryDto } from 'video/dto/video-list-query.dto';
 import { LATEST, POPULAR, PERIODS } from 'video/constants';
 
 @Injectable()
 export class VideoListQueryPipe implements PipeTransform {
-  public async transform(
-    value: VideoListRequestQueryDto,
-  ): Promise<VideoListQueryDto> {
-    const { page, sort, period, keyword } = value;
+  public async transform(value: VideoListQueryDto): Promise<VideoListQueryDto> {
+    const page = value.page as string;
+    const { sort, period, keyword } = value;
 
     if (!this.validateGetVideosPipeDto({ page, sort, period, keyword })) {
       throw new BadRequestException();

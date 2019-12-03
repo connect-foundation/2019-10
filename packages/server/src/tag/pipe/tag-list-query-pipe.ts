@@ -1,15 +1,13 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { TagListRequestQueryDto } from 'tag/dto/tag-list-request-query.dto';
 import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
 
 @Injectable()
 export class TagListQueryPipe implements PipeTransform {
-  public async transform(
-    value: TagListRequestQueryDto,
-  ): Promise<TagListQueryDto> {
-    const { page, keyword } = value;
+  public async transform(value: TagListQueryDto): Promise<TagListQueryDto> {
+    const page = value.page as string;
+    const { keyword } = value;
 
-    if (!this.validateTagQueryPipeDto({ page, keyword })) {
+    if (!this.validateTagQueryPipeDto(page)) {
       throw new BadRequestException();
     }
 
@@ -19,7 +17,7 @@ export class TagListQueryPipe implements PipeTransform {
     };
   }
 
-  private validateTagQueryPipeDto({ page }: TagListRequestQueryDto): boolean {
+  private validateTagQueryPipeDto(page: string): boolean {
     if (page) {
       return this.validatePage(page);
     }
