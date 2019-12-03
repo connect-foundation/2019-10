@@ -1,1 +1,1 @@
-export const NATURAL_NUMBER = /^[1-9]\d*$/;
+export const NATURAL_NUMBER_REGEX = /^[1-9]\d*$/;
