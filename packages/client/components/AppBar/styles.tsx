@@ -85,6 +85,9 @@ export const DesktopButtons = styled.div`
   }
 
   a {
+    display: inline-block;
+    margin-left: 1rem;
+
     button {
       user-select: none;
       cursor: pointer;
@@ -96,7 +99,6 @@ export const DesktopButtons = styled.div`
       color: white;
       font-size: 1.6rem;
       font-weight: bold;
-      margin-left: 1rem;
 
       svg {
         vertical-align: middle;
@@ -112,13 +114,23 @@ export const DesktopButtons = styled.div`
     button.primary {
       background-color: #02cf5d;
     }
+  }
 
-    img {
-      display: block;
-      width: 3.2rem;
-      height: 3.2rem;
-      border-radius: 100%;
-      margin-left: 2rem;
+  a.avatar {
+    margin-left: 2rem;
+
+    button {
+      background: unset;
+      padding: unset;
+      margin-left: 0;
+
+      img {
+        display: inline-block;
+        width: 3.2rem;
+        height: 3.2rem;
+        border-radius: 100%;
+        vertical-align: middle;
+      }
     }
   }
 `;

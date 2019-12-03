@@ -68,16 +68,20 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
           </Link>
 
           <Link href={endpoint.login}>
-            <a>
-              {user ? (
-                <img src={user.avatar} />
-              ) : (
+            {user ? (
+              <a className="avatar">
+                <button>
+                  <img src={user.avatar} />
+                </button>
+              </a>
+            ) : (
+              <a>
                 <button>
                   <ProfileSVG />
                   <span>로그인</span>
                 </button>
-              )}
-            </a>
+              </a>
+            )}
           </Link>
         </S.DesktopButtons>
       </S.Container>
