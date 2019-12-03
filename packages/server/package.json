@@ -9,7 +9,7 @@
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "dev": "cross-env NODE_PATH=dist/server/src tsc-watch -p tsconfig.build.json --onSuccess \"node dist/server/src/main.js\"",
-    "start": "NODE_PATH=dist/server/src node dist/server/src/main.js",
+    "start": "cross-env NODE_PATH=dist/server/src node dist/server/src/main.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
     "test:watch": "jest --watch",
