@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { format } from '../../libs/timeago';
 
 import * as S from './styles';
-import { parsePlaytime } from '../../libs/parsePlaytime';
 
 const VideoItem = ({
   id,

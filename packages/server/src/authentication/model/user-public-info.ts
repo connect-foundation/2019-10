@@ -5,9 +5,11 @@ export class UserPublicInfo {
     this.id = userEntity.id;
     this.email = userEntity.email;
     this.username = userEntity.username;
+    this.avatar = userEntity.avatar;
   }
 
   public readonly id: number;
   public readonly email: string;
   public readonly username: string;
+  public readonly avatar: string;
 }

@@ -12,8 +12,8 @@ import { OnlyGuestGuard } from 'common/guards/only-guest.guard';
 import {
   endpoint,
   clientPath,
-  ONE_DAY_MILLISECONDS,
   GITHUB_USER_DETAIL,
+  ONE_MINUTE_MILLISECONDS,
 } from 'common/constants';
 
 @Controller(endpoint.auth)
@@ -62,7 +62,7 @@ export class AuthenticationController {
     );
 
     setTokenOnResponseCookie(response, GITHUB_USER_DETAIL, githubUserJWT, {
-      maxAge: ONE_DAY_MILLISECONDS,
+      maxAge: ONE_MINUTE_MILLISECONDS * 15,
       httpOnly: true,
     });
   }

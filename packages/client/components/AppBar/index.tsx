@@ -7,6 +7,7 @@ import { LogoSVG, CloudSVG, SearchSVG, ProfileSVG } from '../../svgs';
 import * as S from './styles';
 
 import SearchBar from '../SearchBar';
+import { useUser } from '../UserProvider/hooks';
 
 interface AppBarProps {
   maxWidth?: number;
@@ -14,6 +15,8 @@ interface AppBarProps {
 
 export const AppBar: React.FunctionComponent<AppBarProps> = () => {
   const [isSearchBarActive, setSearchBarActive] = useState(false);
+
+  const user = useUser();
 
   const handleSearchBar = () => {
     setSearchBarActive(!isSearchBarActive);
@@ -46,7 +49,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
           <Link href={endpoint.login}>
             <a>
               <button>
-                <ProfileSVG />
+                {user ? <img src={user.avatar} /> : <ProfileSVG />}
               </button>
             </a>
           </Link>
@@ -55,7 +58,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
         <SearchBar deactivate={handleSearchBar} isActive={isSearchBarActive} />
 
         <S.DesktopButtons>
-          <Link href={endpoint.upload}>
+          <Link href={user ? endpoint.upload : endpoint.login}>
             <a>
               <button className="primary">
                 <CloudSVG />
@@ -65,12 +68,20 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
           </Link>
 
           <Link href={endpoint.login}>
-            <a>
-              <button>
-                <ProfileSVG />
-                <span>로그인</span>
-              </button>
-            </a>
+            {user ? (
+              <a className="avatar">
+                <button>
+                  <img src={user.avatar} />
+                </button>
+              </a>
+            ) : (
+              <a>
+                <button>
+                  <ProfileSVG />
+                  <span>로그인</span>
+                </button>
+              </a>
+            )}
           </Link>
         </S.DesktopButtons>
       </S.Container>
