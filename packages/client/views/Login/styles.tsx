@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import MaterialGrid from '@material-ui/core/Grid';
+
 import { BREAKPOINT } from '../../constants';
 
 export const Login = styled.div`
@@ -6,8 +8,7 @@ export const Login = styled.div`
   user-select: none;
 `;
 
-export const Container = styled.div`
-  height: 100%;
+export const ContainerGrid = styled(MaterialGrid)`
   background-color: #303537;
   display: flex;
   flex-direction: column;
@@ -53,4 +54,18 @@ export const AuthenticateLink = styled.a`
   @media only screen and (min-width: ${BREAKPOINT}px) {
     max-width: 32rem;
   }
+`;
+
+export const Logo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Link = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
