@@ -2,20 +2,20 @@ import { VideoUserDto } from 'video/dto/video-user.dto';
 import { Video } from '../../../../typeorm/src/entity/video.entity';
 
 export class VideoInfo {
-  public constructor(videoEntity: Video) {
-    this.id = videoEntity.id;
-    this.title = videoEntity.title;
-    this.description = videoEntity.description;
-    this.sourceUrl = videoEntity.sourceUrl;
-    this.thumbnail = videoEntity.thumbnail;
-    this.playtime = (videoEntity.playtime as unknown) as string;
-    this.likedUsersCount = videoEntity.likedUsersCount;
-    this.commentsCount = videoEntity.commentsCount;
-    this.views = videoEntity.views;
-    this.popularity = videoEntity.popularity;
-    this.createdAt = videoEntity.getCreatedAt();
-    this.updatedAt = videoEntity.getUpdatedAt();
-    this.user = videoEntity.user;
+  public constructor(video: Video) {
+    this.id = video.id;
+    this.title = video.title;
+    this.description = video.description;
+    this.sourceUrl = video.sourceUrl;
+    this.thumbnail = video.thumbnail;
+    this.playtime = (video.playtime as unknown) as string;
+    this.likedUsersCount = video.likedUsersCount;
+    this.commentsCount = video.commentsCount;
+    this.views = video.views;
+    this.popularity = video.popularity;
+    this.createdAt = video.getCreatedAt();
+    this.updatedAt = video.getUpdatedAt();
+    this.user = video.user;
   }
 
   public readonly id: number;
