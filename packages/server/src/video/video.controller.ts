@@ -3,21 +3,20 @@ import {
   Body,
   Get,
   Query,
-  UsePipes,
   Param,
   NotFoundException,
   Post,
-  Put,
-  Delete,
 } from '@nestjs/common';
+import { endpoint } from 'common/constants';
+
 import { VideoService } from 'video/video.service';
 import { CommentService } from 'comment/comment.service';
 import { UploadedVideoTableService } from 'uploaded-video-table/uploaded-video-table.service';
 import { UploadedVideoInfoDto } from 'video/dto/uploaded-video-info.dto';
 import { UploadedVideoInfo } from 'uploaded-video-table/model/uploaded-video-info';
-import { VideosQueryPipe } from 'video/pipe/videos-query-pipe';
-import { VideosQueryDto } from 'video/dto/videos-query.dto';
-import { VideosResponseDto } from 'video/dto/videos-response.dto';
+import { VideoListQueryPipe } from 'video/pipe/video-list-query-pipe';
+import { VideoListQueryDto } from 'video/dto/video-list-query.dto';
+import { VideoListResponseDto } from 'video/dto/video-list-response.dto';
 import { VideoResponseDto } from 'video/dto/video-response.dto';
 import { VideoParamPipe } from 'video/pipe/video-param-pipe';
 import { VideoParamDto } from 'video/dto/video-param.dto';
@@ -32,7 +31,7 @@ import { RepliesParamDto } from 'video/dto/replies-param.dto';
 import { RepliesQueryPipe } from 'video/pipe/replies-query-pipe';
 import { RepliesQueryDto } from 'video/dto/replies-query.dto';
 
-@Controller('videos')
+@Controller(endpoint.videos)
 export class VideoController {
   public constructor(
     private readonly videoService: VideoService,
@@ -50,14 +49,13 @@ export class VideoController {
 
   @Get('/')
   public async getVideos(
-    @Query(null, new VideosQueryPipe()) videosQueryDto: VideosQueryDto,
-  ): Promise<VideosResponseDto> {
-    const [videos, count] = await this.videoService.findVideos(videosQueryDto);
+    @Query(null, new VideoListQueryPipe()) videoListQueryDto: VideoListQueryDto,
+  ): Promise<VideoListResponseDto> {
+    const [videos, count] = await this.videoService.findVideos(
+      videoListQueryDto,
+    );
 
-    return {
-      count,
-      data: videos.map(video => new VideoResponseDto(video)),
-    };
+    return new VideoListResponseDto(videos, count);
   }
 
   @Get('/:id')

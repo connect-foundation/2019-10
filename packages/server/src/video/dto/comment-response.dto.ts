@@ -1,4 +1,4 @@
-import { CommentUserDto } from './comment-user.dto';
+import { CommentUserDto } from 'video/dto/comment-user.dto';
 
 import { Comment } from '../../../../typeorm/src/entity/comment.entity';
 

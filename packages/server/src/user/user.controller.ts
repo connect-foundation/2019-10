@@ -9,6 +9,7 @@ import {
   UnauthorizedException,
   UnprocessableEntityException,
   Res,
+  Query,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
@@ -23,10 +24,22 @@ import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
 import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
 
 import { User } from '../../../typeorm/src/entity/user.entity';
+import { UserListQueryPipe } from 'user/pipe/user-list-query-pipe';
+import { UserListQueryDto } from 'user/dto/user-list-query.dto';
+import { UserListResponseDto } from 'user/dto/user-list-response.dto';
 
 @Controller(endpoint.users)
 export class UserController {
   public constructor(private readonly userService: UserService) {}
+
+  @Get('/')
+  public async getUsers(
+    @Query(null, new UserListQueryPipe()) userListqueryDto: UserListQueryDto,
+  ): Promise<UserListResponseDto> {
+    const [users, count] = await this.userService.findUsers(userListqueryDto);
+
+    return new UserListResponseDto(users, count);
+  }
 
   @Get('/:id')
   public getUserDetail(@Param(IdParserPipe) userId: number) {

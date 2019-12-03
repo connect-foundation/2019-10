@@ -23,6 +23,10 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    padding: 0 3rem 0 2rem;
+  }
 `;
 
 export const Content = styled.div``;
@@ -57,6 +61,12 @@ export const MobileButtons = styled.div`
     background: none;
     border: none;
     margin-left: 1.5rem;
+
+    img {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 100%;
+    }
   }
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
@@ -75,6 +85,9 @@ export const DesktopButtons = styled.div`
   }
 
   a {
+    display: inline-block;
+    margin-left: 1rem;
+
     button {
       user-select: none;
       cursor: pointer;
@@ -86,7 +99,6 @@ export const DesktopButtons = styled.div`
       color: white;
       font-size: 1.6rem;
       font-weight: bold;
-      margin-left: 1rem;
 
       svg {
         vertical-align: middle;
@@ -101,6 +113,24 @@ export const DesktopButtons = styled.div`
 
     button.primary {
       background-color: #02cf5d;
+    }
+  }
+
+  a.avatar {
+    margin-left: 2rem;
+
+    button {
+      background: unset;
+      padding: unset;
+      margin-left: 0;
+
+      img {
+        display: inline-block;
+        width: 3.2rem;
+        height: 3.2rem;
+        border-radius: 100%;
+        vertical-align: middle;
+      }
     }
   }
 `;

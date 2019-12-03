@@ -9,6 +9,10 @@ export const LEFT = 'left';
 export const TOP = 'top';
 export const PERSISTENT = 'persistent';
 
+export const userActions = {
+  logout: 'LOGOUT',
+};
+
 export const endpoint = {
   tags: '/tags',
   hotlist: '/',
