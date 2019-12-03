@@ -50,12 +50,12 @@ class MyApp extends App<AppProps> {
     // only on server-side
     if (appContext.ctx.req) {
       const cookies = new Cookies(appContext.ctx.req.headers.cookie);
-      const token = cookies.get('SessionToken');
+      const token = cookies.get(process.env.JWT_SESSION_TOKEN_KEY);
 
       try {
         const {
           data: { userPublicInfo },
-        } = jwt.verify(token, 'HUNGRY') as Token;
+        } = jwt.verify(token, process.env.JWT_SECRET) as Token;
         props.user = userPublicInfo;
       } catch (err) {
         // console.log(err);
