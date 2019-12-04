@@ -136,7 +136,7 @@ const Searched: React.FunctionComponent = () => {
   return (
     <Layout drawer={false}>
       <S.Container>
-        <S.ContainerGrid container spacing={2}>
+        <S.ContainerGrid container spacing={2} justify="center">
           <Grid item xs={12} md={8}>
             <S.Title>
               <SearchSVG width={23} height={24} />
