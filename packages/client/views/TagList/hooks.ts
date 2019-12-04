@@ -12,14 +12,14 @@ export const useTags = (page: number) => {
   const [hasMore, setHasMore] = useState(true);
 
   const action = createTagListAction(page);
-  const { payload } = useQuery(action);
+  const { payload, error, ...rest } = useQuery(action);
 
   useEffect(() => {
-    if (payload) {
-      setHasMore(payload.length >= TAGS_PER_PAGE);
-      setTags([...tags, ...payload]);
+    if (payload && !error) {
+      setHasMore(payload.count >= TAGS_PER_PAGE);
+      setTags([...tags, ...payload.data]);
     }
   }, [payload]);
 
-  return { tags, hasMore };
+  return { tags, hasMore, ...rest };
 };
