@@ -90,4 +90,5 @@ export const UploadButton = styled.button`
   color: #484c50;
   font-weight: bold;
   font-size: 1.6rem;
+  cursor: pointer;
 `;

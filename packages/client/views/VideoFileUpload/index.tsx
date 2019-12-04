@@ -1,11 +1,27 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import { useRouter } from 'next/router';
 
+import { useUser } from '../../components/UserProvider/hooks';
 import Layout from '../../components/Layout';
 import * as S from './styles';
 import CloudSVG from '../../svgs/CloudSVG';
+import { endpoint } from '../../constants';
+import { NextComponentType } from 'next';
+import {
+  checkLogInStatusServerSide,
+  checkLogInStatusClientSide,
+  redirect,
+} from '../../libs/auth';
 
-const VideoFileUpload: React.FunctionComponent = () => {
+const VideoFileUpload: NextComponentType = () => {
+  const router = useRouter();
+  const user = useUser();
+
+  if (checkLogInStatusClientSide(user)) {
+    router.push(endpoint.hotlist);
+  }
+
   const fileInput = React.createRef<HTMLInputElement>();
 
   return (
@@ -31,6 +47,14 @@ const VideoFileUpload: React.FunctionComponent = () => {
       </Grid>
     </Layout>
   );
+};
+
+VideoFileUpload.getInitialProps = ({ req, res, isLoggedIn, ...rest }) => {
+  if (!checkLogInStatusServerSide(isLoggedIn)) {
+    redirect(res, endpoint.hotlist);
+  }
+
+  return { ...rest };
 };
 
 export default VideoFileUpload;

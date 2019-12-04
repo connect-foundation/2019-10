@@ -14,6 +14,12 @@ import { UserProvider } from '../components/UserProvider';
 
 const theme = {};
 
+declare module 'next' {
+  export interface NextPageContext {
+    isLoggedIn: boolean;
+  }
+}
+
 interface AppProps {
   cacheItems: {
     [key: string]: QueryResponse;
@@ -39,15 +45,11 @@ interface Token {
 
 class MyApp extends App<AppProps> {
   public static async getInitialProps(appContext) {
-    const appProps = await App.getInitialProps(appContext);
-
     const props = {
-      ...appProps,
       cacheItems: client.cache.getItems(),
       user: null,
     };
 
-    // only on server-side
     if (appContext.ctx.req) {
       const cookies = new Cookies(appContext.ctx.req.headers.cookie);
       const token = cookies.get(process.env.JWT_SESSION_TOKEN_KEY);
@@ -57,12 +59,18 @@ class MyApp extends App<AppProps> {
           data: { userPublicInfo },
         } = jwt.verify(token, process.env.JWT_SECRET) as Token;
         props.user = userPublicInfo;
+        appContext.ctx.isLoggedIn = true;
       } catch (err) {
-        // console.log(err);
+        appContext.ctx.isLoggedIn = false;
       }
     }
 
-    return props;
+    const appProps = await App.getInitialProps(appContext);
+
+    return {
+      ...appProps,
+      ...props,
+    };
   }
 
   public render() {
