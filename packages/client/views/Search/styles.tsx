@@ -28,13 +28,16 @@ export const ContainerGrid = styled(MaterialGrid)`
 
 export const StyledTabs = styled(Tabs)`
   margin-bottom: 2rem;
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    margin-bottom: 3rem;
+  }
 `;
 
 export const Title = styled.div`
   margin-top: 4rem;
   margin-bottom: 4rem;
   @media only screen and (min-width: ${BREAKPOINT}px) {
-    margin: 5rem 0 4rem 0;
+    margin: 5rem 0 3rem 0;
   }
   span {
     margin-left: 1rem;
@@ -62,6 +65,10 @@ export const Subject = styled.div`
   color: white;
   font-size: 2.2rem;
   font-weight: 700;
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
 `;
 export const Videos = styled.div`
   margin-bottom: 2rem;
@@ -111,28 +118,28 @@ export const Topic = styled.span`
 `;
 
 export const ViewMore = styled.div`
-         display: flex;
-         justify-content: flex-end;
-         margin-bottom: 1.3rem;
-         button {
-           background: none;
-           border: none;
-         }
-         span {
-           color: white;
-           font-size: 1.6rem;
-           font-weight: 700;
-           user-select: none;
-           opacity: 0.8;
-           margin-left: 1rem;
-           vertical-align: middle;
-           cursor: pointer;
-         }
-         svg {
-           vertical-align: middle;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.3rem;
+  button {
+    background: none;
+    border: none;
+  }
+  span {
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 700;
+    user-select: none;
+    opacity: 0.8;
+    margin-left: 1rem;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  svg {
+    vertical-align: middle;
 
-           path:first-child {
-             fill: white;
-           }
-         }
-       `;
+    path:first-child {
+      fill: white;
+    }
+  }
+`;
