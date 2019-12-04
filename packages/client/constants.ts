@@ -70,3 +70,28 @@ export const signUpFormDataMaxLength = {
   username: 30,
   introduction: 1500,
 };
+
+export const search = {
+  video: 'video',
+  user: 'user',
+  tag: 'tag',
+  all: 'all',
+};
+export const searchOptions = [
+  {
+    label: '모두',
+    value: search.all,
+  },
+  {
+    label: '영상',
+    value: search.video,
+  },
+  {
+    label: '사용자',
+    value: search.user,
+  },
+  {
+    label: '태그',
+    value: search.tag,
+  },
+];

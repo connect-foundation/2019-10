@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Grid from '@material-ui/core/Grid';
 
 import * as S from './styles';
-import { SearchSVG } from '../../svgs';
+import { SearchSVG, ArrowRightSVG } from '../../svgs';
 
 import Layout from '../../components/Layout';
 import VideoItem from '../../components/VideoItem';
+import { searchOptions } from '../../constants';
 
 const videos = [
   {
@@ -124,21 +125,32 @@ const users = [
 const topics = ['javascript', 'python', 'aws', 'kubernetes', 'docker'];
 
 const Searched: React.FunctionComponent = () => {
+  const [activeSearch, setActiveSearch] = useState(searchOptions[0].value);
+  // const [page, setPage] = useState(1);
   const router = useRouter();
+
+  const handleFilterClick = value => {
+    setActiveSearch(value);
+  };
+
   return (
-    <Layout>
+    <Layout drawer={false}>
       <S.Container>
-        <Grid item xs={12} md={8}>
-          <S.Title>
-            <SearchSVG width={23} height={24} />
-            <span>"{router.query.query}" 검색 결과</span>
-          </S.Title>
-        </Grid>
-        <Grid item xs={12} md={8}>
-          <S.Subject> 영상 </S.Subject>
-        </Grid>
         <S.ContainerGrid container spacing={2}>
           <Grid item xs={12} md={8}>
+            <S.Title>
+              <SearchSVG width={23} height={24} />
+              <span>"{router.query.query}" 검색 결과</span>
+            </S.Title>
+
+            <S.StyledTabs
+              items={searchOptions}
+              activeValue={activeSearch}
+              onClick={handleFilterClick}
+            />
+            <S.Line />
+
+            <S.Subject> 영상 </S.Subject>
             {videos.map(video => {
               return (
                 <S.Videos>
@@ -157,18 +169,15 @@ const Searched: React.FunctionComponent = () => {
                 </S.Videos>
               );
             })}
-          </Grid>
-          <Grid item xs={12} md={8}>
             <S.ViewMore>
               <button>
-                <span>영상 더보기</span>
+                <span>전체 영상</span>
+                <ArrowRightSVG />
               </button>
             </S.ViewMore>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <S.Subject> 사용자 {10}개</S.Subject>
-          </Grid>
-          <Grid item xs={12} md={8}>
+            <S.Line />
+
+            <S.Subject> 사용자 </S.Subject>
             <S.Users>
               {users.map(user => {
                 return (
@@ -183,18 +192,15 @@ const Searched: React.FunctionComponent = () => {
                 );
               })}
             </S.Users>
-          </Grid>
-          <Grid item xs={12} md={8}>
             <S.ViewMore>
               <button>
-                <span>사용자 더보기</span>
+                <span>전체 사용자</span>
+                <ArrowRightSVG />
               </button>
             </S.ViewMore>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <S.Subject> 주제 {5}개</S.Subject>
-          </Grid>
-          <Grid item xs={12} md={8}>
+            <S.Line />
+
+            <S.Subject> 태그 </S.Subject>
             <S.Topics>
               {topics.map(topic => {
                 return (
@@ -204,6 +210,13 @@ const Searched: React.FunctionComponent = () => {
                 );
               })}
             </S.Topics>
+            <S.ViewMore>
+              <button>
+                <span>전체 태그</span>
+                <ArrowRightSVG />
+              </button>
+            </S.ViewMore>
+            <S.Line />
           </Grid>
         </S.ContainerGrid>
       </S.Container>

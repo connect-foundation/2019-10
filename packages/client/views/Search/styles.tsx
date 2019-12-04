@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { BREAKPOINT } from '../../constants';
 
 import MaterialGrid from '@material-ui/core/Grid';
+import Tabs from '../../components/Tabs';
 
 export const Container = styled.div`
   height: 100%;
@@ -25,16 +26,21 @@ export const ContainerGrid = styled(MaterialGrid)`
   }
 `;
 
+export const StyledTabs = styled(Tabs)`
+  margin-bottom: 2rem;
+`;
+
 export const Title = styled.div`
   margin-top: 4rem;
+  margin-bottom: 4rem;
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin: 5rem 0 4rem 0;
   }
   span {
     margin-left: 1rem;
     color: white;
-    font-size: 2.2rem;
-    font-weight: bold;
+    font-size: 2rem;
+    font-weight: 700;
     vertical-align: middle;
   }
   svg {
@@ -45,11 +51,17 @@ export const Title = styled.div`
   }
 `;
 
+export const Line = styled.hr`
+  border: 1px solid #484c50;
+`;
+
 // subject
 export const Subject = styled.div`
-  margin-top: 4.4rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   color: white;
   font-size: 2.2rem;
+  font-weight: 700;
 `;
 export const Videos = styled.div`
   margin-bottom: 2rem;
@@ -78,18 +90,19 @@ export const Username = styled.div`
   align-items: flex-start;
   width: 100%;
   color: white;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
+  font-weight: 700;
 `;
 
 export const Topics = styled.div``;
 export const Topic = styled.span`
   display: inline-block;
   user-select: none;
-  padding: 0rem 1.4rem;
-  height: 2.2rem;
-  line-height: 2.2rem;
-  font-size: 1.4rem;
-  font-weight: 400;
+  padding: 0rem 2rem;
+  height: 3.4rem;
+  line-height: 3.4rem;
+  font-size: 1.6rem;
+  font-weight: 700;
   color: white;
   background: #484c50;
   border-radius: 10rem;
@@ -98,19 +111,28 @@ export const Topic = styled.span`
 `;
 
 export const ViewMore = styled.div`
-  display: flex;
-  justify-content: center;
-  button {
-    width: 15.8rem;
-    height: 4.4rem;
-    background-color: #484c50;
-    border-radius: 5px;
-    border: none;
-  }
-  span {
-    color: white;
-    font-size: 1.6rem;
-    user-select: none;
-    cursor: pointer;
-  }
-`;
+         display: flex;
+         justify-content: flex-end;
+         margin-bottom: 1.3rem;
+         button {
+           background: none;
+           border: none;
+         }
+         span {
+           color: white;
+           font-size: 1.6rem;
+           font-weight: 700;
+           user-select: none;
+           opacity: 0.8;
+           margin-left: 1rem;
+           vertical-align: middle;
+           cursor: pointer;
+         }
+         svg {
+           vertical-align: middle;
+
+           path:first-child {
+             fill: white;
+           }
+         }
+       `;
