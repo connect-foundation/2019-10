@@ -14,7 +14,6 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
-
 import { endpoint, GITHUB_USER_DETAIL } from 'common/constants';
 import { UserService } from 'user/user.service';
 import { UserListQueryPipe } from 'user/pipe/user-list-query-pipe';
@@ -24,11 +23,14 @@ import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
 import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
 import { deleteCookie, setSessionTokenCookie } from 'libs/cookie-setter';
 import { errName, errCode } from 'common/errors';
-import { UserParamPipe } from 'user/pipe/user-param.pipe';
-import { UserResponseDto } from 'user/dto/user-response.dto';
-import { VideosResponseDto } from 'user/dto/videos-response.dto';
-import { VideoResponseDto } from 'user/dto/video-response.dto';
 import { User } from '../../../typeorm/src/entity/user.entity';
+import { UserParamPipe } from 'user/pipe/user-param.pipe';
+import { UserParamDto } from 'user/dto/user-param.dto';
+import { UserResponseDto } from 'user/dto/user-response.dto';
+import { UserVideoListParamPipe } from 'user/pipe/user-video-list-param.pipe';
+import { UserVideoListParamDto } from 'user/dto/user-video-list-param.dto';
+import { UserVideoListQueryDto } from 'user/dto/user-video-list-query.dto';
+import { UserVideoListResponseDto } from 'user/dto/video-list-response.dto';
 
 @Controller(endpoint.users)
 export class UserController {
@@ -87,7 +89,7 @@ export class UserController {
 
   @Get('/:id')
   public async getUser(
-    @Param(null, new UserParamPipe()) userParamDto,
+    @Param(null, new UserParamPipe()) userParamDto: UserParamDto,
   ): Promise<UserResponseDto> {
     const { id } = userParamDto;
     const user = await this.userService.findUser(id);
@@ -101,20 +103,18 @@ export class UserController {
 
   @Get('/:id/videos')
   public async getVideos(
-    @Param() videosParamDto,
-    @Query() videosQueryDto,
-  ): Promise<VideosResponseDto> {
-    const { id } = videosParamDto;
-    const { page, sort } = videosQueryDto;
+    @Param(null, new UserVideoListParamPipe())
+    userVideoListParamDto: UserVideoListParamDto,
+    @Query() userVideoListQueryDto: UserVideoListQueryDto,
+  ): Promise<UserVideoListResponseDto> {
+    const { id } = userVideoListParamDto;
+    const { page, sort } = userVideoListQueryDto;
     const [videos, count] = await this.userService.findVideosByUser({
       id,
       page,
       sort,
     });
 
-    return {
-      count,
-      data: videos.map(video => new VideoResponseDto(video)),
-    };
+    return new UserVideoListResponseDto(videos, count);
   }
 }
