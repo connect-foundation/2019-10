@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import MaterialGrid from '@material-ui/core/Grid';
+
 import { BREAKPOINT } from '../../constants';
 
 export const Login = styled.div`
@@ -7,7 +9,6 @@ export const Login = styled.div`
 `;
 
 export const Container = styled.div`
-  height: 100%;
   background-color: #303537;
   display: flex;
   flex-direction: column;
@@ -17,6 +18,8 @@ export const Container = styled.div`
     padding: 24rem 0 0 0;
   }
 `;
+
+export const ContainerGrid = styled(MaterialGrid)``;
 
 export const Message = styled.div`
   width: 100%;
@@ -41,11 +44,9 @@ export const AuthenticateLink = styled.a`
   border-radius: 3.4rem;
   text-decoration: none;
   cursor: pointer;
-
   svg {
     margin-right: 1.6rem;
   }
-
   span {
     color: white;
     font-size: 1.5rem;
@@ -53,4 +54,18 @@ export const AuthenticateLink = styled.a`
   @media only screen and (min-width: ${BREAKPOINT}px) {
     max-width: 32rem;
   }
+`;
+
+export const Logo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Link = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
