@@ -101,8 +101,8 @@ export const Username = styled.div`
   font-weight: 700;
 `;
 
-export const Topics = styled.div``;
-export const Topic = styled.span`
+export const Tags = styled.div``;
+export const Tag = styled.span`
   display: inline-block;
   user-select: none;
   padding: 0rem 2rem;

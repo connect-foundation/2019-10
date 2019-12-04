@@ -20,7 +20,7 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
     if (e.key === 'Enter') {
       router.push({
         pathname: endpoint.search,
-        query: { query: e.target.value },
+        query: { keyword: e.target.value },
       });
     }
   };
