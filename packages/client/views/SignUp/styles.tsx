@@ -1,22 +1,23 @@
 import styled from 'styled-components';
+import MaterialGrid from '@material-ui/core/Grid';
+
 import { BREAKPOINT } from '../../constants';
 
 export const SignUp = styled.div`
   height: 100%;
   user-select: none;
 `;
-export const Container = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #303537;
-  padding: 8rem 2rem 0 2rem;
 
+export const Container = styled.div`
+  margin: 0 auto;
+  padding: 8rem 2rem 0 2rem;
   @media only screen and (min-width: ${BREAKPOINT}px) {
     padding: 12rem 0 0 0;
+    max-width: 120rem;
   }
 `;
+
+export const ContainerGrid = styled(MaterialGrid)``;
 
 export const HeadMessage = styled.div`
   width: 100%;
@@ -27,6 +28,7 @@ export const HeadMessage = styled.div`
   margin-bottom: 5.5rem;
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin-bottom: 6rem;
+    font-size: 3.2rem;
   }
 `;
 
@@ -34,9 +36,9 @@ export const Form = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
   vertical-align: top;
-  max-width: 58.8rem;
 `;
 
 export const RequireMark = styled.div`
@@ -46,7 +48,6 @@ export const RequireMark = styled.div`
   border-radius: 100%;
   background-color: #02cf5d;
   margin: 0rem 0rem 0.9rem 0.2rem;
-  /* position: absolute; */
 `;
 
 export const Item = styled.div`
@@ -54,7 +55,6 @@ export const Item = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-
   input[type='text'] {
     display: block;
     background-color: #484c50;
@@ -65,12 +65,7 @@ export const Item = styled.div`
     margin-bottom: 3rem;
     color: white;
     padding: 1rem;
-
-    @media only screen and (min-width: ${BREAKPOINT}px) {
-      max-width: 58.8rem;
-    }
   }
-
   input[type='checkbox'] {
     display: inline-block;
     width: 1.5rem;
@@ -79,8 +74,8 @@ export const Item = styled.div`
     margin: 0;
     margin-right: 1rem;
     vertical-align: middle;
+    cursor: pointer;
   }
-
   textarea {
     display: block;
     width: 100%;
@@ -92,17 +87,12 @@ export const Item = styled.div`
     margin-bottom: 3rem;
     color: white;
     padding: 1rem;
-
-    @media only screen and (min-width: ${BREAKPOINT}px) {
-      max-width: 58.8rem;
-    }
   }
 `;
 
 export const Label = styled.div`
   display: inline-block;
   margin-bottom: 1rem;
-
   label {
     color: white;
     font-size: 1.6rem;
@@ -122,6 +112,9 @@ export const Label = styled.div`
     font-weight: bold;
     font-weight: normal;
     vertical-align: middle;
+    u {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -130,7 +123,6 @@ export const SubmitButton = styled.div`
   text-align: center;
   margin-top: 3rem;
   cursor: pointer;
-
   button {
     width: 15.8rem;
     height: 4.4rem;
@@ -140,14 +132,14 @@ export const SubmitButton = styled.div`
     font-weight: bold;
     color: white;
     background-color: #02cf5d;
+    cursor: pointer;
   }
-
   button:disabled {
     /* 추후 디자인 추가되면 색상 변경해야함 */
     color: white;
     background-color: gray /*#02cf5d*/;
+    cursor: default;
   }
-
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin-top: 4rem;
   }
