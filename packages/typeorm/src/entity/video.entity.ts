@@ -123,11 +123,11 @@ export class Video extends Base {
   @JoinTable({
     name: 'liked_videos',
     joinColumn: {
-      name: 'userId',
+      name: 'videoId',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'videoId',
+      name: 'userId',
       referencedColumnName: 'id',
     },
   })
