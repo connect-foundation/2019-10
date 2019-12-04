@@ -22,6 +22,30 @@ export const ContainerGrid = styled(MaterialGrid)`
   }
 `;
 
+export const Title = styled.div`
+  margin: 3rem 0;
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    margin: 5rem 0 3rem 0;
+  }
+
+  span {
+    margin-left: 1rem;
+    color: white;
+    font-size: 2.2rem;
+    font-weight: bold;
+    vertical-align: middle;
+  }
+
+  svg {
+    vertical-align: middle;
+
+    path:first-child {
+      fill: white;
+    }
+  }
+`;
+
 export const TagList = styled.div`
   margin: 2rem 0rem;
 

@@ -8,6 +8,7 @@ import { useTags } from './hooks';
 import CircularProgress from '../../components/CircularProgress';
 import { Tag } from './interface/tag';
 import { makeChunkList } from '../../libs/makeChunkList';
+import { TagsSVG } from '../../svgs';
 
 const TagList: React.FunctionComponent = () => {
   const [page, setPage] = useState(1);
@@ -21,6 +22,10 @@ const TagList: React.FunctionComponent = () => {
   return (
     <Layout>
       <S.TagList>
+        <S.Title>
+          <TagsSVG />
+          <span>인기 태그</span>
+        </S.Title>
         <S.ContainerGrid container spacing={0} justify="center">
           <Grid item xs={12} md={8}>
             <S.StyledInfiniteScroll
