@@ -8,7 +8,7 @@ import { GithubOauthCodeDto } from 'third-party-api/github-api/dto/github-oauth-
 import { GithubUserDetail } from 'third-party-api/model/github-user-detail';
 import { UserSerializerService } from 'serializer/user-serializer.service';
 
-import { ONE_HOUR_SECONDS } from 'common/constants';
+import { ONE_MINUTE_SECONDS } from 'common/constants';
 
 import { User } from '../../../typeorm/src/entity/user.entity';
 
@@ -66,7 +66,7 @@ export class AuthenticationService {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: ONE_HOUR_SECONDS,
+        expiresIn: ONE_MINUTE_SECONDS * 15,
       },
     );
 

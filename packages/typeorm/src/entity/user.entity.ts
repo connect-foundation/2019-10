@@ -37,14 +37,14 @@ export class User extends Base {
     name: 'email',
     type: 'varchar',
     length: 100,
-    nullable: false,
+    nullable: true,
   })
   public email: string;
 
   @Column({
     name: 'githubId',
     type: 'int',
-    nullable: false,
+    nullable: true,
     unique: true,
   })
   public githubId: number;

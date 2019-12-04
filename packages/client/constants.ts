@@ -10,6 +10,10 @@ export const TOP = 'top';
 export const PERSISTENT = 'persistent';
 export const TAGS_PER_PAGE = 24;
 
+export const userActions = {
+  logout: 'LOGOUT',
+};
+
 export const endpoint = {
   tags: '/tags',
   hotlist: '/',
