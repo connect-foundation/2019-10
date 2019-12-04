@@ -105,7 +105,6 @@ export const DesktopTabs = styled.div`
         border: none;
         padding: 0;
         outline: unset;
-        cursor: pointer;
 
         svg {
           vertical-align: middle;
