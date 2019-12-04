@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import Grid from '@material-ui/core/Grid';
-
 import { useRouter } from 'next/router';
 import { useMutation } from 'react-fetching-library';
+
 import * as S from './styles';
 import { signUpFormDataMaxLength, endpoint } from '../../constants';
 import { responseStatus } from '../../response';
@@ -70,9 +69,10 @@ const SignUp: React.FunctionComponent = () => {
             <input
               id="username"
               name="username"
-              maxLength={maxLength.username}
-              onChange={handleChange}
+              maxLength={signUpFormDataMaxLength.username}
+              onChange={handleFormChange}
               type="text"
+              autoComplete="off"
             />
           </S.Item>
           <S.Item>
@@ -83,13 +83,17 @@ const SignUp: React.FunctionComponent = () => {
             <textarea
               id="description"
               name="description"
-              maxLength={maxLength.introduction}
-              onChange={handleChange}
+              maxLength={signUpFormDataMaxLength.introduction}
+              onChange={handleFormChange}
             />
           </S.Item>
           <S.Item>
             <S.Label>
-              <input type="checkbox" name="isAgreed" onChange={handleChange} />
+              <input
+                type="checkbox"
+                name="isAgreed"
+                onChange={handleFormChange}
+              />
               <div className={'agreement'}>
                 <u>서비스 약관</u>에 동의합니다.
               </div>
