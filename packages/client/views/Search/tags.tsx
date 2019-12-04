@@ -25,31 +25,32 @@ const SearchedTags: React.FunctionComponent = () => {
     setPage(page + 1);
   };
 
+  const routerObject = (queryKeyword, num) => {
+    if (num === 0) {
+      return {
+        pathname: `${endpoint.search}`,
+        query: { keyword: queryKeyword },
+      };
+    }
+    return {
+      pathname: `${endpoint.search}/${searchOptions[num].value}`,
+      query: { keyword: queryKeyword },
+    };
+  };
+
   const handleFilterClick = value => {
     setPage(1);
     if (value === searchOptions[0].value) {
-      router.push({
-        pathname: endpoint.search,
-        query: { keyword: searchKeyword },
-      });
+      router.push(routerObject(searchKeyword, 0));
     }
     if (value === searchOptions[1].value) {
-      router.push({
-        pathname: `${endpoint.search}/${searchOptions[1].value}`,
-        query: { keyword: searchKeyword },
-      });
+      router.push(routerObject(searchKeyword, 1));
     }
     if (value === searchOptions[2].value) {
-      router.push({
-        pathname: `${endpoint.search}/${searchOptions[2].value}`,
-        query: { keyword: searchKeyword },
-      });
+      router.push(routerObject(searchKeyword, 2));
     }
     if (value === searchOptions[3].value) {
-      router.push({
-        pathname: `${endpoint.search}/${searchOptions[3].value}`,
-        query: { keyword: searchKeyword },
-      });
+      router.push(routerObject(searchKeyword, 3));
     }
   };
 

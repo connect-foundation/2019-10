@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import Grid from '@material-ui/core/Grid';
@@ -23,24 +24,20 @@ const Searched: React.FunctionComponent = () => {
   const { users } = useSearchUsers(page, searchKeyword);
   const { tags } = useSearchTags(page, searchKeyword);
 
+  const routerObject = (queryKeyword, num) => ({
+    pathname: `${endpoint.search}/${searchOptions[num].value}`,
+    query: { keyword: queryKeyword },
+  });
+
   const handleFilterClick = value => {
     if (value === searchOptions[1].value) {
-      router.push({
-        pathname: `${endpoint.search}/${searchOptions[1].value}`,
-        query: { keyword: searchKeyword },
-      });
+      router.push(routerObject(searchKeyword, 1));
     }
     if (value === searchOptions[2].value) {
-      router.push({
-        pathname: `${endpoint.search}/${searchOptions[2].value}`,
-        query: { keyword: searchKeyword },
-      });
+      router.push(routerObject(searchKeyword, 2));
     }
     if (value === searchOptions[3].value) {
-      router.push({
-        pathname: `${endpoint.search}/${searchOptions[3].value}`,
-        query: { keyword: searchKeyword },
-      });
+      router.push(routerObject(searchKeyword, 3));
     }
   };
 
@@ -77,10 +74,14 @@ const Searched: React.FunctionComponent = () => {
                   );
                 })}
                 <S.ViewMore>
-                  <button>
-                    <span>전체 영상</span>
-                    <ArrowRightSVG />
-                  </button>
+                  <Link href={routerObject(searchKeyword, 1)}>
+                    <a>
+                      <button>
+                        <span>전체 영상</span>
+                        <ArrowRightSVG />
+                      </button>
+                    </a>
+                  </Link>
                 </S.ViewMore>
                 <S.Line />
               </>
@@ -102,7 +103,9 @@ const Searched: React.FunctionComponent = () => {
                   })}
                 </S.Users>
                 <S.ViewMore>
-                  <button>
+                  <button
+                    onClick={() => router.push(routerObject(searchKeyword, 2))}
+                  >
                     <span>전체 사용자</span>
                     <ArrowRightSVG />
                   </button>
@@ -124,7 +127,9 @@ const Searched: React.FunctionComponent = () => {
                   })}
                 </S.Tags>
                 <S.ViewMore>
-                  <button>
+                  <button
+                    onClick={() => router.push(routerObject(searchKeyword, 3))}
+                  >
                     <span>전체 태그</span>
                     <ArrowRightSVG />
                   </button>
