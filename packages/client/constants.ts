@@ -72,9 +72,9 @@ export const signUpFormDataMaxLength = {
 };
 
 export const search = {
-  video: 'video',
-  user: 'user',
-  tag: 'tag',
+  videos: 'videos',
+  users: 'users',
+  tags: 'tags',
   all: 'all',
 };
 export const searchOptions = [
@@ -84,14 +84,14 @@ export const searchOptions = [
   },
   {
     label: '영상',
-    value: search.video,
+    value: search.videos,
   },
   {
     label: '사용자',
-    value: search.user,
+    value: search.users,
   },
   {
     label: '태그',
-    value: search.tag,
+    value: search.tags,
   },
 ];

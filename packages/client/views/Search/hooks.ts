@@ -41,7 +41,7 @@ export const useSearchVideos = (page, search) => {
   useEffect(() => {
     if (payload && !error) {
       setVideoHasMore(payload.data.length >= 20);
-      setVideos([...videos, ...payload.data]);
+      setVideos([...payload.data]);
     }
   }, [payload]);
 
@@ -58,7 +58,7 @@ export const useSearchUsers = (page, search) => {
   useEffect(() => {
     if (payload && !error) {
       setUserHasMore(payload.data.length >= 20);
-      setUsers([...users, ...payload.data]);
+      setUsers([...payload.data]);
     }
   }, [payload]);
 
@@ -75,7 +75,7 @@ export const useSearchTags = (page, search) => {
   useEffect(() => {
     if (payload && !error) {
       setTagHasMore(payload.data.length >= 20);
-      setTags([...tags, ...payload.data]);
+      setTags([...payload.data]);
     }
   }, [payload]);
 

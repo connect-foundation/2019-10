@@ -4,6 +4,8 @@ import { BREAKPOINT } from '../../constants';
 import MaterialGrid from '@material-ui/core/Grid';
 import Tabs from '../../components/Tabs';
 
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 export const Container = styled.div`
   height: 100%;
   @media only screen and (min-width: ${BREAKPOINT}px) {
@@ -142,4 +144,10 @@ export const ViewMore = styled.div`
       fill: white;
     }
   }
+`;
+export const StyledInfiniteScroll = styled(InfiniteScroll)`
+  height: auto;
+  overflow: visible !important;
+  display: flex;
+  flex-direction: column;
 `;

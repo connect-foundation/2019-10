@@ -24,21 +24,21 @@ const Searched: React.FunctionComponent = () => {
   const { tags } = useSearchTags(page, searchKeyword);
 
   const handleFilterClick = value => {
-    if (value === searchOptions[1].label) {
+    if (value === searchOptions[1].value) {
       router.push({
-        pathname: endpoint.search + searchOptions[1].value,
+        pathname: `${endpoint.search}/${searchOptions[1].value}`,
         query: { keyword: searchKeyword },
       });
     }
-    if (value === searchOptions[2].label) {
+    if (value === searchOptions[2].value) {
       router.push({
-        pathname: endpoint.search + searchOptions[2].value,
+        pathname: `${endpoint.search}/${searchOptions[2].value}`,
         query: { keyword: searchKeyword },
       });
     }
-    if (value === searchOptions[3].label) {
+    if (value === searchOptions[3].value) {
       router.push({
-        pathname: endpoint.search + searchOptions[3].value,
+        pathname: `${endpoint.search}/${searchOptions[3].value}`,
         query: { keyword: searchKeyword },
       });
     }
