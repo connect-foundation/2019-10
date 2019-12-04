@@ -6,7 +6,7 @@ import * as S from './styles';
 import Layout from '../../components/Layout';
 import UserProfile from '../../components/UserProfile';
 import VideoItem from '../../components/VideoItem';
-import { chunkVideoList } from '../../libs/videoList';
+import { makeChunkList } from '../../libs/makeChunkList';
 import { sortOptions } from '../../constants';
 
 const videos = [
@@ -195,7 +195,7 @@ const videos = [
 ];
 
 const User = () => {
-  const videoChunks = chunkVideoList(videos, 3);
+  const videoChunks = makeChunkList(videos, 3);
 
   return (
     <Layout drawer={false}>
