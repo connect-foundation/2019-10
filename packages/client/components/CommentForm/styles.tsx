@@ -37,7 +37,6 @@ export const Form = styled.form`
     justify-content: flex-end;
 
     button {
-      cursor: pointer;
       background: unset;
       height: 3.2rem;
       line-height: 3.4rem;

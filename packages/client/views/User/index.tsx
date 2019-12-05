@@ -8,7 +8,7 @@ import * as S from './styles';
 import Layout from '../../components/Layout';
 import UserProfile from '../../components/UserProfile';
 import VideoItem from '../../components/VideoItem';
-import { chunkVideoList } from '../../libs/videoList';
+import { makeChunkList } from '../../libs/makeChunkList';
 import { sortOptions } from '../../constants';
 import { useUser, useVideos } from './hooks';
 import VideoItemSkeleton from '../../components/VideoItem/skeleton';
@@ -29,7 +29,8 @@ const User = () => {
     onNext,
     onSort,
   } = useVideos(userId);
-  const videoChunks = chunkVideoList(videos, 3);
+  const videoChunks = makeChunkList(videos, 3);
+
 
   const skeleton = [];
   for (let i = 0; i < 10; i += 1) {
