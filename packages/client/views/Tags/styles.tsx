@@ -46,7 +46,7 @@ export const Title = styled.div`
   }
 `;
 
-export const TagList = styled.div`
+export const Tags = styled.div`
   margin: 2rem 0rem;
 
   @media only screen and (min-width: ${BREAKPOINT}px) {

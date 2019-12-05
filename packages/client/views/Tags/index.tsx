@@ -10,7 +10,7 @@ import { Tag } from './interface/tag';
 import { makeChunkList } from '../../libs/makeChunkList';
 import { TagsSVG } from '../../svgs';
 
-const TagList: React.FunctionComponent = () => {
+const Tags: React.FunctionComponent = () => {
   const [page, setPage] = useState(1);
 
   const { tags, hasMore } = useTags(page);
@@ -21,7 +21,7 @@ const TagList: React.FunctionComponent = () => {
 
   return (
     <Layout>
-      <S.TagList>
+      <S.Tags>
         <S.Title>
           <TagsSVG />
           <span>인기 태그</span>
@@ -34,14 +34,14 @@ const TagList: React.FunctionComponent = () => {
               hasMore={hasMore}
               loader={<CircularProgress size={28} thickness={4.5} />}
             >
-              {makeChunkList(tags, 4).map((chunkTags: Tag[], index: number) => (
+              {makeChunkList(tags, 4).map((tagChunk: Tag[], index: number) => (
                 <S.ContainerGrid
                   key={index}
                   container
                   spacing={2}
                   justify="flex-start"
                 >
-                  {chunkTags.map(tag => (
+                  {tagChunk.map(tag => (
                     <Grid key={tag.id} item xs={6} md={3}>
                       <TagItem {...tag} />
                     </Grid>
@@ -51,9 +51,9 @@ const TagList: React.FunctionComponent = () => {
             </S.StyledInfiniteScroll>
           </Grid>
         </S.ContainerGrid>
-      </S.TagList>
+      </S.Tags>
     </Layout>
   );
 };
 
-export default TagList;
+export default Tags;
