@@ -45,3 +45,13 @@ export const StyledInfiniteScroll = styled(InfiniteScroll)`
 export const Line = styled.hr`
   border: 1px solid #484c50;
 `;
+
+export const NoResults = styled.div`
+  span {
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    user-select: none;
+    opacity: 0.8;
+  }
+`;

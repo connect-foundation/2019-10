@@ -71,34 +71,42 @@ const Searched: React.FunctionComponent = () => {
           <Grid item xs={12} md={8}>
             <SearchedTitle searchKeyword={searchKeyword} />
 
-            <S.StyledTabs
-              items={customSearchOptions}
-              activeValue={activeSearch}
-              onClick={handleFilterClick}
-            />
-            <S.Line />
-
-            {videoCount > 0 && (
+            {videoCount + userCount + tagCount === 0 ? (
+              <S.NoResults>
+                <span>"{searchKeyword}"에 대한 검색결과가 없습니다...</span>
+              </S.NoResults>
+            ) : (
               <>
-                <SearchedVideos videos={videos} />
-                <ViewMore searchKeyword={searchKeyword} num={1} />
+                <S.StyledTabs
+                  items={customSearchOptions}
+                  activeValue={activeSearch}
+                  onClick={handleFilterClick}
+                />
                 <S.Line />
-              </>
-            )}
 
-            {userCount > 0 && (
-              <>
-                <SearchedUsers users={users} />
-                <ViewMore searchKeyword={searchKeyword} num={2} />
-                <S.Line />
-              </>
-            )}
+                {videoCount > 0 && (
+                  <>
+                    <SearchedVideos videos={videos} />
+                    <ViewMore searchKeyword={searchKeyword} num={1} />
+                    <S.Line />
+                  </>
+                )}
 
-            {tagCount > 0 && (
-              <>
-                <SearchedTags tags={tags} />
-                <ViewMore searchKeyword={searchKeyword} num={3} />
-                <S.Line />
+                {userCount > 0 && (
+                  <>
+                    <SearchedUsers users={users} />
+                    <ViewMore searchKeyword={searchKeyword} num={2} />
+                    <S.Line />
+                  </>
+                )}
+
+                {tagCount > 0 && (
+                  <>
+                    <SearchedTags tags={tags} />
+                    <ViewMore searchKeyword={searchKeyword} num={3} />
+                    <S.Line />
+                  </>
+                )}
               </>
             )}
           </Grid>
