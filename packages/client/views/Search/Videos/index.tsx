@@ -3,14 +3,14 @@ import { useRouter } from 'next/router';
 
 import Grid from '@material-ui/core/Grid';
 
-import * as S from './styles';
+import * as S from '../styles';
 
-import Layout from '../../components/Layout';
-import CircularProgress from '../../components/CircularProgress';
-import { SearchedVideos, SearchedTitle } from '../../components/Searched';
+import Layout from '../../../components/Layout';
+import CircularProgress from '../../../components/CircularProgress';
+import { SearchedVideos, SearchedTitle } from '../../../components/Searched';
 
-import { endpoint, searchOptions } from '../../constants';
-import { useSearchVideos } from './hooks';
+import { endpoint, searchOptions } from '../../../constants';
+import { useSearchVideos } from '../hooks';
 
 const SearchedVideosView: React.FunctionComponent = () => {
   const router = useRouter();

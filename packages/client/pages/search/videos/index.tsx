@@ -1,1 +1,1 @@
-export { default } from '../../../views/Search/videos';
+export { default } from '../../../views/Search/Videos';

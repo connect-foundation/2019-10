@@ -3,27 +3,24 @@ import { useRouter } from 'next/router';
 
 import Grid from '@material-ui/core/Grid';
 
-import * as S from './styles';
+import * as S from '../styles';
 
-import Layout from '../../components/Layout';
-import CircularProgress from '../../components/CircularProgress';
-import { SearchedUsers, SearchedTitle } from '../../components/Searched';
+import Layout from '../../../components/Layout';
+import CircularProgress from '../../../components/CircularProgress';
+import { SearchedTags, SearchedTitle } from '../../../components/Searched';
 
-import { endpoint, searchOptions } from '../../constants';
-import { useSearchUsers } from './hooks';
+import { endpoint, searchOptions } from '../../../constants';
+import { useSearchTags } from '../hooks';
 
-const SearchedUsersView: React.FunctionComponent = () => {
+const SearchedTagsView: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
 
   const [page, setPage] = useState(1);
 
-  const activeSearch = searchOptions[2].value;
+  const activeSearch = searchOptions[3].value;
 
-  const { users, userHasMore, userHasData } = useSearchUsers(
-    page,
-    searchKeyword,
-  );
+  const { tags, tagHasMore, tagHasData } = useSearchTags(page, searchKeyword);
 
   const handlePageChange = () => {
     setPage(page + 1);
@@ -74,13 +71,13 @@ const SearchedUsersView: React.FunctionComponent = () => {
             />
             <S.Line />
 
-            {userHasData ? (
+            {tagHasData ? (
               <S.StyledInfiniteScroll
-                dataLength={users.length}
+                dataLength={tags.length}
                 next={handlePageChange}
-                hasMore={userHasMore}
+                hasMore={tagHasMore}
               >
-                <SearchedUsers users={users} />
+                <SearchedTags tags={tags} />
               </S.StyledInfiniteScroll>
             ) : (
               loader
@@ -92,4 +89,4 @@ const SearchedUsersView: React.FunctionComponent = () => {
   );
 };
 
-export default SearchedUsersView;
+export default SearchedTagsView;
