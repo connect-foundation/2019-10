@@ -15,6 +15,7 @@ const createSearchAction: Action = (subject, page, keyword) => {
 
 export const useSearchVideos = (page, keyword) => {
   const [videos, setVideos] = useState([]);
+  const [videoCount, setVideoCount] = useState(null);
   const [videoHasMore, setVideoHasMore] = useState(true);
   const [videoHasData, setVideoHasData] = useState(false);
 
@@ -26,14 +27,16 @@ export const useSearchVideos = (page, keyword) => {
       setVideoHasData(true);
       setVideoHasMore(payload.data.length >= 20);
       setVideos([...payload.data]);
+      setVideoCount(payload.count);
     }
   }, [payload]);
 
-  return { videos, videoHasMore, videoHasData };
+  return { videos, videoCount, videoHasMore, videoHasData };
 };
 
 export const useSearchUsers = (page, keyword) => {
   const [users, setUsers] = useState([]);
+  const [userCount, setUserCount] = useState(null);
   const [userHasMore, setUserHasMore] = useState(true);
   const [userHasData, setUserHasData] = useState(false);
 
@@ -45,14 +48,16 @@ export const useSearchUsers = (page, keyword) => {
       setUserHasData(true);
       setUserHasMore(payload.data.length >= 20);
       setUsers([...payload.data]);
+      setUserCount(payload.count);
     }
   }, [payload]);
 
-  return { users, userHasMore, userHasData };
+  return { users, userCount, userHasMore, userHasData };
 };
 
 export const useSearchTags = (page, keyword) => {
   const [tags, setTags] = useState([]);
+  const [tagCount, setTagCount] = useState(null);
   const [tagHasMore, setTagHasMore] = useState(true);
   const [tagHasData, setTagHasData] = useState(false);
 
@@ -64,8 +69,9 @@ export const useSearchTags = (page, keyword) => {
       setTagHasData(true);
       setTagHasMore(payload.data.length >= 20);
       setTags([...payload.data]);
+      setTagCount(payload.count);
     }
   }, [payload]);
 
-  return { tags, tagHasMore, tagHasData };
+  return { tags, tagCount, tagHasMore, tagHasData };
 };

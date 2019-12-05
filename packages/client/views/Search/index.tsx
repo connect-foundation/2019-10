@@ -21,13 +21,31 @@ const Searched: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
 
-  const activeSearch = searchOptions[0].value;
-
   const page = undefined;
 
-  const { videos } = useSearchVideos(page, searchKeyword);
-  const { users } = useSearchUsers(page, searchKeyword);
-  const { tags } = useSearchTags(page, searchKeyword);
+  const { videos, videoCount } = useSearchVideos(page, searchKeyword);
+  const { users, userCount } = useSearchUsers(page, searchKeyword);
+  const { tags, tagCount } = useSearchTags(page, searchKeyword);
+
+  const countArray = [
+    { label: '영상', value: 'videos', count: videoCount },
+    { label: '사용자', value: 'users', count: userCount },
+    { label: '태그', value: 'tags', count: tagCount },
+  ];
+
+  const customSearchOptions = countArray.reduce((acc, cur) => {
+    if (cur.count) {
+      acc.push({ label: cur.label, value: cur.value });
+    }
+    return acc;
+  }, []);
+
+  if (videoCount && userCount && tagCount) {
+    customSearchOptions.unshift({ label: '모두', value: 'all' });
+  }
+
+  const activeSearch =
+    customSearchOptions[0] === undefined ? 'all' : customSearchOptions[0].value;
 
   const routerObject = (queryKeyword, num) => ({
     pathname: `${endpoint.search}/${searchOptions[num].value}`,
@@ -54,13 +72,13 @@ const Searched: React.FunctionComponent = () => {
             <SearchedTitle searchKeyword={searchKeyword} />
 
             <S.StyledTabs
-              items={searchOptions}
+              items={customSearchOptions}
               activeValue={activeSearch}
               onClick={handleFilterClick}
             />
             <S.Line />
 
-            {videos.length > 0 && (
+            {videoCount > 0 && (
               <>
                 <SearchedVideos videos={videos} />
                 <ViewMore searchKeyword={searchKeyword} num={1} />
@@ -68,7 +86,7 @@ const Searched: React.FunctionComponent = () => {
               </>
             )}
 
-            {users.length > 0 && (
+            {userCount > 0 && (
               <>
                 <SearchedUsers users={users} />
                 <ViewMore searchKeyword={searchKeyword} num={2} />
@@ -76,7 +94,7 @@ const Searched: React.FunctionComponent = () => {
               </>
             )}
 
-            {tags.length > 0 && (
+            {tagCount > 0 && (
               <>
                 <SearchedTags tags={tags} />
                 <ViewMore searchKeyword={searchKeyword} num={3} />
