@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import MaterialAppBar from '@material-ui/core/AppBar';
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const AppBar = styled(MaterialAppBar)`
   && {
@@ -162,7 +162,7 @@ export const MobileMenu = styled.div`
       height: 5rem;
       color: white;
       font-size: 1.6rem;
-      font-weight: 700;
+      font-weight: ${fontWeight.bold};
       padding: 1.4rem 2rem;
 
       svg {
@@ -218,7 +218,7 @@ export const DesktopMenu = styled.div`
       display: block;
       font-size: 1.6rem;
       color: white;
-      font-weight: 700;
+      font-weight: ${fontWeight.bold};
       padding: 1.4rem 1.6rem;
     }
 

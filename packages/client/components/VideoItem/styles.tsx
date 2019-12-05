@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const VideoItem = styled.div`
   user-select: none;
@@ -110,7 +110,7 @@ export const Thumbnail = styled.div`
     font-size: 1.2rem;
     padding: 0 0.5rem;
     color: white;
-    font-weight: 700;
+    font-weight: ${fontWeight.bold};
     background: rgba(0, 0, 0, 0.7);
     border-radius: 0.3rem;
     height: 2.3rem;
@@ -222,7 +222,7 @@ export const Info = styled.div`
 export const Title = styled.div`
   /* https://stackoverflow.com/questions/5269713/css-ellipsis-on-second-line/19049457#19049457 */
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: ${fontWeight.extraBold};
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

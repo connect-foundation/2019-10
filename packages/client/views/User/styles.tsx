@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import MaterialGrid from '@material-ui/core/Grid';
 
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 import Tabs from '../../components/Tabs';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -21,7 +21,7 @@ export const Videos = styled.div`
 export const Title = styled.div`
   font-size: 2rem;
   color: white;
-  font-weight: 700;
+  font-weight: ${fontWeight.bold};
   margin-bottom: 2rem;
 
   @media only screen and (min-width: ${BREAKPOINT}px) {

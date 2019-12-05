@@ -21,6 +21,7 @@ export const endpoint = {
   search: '/search',
   login: '/auth/login',
   users: '/users',
+  profileEdit: '/profile/edit',
 };
 
 export const periods = {
