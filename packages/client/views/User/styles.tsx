@@ -4,6 +4,7 @@ import MaterialGrid from '@material-ui/core/Grid';
 
 import { BREAKPOINT } from '../../constants';
 import Tabs from '../../components/Tabs';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export const Container = styled.div`
   position: relative;
@@ -31,6 +32,10 @@ export const Title = styled.div`
 
 export const StyledTabs = styled(Tabs)`
   margin-bottom: 2rem;
+`;
+
+export const StyledInfiniteScroll = styled(InfiniteScroll)`
+  overflow: visible !important;
 `;
 
 export const ContainerGrid = styled(MaterialGrid)`

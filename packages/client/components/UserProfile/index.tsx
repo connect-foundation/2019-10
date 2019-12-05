@@ -1,7 +1,4 @@
-import React from 'react';
-
 import * as S from './styles';
-import { Grid } from '@material-ui/core';
 
 import UserProfileSkeleton from './skeleton';
 

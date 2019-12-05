@@ -12,6 +12,7 @@ import { chunkVideoList } from '../../libs/videoList';
 import { sortOptions } from '../../constants';
 import { useUser, useVideos } from './hooks';
 import VideoItemSkeleton from '../../components/VideoItem/skeleton';
+import CircularLoader from '../../components/CircularLoader';
 
 const User = () => {
   const router = useRouter();
@@ -57,7 +58,7 @@ const User = () => {
           <S.ContainerGrid container spacing={0} justify="center">
             <Grid item xs={12} md={9}>
               <S.Title>
-                {count && count === 0 ? '영상' : `${count}개의 영상`}
+                {count && count > 0 ? `${count}개의 영상` : '영상'}
               </S.Title>
 
               <S.StyledTabs
@@ -67,11 +68,11 @@ const User = () => {
               />
 
               {hasVideosData ? (
-                <InfiniteScroll
+                <S.StyledInfiniteScroll
                   dataLength={videos.length}
                   next={onNext}
                   hasMore={hasMore}
-                  loader={<h1 style={{ color: 'white' }}>로딩중!</h1>}
+                  loader={<CircularLoader />}
                 >
                   {videoChunks.map((chunk, i) => {
                     return (
@@ -95,7 +96,7 @@ const User = () => {
                       </S.ContainerGrid>
                     );
                   })}
-                </InfiniteScroll>
+                </S.StyledInfiniteScroll>
               ) : (
                 <S.ContainerGrid container spacing={2} justify="flex-start">
                   {skeleton}

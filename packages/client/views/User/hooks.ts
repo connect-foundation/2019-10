@@ -30,7 +30,6 @@ export const useUser = id => {
   return {
     user,
     hasData,
-    ...rest,
   };
 };
 
