@@ -14,7 +14,7 @@ import {
   ViewMore,
 } from '../../components/Searched';
 
-import { endpoint, searchOptions } from '../../constants';
+import { endpoint, searchOptions, search } from '../../constants';
 import { useSearchVideos, useSearchUsers, useSearchTags } from './hooks';
 
 const Searched: React.FunctionComponent = () => {
@@ -87,7 +87,9 @@ const Searched: React.FunctionComponent = () => {
                 {videoCount > 0 && (
                   <>
                     <SearchedVideos videos={videos} />
-                    <ViewMore searchKeyword={searchKeyword} num={1} />
+                    {activeSearch === search.all && (
+                      <ViewMore searchKeyword={searchKeyword} num={1} />
+                    )}
                     <S.Line />
                   </>
                 )}
@@ -95,7 +97,9 @@ const Searched: React.FunctionComponent = () => {
                 {userCount > 0 && (
                   <>
                     <SearchedUsers users={users} />
-                    <ViewMore searchKeyword={searchKeyword} num={2} />
+                    {activeSearch === search.all && (
+                      <ViewMore searchKeyword={searchKeyword} num={2} />
+                    )}
                     <S.Line />
                   </>
                 )}
@@ -103,7 +107,9 @@ const Searched: React.FunctionComponent = () => {
                 {tagCount > 0 && (
                   <>
                     <SearchedTags tags={tags} />
-                    <ViewMore searchKeyword={searchKeyword} num={3} />
+                    {activeSearch === search.all && (
+                      <ViewMore searchKeyword={searchKeyword} num={3} />
+                    )}
                     <S.Line />
                   </>
                 )}
