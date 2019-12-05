@@ -78,6 +78,7 @@ const SearchedVideos: React.FunctionComponent = () => {
               hasMore={videoHasMore}
               loader={<CircularProgress size={28} thickness={4.5} />}
             >
+              <S.Subject> 영상 </S.Subject>
               {videos.map(video => {
                 return (
                   <S.Videos key={video.id}>

@@ -77,6 +77,7 @@ const SearchedTags: React.FunctionComponent = () => {
               hasMore={tagHasMore}
               loader={<CircularProgress size={28} thickness={4.5} />}
             >
+              <S.Subject> 태그 </S.Subject>
               <S.Tags>
                 {tags.map(tag => {
                   return (

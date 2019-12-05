@@ -77,6 +77,7 @@ const SearchedUsers: React.FunctionComponent = () => {
               hasMore={userHasMore}
               loader={<CircularProgress size={28} thickness={4.5} />}
             >
+              <S.Subject> 사용자 </S.Subject>
               <S.Users>
                 {users.map(user => {
                   return (
