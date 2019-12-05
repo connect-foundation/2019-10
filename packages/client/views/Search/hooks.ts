@@ -34,50 +34,56 @@ const createSearchTagsAction: Action = (page, keyword) => {
 export const useSearchVideos = (page, search) => {
   const [videos, setVideos] = useState([]);
   const [videoHasMore, setVideoHasMore] = useState(true);
+  const [videoHasData, setVideoHasData] = useState(false);
 
   const action = createSearchVideosAction(page, search);
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
     if (payload && !error) {
+      setVideoHasData(true);
       setVideoHasMore(payload.data.length >= 20);
       setVideos([...payload.data]);
     }
   }, [payload]);
 
-  return { videos, videoHasMore };
+  return { videos, videoHasMore, videoHasData };
 };
 
 export const useSearchUsers = (page, search) => {
   const [users, setUsers] = useState([]);
   const [userHasMore, setUserHasMore] = useState(true);
+  const [userHasData, setUserHasData] = useState(false);
 
   const action = createSearchUsersAction(page, search);
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
     if (payload && !error) {
+      setUserHasData(true);
       setUserHasMore(payload.data.length >= 20);
       setUsers([...payload.data]);
     }
   }, [payload]);
 
-  return { users, userHasMore };
+  return { users, userHasMore, userHasData };
 };
 
 export const useSearchTags = (page, search) => {
   const [tags, setTags] = useState([]);
   const [tagHasMore, setTagHasMore] = useState(true);
+  const [tagHasData, setTagHasData] = useState(false);
 
   const action = createSearchTagsAction(page, search);
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
     if (payload && !error) {
+      setTagHasData(true);
       setTagHasMore(payload.data.length >= 20);
       setTags([...payload.data]);
     }
   }, [payload]);
 
-  return { tags, tagHasMore };
+  return { tags, tagHasMore, tagHasData };
 };

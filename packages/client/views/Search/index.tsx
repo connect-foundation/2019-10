@@ -74,7 +74,13 @@ const Searched: React.FunctionComponent = () => {
                   );
                 })}
                 <S.ViewMore>
-                  <Link href={routerObject(searchKeyword, 1)}>
+                  <Link
+                    prefetch={false}
+                    href={{
+                      pathname: `${endpoint.search}/${searchOptions[1].value}`,
+                      query: { keyword: searchKeyword },
+                    }}
+                  >
                     <a>
                       <button>
                         <span>전체 영상</span>
@@ -103,12 +109,20 @@ const Searched: React.FunctionComponent = () => {
                   })}
                 </S.Users>
                 <S.ViewMore>
-                  <button
-                    onClick={() => router.push(routerObject(searchKeyword, 2))}
+                  <Link
+                    prefetch={false}
+                    href={{
+                      pathname: `${endpoint.search}/${searchOptions[2].value}`,
+                      query: { keyword: searchKeyword },
+                    }}
                   >
-                    <span>전체 사용자</span>
-                    <ArrowRightSVG />
-                  </button>
+                    <a>
+                      <button>
+                        <span>전체 사용자</span>
+                        <ArrowRightSVG />
+                      </button>
+                    </a>
+                  </Link>
                 </S.ViewMore>
                 <S.Line />
               </>
@@ -127,12 +141,20 @@ const Searched: React.FunctionComponent = () => {
                   })}
                 </S.Tags>
                 <S.ViewMore>
-                  <button
-                    onClick={() => router.push(routerObject(searchKeyword, 3))}
+                  <Link
+                    prefetch={false}
+                    href={{
+                      pathname: `${endpoint.search}/${searchOptions[3].value}`,
+                      query: { keyword: searchKeyword },
+                    }}
                   >
-                    <span>전체 태그</span>
-                    <ArrowRightSVG />
-                  </button>
+                    <a>
+                      <button>
+                        <span>전체 태그</span>
+                        <ArrowRightSVG />
+                      </button>
+                    </a>
+                  </Link>
                 </S.ViewMore>
                 <S.Line />
               </>

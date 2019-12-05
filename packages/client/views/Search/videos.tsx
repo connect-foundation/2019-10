@@ -20,7 +20,10 @@ const SearchedVideos: React.FunctionComponent = () => {
 
   const activeSearch = searchOptions[1].value;
 
-  const { videos, videoHasMore } = useSearchVideos(page, searchKeyword);
+  const { videos, videoHasMore, videoHasData } = useSearchVideos(
+    page,
+    searchKeyword,
+  );
 
   const handlePageChange = () => {
     setPage(page + 1);
@@ -55,6 +58,8 @@ const SearchedVideos: React.FunctionComponent = () => {
     }
   };
 
+  const loader = <CircularProgress size={28} thickness={4.5} />;
+
   return (
     <Layout drawer={false}>
       <S.Container>
@@ -72,26 +77,29 @@ const SearchedVideos: React.FunctionComponent = () => {
             />
             <S.Line />
 
-            <S.StyledInfiniteScroll
-              dataLength={videos.length}
-              next={handlePageChange}
-              hasMore={videoHasMore}
-              loader={<CircularProgress size={28} thickness={4.5} />}
-            >
-              <S.Subject> 영상 </S.Subject>
-              {videos.map(video => {
-                return (
-                  <S.Videos key={video.id}>
-                    <VideoItem
-                      {...video}
-                      showUser={false}
-                      mobileType="horizontal"
-                      desktopType="horizontal"
-                    />
-                  </S.Videos>
-                );
-              })}
-            </S.StyledInfiniteScroll>
+            {videoHasData ? (
+              <S.StyledInfiniteScroll
+                dataLength={videos.length}
+                next={handlePageChange}
+                hasMore={videoHasMore}
+              >
+                <S.Subject> 영상 </S.Subject>
+                {videos.map(video => {
+                  return (
+                    <S.Videos key={video.id}>
+                      <VideoItem
+                        {...video}
+                        showUser={false}
+                        mobileType="horizontal"
+                        desktopType="horizontal"
+                      />
+                    </S.Videos>
+                  );
+                })}
+              </S.StyledInfiniteScroll>
+            ) : (
+              loader
+            )}
           </Grid>
         </S.ContainerGrid>
       </S.Container>

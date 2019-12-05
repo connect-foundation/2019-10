@@ -19,7 +19,7 @@ const SearchedTags: React.FunctionComponent = () => {
 
   const activeSearch = searchOptions[3].value;
 
-  const { tags, tagHasMore } = useSearchTags(page, searchKeyword);
+  const { tags, tagHasMore, tagHasData } = useSearchTags(page, searchKeyword);
 
   const handlePageChange = () => {
     setPage(page + 1);
@@ -54,6 +54,8 @@ const SearchedTags: React.FunctionComponent = () => {
     }
   };
 
+  const loader = <CircularProgress size={28} thickness={4.5} />;
+
   return (
     <Layout drawer={false}>
       <S.Container>
@@ -71,23 +73,27 @@ const SearchedTags: React.FunctionComponent = () => {
             />
             <S.Line />
 
-            <S.StyledInfiniteScroll
-              dataLength={tags.length}
-              next={handlePageChange}
-              hasMore={tagHasMore}
-              loader={<CircularProgress size={28} thickness={4.5} />}
-            >
-              <S.Subject> 태그 </S.Subject>
-              <S.Tags>
-                {tags.map(tag => {
-                  return (
-                    <div key={tag.id}>
-                      <S.Tag>{tag.name}</S.Tag>;
-                    </div>
-                  );
-                })}
-              </S.Tags>
-            </S.StyledInfiniteScroll>
+            {tagHasData ? (
+              <S.StyledInfiniteScroll
+                dataLength={tags.length}
+                next={handlePageChange}
+                hasMore={tagHasMore}
+                loader={<CircularProgress size={28} thickness={4.5} />}
+              >
+                <S.Subject> 태그 </S.Subject>
+                <S.Tags>
+                  {tags.map(tag => {
+                    return (
+                      <div key={tag.id}>
+                        <S.Tag>{tag.name}</S.Tag>;
+                      </div>
+                    );
+                  })}
+                </S.Tags>
+              </S.StyledInfiniteScroll>
+            ) : (
+              loader
+            )}
           </Grid>
         </S.ContainerGrid>
       </S.Container>

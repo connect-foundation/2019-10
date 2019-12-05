@@ -19,7 +19,10 @@ const SearchedUsers: React.FunctionComponent = () => {
 
   const activeSearch = searchOptions[2].value;
 
-  const { users, userHasMore } = useSearchUsers(page, searchKeyword);
+  const { users, userHasMore, userHasData } = useSearchUsers(
+    page,
+    searchKeyword,
+  );
 
   const handlePageChange = () => {
     setPage(page + 1);
@@ -54,6 +57,8 @@ const SearchedUsers: React.FunctionComponent = () => {
     }
   };
 
+  const loader = <CircularProgress size={28} thickness={4.5} />;
+
   return (
     <Layout drawer={false}>
       <S.Container>
@@ -71,26 +76,30 @@ const SearchedUsers: React.FunctionComponent = () => {
             />
             <S.Line />
 
-            <S.StyledInfiniteScroll
-              dataLength={users.length}
-              next={handlePageChange}
-              hasMore={userHasMore}
-              loader={<CircularProgress size={28} thickness={4.5} />}
-            >
-              <S.Subject> 사용자 </S.Subject>
-              <S.Users>
-                {users.map(user => {
-                  return (
-                    <S.User key={user.id}>
-                      <S.Avatar>
-                        <img src={user.avatar} />
-                      </S.Avatar>
-                      <S.Username>{user.username}</S.Username>
-                    </S.User>
-                  );
-                })}
-              </S.Users>
-            </S.StyledInfiniteScroll>
+            {userHasData ? (
+              <S.StyledInfiniteScroll
+                dataLength={users.length}
+                next={handlePageChange}
+                hasMore={userHasMore}
+                loader={<CircularProgress size={28} thickness={4.5} />}
+              >
+                <S.Subject> 사용자 </S.Subject>
+                <S.Users>
+                  {users.map(user => {
+                    return (
+                      <S.User key={user.id}>
+                        <S.Avatar>
+                          <img src={user.avatar} />
+                        </S.Avatar>
+                        <S.Username>{user.username}</S.Username>
+                      </S.User>
+                    );
+                  })}
+                </S.Users>
+              </S.StyledInfiniteScroll>
+            ) : (
+              loader
+            )}
           </Grid>
         </S.ContainerGrid>
       </S.Container>
