@@ -8,7 +8,7 @@ import { GitHubSVG } from '../../svgs';
 const Login: React.FunctionComponent = () => {
   return (
     <>
-      <AppBar />
+      <AppBar showSearchBar={false} showButtons={false} />
       <S.Login>
         <S.Container>
           <S.ContainerGrid container justify="center">
