@@ -8,10 +8,12 @@ import { SearchSVG } from '../../svgs';
 
 import Layout from '../../components/Layout';
 import CircularProgress from '../../components/CircularProgress';
+import { SearchedTags } from '../../components/Searched';
+
 import { endpoint, searchOptions } from '../../constants';
 import { useSearchTags } from './hooks';
 
-const SearchedTags: React.FunctionComponent = () => {
+const SearchedTagsView: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
 
@@ -78,18 +80,8 @@ const SearchedTags: React.FunctionComponent = () => {
                 dataLength={tags.length}
                 next={handlePageChange}
                 hasMore={tagHasMore}
-                loader={<CircularProgress size={28} thickness={4.5} />}
               >
-                <S.Subject> 태그 </S.Subject>
-                <S.Tags>
-                  {tags.map(tag => {
-                    return (
-                      <div key={tag.id}>
-                        <S.Tag>{tag.name}</S.Tag>;
-                      </div>
-                    );
-                  })}
-                </S.Tags>
+                <SearchedTags tags={tags} />
               </S.StyledInfiniteScroll>
             ) : (
               loader
@@ -101,4 +93,4 @@ const SearchedTags: React.FunctionComponent = () => {
   );
 };
 
-export default SearchedTags;
+export default SearchedTagsView;

@@ -8,10 +8,12 @@ import { SearchSVG } from '../../svgs';
 
 import Layout from '../../components/Layout';
 import CircularProgress from '../../components/CircularProgress';
+import { SearchedUsers } from '../../components/Searched';
+
 import { endpoint, searchOptions } from '../../constants';
 import { useSearchUsers } from './hooks';
 
-const SearchedUsers: React.FunctionComponent = () => {
+const SearchedUsersView: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
 
@@ -81,21 +83,8 @@ const SearchedUsers: React.FunctionComponent = () => {
                 dataLength={users.length}
                 next={handlePageChange}
                 hasMore={userHasMore}
-                loader={<CircularProgress size={28} thickness={4.5} />}
               >
-                <S.Subject> 사용자 </S.Subject>
-                <S.Users>
-                  {users.map(user => {
-                    return (
-                      <S.User key={user.id}>
-                        <S.Avatar>
-                          <img src={user.avatar} />
-                        </S.Avatar>
-                        <S.Username>{user.username}</S.Username>
-                      </S.User>
-                    );
-                  })}
-                </S.Users>
+                <SearchedUsers users={users} />
               </S.StyledInfiniteScroll>
             ) : (
               loader
@@ -107,4 +96,4 @@ const SearchedUsers: React.FunctionComponent = () => {
   );
 };
 
-export default SearchedUsers;
+export default SearchedUsersView;

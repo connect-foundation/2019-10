@@ -7,12 +7,13 @@ import * as S from './styles';
 import { SearchSVG } from '../../svgs';
 
 import Layout from '../../components/Layout';
-import VideoItem from '../../components/VideoItem';
 import CircularProgress from '../../components/CircularProgress';
+import { SearchedVideos } from '../../components/Searched';
+
 import { endpoint, searchOptions } from '../../constants';
 import { useSearchVideos } from './hooks';
 
-const SearchedVideos: React.FunctionComponent = () => {
+const SearchedVideosView: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
 
@@ -83,19 +84,7 @@ const SearchedVideos: React.FunctionComponent = () => {
                 next={handlePageChange}
                 hasMore={videoHasMore}
               >
-                <S.Subject> 영상 </S.Subject>
-                {videos.map(video => {
-                  return (
-                    <S.Videos key={video.id}>
-                      <VideoItem
-                        {...video}
-                        showUser={false}
-                        mobileType="horizontal"
-                        desktopType="horizontal"
-                      />
-                    </S.Videos>
-                  );
-                })}
+                <SearchedVideos videos={videos} />
               </S.StyledInfiniteScroll>
             ) : (
               loader
@@ -107,4 +96,4 @@ const SearchedVideos: React.FunctionComponent = () => {
   );
 };
 
-export default SearchedVideos;
+export default SearchedVideosView;

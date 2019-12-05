@@ -1,42 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useQuery, Action } from 'react-fetching-library';
 
-const createSearchVideosAction: Action = (page, keyword) => {
-  const queryString = page
-    ? `/videos?keyword=${keyword}&page=${page}`
-    : `/videos?keyword=${keyword}`;
+import { search } from '../../constants';
 
+const createSearchAction: Action = (subject, page, keyword) => {
+  const queryString = page
+    ? `/${subject}?keyword=${keyword}&page=${page}`
+    : `/${subject}?keyword=${keyword}`;
   return {
     method: 'GET',
     endpoint: `${process.env.API_URL_HOST}${queryString}`,
   };
 };
 
-const createSearchUsersAction: Action = (page, keyword) => {
-  const queryString = page
-    ? `/users?keyword=${keyword}&page=${page}`
-    : `/users?keyword=${keyword}`;
-  return {
-    method: 'GET',
-    endpoint: `${process.env.API_URL_HOST}${queryString}`,
-  };
-};
-const createSearchTagsAction: Action = (page, keyword) => {
-  const queryString = page
-    ? `/tags?keyword=${keyword}&page=${page}`
-    : `/tags?keyword=${keyword}`;
-  return {
-    method: 'GET',
-    endpoint: `${process.env.API_URL_HOST}${queryString}`,
-  };
-};
-
-export const useSearchVideos = (page, search) => {
+export const useSearchVideos = (page, keyword) => {
   const [videos, setVideos] = useState([]);
   const [videoHasMore, setVideoHasMore] = useState(true);
   const [videoHasData, setVideoHasData] = useState(false);
 
-  const action = createSearchVideosAction(page, search);
+  const action = createSearchAction(search.videos, page, keyword);
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
@@ -50,12 +32,12 @@ export const useSearchVideos = (page, search) => {
   return { videos, videoHasMore, videoHasData };
 };
 
-export const useSearchUsers = (page, search) => {
+export const useSearchUsers = (page, keyword) => {
   const [users, setUsers] = useState([]);
   const [userHasMore, setUserHasMore] = useState(true);
   const [userHasData, setUserHasData] = useState(false);
 
-  const action = createSearchUsersAction(page, search);
+  const action = createSearchAction(search.users, page, keyword);
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
@@ -69,12 +51,12 @@ export const useSearchUsers = (page, search) => {
   return { users, userHasMore, userHasData };
 };
 
-export const useSearchTags = (page, search) => {
+export const useSearchTags = (page, keyword) => {
   const [tags, setTags] = useState([]);
   const [tagHasMore, setTagHasMore] = useState(true);
   const [tagHasData, setTagHasData] = useState(false);
 
-  const action = createSearchTagsAction(page, search);
+  const action = createSearchAction(search.tags, page, keyword);
   const { payload, error } = useQuery(action);
 
   useEffect(() => {

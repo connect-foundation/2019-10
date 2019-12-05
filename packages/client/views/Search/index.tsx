@@ -8,7 +8,12 @@ import * as S from './styles';
 import { SearchSVG, ArrowRightSVG } from '../../svgs';
 
 import Layout from '../../components/Layout';
-import VideoItem from '../../components/VideoItem';
+import {
+  SearchedVideos,
+  SearchedUsers,
+  SearchedTags,
+} from '../../components/Searched';
+
 import { endpoint, searchOptions } from '../../constants';
 import { useSearchVideos, useSearchUsers, useSearchTags } from './hooks';
 
@@ -60,19 +65,7 @@ const Searched: React.FunctionComponent = () => {
 
             {videos.length > 0 && (
               <>
-                <S.Subject> 영상 </S.Subject>
-                {videos.map(video => {
-                  return (
-                    <S.Videos key={video.id}>
-                      <VideoItem
-                        {...video}
-                        showUser={false}
-                        mobileType="horizontal"
-                        desktopType="horizontal"
-                      />
-                    </S.Videos>
-                  );
-                })}
+                <SearchedVideos videos={videos} />
                 <S.ViewMore>
                   <Link
                     prefetch={false}
@@ -95,19 +88,7 @@ const Searched: React.FunctionComponent = () => {
 
             {users.length > 0 && (
               <>
-                <S.Subject> 사용자 </S.Subject>
-                <S.Users>
-                  {users.map(user => {
-                    return (
-                      <S.User key={user.id}>
-                        <S.Avatar>
-                          <img src={user.avatar} />
-                        </S.Avatar>
-                        <S.Username>{user.username}</S.Username>
-                      </S.User>
-                    );
-                  })}
-                </S.Users>
+                <SearchedUsers users={users} />
                 <S.ViewMore>
                   <Link
                     prefetch={false}
@@ -130,16 +111,7 @@ const Searched: React.FunctionComponent = () => {
 
             {tags.length > 0 && (
               <>
-                <S.Subject> 태그 </S.Subject>
-                <S.Tags>
-                  {tags.map(tag => {
-                    return (
-                      <div key={tag.id}>
-                        <S.Tag>{tag.name}</S.Tag>;
-                      </div>
-                    );
-                  })}
-                </S.Tags>
+                <SearchedTags tags={tags} />
                 <S.ViewMore>
                   <Link
                     prefetch={false}
