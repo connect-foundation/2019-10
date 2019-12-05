@@ -1,6 +1,6 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { POPULAR, LATEST } from '../../constants';
 import { UserVideoListQueryDto } from 'user/dto/user-video-list-query.dto';
+import { POPULAR, LATEST } from 'common/constants';
 
 @Injectable()
 export class UserVideoListQueryPipe implements PipeTransform {
