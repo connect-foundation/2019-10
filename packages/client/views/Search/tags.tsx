@@ -4,11 +4,10 @@ import { useRouter } from 'next/router';
 import Grid from '@material-ui/core/Grid';
 
 import * as S from './styles';
-import { SearchSVG } from '../../svgs';
 
 import Layout from '../../components/Layout';
 import CircularProgress from '../../components/CircularProgress';
-import { SearchedTags } from '../../components/Searched';
+import { SearchedTags, SearchedTitle } from '../../components/Searched';
 
 import { endpoint, searchOptions } from '../../constants';
 import { useSearchTags } from './hooks';
@@ -63,10 +62,7 @@ const SearchedTagsView: React.FunctionComponent = () => {
       <S.Container>
         <S.ContainerGrid container spacing={2} justify="center">
           <Grid item xs={12} md={8}>
-            <S.Title>
-              <SearchSVG width={23} height={24} />
-              <span>"{searchKeyword}" 검색 결과</span>
-            </S.Title>
+            <SearchedTitle searchKeyword={searchKeyword} />
 
             <S.StyledTabs
               items={searchOptions}
