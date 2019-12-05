@@ -77,6 +77,7 @@ const SignUp: React.FunctionComponent = () => {
                   type="text"
                   autoComplete="off"
                 />
+                <span>안녕하세요</span>
               </S.Item>
               <S.Item>
                 <S.Label>
@@ -88,7 +89,9 @@ const SignUp: React.FunctionComponent = () => {
                   name="description"
                   maxLength={signUpFormDataMaxLength.introduction}
                   onChange={handleFormChange}
+                  spellCheck={false}
                 />
+                <span>안녕하세요</span>
               </S.Item>
               <S.Item>
                 <S.Label>
@@ -96,6 +99,7 @@ const SignUp: React.FunctionComponent = () => {
                     type="checkbox"
                     name="isAgreed"
                     onChange={handleFormChange}
+                    spellCheck={false}
                   />
                   <div className={'agreement'}>
                     <u>서비스 약관</u>에 동의합니다.

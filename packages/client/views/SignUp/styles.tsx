@@ -54,7 +54,9 @@ export const Item = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: 3rem;
   width: 100%;
+
   input[type='text'] {
     display: block;
     background-color: #484c50;
@@ -62,7 +64,6 @@ export const Item = styled.div`
     height: 5rem;
     border: none;
     border-radius: 0.5rem;
-    margin-bottom: 3rem;
     color: white;
     padding: 1rem;
   }
@@ -76,6 +77,7 @@ export const Item = styled.div`
     vertical-align: middle;
     cursor: pointer;
   }
+
   textarea {
     display: block;
     width: 100%;
@@ -84,9 +86,16 @@ export const Item = styled.div`
     background-color: #484c50;
     border: none;
     border-radius: 0.5rem;
-    margin-bottom: 3rem;
     color: white;
     padding: 1rem;
+  }
+
+  > span {
+    margin-top: 1rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #e52528;
+    display: none;
   }
 `;
 
@@ -134,13 +143,7 @@ export const SubmitButton = styled.div`
     background-color: #02cf5d;
     cursor: pointer;
   }
-  button:disabled {
-    /* 추후 디자인 추가되면 색상 변경해야함 */
-    color: white;
-    background-color: gray /*#02cf5d*/;
-    cursor: default;
-  }
   @media only screen and (min-width: ${BREAKPOINT}px) {
-    margin-top: 4rem;
+    margin-top: 1rem;
   }
 `;
