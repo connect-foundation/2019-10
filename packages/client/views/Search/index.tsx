@@ -40,16 +40,24 @@ const Searched: React.FunctionComponent = () => {
     return acc;
   }, []);
 
-  if (videoCount && userCount && tagCount) {
+  const allCount = videoCount + userCount + tagCount;
+
+  if (allCount >= 2) {
     customSearchOptions.unshift({ label: '모두', value: 'all' });
   }
+
+  const options = customSearchOptions
+    .map(option => {
+      return option.value;
+    })
+    .join(',');
 
   const activeSearch =
     customSearchOptions[0] === undefined ? 'all' : customSearchOptions[0].value;
 
   const routerObject = (queryKeyword, num) => ({
     pathname: `${endpoint.search}/${searchOptions[num].value}`,
-    query: { keyword: queryKeyword },
+    query: { keyword: queryKeyword, options },
   });
 
   const handleFilterClick = value => {
@@ -88,7 +96,11 @@ const Searched: React.FunctionComponent = () => {
                   <>
                     <SearchedVideos videos={videos} />
                     {activeSearch === search.all && (
-                      <ViewMore searchKeyword={searchKeyword} num={1} />
+                      <ViewMore
+                        searchKeyword={searchKeyword}
+                        num={1}
+                        options={options}
+                      />
                     )}
                     <S.Line />
                   </>
@@ -98,7 +110,11 @@ const Searched: React.FunctionComponent = () => {
                   <>
                     <SearchedUsers users={users} />
                     {activeSearch === search.all && (
-                      <ViewMore searchKeyword={searchKeyword} num={2} />
+                      <ViewMore
+                        searchKeyword={searchKeyword}
+                        num={2}
+                        options={options}
+                      />
                     )}
                     <S.Line />
                   </>
@@ -108,7 +124,11 @@ const Searched: React.FunctionComponent = () => {
                   <>
                     <SearchedTags tags={tags} />
                     {activeSearch === search.all && (
-                      <ViewMore searchKeyword={searchKeyword} num={3} />
+                      <ViewMore
+                        searchKeyword={searchKeyword}
+                        num={3}
+                        options={options}
+                      />
                     )}
                     <S.Line />
                   </>

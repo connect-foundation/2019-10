@@ -15,6 +15,8 @@ import { useSearchUsers } from '../hooks';
 const SearchedUsersView: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
+  const options = router.query.options as string;
+  const optionArray = options.split(',');
 
   const [page, setPage] = useState(1);
 
@@ -24,6 +26,17 @@ const SearchedUsersView: React.FunctionComponent = () => {
     page,
     searchKeyword,
   );
+
+  const optionMap = new Map();
+  optionMap.set('all', '모두');
+  optionMap.set('videos', '영상');
+  optionMap.set('users', '사용자');
+  optionMap.set('tags', '태그');
+
+  const customSearchOptions = optionArray.reduce((acc, cur) => {
+    acc.push({ label: optionMap.get(cur), value: cur });
+    return acc;
+  }, []);
 
   const handlePageChange = () => {
     setPage(page + 1);
@@ -38,7 +51,7 @@ const SearchedUsersView: React.FunctionComponent = () => {
     }
     return {
       pathname: `${endpoint.search}/${searchOptions[num].value}`,
-      query: { keyword: queryKeyword },
+      query: { keyword: queryKeyword, options },
     };
   };
 
@@ -68,7 +81,7 @@ const SearchedUsersView: React.FunctionComponent = () => {
             <SearchedTitle searchKeyword={searchKeyword} />
 
             <S.StyledTabs
-              items={searchOptions}
+              items={customSearchOptions}
               activeValue={activeSearch}
               onClick={handleFilterClick}
             />
