@@ -31,7 +31,6 @@ const User = () => {
   } = useVideos(userId);
   const videoChunks = makeChunkList(videos, 3);
 
-
   const skeleton = [];
   for (let i = 0; i < 10; i += 1) {
     skeleton.push(
@@ -58,10 +57,7 @@ const User = () => {
         <S.Videos>
           <S.ContainerGrid container spacing={0} justify="center">
             <Grid item xs={12} md={9}>
-              <S.Title>
-                {count && count > 0 ? `${count}개의 영상` : '영상'}
-              </S.Title>
-
+              <S.Title>{!count ? '영상' : `${count}개의 영상`}</S.Title>
               <S.StyledTabs
                 items={sortOptions}
                 activeValue={sort}
