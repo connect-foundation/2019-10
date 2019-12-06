@@ -90,7 +90,6 @@ export const DesktopButtons = styled.div`
 
     button {
       user-select: none;
-      cursor: pointer;
       height: 3.2rem;
       padding: 0 1.6rem;
       border: 0;

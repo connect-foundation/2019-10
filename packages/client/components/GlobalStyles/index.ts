@@ -15,6 +15,7 @@ const GlobalStyles = createGlobalStyle`
     height: 100%;
     font-size: 10px;
     background-color: #303537;
+    user-select : none;
   }
 
   #__next {
@@ -23,6 +24,10 @@ const GlobalStyles = createGlobalStyle`
 
   .MuiSkeleton-root {
     background-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  button {
+    cursor: pointer;
   }
 `;
 
