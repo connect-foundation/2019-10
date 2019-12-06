@@ -1,5 +1,6 @@
 import { Action, useQuery } from 'react-fetching-library';
 import { useState, useEffect } from 'react';
+import { USER_VIDEOS_PER_PAGE } from '../../constants';
 
 const createUserAction: Action = id => ({
   method: 'GET',
@@ -56,7 +57,7 @@ export const useVideos = id => {
   useEffect(() => {
     if (payload && !error) {
       setHasData(true);
-      setHasMore(payload.data.length >= 12);
+      setHasMore(payload.data.length >= USER_VIDEOS_PER_PAGE);
       setCount(payload.count);
       page === 1
         ? setVideos(payload.data)

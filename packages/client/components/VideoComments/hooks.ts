@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery, Action } from 'react-fetching-library';
+import { COMMENTS_PER_PAGE } from '../../constants';
 
 const createCommentsAction: Action = (videoId, page, sort) => ({
   method: 'GET',
@@ -24,7 +25,7 @@ export const useComments = videoId => {
   useEffect(() => {
     if (payload && !error) {
       setHasData(true);
-      setHasMore(payload.data.length >= 5);
+      setHasMore(payload.data.length >= COMMENTS_PER_PAGE);
       setCount(payload.count);
       page === 1
         ? setComments(payload.data)

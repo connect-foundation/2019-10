@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery, Action } from 'react-fetching-library';
+import { HOTLIST_VIDEOS_PER_PAGE } from '../../constants';
 
 const createHotlistAction: Action = (page, period) => ({
   method: 'GET',
@@ -22,7 +23,7 @@ export const useHotlistVideos = (page, period) => {
   useEffect(() => {
     if (payload && !error) {
       setHasData(true);
-      setHasMore(payload.data.length >= 20);
+      setHasMore(payload.data.length >= HOTLIST_VIDEOS_PER_PAGE);
       page === 1
         ? setVideos(payload.data)
         : setVideos([...videos, ...payload.data]);

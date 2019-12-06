@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useRouter } from 'next/router';
 
 import * as S from './styles';
@@ -9,7 +8,11 @@ import Layout from '../../components/Layout';
 import UserProfile from '../../components/UserProfile';
 import VideoItem from '../../components/VideoItem';
 import { makeChunkList } from '../../libs/makeChunkList';
-import { sortOptions } from '../../constants';
+import {
+  sortOptions,
+  orientation,
+  USER_VIDEOS_PER_PAGE,
+} from '../../constants';
 import { useUser, useVideos } from './hooks';
 import VideoItemSkeleton from '../../components/VideoItem/skeleton';
 import CircularLoader from '../../components/CircularLoader';
@@ -32,10 +35,13 @@ const User = () => {
   const videoChunks = makeChunkList(videos, 3);
 
   const skeleton = [];
-  for (let i = 0; i < 10; i += 1) {
+  for (let i = 0; i < USER_VIDEOS_PER_PAGE; i += 1) {
     skeleton.push(
       <Grid key={i} item xs={12} md={4}>
-        <VideoItemSkeleton showUser={false} mobileType="horizontal" />
+        <VideoItemSkeleton
+          showUser={false}
+          mobileType={orientation.horizontal}
+        />
       </Grid>,
     );
   }
@@ -85,7 +91,7 @@ const User = () => {
                               <VideoItem
                                 {...video}
                                 showUser={false}
-                                mobileType="horizontal"
+                                mobileType={orientation.horizontal}
                               />
                             </Grid>
                           );
