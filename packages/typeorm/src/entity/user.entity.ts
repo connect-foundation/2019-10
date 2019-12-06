@@ -71,11 +71,11 @@ export class User extends Base {
   @JoinTable({
     name: 'liked_comments',
     joinColumn: {
-      name: 'commentId',
+      name: 'userId',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'userId',
+      name: 'commentId',
       referencedColumnName: 'id',
     },
   })

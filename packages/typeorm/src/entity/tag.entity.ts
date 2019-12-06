@@ -30,11 +30,11 @@ export class Tag extends Base {
   @JoinTable({
     name: 'tagged_videos',
     joinColumn: {
-      name: 'videoId',
+      name: 'tagId',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'tagId',
+      name: 'videoId',
       referencedColumnName: 'id',
     },
   })
