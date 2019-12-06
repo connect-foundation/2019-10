@@ -1,5 +1,6 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 import { UserVideoListParamDto } from 'user/dto/user-video-list-param.dto';
+import { NATURAL_NUMBER_REGEX } from 'common/regexes';
 
 @Injectable()
 export class UserVideoListParamPipe implements PipeTransform {
@@ -17,8 +18,7 @@ export class UserVideoListParamPipe implements PipeTransform {
     };
   }
 
-  private validateId(id: string) {
-    const parsedId = parseInt(id, 10);
-    return !isNaN(parsedId);
+  private validateId(id: string): boolean {
+    return NATURAL_NUMBER_REGEX.test(id);
   }
 }

@@ -1,6 +1,7 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 import { UserVideoListQueryDto } from 'user/dto/user-video-list-query.dto';
 import { POPULAR, LATEST } from 'common/constants';
+import { NATURAL_NUMBER_REGEX } from 'common/regexes';
 
 @Injectable()
 export class UserVideoListQueryPipe implements PipeTransform {
@@ -20,16 +21,15 @@ export class UserVideoListQueryPipe implements PipeTransform {
     };
   }
 
-  private validateQuery({ page, sort }) {
+  private validateQuery({ page, sort }): boolean {
     return this.validatePage(page) && this.validateSort(sort);
   }
 
-  private validatePage(page: string) {
-    const parsedPage = parseInt(page, 10);
-    return !isNaN(parsedPage) && parsedPage > 0;
+  private validatePage(page: string): boolean {
+    return NATURAL_NUMBER_REGEX.test(page);
   }
 
-  private validateSort(sort: string) {
+  private validateSort(sort: string): boolean {
     return sort && (sort === POPULAR || sort === LATEST);
   }
 }

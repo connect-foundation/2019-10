@@ -1,6 +1,6 @@
 import { Video } from '../../../../typeorm/src/entity/video.entity';
 
-export class VideoResponseDto {
+export class UserVideoResponseDto {
   public constructor(video: Video) {
     this.id = video.id;
     this.title = video.title;

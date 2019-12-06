@@ -30,7 +30,7 @@ import { UserResponseDto } from 'user/dto/user-response.dto';
 import { UserVideoListParamPipe } from 'user/pipe/user-video-list-param.pipe';
 import { UserVideoListParamDto } from 'user/dto/user-video-list-param.dto';
 import { UserVideoListQueryDto } from 'user/dto/user-video-list-query.dto';
-import { UserVideoListResponseDto } from 'user/dto/video-list-response.dto';
+import { UserVideoListResponseDto } from 'user/dto/user-video-list-response.dto';
 
 @Controller(endpoint.users)
 export class UserController {

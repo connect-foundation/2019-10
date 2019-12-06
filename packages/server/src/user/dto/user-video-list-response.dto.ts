@@ -1,4 +1,4 @@
-import { VideoResponseDto } from './video-response.dto';
+import { UserVideoResponseDto } from './user-video-response.dto';
 import { Video } from '../../../../typeorm/src/entity/video.entity';
 import { UserVideoInfo } from 'user/model/user-video-info';
 
@@ -8,6 +8,6 @@ export class UserVideoListResponseDto {
     this.count = count;
   }
 
-  public readonly data: VideoResponseDto[];
+  public readonly data: UserVideoResponseDto[];
   public readonly count: number;
 }
