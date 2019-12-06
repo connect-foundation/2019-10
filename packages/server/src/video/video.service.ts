@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { Repository } from 'typeorm';
 
 import { Video } from '../../entity/video.entity';
+import { User } from '../../entity/user.entity';
 import { UploadedVideoTableService } from '../uploaded-video-table/uploaded-video-table.service';
 import { VideoListQueryDto } from './dto/video-list-query.dto';
 import {
@@ -20,7 +21,6 @@ import {
 } from '../common/constants';
 import { getOffset } from '../libs/get-offset';
 import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
-
 import { UploadedVideoInfo } from '../uploaded-video-table/model/uploaded-video-info';
 
 @Injectable()
@@ -28,6 +28,8 @@ export class VideoService {
   public constructor(
     @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     private readonly uploadedVideoTableService: UploadedVideoTableService,
   ) {}
 
@@ -110,5 +112,42 @@ export class VideoService {
       uploadedVideoInfoDto.id,
       new UploadedVideoInfo(uploadedVideoInfoDto),
     );
+  }
+
+  public async likeVideo(id: number, userId: number): Promise<Video> {
+    await this.videoRepository
+      .createQueryBuilder()
+      .relation(Video, 'likedUsers')
+      .of(userId)
+      .add(id);
+
+    const video = await this.findVideo(id);
+    video.likedUsersCount = video.likedUsersCount + 1;
+    return await this.videoRepository.save(video);
+  }
+
+  public async unlikeVideo(id: number, userId: number): Promise<Video> {
+    await this.videoRepository
+      .createQueryBuilder()
+      .relation(Video, 'likedUsers')
+      .of(userId)
+      .remove(id);
+
+    const video = await this.findVideo(id);
+    video.likedUsersCount = video.likedUsersCount - 1;
+    return await this.videoRepository.save(video);
+  }
+
+  public async checkLikedByUser(id: number, userId: number): Promise<boolean> {
+    const likedVideo = await this.userRepository
+      .createQueryBuilder()
+      .where({
+        id: userId,
+      })
+      .relation(User, 'likedVideos')
+      .of(id)
+      .loadOne();
+
+    return Boolean(likedVideo);
   }
 }

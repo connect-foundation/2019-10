@@ -6,8 +6,12 @@ import {
   Param,
   NotFoundException,
   Post,
+  Patch,
+  UseGuards,
+  Req,
+  Delete,
+  ConflictException,
 } from '@nestjs/common';
-
 import { endpoint } from '../common/constants';
 import { VideoService } from './video.service';
 import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
@@ -28,6 +32,7 @@ import { RepliesParamDto } from './dto/replies-param.dto';
 import { RepliesQueryDto } from './dto/replies-query.dto';
 import { RepliesParamPipe } from './pipe/replies-param-pipe';
 import { RepliesQueryPipe } from './pipe/replies-query-pipe';
+import { OnlyMemberGuard } from '../common/guards/only-member.guard';
 
 @Controller(endpoint.videos)
 export class VideoController {
@@ -47,7 +52,7 @@ export class VideoController {
 
   @Get('/')
   public async getVideos(
-    @Query(null, new VideoListQueryPipe()) videoListQueryDto: VideoListQueryDto,
+    @Query(new VideoListQueryPipe()) videoListQueryDto: VideoListQueryDto,
   ): Promise<VideoListResponseDto> {
     const [videos, count] = await this.videoService.findVideos(
       videoListQueryDto,
@@ -56,9 +61,57 @@ export class VideoController {
     return new VideoListResponseDto(videos, count);
   }
 
+  @Post('/:id/likes')
+  @UseGuards(OnlyMemberGuard)
+  public async likeVideo(
+    @Req() request: Request,
+    @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
+  ): Promise<VideoResponseDto> {
+    const { id } = videoParamDto;
+    const { userId } = request.user;
+
+    const video = await this.videoService.findVideo(id);
+    if (!video) {
+      throw new NotFoundException();
+    }
+
+    const likedByUser = await this.videoService.checkLikedByUser(id, userId);
+    if (likedByUser) {
+      throw new ConflictException('Already liked the video');
+    }
+
+    const likedVideo = await this.videoService.likeVideo(id, userId);
+
+    return new VideoResponseDto(likedVideo);
+  }
+
+  @Delete('/:id/likes')
+  @UseGuards(OnlyMemberGuard)
+  public async unlikeVideo(
+    @Req() request: Request,
+    @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
+  ): Promise<VideoResponseDto> {
+    const { id } = videoParamDto;
+    const { userId } = request.user;
+
+    const video = await this.videoService.findVideo(id);
+    if (!video) {
+      throw new NotFoundException();
+    }
+
+    const likedByUser = await this.videoService.checkLikedByUser(id, userId);
+    if (!likedByUser) {
+      throw new NotFoundException('Video is not liked by the user');
+    }
+
+    const unlikedVideo = await this.videoService.unlikeVideo(id, userId);
+
+    return new VideoResponseDto(unlikedVideo);
+  }
+
   @Get('/:id')
   public async getVideo(
-    @Param(null, new VideoParamPipe()) videoParamDto: VideoParamDto,
+    @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
   ): Promise<VideoResponseDto> {
     const { id } = videoParamDto;
     const video = await this.videoService.findVideo(id);
@@ -72,8 +125,8 @@ export class VideoController {
 
   @Get('/:id/comments')
   public async getComments(
-    @Param(null, new CommentsParamPipe()) commentsParamDto: CommentsParamDto,
-    @Query(null, new CommentsQueryPipe()) commentsQueryDto: CommentsQueryDto,
+    @Param(new CommentsParamPipe()) commentsParamDto: CommentsParamDto,
+    @Query(new CommentsQueryPipe()) commentsQueryDto: CommentsQueryDto,
   ): Promise<CommentsResponseDto> {
     const { id } = commentsParamDto;
     const { page, sort } = commentsQueryDto;
@@ -98,8 +151,8 @@ export class VideoController {
 
   @Get('/:id/comments/:commentId/replies')
   public async getReplies(
-    @Param(null, new RepliesParamPipe()) repliesParamDto: RepliesParamDto,
-    @Query(null, new RepliesQueryPipe()) repliesQueryDto: RepliesQueryDto,
+    @Param(new RepliesParamPipe()) repliesParamDto: RepliesParamDto,
+    @Query(new RepliesQueryPipe()) repliesQueryDto: RepliesQueryDto,
   ): Promise<CommentsResponseDto> {
     const { id, commentId } = repliesParamDto;
     const { page } = repliesQueryDto;
