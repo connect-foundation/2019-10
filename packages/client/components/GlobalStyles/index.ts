@@ -26,6 +26,10 @@ const GlobalStyles = createGlobalStyle`
     background-color: rgba(255, 255, 255, 0.08) !important;
   }
 
+  .MuiSkeleton-text:empty:before {
+    content: "" !important;
+  }
+
   button {
     cursor: pointer;
   }
