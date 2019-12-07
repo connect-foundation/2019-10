@@ -140,6 +140,40 @@ export class VideoController {
     return new VideoResponseDto(video, likes);
   }
 
+  // 댓글 작성하기
+  @Post('/:id/comments')
+  @UseGuards(OnlyMemberGuard)
+  public async createComment(
+    @Req() request: Request,
+    @Param() videoParamDto,
+    @Body() commentBodyDto,
+  ) {
+    const { userId } = request.user;
+    const comment = await this.commentService.createComment(
+      videoParamDto,
+      commentBodyDto,
+      userId,
+    );
+    return new CommentResponseDto(comment);
+  }
+
+  // 답글 작성하기
+  @Post('/:id/comments/:commentId')
+  @UseGuards(OnlyMemberGuard)
+  public async createReply(
+    @Req() request: Request,
+    @Param() commentParamDto,
+    @Body() commentBodyDto,
+  ) {
+    const { userId } = request.user;
+    const reply = await this.commentService.createReply(
+      commentParamDto,
+      commentBodyDto,
+      userId,
+    );
+    return new CommentResponseDto(reply);
+  }
+
   // 댓글 리스트 가져오기
   @Get('/:id/comments')
   public async getComments(

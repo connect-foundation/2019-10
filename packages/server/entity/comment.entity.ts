@@ -101,7 +101,6 @@ export class Comment extends Base {
   )
   public children: Comment[];
 
-  @BeforeInsert()
   @BeforeUpdate()
   public updatePopularity() {
     this.popularity =
