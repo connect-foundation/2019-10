@@ -91,11 +91,11 @@ export const Item = styled.div`
   }
 
   > span {
+    display: ${props => (props.valid ? 'none' : 'inline')};
     margin-top: 1rem;
     font-size: 1.4rem;
     font-weight: bold;
     color: #e52528;
-    display: none;
   }
 `;
 

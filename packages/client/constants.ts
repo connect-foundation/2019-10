@@ -69,5 +69,10 @@ export const fontWeight = {
 
 export const signUpFormDataMaxLength = {
   username: 30,
-  introduction: 1500,
+  description: 1500,
+};
+
+export const regex = {
+  // username은 영문 대소문자, 숫자, 띄어쓰기, 한글을 1~30자 포함한다.
+  userName: /^[\s0-9a-zA-Z\u3131-\uD79D]{1,30}$/giu,
 };

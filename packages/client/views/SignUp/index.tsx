@@ -1,58 +1,36 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import { useMutation } from 'react-fetching-library';
+import React from 'react';
 import { Grid } from '@material-ui/core';
 
 import * as S from './styles';
-import { signUpFormDataMaxLength, endpoint } from '../../constants';
-import { responseStatus } from '../../response';
-import { FormData } from './model/form-data';
-import { makeSignUpAction } from './action/sign-up-action';
+import { signUpFormDataMaxLength } from '../../constants';
+import { validateUserName, validateDescription } from '../../libs/validate';
+import {
+  useUserName,
+  useDescription,
+  useIsAgreed,
+  useFormSubmit,
+} from './hooks';
 
 const SignUp: React.FunctionComponent = () => {
-  const [formData, setFormData] = useState(new FormData('', '', false));
-  const [isFetching, setIsFetching] = useState(false);
+  const { userName, handleUserNameChange } = useUserName();
+  const { description, handleDescriptionChange } = useDescription();
+  const { isAgreed, handleIsAgreedChange } = useIsAgreed();
+  const [userNameValidationResult, userNameMessage] = validateUserName(
+    userName,
+  );
 
-  const { mutate } = useMutation(makeSignUpAction);
+  const [descriptionValidationResult, descriptionMessage] = validateDescription(
+    description,
+  );
+  const isFormValidated =
+    userNameValidationResult && descriptionValidationResult && isAgreed;
 
-  const router = useRouter();
-
-  const handleFormChange = e => {
-    const { checked, name, value, type } = e.target;
-    const valueToUpdate = type === 'checkbox' ? checked : value;
-
-    setFormData({
-      ...formData,
-      [name]: valueToUpdate,
-    });
-  };
-
-  const handleSubmit = async e => {
-    setIsFetching(true);
-
-    const response = await mutate(formData);
-
-    if (response.status === responseStatus.unprocessableEntity) {
-      setIsFetching(false);
-      window.alert('이미 가입된 유저입니다.');
-    }
-
-    if (response.status === responseStatus.unauthorized) {
-      router.push(endpoint.login);
-    }
-
-    if (!response.error) {
-      router.push(endpoint.hotlist);
-    }
-  };
-
-  const checkFormVerified = () => {
-    return formData.isAgreed && formData.username;
-  };
-
-  const checkSubmitAvailable = () => {
-    return !isFetching && checkFormVerified();
-  };
+  const { handleSubmit, checkSubmitAvailable } = useFormSubmit(
+    userName,
+    description,
+    isAgreed,
+    isFormValidated,
+  );
 
   return (
     <S.SignUp>
@@ -62,7 +40,7 @@ const SignUp: React.FunctionComponent = () => {
             <S.HeadMessage>거의 다 되었어요!</S.HeadMessage>
             <S.Form>
               <S.Item>
-                <S.Label>
+                <S.Label valid={userNameValidationResult}>
                   <label htmlFor="username">
                     닉네임
                     <S.RequireMark />
@@ -73,32 +51,32 @@ const SignUp: React.FunctionComponent = () => {
                   id="username"
                   name="username"
                   maxLength={signUpFormDataMaxLength.username}
-                  onChange={handleFormChange}
+                  onChange={handleUserNameChange}
                   type="text"
-                  autoComplete="off"
+                  spellCheck={false}
                 />
-                <span>안녕하세요</span>
+                <span>{userNameMessage}</span>
               </S.Item>
               <S.Item>
-                <S.Label>
+                <S.Label valid={descriptionValidationResult}>
                   <label htmlFor="description">소개</label>
                   <span>(최대 1,500자)</span>
                 </S.Label>
                 <textarea
                   id="description"
                   name="description"
-                  maxLength={signUpFormDataMaxLength.introduction}
-                  onChange={handleFormChange}
+                  maxLength={signUpFormDataMaxLength.description}
+                  onChange={handleDescriptionChange}
                   spellCheck={false}
                 />
-                <span>안녕하세요</span>
+                <span>{descriptionMessage}</span>
               </S.Item>
               <S.Item>
                 <S.Label>
                   <input
                     type="checkbox"
                     name="isAgreed"
-                    onChange={handleFormChange}
+                    onChange={handleIsAgreedChange}
                     spellCheck={false}
                   />
                   <div className={'agreement'}>
