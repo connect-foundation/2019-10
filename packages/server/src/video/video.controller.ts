@@ -11,9 +11,7 @@ import { endpoint } from 'common/constants';
 
 import { VideoService } from 'video/video.service';
 import { CommentService } from 'comment/comment.service';
-import { UploadedVideoTableService } from 'uploaded-video-table/uploaded-video-table.service';
 import { UploadedVideoInfoDto } from 'video/dto/uploaded-video-info.dto';
-import { UploadedVideoInfo } from 'uploaded-video-table/model/uploaded-video-info';
 import { VideoListQueryPipe } from 'video/pipe/video-list-query-pipe';
 import { VideoListQueryDto } from 'video/dto/video-list-query.dto';
 import { VideoListResponseDto } from 'video/dto/video-list-response.dto';
@@ -35,16 +33,14 @@ import { RepliesQueryDto } from 'video/dto/replies-query.dto';
 export class VideoController {
   public constructor(
     private readonly videoService: VideoService,
-    private readonly uploadedVideoTableService: UploadedVideoTableService,
     private readonly commentService: CommentService,
   ) {}
 
   @Post('upload')
-  public saveVideoInfo(@Body() uploadedVideoInfoDto: UploadedVideoInfoDto) {
-    return this.uploadedVideoTableService.insert(
-      uploadedVideoInfoDto.id,
-      new UploadedVideoInfo(uploadedVideoInfoDto),
-    );
+  public saveVideoInfo(
+    @Body() uploadedVideoInfoDto: UploadedVideoInfoDto,
+  ): void {
+    this.videoService.instructToSerializeVideoInfo(uploadedVideoInfoDto);
   }
 
   @Get('/')
@@ -129,19 +125,4 @@ export class VideoController {
       data: comments.map(item => new CommentResponseDto(item)),
     };
   }
-
-  // @Post('/:id/comments')
-  // public async createComment() {
-  //   return {};
-  // }
-
-  // @Put('/:id/comments/:commentId')
-  // public async updateComment() {
-  //   return {};
-  // }
-
-  // @Delete('/:id/comments/:commentId')
-  // public async deleteComment() {
-  //   return {};
-  // }
 }

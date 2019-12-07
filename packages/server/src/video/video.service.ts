@@ -15,18 +15,19 @@ import {
   SEARCHED_ITEM_NUMBER,
   VIDEO_SEARCH_QUERY,
 } from 'common/constants';
-
 import { getOffset } from 'libs/get-offset';
-
 import { VideoListQueryDto } from 'video/dto/video-list-query.dto';
-
 import { Video } from '../../../typeorm/src/entity/video.entity';
+import { UploadedVideoTableService } from 'uploaded-video-table/uploaded-video-table.service';
+import { UploadedVideoInfoDto } from 'video/dto/uploaded-video-info.dto';
+import { UploadedVideoInfo } from 'uploaded-video-table/model/uploaded-video-info';
 
 @Injectable()
 export class VideoService {
   public constructor(
     @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
+    private readonly uploadedVideoTableService: UploadedVideoTableService,
   ) {}
 
   private async popularityQuery(qb): Promise<[Video[], number]> {
@@ -99,5 +100,14 @@ export class VideoService {
         id,
       })
       .getOne();
+  }
+
+  public instructToSerializeVideoInfo(
+    uploadedVideoInfoDto: UploadedVideoInfoDto,
+  ) {
+    this.uploadedVideoTableService.insert(
+      uploadedVideoInfoDto.id,
+      new UploadedVideoInfo(uploadedVideoInfoDto),
+    );
   }
 }
