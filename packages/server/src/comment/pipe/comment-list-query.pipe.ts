@@ -1,15 +1,14 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-
-import { CommentsRequestQueryDto } from '../dto/comments-request-query.dto';
-import { CommentsQueryDto } from '../dto/comments-query.dto';
+import { CommentListQueryDto } from '../dto/comment-list-query.dto';
 import { POPULAR, LATEST } from '../../common/constants';
 
 @Injectable()
-export class CommentsQueryPipe implements PipeTransform {
+export class CommentListQueryPipe implements PipeTransform {
   public async transform(
-    value: CommentsRequestQueryDto,
-  ): Promise<CommentsQueryDto> {
-    const { page, sort } = value;
+    value: CommentListQueryDto,
+  ): Promise<CommentListQueryDto> {
+    const page = value.page as string;
+    const { sort } = value;
 
     if (!this.validateQuery({ page, sort })) {
       throw new BadRequestException();

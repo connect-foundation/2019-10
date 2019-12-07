@@ -22,17 +22,17 @@ import { VideoListResponseDto } from './dto/video-list-response.dto';
 import { VideoParamDto } from './dto/video-param.dto';
 import { VideoParamPipe } from './pipe/video-param-pipe';
 import { VideoResponseDto } from './dto/video-response.dto';
-import { CommentsParamPipe } from './pipe/comments-param-pipe';
-import { CommentsQueryPipe } from './pipe/comments-query-pipe';
-import { CommentsParamDto } from './dto/comments-param.dto';
-import { CommentsQueryDto } from './dto/comments-query.dto';
-import { CommentsResponseDto } from './dto/comments-response.dto';
-import { CommentResponseDto } from './dto/comment-response.dto';
-import { RepliesParamDto } from './dto/replies-param.dto';
-import { RepliesQueryDto } from './dto/replies-query.dto';
-import { RepliesParamPipe } from './pipe/replies-param-pipe';
-import { RepliesQueryPipe } from './pipe/replies-query-pipe';
 import { OnlyMemberGuard } from '../common/guards/only-member.guard';
+import { CommentListParamPipe } from '../comment/pipe/comment-list-param.pipe';
+import { CommentListParamDto } from '../comment/dto/comment-list-param.dto';
+import { CommentListQueryPipe } from '../comment/pipe/comment-list-query.pipe';
+import { CommentListQueryDto } from '../comment/dto/comment-list-query.dto';
+import { CommentListResponseDto } from '../comment/dto/comment-list-response.dto';
+import { ReplyListParamPipe } from '../comment/pipe/reply-list-param.pipe';
+import { ReplyListQueryPipe } from '../comment/pipe/reply-list-query.pipe';
+import { ReplyListParamDto } from '../comment/dto/reply-list-param.dto';
+import { ReplyListQueryDto } from '../comment/dto/reply-list-query.dto';
+import { CommentResponseDto } from '../comment/dto/comment-response.dto';
 
 @Controller(endpoint.videos)
 export class VideoController {
@@ -61,6 +61,7 @@ export class VideoController {
     return new VideoListResponseDto(videos, count);
   }
 
+  // 동영상 좋아요
   @Post('/:id/likes')
   @UseGuards(OnlyMemberGuard)
   public async likeVideo(
@@ -82,9 +83,12 @@ export class VideoController {
 
     const likedVideo = await this.videoService.likeVideo(id, userId);
 
-    return new VideoResponseDto(likedVideo);
+    const likes = await this.videoService.findVideoLikes(id, userId);
+
+    return new VideoResponseDto(likedVideo, likes);
   }
 
+  // 동영상 좋아요 취소
   @Delete('/:id/likes')
   @UseGuards(OnlyMemberGuard)
   public async unlikeVideo(
@@ -106,11 +110,15 @@ export class VideoController {
 
     const unlikedVideo = await this.videoService.unlikeVideo(id, userId);
 
-    return new VideoResponseDto(unlikedVideo);
+    const likes = await this.videoService.findVideoLikes(id, userId);
+
+    return new VideoResponseDto(unlikedVideo, likes);
   }
 
+  // 동영상 가져오기
   @Get('/:id')
   public async getVideo(
+    @Req() request: Request,
     @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
   ): Promise<VideoResponseDto> {
     const { id } = videoParamDto;
@@ -120,16 +128,28 @@ export class VideoController {
       throw new NotFoundException();
     }
 
-    return new VideoResponseDto(video);
+    if (!request.user) {
+      return new VideoResponseDto(video, []);
+    }
+
+    const likes = await this.videoService.findVideoLikes(
+      id,
+      request.user.userId,
+    );
+
+    return new VideoResponseDto(video, likes);
   }
 
+  // 댓글 리스트 가져오기
   @Get('/:id/comments')
   public async getComments(
-    @Param(new CommentsParamPipe()) commentsParamDto: CommentsParamDto,
-    @Query(new CommentsQueryPipe()) commentsQueryDto: CommentsQueryDto,
-  ): Promise<CommentsResponseDto> {
-    const { id } = commentsParamDto;
-    const { page, sort } = commentsQueryDto;
+    @Param(new CommentListParamPipe())
+    commentListParamDto: CommentListParamDto,
+    @Query(new CommentListQueryPipe())
+    commentListQueryDto: CommentListQueryDto,
+  ): Promise<CommentListResponseDto> {
+    const id = commentListParamDto.id as number;
+    const { page, sort } = commentListQueryDto;
 
     const video = await this.videoService.findVideo(id);
 
@@ -143,18 +163,17 @@ export class VideoController {
       sort,
     });
 
-    return {
-      count,
-      data: comments.map(comment => new CommentResponseDto(comment)),
-    };
+    return new CommentListResponseDto(comments, count);
   }
 
+  // 댓글의 답글 리스트 가져오기
   @Get('/:id/comments/:commentId/replies')
   public async getReplies(
-    @Param(new RepliesParamPipe()) repliesParamDto: RepliesParamDto,
-    @Query(new RepliesQueryPipe()) repliesQueryDto: RepliesQueryDto,
-  ): Promise<CommentsResponseDto> {
-    const { id, commentId } = repliesParamDto;
+    @Param(new ReplyListParamPipe()) repliesParamDto: ReplyListParamDto,
+    @Query(new ReplyListQueryPipe()) repliesQueryDto: ReplyListQueryDto,
+  ): Promise<CommentListResponseDto> {
+    const id = repliesParamDto.id as number;
+    const commentId = repliesParamDto.commentId as number;
     const { page } = repliesQueryDto;
 
     const video = await this.videoService.findVideo(id);
@@ -175,9 +194,6 @@ export class VideoController {
       page,
     });
 
-    return {
-      count,
-      data: comments.map(item => new CommentResponseDto(item)),
-    };
+    return new CommentListResponseDto(comments, count);
   }
 }

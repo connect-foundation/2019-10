@@ -2,7 +2,7 @@ import { Video } from '../../../entity/video.entity';
 import { VideoUserDto } from './video-user.dto';
 
 export class VideoResponseDto {
-  public constructor(video: Video) {
+  public constructor(video: Video, likes) {
     this.id = video.id;
     this.title = video.title;
     this.description = video.description;
@@ -16,6 +16,7 @@ export class VideoResponseDto {
     this.createdAt = video.getCreatedAt();
     this.updatedAt = video.getUpdatedAt();
     this.user = video.user;
+    this.likedByUser = likes.length > 0;
   }
 
   public readonly id: number;
@@ -31,4 +32,5 @@ export class VideoResponseDto {
   public readonly createdAt: string;
   public readonly updatedAt: string;
   public readonly user: VideoUserDto;
+  public readonly likedByUser: boolean;
 }
