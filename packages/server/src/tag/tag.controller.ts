@@ -15,6 +15,7 @@ export class TagController {
   public async getTags(
     @Query(null, new TagListQueryPipe()) tagListqueryDto: TagListQueryDto,
   ): Promise<TagListResponseDto> {
+    console.log(await this.tagService.findTags(tagListqueryDto));
     const [tags, count] = await this.tagService.findTags(tagListqueryDto);
 
     return new TagListResponseDto(tags, count);
