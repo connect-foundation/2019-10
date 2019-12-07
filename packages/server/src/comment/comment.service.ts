@@ -47,6 +47,7 @@ export class CommentService {
         video: {
           id: videoId,
         },
+        status: 1,
       });
 
     if (sort === POPULAR) {
