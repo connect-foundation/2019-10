@@ -34,7 +34,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
         </S.Logo>
 
         <S.MobileButtons isSearchBarActive={isSearchBarActive}>
-          <Link href={endpoint.upload}>
+          <Link href={user ? endpoint.uploadVideoFile : endpoint.login}>
             <a>
               <button>
                 <CloudSVG />
@@ -58,7 +58,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
         <SearchBar deactivate={handleSearchBar} isActive={isSearchBarActive} />
 
         <S.DesktopButtons>
-          <Link href={user ? endpoint.upload : endpoint.login}>
+          <Link href={user ? endpoint.uploadVideoFile : endpoint.login}>
             <a>
               <button className="primary">
                 <CloudSVG />

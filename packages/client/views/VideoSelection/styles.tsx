@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const Title = styled.div`
   margin-top: 4rem;
@@ -17,7 +17,7 @@ export const Title = styled.div`
   span {
     color: #ffffff;
     font-size: 2.2rem;
-    font-weight: bold;
+    font-weight: ${fontWeight.bold};
     vertical-align: middle;
     margin: 0;
   }
@@ -88,7 +88,8 @@ export const UploadButton = styled.button`
   border-radius: 0.5rem;
   border: none;
   color: #484c50;
-  font-weight: bold;
+  font-weight: ${fontWeight.bold};
   font-size: 1.6rem;
   cursor: pointer;
+  outline: none;
 `;

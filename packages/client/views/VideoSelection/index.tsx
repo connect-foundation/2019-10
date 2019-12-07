@@ -1,28 +1,22 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { useRouter } from 'next/router';
+import { NextComponentType } from 'next';
 
-import { useUser } from '../../components/UserProvider/hooks';
 import Layout from '../../components/Layout';
 import * as S from './styles';
 import CloudSVG from '../../svgs/CloudSVG';
 import { endpoint } from '../../constants';
-import { NextComponentType } from 'next';
 import {
   checkLogInStatusServerSide,
-  checkLogInStatusClientSide,
   redirect,
+  onlyMember,
 } from '../../libs/auth';
+import { useVideoSelection } from './hooks';
 
-const VideoFileUpload: NextComponentType = () => {
-  const router = useRouter();
-  const user = useUser();
+const VideoSelection: NextComponentType = () => {
+  onlyMember();
 
-  if (checkLogInStatusClientSide(user)) {
-    router.push(endpoint.hotlist);
-  }
-
-  const fileInput = React.createRef<HTMLInputElement>();
+  const { Videoinput, showExplorer, changeVideo } = useVideoSelection();
 
   return (
     <Layout drawer={false}>
@@ -38,9 +32,13 @@ const VideoFileUpload: NextComponentType = () => {
               업로드 하려는 파일을 끌어다 놓아주세요
             </S.BrowserText>
             <S.MobileText>업로드 하려는 파일을 선택해주세요</S.MobileText>
-            <S.UploadButton>
+            <S.UploadButton onClick={showExplorer}>
               파일 선택하기
-              <S.File ref={fileInput} />
+              <S.File
+                accept={'video/mp4,video/x-m4v,video/*'}
+                ref={Videoinput}
+                onChange={changeVideo}
+              />
             </S.UploadButton>
           </S.FileContainer>
         </Grid>
@@ -49,7 +47,7 @@ const VideoFileUpload: NextComponentType = () => {
   );
 };
 
-VideoFileUpload.getInitialProps = ({ req, res, isLoggedIn, ...rest }) => {
+VideoSelection.getInitialProps = ({ req, res, isLoggedIn, ...rest }) => {
   if (!checkLogInStatusServerSide(isLoggedIn)) {
     redirect(res, endpoint.hotlist);
   }
@@ -57,4 +55,4 @@ VideoFileUpload.getInitialProps = ({ req, res, isLoggedIn, ...rest }) => {
   return { ...rest };
 };
 
-export default VideoFileUpload;
+export default VideoSelection;

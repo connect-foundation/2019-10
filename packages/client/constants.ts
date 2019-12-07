@@ -9,6 +9,15 @@ export const LEFT = 'left';
 export const TOP = 'top';
 export const PERSISTENT = 'persistent';
 
+export const fileType = {
+  video: 'video',
+  image: 'image',
+};
+
+export const fileActions = {
+  upload: 'UPLOAD',
+};
+
 export const userActions = {
   logout: 'LOGOUT',
 };
@@ -17,7 +26,8 @@ export const endpoint = {
   tags: '/tags',
   hotlist: '/',
   latest: '/latest',
-  upload: '/videos/upload',
+  uploadVideoFile: '/videos/upload/file',
+  uploadVideoDetail: '/videos/upload/detail',
   search: '/search',
   login: '/auth/login',
   users: '/users',
@@ -70,3 +80,18 @@ export const signUpFormDataMaxLength = {
   username: 30,
   introduction: 1500,
 };
+
+export const videoFormDataMaxLength = {
+  title: '45',
+  description: '3000',
+  tags: 10,
+};
+
+export const MAX_TAGS_NUMBER = 10;
+
+export const allowedChar = ['.', '#', '-'];
+
+export const SPACEBAR = ' ';
+
+export const TITLE = 'title';
+export const DESCRIPTION = 'description';
