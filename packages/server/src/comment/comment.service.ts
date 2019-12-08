@@ -167,6 +167,10 @@ export class CommentService {
     comments: Comment[],
     userId: number,
   ): Promise<LikedComment[]> {
+    if (comments.length === 0) {
+      return [];
+    }
+
     const rows = await this.commentRepository.query(
       `select * from liked_comments
         where liked_comments.userId = ? and (${comments
