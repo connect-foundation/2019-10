@@ -11,6 +11,8 @@ import {
 } from '../common/constants';
 import { Comment } from '../../entity/comment.entity';
 import { Video } from '../../entity/video.entity';
+import { CommentBodyDto } from './dto/comment-body.dto';
+import { LikedComment } from './model/liked-comment';
 
 @Injectable()
 export class CommentService {
@@ -171,5 +173,17 @@ export class CommentService {
     );
 
     return rows.map(row => new LikedComment(row.commentId, row.userId));
+  }
+
+  public async updateComment(
+    commentBodyDto: CommentBodyDto,
+    comment: Comment,
+  ): Promise<Comment> {
+    Object.keys(commentBodyDto).forEach(key => {
+      const value = commentBodyDto[key];
+      comment[key] = value;
+    });
+
+    return await this.commentRepository.save(comment);
   }
 }

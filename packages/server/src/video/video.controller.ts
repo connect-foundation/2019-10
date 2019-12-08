@@ -11,6 +11,7 @@ import {
   Req,
   Delete,
   ConflictException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { endpoint } from '../common/constants';
 import { VideoService } from './video.service';
@@ -37,6 +38,7 @@ import { CommentCreateBodyPipe } from '../comment/pipe/comment-create-body.pipe'
 import { CommentBodyDto } from '../comment/dto/comment-body.dto';
 import { CommentParamPipe } from '../comment/pipe/comment-param.pipe';
 import { CommentParamDto } from '../comment/dto/comment-param.dto';
+import { CommentUpdateBodyPipe } from '../comment/pipe/comment-update-body.pipe';
 
 @Controller(endpoint.videos)
 export class VideoController {
@@ -229,6 +231,73 @@ export class VideoController {
       page,
     );
 
-    return new CommentListResponseDto(comments, count);
+    if (!request.user) {
+      return new CommentListResponseDto(comments, count);
+    }
+
+    const likes = await this.commentService.findCommentsLikes(
+      comments,
+      request.user.userId,
+    );
+
+    return new CommentListResponseDto(comments, count, likes);
+  }
+
+  @Patch('/:id/comments/:commentId')
+  @UseGuards(OnlyMemberGuard)
+  public async updateComment(
+    @Req() request: Request,
+    @Param(new CommentParamPipe()) commentParamDto: CommentParamDto,
+    @Body(new CommentUpdateBodyPipe()) commentBodyDto: CommentBodyDto,
+  ) {
+    const { userId } = request.user;
+    const id = commentParamDto.id as number;
+    const commentId = commentParamDto.commentId as number;
+
+    await this.checkVideoExistence(id);
+    await this.checkCommentExistence(id, commentId);
+
+    const comment = await this.commentService.findComment(commentId);
+    if (comment.user.id !== userId) {
+      throw new ForbiddenException();
+    }
+
+    const updatedComment = await this.commentService.updateComment(
+      commentBodyDto,
+      comment,
+    );
+
+    return new CommentResponseDto(updatedComment);
+  }
+
+  // 댓글 삭제하기
+  // 작성자만 삭제 가능
+  @Delete('/:id/comments/:commentId')
+  @UseGuards(OnlyMemberGuard)
+  public async deleteComment() {
+    return {};
+  }
+
+  // 댓글 좋아요
+  @Post('/:id/comments/:commentId/likes')
+  @UseGuards(OnlyMemberGuard)
+  public async likeComment() {
+    return {};
+  }
+
+  // 댓글 좋아요 취소
+  @Delete('/:id/comments/:commentId/likes')
+  @UseGuards(OnlyMemberGuard)
+  public async unlikeComment() {
+    return {};
+  }
+
+  private async checkVideoExistence(id: number) {
+    const video = await this.videoService.findVideo(id);
+    if (!video) {
+      throw new NotFoundException();
+    }
+
+    return video;
   }
 }
