@@ -5,11 +5,7 @@ import { Repository, Like } from 'typeorm';
 import { Tag } from '../../../typeorm/src/entity/tag.entity';
 import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
 import { getOffset } from 'libs/get-offset';
-import {
-  TAG_ITEMS_PER_PAGE,
-  TAG_QUERY_SELECT_COLUMNS,
-  SEARCHED_ITEM_NUMBER,
-} from 'common/constants';
+import { TAG_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from 'common/constants';
 
 @Injectable()
 export class TagService {
