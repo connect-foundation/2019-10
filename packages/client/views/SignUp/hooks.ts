@@ -34,7 +34,7 @@ export const useIsAgreed = () => {
   return { isAgreed, setIsAgreed, handleIsAgreedChange };
 };
 
-export const useFormValidation = (userName: string, description: string) => {
+export const useFormValidation = (validated: boolean, username: string) => {
   const [isValidated, setIsValidated] = useState(false);
 
   return { isValidated };
@@ -44,7 +44,8 @@ export const useFormSubmit = (
   userName: string,
   description: string,
   isAgreed: boolean,
-  validated: boolean,
+  isValidated: boolean,
+  isDuplicated: boolean,
 ) => {
   const [isFetching, setIsFetching] = useState(false);
 
@@ -73,7 +74,9 @@ export const useFormSubmit = (
   };
 
   const checkFormVerified = () => {
-    return formData.isAgreed && formData.username && validated;
+    return (
+      formData.isAgreed && formData.username && isValidated && !isDuplicated
+    );
   };
 
   const checkSubmitAvailable = () => {

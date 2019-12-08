@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
+import { useQuery } from 'react-fetching-library';
 
 import * as S from './styles';
-import { signUpFormDataMaxLength } from '../../constants';
+import { signUpFormDataMaxLength, endpoint } from '../../constants';
 import { validateUserName, validateDescription } from '../../libs/validate';
 import {
   useUserName,
@@ -15,21 +16,44 @@ const SignUp: React.FunctionComponent = () => {
   const { userName, handleUserNameChange } = useUserName();
   const { description, handleDescriptionChange } = useDescription();
   const { isAgreed, handleIsAgreedChange } = useIsAgreed();
-  const [userNameValidationResult, userNameMessage] = validateUserName(
-    userName,
-  );
 
   const [descriptionValidationResult, descriptionMessage] = validateDescription(
     description,
   );
+  const [isUserNameDuplicated, setIsUserNameDuplicate] = useState(false);
+
+  const [userNameValidationResult, userNameMessage] = validateUserName(
+    userName,
+    isUserNameDuplicated,
+  );
+
   const isFormValidated =
     userNameValidationResult && descriptionValidationResult && isAgreed;
+
+  useEffect(() => {
+    const checkUserNameDuplicate = async () => {
+      const payload = await fetch(
+        `${process.env.API_URL_HOST}${endpoint.users}/verify/${userName}`,
+      ).then(response => response.json());
+
+      if (payload && payload.username) {
+        setIsUserNameDuplicate(true);
+      }
+    };
+
+    if (userName && isFormValidated && !isUserNameDuplicated) {
+      checkUserNameDuplicate();
+    } else if (isUserNameDuplicated) {
+      setIsUserNameDuplicate(false);
+    }
+  }, [userName, isAgreed]);
 
   const { handleSubmit, checkSubmitAvailable } = useFormSubmit(
     userName,
     description,
     isAgreed,
     isFormValidated,
+    isUserNameDuplicated,
   );
 
   return (

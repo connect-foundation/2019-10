@@ -1,11 +1,20 @@
 import { regex, signUpFormDataMaxLength } from '../constants';
 
-const validateUserName = (userName: string): [boolean, string] => {
+const validateUserName = (
+  userName: string,
+  isDuplicated: boolean,
+): [boolean, string] => {
+  if (isDuplicated) {
+    return [
+      false,
+      `닉네임 '${userName}'을 사용중인 회원이 존재합니다. 다른 닉네임을 사용해주시길 바랍니다.`,
+    ];
+  }
   if (userName.length === 0) {
-    return [true, ''];
+    return [true, ``];
   }
   if (userName.match(regex.userName)) {
-    return [true, ''];
+    return [true, ``];
   }
   if (userName.length > signUpFormDataMaxLength.username) {
     return [
