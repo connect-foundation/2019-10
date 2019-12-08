@@ -12,15 +12,14 @@ import {
   Delete,
   ConflictException,
 } from '@nestjs/common';
+
 import { endpoint } from '../common/constants';
 import { VideoService } from './video.service';
 import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
 import { CommentService } from '../comment/comment.service';
 import { VideoListQueryDto } from './dto/video-list-query.dto';
-import { VideoListQueryPipe } from './pipe/video-list-query-pipe';
 import { VideoListResponseDto } from './dto/video-list-response.dto';
 import { VideoParamDto } from './dto/video-param.dto';
-import { VideoParamPipe } from './pipe/video-param-pipe';
 import { VideoResponseDto } from './dto/video-response.dto';
 import { OnlyMemberGuard } from '../common/guards/only-member.guard';
 import { CommentListParamPipe } from '../comment/pipe/comment-list-param.pipe';
@@ -50,6 +49,26 @@ export class VideoController {
     return true;
   }
 
+  @Get('/:id')
+  public async getVideo(
+    @Req() request: Request,
+    @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
+  ): Promise<VideoResponseDto> {
+    const id = videoParamDto.id as number;
+    const video = await this.checkVideoExistence(id);
+
+    if (!request.user) {
+      return new VideoResponseDto(video);
+    }
+
+    const likes = await this.videoService.findVideoLikes(
+      id,
+      request.user.userId,
+    );
+
+    return new VideoResponseDto(video, likes);
+  }
+
   @Get('/')
   public async getVideos(
     @Query(new VideoListQueryPipe()) videoListQueryDto: VideoListQueryDto,
@@ -61,20 +80,16 @@ export class VideoController {
     return new VideoListResponseDto(videos, count);
   }
 
-  // 동영상 좋아요
   @Post('/:id/likes')
   @UseGuards(OnlyMemberGuard)
   public async likeVideo(
     @Req() request: Request,
     @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
   ): Promise<VideoResponseDto> {
-    const { id } = videoParamDto;
+    const id = videoParamDto.id as number;
     const { userId } = request.user;
 
-    const video = await this.videoService.findVideo(id);
-    if (!video) {
-      throw new NotFoundException();
-    }
+    await this.checkVideoExistence(id);
 
     const likedByUser = await this.videoService.checkLikedByUser(id, userId);
     if (likedByUser) {
@@ -88,20 +103,16 @@ export class VideoController {
     return new VideoResponseDto(likedVideo, likes);
   }
 
-  // 동영상 좋아요 취소
   @Delete('/:id/likes')
   @UseGuards(OnlyMemberGuard)
   public async unlikeVideo(
     @Req() request: Request,
     @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
   ): Promise<VideoResponseDto> {
-    const { id } = videoParamDto;
+    const id = videoParamDto.id as number;
     const { userId } = request.user;
 
-    const video = await this.videoService.findVideo(id);
-    if (!video) {
-      throw new NotFoundException();
-    }
+    await this.checkVideoExistence(id);
 
     const likedByUser = await this.videoService.checkLikedByUser(id, userId);
     if (!likedByUser) {
@@ -113,31 +124,6 @@ export class VideoController {
     const likes = await this.videoService.findVideoLikes(id, userId);
 
     return new VideoResponseDto(unlikedVideo, likes);
-  }
-
-  // 동영상 가져오기
-  @Get('/:id')
-  public async getVideo(
-    @Req() request: Request,
-    @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
-  ): Promise<VideoResponseDto> {
-    const { id } = videoParamDto;
-    const video = await this.videoService.findVideo(id);
-
-    if (!video) {
-      throw new NotFoundException();
-    }
-
-    if (!request.user) {
-      return new VideoResponseDto(video, []);
-    }
-
-    const likes = await this.videoService.findVideoLikes(
-      id,
-      request.user.userId,
-    );
-
-    return new VideoResponseDto(video, likes);
   }
 
   // 댓글 작성하기

@@ -22,6 +22,7 @@ import {
 import { getOffset } from '../libs/get-offset';
 import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
 import { UploadedVideoInfo } from '../uploaded-video-table/model/uploaded-video-info';
+import { LikedVideo } from './model/liked-video';
 
 @Injectable()
 export class VideoService {
@@ -39,6 +40,18 @@ export class VideoService {
       .addOrderBy('Video_createdAt', 'DESC')
       .addOrderBy('Video_id', 'DESC')
       .getManyAndCount();
+  }
+
+  public async findVideo(id: number): Promise<Video> {
+    return await this.videoRepository
+      .createQueryBuilder()
+      .leftJoin('Video.user', 'User')
+      .select(VIDEO_QUERY_SELECT_COLUMNS)
+      .addSelect(USER_QUERY_SELECT_COLUMNS)
+      .where({
+        id,
+      })
+      .getOne();
   }
 
   public async findVideos(
@@ -93,18 +106,6 @@ export class VideoService {
     return await this.popularityQuery(search.limit(SEARCHED_ITEM_NUMBER));
   }
 
-  public async findVideo(id: number): Promise<Video> {
-    return await this.videoRepository
-      .createQueryBuilder()
-      .leftJoin('Video.user', 'User')
-      .select(VIDEO_QUERY_SELECT_COLUMNS)
-      .addSelect(USER_QUERY_SELECT_COLUMNS)
-      .where({
-        id,
-      })
-      .getOne();
-  }
-
   public async instructToSerializeVideoInfo(
     uploadedVideoInfoDto: UploadedVideoInfoDto,
   ): Promise<void> {
@@ -112,6 +113,19 @@ export class VideoService {
       uploadedVideoInfoDto.id,
       new UploadedVideoInfo(uploadedVideoInfoDto),
     );
+  }
+
+  public async findVideoLikes(
+    id: number,
+    userId: number,
+  ): Promise<LikedVideo[]> {
+    const rows = await this.videoRepository.query(
+      `select * from liked_videos
+      where liked_videos.videoId = ? and liked_videos.userId = ?`,
+      [id, userId],
+    );
+
+    return rows.map(row => new LikedVideo(row.videoId, row.userId));
   }
 
   public async likeVideo(id: number, userId: number): Promise<Video> {
