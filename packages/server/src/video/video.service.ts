@@ -37,6 +37,7 @@ export class VideoService {
       if (sort === LATEST) {
         return await this.videoRepository.findAndCount({
           relations: ['user'],
+          where: { status: 1 },
           order: {
             popularity: 'DESC',
             id: 'DESC',
@@ -65,6 +66,7 @@ export class VideoService {
         }
         return await this.videoRepository.findAndCount({
           relations: ['user'],
+          where: { status: 1 },
           order: {
             popularity: 'DESC',
             id: 'DESC',
