@@ -28,6 +28,7 @@ import { UserListQueryPipe } from 'user/pipe/user-list-query-pipe';
 import { UserListQueryDto } from 'user/dto/user-list-query.dto';
 import { UserListResponseDto } from 'user/dto/user-list-response.dto';
 import { UserResponseDto } from 'user/dto/user-response.dto';
+import { UserNameParamPipe } from 'user/pipe/user-name-param-pipe';
 
 @Controller(endpoint.users)
 export class UserController {
@@ -44,7 +45,7 @@ export class UserController {
 
   @Get('/verify/:username')
   public async getUserWithName(
-    @Param('username') username: string,
+    @Param('username', new UserNameParamPipe()) username: string,
   ): Promise<UserResponseDto | object> {
     const user = await this.userService.findUserByName(username);
     try {
