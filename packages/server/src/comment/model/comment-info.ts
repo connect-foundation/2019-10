@@ -2,7 +2,7 @@ import { Comment } from '../../../../typeorm/src/entity/comment.entity';
 import { CommentUserDto } from 'comment/dto/comment-user.dto';
 
 export class CommentInfo {
-  public constructor(comment: Comment) {
+  public constructor(comment: Comment, likedByUser: boolean = false) {
     this.id = comment.id;
     this.content = comment.content;
     this.likedUsersCount = comment.likedUsersCount;
@@ -11,6 +11,7 @@ export class CommentInfo {
     this.createdAt = comment.getCreatedAt();
     this.updatedAt = comment.getUpdatedAt();
     this.user = comment.user;
+    this.likedByUser = likedByUser;
   }
 
   public readonly id: number;
@@ -21,4 +22,5 @@ export class CommentInfo {
   public readonly createdAt: string;
   public readonly updatedAt: string;
   public readonly user: CommentUserDto;
+  public readonly likedByUser: boolean;
 }

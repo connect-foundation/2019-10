@@ -76,19 +76,25 @@ export class CommentService {
     return reply;
   }
 
-  public async findComment(id): Promise<Comment> {
+  public async findComment(id: number): Promise<Comment> {
     return await this.commentRepository
       .createQueryBuilder()
-      .select('Comment')
+      .leftJoin('Comment.user', 'User')
+      .leftJoin('Comment.parent', 'Parent')
+      .leftJoin('Comment.video', 'Video')
+      .select(COMMENT_QUERY_SELECT_COLUMNS)
+      .addSelect(USER_QUERY_SELECT_COLUMNS)
+      .addSelect(['Parent.id'])
+      .addSelect(['Video.id'])
       .where({ id })
       .getOne();
   }
 
-  public async findCommentsByVideo({
-    videoId,
-    page,
-    sort,
-  }): Promise<[Comment[], number]> {
+  public async findCommentsByVideo(
+    videoId: number,
+    page: number,
+    sort: string,
+  ): Promise<[Comment[], number]> {
     const offset = getOffset(page, COMMENT_ITEMS_PER_PAGE);
 
     const qb = this.commentRepository
@@ -123,11 +129,11 @@ export class CommentService {
       .getManyAndCount();
   }
 
-  public async findReplies({
-    id,
-    videoId,
-    page,
-  }): Promise<[Comment[], number]> {
+  public async findReplies(
+    videoId: number,
+    commentId: number,
+    page: number,
+  ): Promise<[Comment[], number]> {
     const offset = getOffset(page, COMMENT_ITEMS_PER_PAGE);
 
     return await this.commentRepository
@@ -139,15 +145,31 @@ export class CommentService {
       .offset(offset)
       .where({
         parent: {
-          id,
+          id: commentId,
         },
         video: {
           id: videoId,
         },
+        status: 1,
       })
       .orderBy('Comment_popularity', 'DESC')
       .addOrderBy('Comment_createdAt', 'DESC')
       .addOrderBy('Comment_id', 'DESC')
       .getManyAndCount();
+  }
+
+  public async findCommentsLikes(
+    comments: Comment[],
+    userId: number,
+  ): Promise<LikedComment[]> {
+    const rows = await this.commentRepository.query(
+      `select * from liked_comments
+        where liked_comments.userId = ? and (${comments
+          .map(() => 'liked_comments.commentId = ?')
+          .join(' or ')})`,
+      [userId, ...comments.map(comment => comment.id)],
+    );
+
+    return rows.map(row => new LikedComment(row.commentId, row.userId));
   }
 }

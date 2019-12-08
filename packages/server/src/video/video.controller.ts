@@ -173,47 +173,49 @@ export class VideoController {
     return new CommentResponseDto(reply);
   }
 
-  // 댓글 리스트 가져오기
   @Get('/:id/comments')
   public async getComments(
+    @Req() request: Request,
     @Param(new CommentListParamPipe())
     commentListParamDto: CommentListParamDto,
     @Query(new CommentListQueryPipe())
     commentListQueryDto: CommentListQueryDto,
   ): Promise<CommentListResponseDto> {
     const id = commentListParamDto.id as number;
-    const { page, sort } = commentListQueryDto;
+    const page = commentListQueryDto.page as number;
+    const { sort } = commentListQueryDto;
 
-    const video = await this.videoService.findVideo(id);
+    await this.checkVideoExistence(id);
 
-    if (!video) {
-      throw new NotFoundException();
-    }
-
-    const [comments, count] = await this.commentService.findCommentsByVideo({
-      videoId: id,
+    const [comments, count] = await this.commentService.findCommentsByVideo(
+      id,
       page,
       sort,
-    });
+    );
 
-    return new CommentListResponseDto(comments, count);
+    if (!request.user) {
+      return new CommentListResponseDto(comments, count);
+    }
+
+    const likes = await this.commentService.findCommentsLikes(
+      comments,
+      request.user.userId,
+    );
+    return new CommentListResponseDto(comments, count, likes);
   }
 
-  // 댓글의 답글 리스트 가져오기
   @Get('/:id/comments/:commentId/replies')
   public async getReplies(
+    @Req() request: Request,
     @Param(new ReplyListParamPipe()) repliesParamDto: ReplyListParamDto,
     @Query(new ReplyListQueryPipe()) repliesQueryDto: ReplyListQueryDto,
   ): Promise<CommentListResponseDto> {
     const id = repliesParamDto.id as number;
     const commentId = repliesParamDto.commentId as number;
-    const { page } = repliesQueryDto;
+    const page = repliesQueryDto.page as number;
 
-    const video = await this.videoService.findVideo(id);
-
-    if (!video) {
-      throw new NotFoundException();
-    }
+    await this.checkVideoExistence(id);
+    await this.checkCommentExistence(id, commentId);
 
     const comment = await this.commentService.findComment(commentId);
 
@@ -221,11 +223,11 @@ export class VideoController {
       throw new NotFoundException();
     }
 
-    const [comments, count] = await this.commentService.findReplies({
-      id: commentId,
-      videoId: id,
+    const [comments, count] = await this.commentService.findReplies(
+      id,
+      commentId,
       page,
-    });
+    );
 
     return new CommentListResponseDto(comments, count);
   }
