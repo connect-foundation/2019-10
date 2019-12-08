@@ -18,14 +18,6 @@ export class TagService {
     private readonly tagRepository: Repository<Tag>,
   ) {}
 
-  private async uploadVideoCountQuery(qb): Promise<[Tag[], number]> {
-    console.log('a', qb);
-    return await qb
-      .orderBy('videosCount', 'DESC')
-      .addOrderBy('id', 'DESC')
-      .getManyAndCount();
-  }
-
   public async findTags(
     tagListQueryDto: TagListQueryDto,
   ): Promise<[Tag[], number]> {
@@ -38,7 +30,6 @@ export class TagService {
           videosCount: 'DESC',
           id: 'DESC',
         },
-
         skip: offset,
         take: TAG_ITEMS_PER_PAGE,
       });
