@@ -22,6 +22,7 @@ export class TagService {
 
     if (!keyword) {
       return await this.tagRepository.findAndCount({
+        where: { status: 1 },
         order: {
           videosCount: 'DESC',
           id: 'DESC',
@@ -33,7 +34,7 @@ export class TagService {
 
     if (page) {
       return await this.tagRepository.findAndCount({
-        where: { name: Like(`%${keyword}%`) },
+        where: { name: Like(`%${keyword}%`), status: 1 },
         order: {
           videosCount: 'DESC',
           id: 'DESC',
@@ -44,7 +45,7 @@ export class TagService {
     }
 
     return await this.tagRepository.findAndCount({
-      where: { name: Like(`%${keyword}%`) },
+      where: { name: Like(`%${keyword}%`), status: 1 },
       order: {
         videosCount: 'DESC',
         id: 'DESC',

@@ -42,6 +42,7 @@ describe('-- TagService --', () => {
       const repoSpy = jest.spyOn(tagRepository, 'findAndCount');
       expect(tagService.findTags(tagListQueryDto)).resolves.toEqual(tagArray);
       expect(repoSpy).toBeCalledWith({
+        where: { status: 1 },
         order: {
           videosCount: 'DESC',
           id: 'DESC',
@@ -60,7 +61,7 @@ describe('-- TagService --', () => {
         tagArrayByKeywordJava,
       );
       expect(repoSpy).toBeCalledWith({
-        where: { name: Like(`%java%`) },
+        where: { name: Like(`%java%`), status: 1 },
         order: {
           videosCount: 'DESC',
           id: 'DESC',
@@ -78,7 +79,7 @@ describe('-- TagService --', () => {
         tagArrayByKeywordJava,
       );
       expect(repoSpy).toBeCalledWith({
-        where: { name: Like(`%java%`) },
+        where: { name: Like(`%java%`), status: 1 },
         order: {
           videosCount: 'DESC',
           id: 'DESC',
