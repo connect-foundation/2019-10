@@ -27,6 +27,7 @@ import { User } from '../../../typeorm/src/entity/user.entity';
 import { UserListQueryPipe } from 'user/pipe/user-list-query-pipe';
 import { UserListQueryDto } from 'user/dto/user-list-query.dto';
 import { UserListResponseDto } from 'user/dto/user-list-response.dto';
+import { UserResponseDto } from 'user/dto/user-response.dto';
 
 @Controller(endpoint.users)
 export class UserController {
@@ -41,11 +42,25 @@ export class UserController {
     return new UserListResponseDto(users, count);
   }
 
+  @Get('/verify/:username')
+  public async getUserWithName(
+    @Param('username') username: string,
+  ): Promise<UserResponseDto | object> {
+    const user = await this.userService.findUserByName(username);
+    try {
+      return new UserResponseDto(user);
+    } catch (err) {
+      if (!user) {
+        return {};
+      }
+      throw new BadRequestException(err.message);
+    }
+  }
+
   @Get('/:id')
   public getUserDetail(@Param(IdParserPipe) userId: number) {
     // console.log(userId);
   }
-
   @Post()
   // pipe 사용해서 동의 안했으면 요청 거절하게 만들어야함
   public async signUp(
