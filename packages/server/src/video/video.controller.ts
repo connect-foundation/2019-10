@@ -293,18 +293,62 @@ export class VideoController {
     return new CommentResponseDto(deletedComment);
   }
 
-  // 댓글 좋아요
   @Post('/:id/comments/:commentId/likes')
   @UseGuards(OnlyMemberGuard)
-  public async likeComment() {
-    return {};
+  public async likeComment(
+    @Req() request: Request,
+    @Param(new CommentParamPipe()) commentParamDto: CommentParamDto,
+  ) {
+    const { userId } = request.user;
+    const id = commentParamDto.id as number;
+    const commentId = commentParamDto.commentId as number;
+
+    await this.checkVideoExistence(id);
+    await this.checkCommentExistence(id, commentId);
+
+    const likedByUser = await this.commentService.checkLikedByUser(
+      commentId,
+      userId,
+    );
+    if (likedByUser) {
+      throw new ConflictException('Already liked the video');
+    }
+
+    const likedComment = await this.commentService.likeComment(
+      commentId,
+      userId,
+    );
+
+    return new CommentResponseDto(likedComment);
   }
 
-  // 댓글 좋아요 취소
   @Delete('/:id/comments/:commentId/likes')
   @UseGuards(OnlyMemberGuard)
-  public async unlikeComment() {
-    return {};
+  public async unlikeComment(
+    @Req() request: Request,
+    @Param(new CommentParamPipe()) commentParamDto: CommentParamDto,
+  ) {
+    const { userId } = request.user;
+    const id = commentParamDto.id as number;
+    const commentId = commentParamDto.commentId as number;
+
+    await this.checkVideoExistence(id);
+    await this.checkCommentExistence(id, commentId);
+
+    const likedByUser = await this.commentService.checkLikedByUser(
+      commentId,
+      userId,
+    );
+    if (!likedByUser) {
+      throw new NotFoundException('Video is not liked by the user');
+    }
+
+    const unlikedComment = await this.commentService.unlikeComment(
+      commentId,
+      userId,
+    );
+
+    return new CommentResponseDto(unlikedComment);
   }
 
   private async checkVideoExistence(id: number) {
@@ -314,5 +358,14 @@ export class VideoController {
     }
 
     return video;
+  }
+
+  private async checkCommentExistence(videoId: number, commentId: number) {
+    const comment = await this.commentService.findComment(commentId);
+    if (!comment || comment.video.id !== videoId) {
+      throw new NotFoundException();
+    }
+
+    return comment;
   }
 }

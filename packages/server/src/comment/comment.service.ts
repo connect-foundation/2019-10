@@ -13,6 +13,7 @@ import { Comment } from '../../entity/comment.entity';
 import { Video } from '../../entity/video.entity';
 import { CommentBodyDto } from './dto/comment-body.dto';
 import { LikedComment } from './model/liked-comment';
+import { User } from '../../entity/user.entity';
 
 @Injectable()
 export class CommentService {
@@ -21,6 +22,8 @@ export class CommentService {
     private readonly commentRepository: Repository<Comment>,
     @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   public async createComment(
@@ -202,5 +205,51 @@ export class CommentService {
     }
 
     return deletedComment;
+  }
+
+  public async likeComment(
+    commentId: number,
+    userId: number,
+  ): Promise<Comment> {
+    await this.commentRepository
+      .createQueryBuilder()
+      .relation(Comment, 'likedUsers')
+      .of(userId)
+      .add(commentId);
+
+    const comment = await this.findComment(commentId);
+    comment.likedUsersCount = comment.likedUsersCount + 1;
+    return await this.commentRepository.save(comment);
+  }
+
+  public async unlikeComment(
+    commentId: number,
+    userId: number,
+  ): Promise<Comment> {
+    await this.commentRepository
+      .createQueryBuilder()
+      .relation(Comment, 'likedUsers')
+      .of(userId)
+      .remove(commentId);
+
+    const comment = await this.findComment(commentId);
+    comment.likedUsersCount = comment.likedUsersCount - 1;
+    return await this.commentRepository.save(comment);
+  }
+
+  public async checkLikedByUser(
+    commentId: number,
+    userId: number,
+  ): Promise<boolean> {
+    const likedComment = await this.userRepository
+      .createQueryBuilder()
+      .where({
+        id: userId,
+      })
+      .relation(User, 'likedComments')
+      .of(commentId)
+      .loadOne();
+
+    return Boolean(likedComment);
   }
 }
