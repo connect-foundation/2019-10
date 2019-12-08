@@ -7,7 +7,7 @@ import { TagService } from 'tag/tag.service';
 import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
 
 import { TAG_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from 'common/constants';
-import { tagArray, tagArrayByKeywordJava } from 'tag/tag.test.dummy.data';
+import { TAG_LIST, TAG_LIST_BY_KEYWORD_JAVA } from 'tag/tag.test.dummy.data';
 
 describe('-- TagService --', () => {
   let tagService: TagService;
@@ -21,7 +21,7 @@ describe('-- TagService --', () => {
         {
           provide: getRepositoryToken(Tag),
           useValue: {
-            findAndCount: jest.fn().mockResolvedValue(tagArray),
+            findAndCount: jest.fn().mockResolvedValue(TAG_LIST),
           },
         },
       ],
@@ -39,7 +39,7 @@ describe('-- TagService --', () => {
     it('should return an array of tags, not search results', () => {
       const tagListQueryDto = new TagListQueryDto(1, undefined);
       const repoSpy = jest.spyOn(tagRepository, 'findAndCount');
-      expect(tagService.findTags(tagListQueryDto)).resolves.toEqual(tagArray);
+      expect(tagService.findTags(tagListQueryDto)).resolves.toEqual(TAG_LIST);
       expect(repoSpy).toBeCalledWith({
         where: { status: 1 },
         order: {
@@ -57,7 +57,7 @@ describe('-- TagService --', () => {
       const repoSpy = jest.spyOn(tagRepository, 'findAndCount');
 
       expect(tagService.findTags(tagListQueryDto)).resolves.toEqual(
-        tagArrayByKeywordJava,
+        TAG_LIST_BY_KEYWORD_JAVA,
       );
       expect(repoSpy).toBeCalledWith({
         where: { name: Like(`%java%`), status: 1 },
@@ -75,7 +75,7 @@ describe('-- TagService --', () => {
       const repoSpy = jest.spyOn(tagRepository, 'findAndCount');
 
       expect(tagService.findTags(tagListQueryDto)).resolves.toEqual(
-        tagArrayByKeywordJava,
+        TAG_LIST_BY_KEYWORD_JAVA,
       );
       expect(repoSpy).toBeCalledWith({
         where: { name: Like(`%java%`), status: 1 },

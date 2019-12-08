@@ -1,4 +1,4 @@
-export const tagArray = [
+export const TAG_LIST = [
   [
     {
       id: 756,
@@ -36,7 +36,7 @@ export const tagArray = [
   4,
 ];
 
-export const tagArrayByKeywordJava = [
+export const TAG_LIST_BY_KEYWORD_JAVA = [
   [
     {
       id: 751,
@@ -51,39 +51,3 @@ export const tagArrayByKeywordJava = [
   ],
   2,
 ];
-
-export const tagArrayController = {
-  data: [
-    {
-      id: 755,
-      name: '김동환',
-      videosCount: 99999,
-    },
-    {
-      id: 754,
-      name: 'typescript',
-      videosCount: 10,
-    },
-    {
-      id: 751,
-      name: 'javascript',
-      videosCount: 10,
-    },
-    {
-      id: 750,
-      name: 'java',
-      videosCount: 5,
-    },
-    {
-      id: 752,
-      name: 'nextjs',
-      videosCount: 3,
-    },
-    {
-      id: 753,
-      name: 'nestjs',
-      videosCount: 2,
-    },
-  ],
-  count: 6,
-};
