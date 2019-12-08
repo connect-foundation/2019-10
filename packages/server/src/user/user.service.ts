@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 
 import { UserSerializerService } from 'serializer/user-serializer.service';
 
@@ -11,12 +11,7 @@ import { SignUpUserData } from 'user/model/sign-up-form-data';
 import { User } from '../../../typeorm/src/entity/user.entity';
 import { UserListQueryDto } from 'user/dto/user-list-query.dto';
 import { getOffset } from 'libs/get-offset';
-import {
-  USER_ITEMS_PER_PAGE,
-  USER_QUERY_SELECT_COLUMNS,
-  SEARCHED_ITEM_NUMBER,
-  USER_SEARCH_QUERY,
-} from 'common/constants';
+import { USER_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from 'common/constants';
 
 @Injectable()
 export class UserService {
@@ -25,14 +20,6 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  private async uploadVideoCountQuery(qb): Promise<[User[], number]> {
-    return await qb
-      .orderBy('videosCount', 'DESC')
-      .addOrderBy('createdAt', 'DESC')
-      .addOrderBy('id', 'DESC')
-      .getManyAndCount();
-  }
-
   public async findUsers(
     userListQueryDto: UserListQueryDto,
   ): Promise<[User[], number]> {
@@ -40,21 +27,32 @@ export class UserService {
 
     const offset = getOffset(page, USER_ITEMS_PER_PAGE);
 
-    const qb = this.userRepository
-      .createQueryBuilder()
-      .select(USER_QUERY_SELECT_COLUMNS)
-      .where(USER_SEARCH_QUERY, {
-        usernameKeyword: '%' + keyword + '%',
-        descriptionKeyword: '%' + keyword + '%',
-      });
-
     if (page) {
-      return await this.uploadVideoCountQuery(
-        qb.limit(USER_ITEMS_PER_PAGE).offset(offset),
-      );
+      return await this.userRepository.findAndCount({
+        where: [
+          { username: Like(`%${keyword}%`) },
+          { description: Like(`%${keyword}%`), status: 1 },
+        ],
+        order: {
+          videosCount: 'DESC',
+          id: 'DESC',
+        },
+        skip: offset,
+        take: USER_ITEMS_PER_PAGE,
+      });
     }
 
-    return await this.uploadVideoCountQuery(qb.limit(SEARCHED_ITEM_NUMBER));
+    return await this.userRepository.findAndCount({
+      where: [
+        { username: Like(`%${keyword}%`) },
+        { description: Like(`%${keyword}%`), status: 1 },
+      ],
+      order: {
+        videosCount: 'DESC',
+        id: 'DESC',
+      },
+      take: SEARCHED_ITEM_NUMBER,
+    });
   }
 
   public async registerUser(
