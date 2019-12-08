@@ -7,7 +7,6 @@ import { TagService } from 'tag/tag.service';
 import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
 
 import { TAG_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from 'common/constants';
-
 import { tagArray, tagArrayByKeywordJava } from 'tag/tag.test.dummy.data';
 
 describe('-- TagService --', () => {
