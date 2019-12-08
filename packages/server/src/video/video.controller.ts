@@ -270,12 +270,27 @@ export class VideoController {
     return new CommentResponseDto(updatedComment);
   }
 
-  // 댓글 삭제하기
-  // 작성자만 삭제 가능
   @Delete('/:id/comments/:commentId')
   @UseGuards(OnlyMemberGuard)
-  public async deleteComment() {
-    return {};
+  public async deleteComment(
+    @Req() request: Request,
+    @Param(new CommentParamPipe()) commentParamDto: CommentParamDto,
+  ) {
+    const { userId } = request.user;
+    const id = commentParamDto.id as number;
+    const commentId = commentParamDto.commentId as number;
+
+    await this.checkVideoExistence(id);
+    await this.checkCommentExistence(id, commentId);
+
+    const comment = await this.commentService.findComment(commentId);
+    if (comment.user.id !== userId) {
+      throw new ForbiddenException();
+    }
+
+    const deletedComment = await this.commentService.deleteComment(comment);
+
+    return new CommentResponseDto(deletedComment);
   }
 
   // 댓글 좋아요

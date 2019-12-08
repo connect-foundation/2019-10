@@ -186,4 +186,21 @@ export class CommentService {
 
     return await this.commentRepository.save(comment);
   }
+
+  public async deleteComment(comment: Comment): Promise<Comment> {
+    comment.status = 0;
+    const deletedComment = await this.commentRepository.save(comment);
+
+    const video = await this.videoRepository.findOne(comment.video.id);
+    video.commentsCount = video.commentsCount - 1;
+    await this.videoRepository.save(video);
+
+    if (comment.parent) {
+      const parent = await this.commentRepository.findOne(comment.parent.id);
+      parent.childrenCount = parent.childrenCount - 1;
+      await this.commentRepository.save(parent);
+    }
+
+    return deletedComment;
+  }
 }
