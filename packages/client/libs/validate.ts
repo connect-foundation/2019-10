@@ -10,7 +10,7 @@ const validateUserName = (
       `닉네임 '${userName}'을 사용중인 회원이 존재합니다. 다른 닉네임을 사용해주시길 바랍니다.`,
     ];
   }
-  if (userName.length === 0) {
+  if (!userName || userName.length === 0) {
     return [true, ``];
   }
   if (userName.match(regex.userName)) {
@@ -26,7 +26,7 @@ const validateUserName = (
 };
 
 const validateDescription = (description: string): [boolean, string] => {
-  if (description.length > signUpFormDataMaxLength.username) {
+  if (description && description.length > signUpFormDataMaxLength.username) {
     return [
       false,
       `${signUpFormDataMaxLength.description}자 이하로 작성해주세요.`,

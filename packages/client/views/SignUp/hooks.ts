@@ -1,51 +1,46 @@
 import { useMutation } from 'react-fetching-library';
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 import { useRouter } from 'next/router';
 import { FormData } from './model/form-data';
 import { makeSignUpAction } from './action/sign-up-action';
 import { responseStatus } from '../../response';
 import { endpoint } from '../../constants';
 
-export const useUserName = () => {
-  const [userName, setUserName] = useState('');
-
-  const handleUserNameChange = e => {
-    setUserName(e.target.value);
-  };
-
-  return { userName, setUserName, handleUserNameChange };
+export const initialUserState = {
+  userName: '',
+  description: '',
+  isAgreed: false,
+  isUserNameDuplicated: false,
 };
 
-export const useDescription = () => {
-  const [description, setDescription] = useState('');
-
-  const handleDescriptionChange = e => {
-    setDescription(e.target.value);
-  };
-
-  return { description, setDescription, handleDescriptionChange };
-};
-
-export const useIsAgreed = () => {
-  const [isAgreed, setIsAgreed] = useState(false);
-  const handleIsAgreedChange = e => {
-    setIsAgreed(e.target.checked);
-  };
-  return { isAgreed, setIsAgreed, handleIsAgreedChange };
-};
-
-export const useFormValidation = (validated: boolean, username: string) => {
-  const [isValidated, setIsValidated] = useState(false);
-
-  return { isValidated };
+export const userFormReducer = (state, action) => {
+  switch (action.type) {
+    case 'reset': {
+      return initialUserState;
+    }
+    case 'updateUserName': {
+      return { ...state, userName: action.value };
+    }
+    case 'updateDescription': {
+      return { ...state, description: action.value };
+    }
+    case 'updateIsAgreed': {
+      return { ...state, isAgreed: action.value };
+    }
+    case 'updateUserNameDuplicated': {
+      return { ...state, isUserNameDuplicated: action.value };
+    }
+    default: {
+      throw new Error(`unexpected action.type: ${action.type}`);
+    }
+  }
 };
 
 export const useFormSubmit = (
   userName: string,
   description: string,
   isAgreed: boolean,
-  isValidated: boolean,
-  isDuplicated: boolean,
+  isFormValid: boolean,
 ) => {
   const [isFetching, setIsFetching] = useState(false);
 
@@ -74,9 +69,7 @@ export const useFormSubmit = (
   };
 
   const checkFormVerified = () => {
-    return (
-      formData.isAgreed && formData.username && isValidated && !isDuplicated
-    );
+    return formData.isAgreed && formData.username && isFormValid;
   };
 
   const checkSubmitAvailable = () => {

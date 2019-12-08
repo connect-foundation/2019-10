@@ -76,3 +76,7 @@ export const regex = {
   // username은 영문 대소문자, 숫자, 띄어쓰기, 한글을 1~30자 포함한다.
   userName: /^[\s0-9a-zA-Z\u3131-\uD79D]{1,30}$/giu,
 };
+
+export const debounceTime = {
+  userName: 300,
+};

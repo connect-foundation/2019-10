@@ -1,60 +1,88 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Grid } from '@material-ui/core';
-import { useQuery } from 'react-fetching-library';
+import { useDebounce } from '../../hooks/use-debounce';
 
 import * as S from './styles';
-import { signUpFormDataMaxLength, endpoint } from '../../constants';
-import { validateUserName, validateDescription } from '../../libs/validate';
 import {
-  useUserName,
-  useDescription,
-  useIsAgreed,
-  useFormSubmit,
-} from './hooks';
+  signUpFormDataMaxLength,
+  endpoint,
+  debounceTime,
+} from '../../constants';
+import { validateUserName, validateDescription } from '../../libs/validate';
+import { useFormSubmit, userFormReducer, initialUserState } from './hooks';
 
 const SignUp: React.FunctionComponent = () => {
-  const { userName, handleUserNameChange } = useUserName();
-  const { description, handleDescriptionChange } = useDescription();
-  const { isAgreed, handleIsAgreedChange } = useIsAgreed();
-
-  const [descriptionValidationResult, descriptionMessage] = validateDescription(
-    description,
-  );
-  const [isUserNameDuplicated, setIsUserNameDuplicate] = useState(false);
-
-  const [userNameValidationResult, userNameMessage] = validateUserName(
-    userName,
-    isUserNameDuplicated,
+  const [userForm, dispatchUserForm] = useReducer(
+    userFormReducer,
+    initialUserState,
   );
 
-  const isFormValidated =
-    userNameValidationResult && descriptionValidationResult && isAgreed;
+  const debouncedUserName = useDebounce(
+    userForm.userName,
+    debounceTime.userName,
+  );
+
+  const [isUserNameValid, userNameMessage] = validateUserName(
+    debouncedUserName,
+    userForm.isUserNameDuplicated,
+  );
 
   useEffect(() => {
+    const shouldCheckDuplicated = () => {
+      return debouncedUserName && isUserNameValid;
+    };
+
     const checkUserNameDuplicate = async () => {
-      const payload = await fetch(
-        `${process.env.API_URL_HOST}${endpoint.users}/verify/${userName}`,
+      const user = await fetch(
+        `${process.env.API_URL_HOST}${endpoint.users}/verify/${debouncedUserName}`,
       ).then(response => response.json());
 
-      if (payload && payload.username) {
-        setIsUserNameDuplicate(true);
+      if (user && user.username) {
+        dispatchUserForm({ type: 'updateUserNameDuplicated', value: true });
       }
     };
 
-    if (userName && isFormValidated && !isUserNameDuplicated) {
+    if (shouldCheckDuplicated()) {
       checkUserNameDuplicate();
-    } else if (isUserNameDuplicated) {
-      setIsUserNameDuplicate(false);
+    } else if (userForm.isUserNameDuplicated) {
+      dispatchUserForm({ type: 'updateUserNameDuplicated', value: false });
     }
-  }, [userName, isAgreed]);
+  }, [debouncedUserName]);
+
+  const [isDescriptionValid, descriptionMessage] = validateDescription(
+    userForm.description,
+  );
+
+  const isFormValid =
+    isUserNameValid &&
+    isDescriptionValid &&
+    userForm.isAgreed &&
+    !userForm.isUserNameDuplicated;
 
   const { handleSubmit, checkSubmitAvailable } = useFormSubmit(
-    userName,
-    description,
-    isAgreed,
-    isFormValidated,
-    isUserNameDuplicated,
+    debouncedUserName,
+    userForm.description,
+    userForm.isAgreed,
+    isFormValid,
   );
+
+  const handleUserName = e =>
+    dispatchUserForm({
+      type: 'updateUserName',
+      value: e.target.value,
+    });
+
+  const handleDescription = e =>
+    dispatchUserForm({
+      type: 'updateDescription',
+      value: e.target.value,
+    });
+
+  const handleIsAgreed = e =>
+    dispatchUserForm({
+      type: 'updateIsAgreed',
+      value: e.target.checked,
+    });
 
   return (
     <S.SignUp>
@@ -64,7 +92,7 @@ const SignUp: React.FunctionComponent = () => {
             <S.HeadMessage>거의 다 되었어요!</S.HeadMessage>
             <S.Form>
               <S.Item>
-                <S.Label valid={userNameValidationResult}>
+                <S.Label valid={isUserNameValid}>
                   <label htmlFor="username">
                     닉네임
                     <S.RequireMark />
@@ -75,14 +103,14 @@ const SignUp: React.FunctionComponent = () => {
                   id="username"
                   name="username"
                   maxLength={signUpFormDataMaxLength.username}
-                  onChange={handleUserNameChange}
+                  onChange={handleUserName}
                   type="text"
                   spellCheck={false}
                 />
                 <span>{userNameMessage}</span>
               </S.Item>
               <S.Item>
-                <S.Label valid={descriptionValidationResult}>
+                <S.Label valid={isDescriptionValid}>
                   <label htmlFor="description">소개</label>
                   <span>(최대 1,500자)</span>
                 </S.Label>
@@ -90,7 +118,7 @@ const SignUp: React.FunctionComponent = () => {
                   id="description"
                   name="description"
                   maxLength={signUpFormDataMaxLength.description}
-                  onChange={handleDescriptionChange}
+                  onChange={handleDescription}
                   spellCheck={false}
                 />
                 <span>{descriptionMessage}</span>
@@ -100,7 +128,7 @@ const SignUp: React.FunctionComponent = () => {
                   <input
                     type="checkbox"
                     name="isAgreed"
-                    onChange={handleIsAgreedChange}
+                    onChange={handleIsAgreed}
                     spellCheck={false}
                   />
                   <div className={'agreement'}>
