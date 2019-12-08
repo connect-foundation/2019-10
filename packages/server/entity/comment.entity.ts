@@ -15,7 +15,7 @@ import { Video } from './video.entity';
 
 const popularityWeight = {
   childrenCount: 4,
-  likedUsersCount: 1,
+  likedUsersCount: 2,
 };
 
 @Entity({
