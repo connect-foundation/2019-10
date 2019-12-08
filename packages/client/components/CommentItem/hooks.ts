@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Action, useQuery } from 'react-fetching-library';
+import { Action, useQuery, useMutation } from 'react-fetching-library';
 
-const createRepliesAction: Action = (videoId, commentId, page) => ({
+const getRepliesAction: Action = (videoId, commentId, page) => ({
   method: 'GET',
-  endpoint: `${process.env.API_SERVER_HOST}/videos/${videoId}/comments/${commentId}/replies?page=${page}`,
+  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/comments/${commentId}/replies?page=${page}`,
+  credentials: 'include',
 });
 
 export const useReplies = (videoId, commentId) => {
@@ -12,7 +13,7 @@ export const useReplies = (videoId, commentId) => {
   const [replies, setReplies] = useState([]);
   const [hasData, setHasData] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const action = createRepliesAction(videoId, commentId, page);
+  const action = getRepliesAction(videoId, commentId, page);
   const { payload, error, query, ...rest } = useQuery(action, false);
 
   useEffect(() => {
@@ -73,5 +74,79 @@ export const useReplyForm = () => {
     onChange: handleChange,
     onCancel: handleCancel,
     onSubmit: handleSubmit,
+  };
+};
+
+const likeCommentAction: Action = ({ videoId, commentId }) => ({
+  method: 'POST',
+  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/comments/${commentId}/likes`,
+  credentials: 'include',
+});
+
+const unlikeCommentAction: Action = ({ videoId, commentId }) => ({
+  method: 'DELETE',
+  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/comments/${commentId}/likes`,
+  credentials: 'include',
+});
+
+export const useCommentLike = (
+  videoId,
+  commentId,
+  likedUsersCount,
+  likedByUser,
+  user,
+  router,
+) => {
+  const [likesCount, setLikesCount] = useState(likedUsersCount);
+  const [liked, setLiked] = useState(likedByUser);
+
+  useEffect(() => {
+    setLikesCount(likedUsersCount);
+  }, [likedUsersCount]);
+
+  useEffect(() => {
+    setLiked(likedByUser);
+  }, [likedByUser]);
+
+  const {
+    error: likeError,
+    mutate: likeMutate,
+    reset: likeReset,
+  } = useMutation(likeCommentAction);
+  const {
+    error: unlikeError,
+    mutate: unlikeMutate,
+    reset: unlikeReset,
+  } = useMutation(unlikeCommentAction);
+
+  useEffect(() => {
+    if (likeError || unlikeError) {
+      setLikesCount(likedUsersCount);
+      setLiked(likedByUser);
+      likeReset();
+      unlikeReset();
+    }
+  }, [likeError, unlikeError]);
+
+  const handleClick = () => {
+    if (!user) {
+      router.push('/auth/login');
+      return;
+    }
+
+    setLiked(!liked);
+    if (liked) {
+      unlikeMutate({ videoId, commentId });
+      setLikesCount(likesCount - 1);
+    } else {
+      likeMutate({ videoId, commentId });
+      setLikesCount(likesCount + 1);
+    }
+  };
+
+  return {
+    likesCount,
+    liked,
+    onLike: handleClick,
   };
 };

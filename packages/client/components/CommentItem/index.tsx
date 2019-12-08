@@ -4,14 +4,10 @@ import { useRouter } from 'next/router';
 import { format } from '../../libs/timeago';
 
 import * as S from './styles';
-import {
-  FavoriteSVG,
-  ArrowDropDownSVG,
-  SubdirectoryArrowRightSVG,
-} from '../../svgs';
-import { useReplies, useReplyForm } from './hooks';
+import { FavoriteSVG } from '../../svgs';
+import { useReplies, useReplyForm, useCommentLike } from './hooks';
 import { CircularProgress } from '@material-ui/core';
-import CommentForm from '../CommentForm';
+import { useUser } from '../UserProvider/hooks';
 
 const CommentItem = ({
   reply,
@@ -22,12 +18,14 @@ const CommentItem = ({
   user,
   createdAt,
   updatedAt,
+  likedByUser,
 }) => {
   const router = useRouter();
   const { videoId } = router.query;
 
-  // TODO: refactor to an actual data
-  const myComment = false;
+  const loggedInUser = useUser();
+
+  const myComment = user.id === loggedInUser.id;
 
   const {
     open: formOpen,
@@ -48,6 +46,15 @@ const CommentItem = ({
     onOpen: onRepliesOpen,
   } = useReplies(videoId, id);
 
+  const { likesCount, liked, onLike } = useCommentLike(
+    videoId,
+    id,
+    likedUsersCount,
+    likedByUser,
+    loggedInUser,
+    router,
+  );
+
   const loader = (
     <S.Loader>
       <CircularProgress thickness={4} />
@@ -67,13 +74,10 @@ const CommentItem = ({
         <S.Description>{content}</S.Description>
 
         <S.Actions>
-          <button type="button">
+          <S.Like type="button" active={liked} onClick={onLike}>
             <FavoriteSVG />
-
-            <span className="likes">
-              좋아요 {likedUsersCount !== 0 && `${likedUsersCount}개`}
-            </span>
-          </button>
+            <span>좋아요 {likesCount > 0 && `${likesCount}개`}</span>
+          </S.Like>
 
           {!reply && (
             <>
