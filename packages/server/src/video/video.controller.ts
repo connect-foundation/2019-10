@@ -12,7 +12,6 @@ import {
   Delete,
   ConflictException,
 } from '@nestjs/common';
-
 import { endpoint } from '../common/constants';
 import { VideoService } from './video.service';
 import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
@@ -32,6 +31,12 @@ import { ReplyListQueryPipe } from '../comment/pipe/reply-list-query.pipe';
 import { ReplyListParamDto } from '../comment/dto/reply-list-param.dto';
 import { ReplyListQueryDto } from '../comment/dto/reply-list-query.dto';
 import { CommentResponseDto } from '../comment/dto/comment-response.dto';
+import { VideoParamPipe } from './pipe/video-param.pipe';
+import { VideoListQueryPipe } from './pipe/video-list-query.pipe';
+import { CommentCreateBodyPipe } from '../comment/pipe/comment-create-body.pipe';
+import { CommentBodyDto } from '../comment/dto/comment-body.dto';
+import { CommentParamPipe } from '../comment/pipe/comment-param.pipe';
+import { CommentParamDto } from '../comment/dto/comment-param.dto';
 
 @Controller(endpoint.videos)
 export class VideoController {
@@ -126,36 +131,44 @@ export class VideoController {
     return new VideoResponseDto(unlikedVideo, likes);
   }
 
-  // 댓글 작성하기
   @Post('/:id/comments')
   @UseGuards(OnlyMemberGuard)
   public async createComment(
     @Req() request: Request,
-    @Param() videoParamDto,
-    @Body() commentBodyDto,
+    @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
+    @Body(new CommentCreateBodyPipe()) commentBodyDto: CommentBodyDto,
   ) {
+    const id = videoParamDto.id as number;
     const { userId } = request.user;
+
+    await this.checkVideoExistence(id);
+
     const comment = await this.commentService.createComment(
-      videoParamDto,
-      commentBodyDto,
+      id,
       userId,
+      commentBodyDto,
     );
     return new CommentResponseDto(comment);
   }
 
-  // 답글 작성하기
   @Post('/:id/comments/:commentId')
   @UseGuards(OnlyMemberGuard)
   public async createReply(
     @Req() request: Request,
-    @Param() commentParamDto,
-    @Body() commentBodyDto,
+    @Param(new CommentParamPipe()) commentParamDto: CommentParamDto,
+    @Body(new CommentCreateBodyPipe()) commentBodyDto: CommentBodyDto,
   ) {
+    const id = commentParamDto.id as number;
+    const commentId = commentParamDto.commentId as number;
     const { userId } = request.user;
+
+    await this.checkVideoExistence(id);
+
     const reply = await this.commentService.createReply(
-      commentParamDto,
-      commentBodyDto,
+      id,
+      commentId,
       userId,
+      commentBodyDto,
     );
     return new CommentResponseDto(reply);
   }

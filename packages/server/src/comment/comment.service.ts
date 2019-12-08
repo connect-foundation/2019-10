@@ -21,42 +21,35 @@ export class CommentService {
     private readonly videoRepository: Repository<Video>,
   ) {}
 
-  // 댓글 작성하기
   public async createComment(
-    videoParamDto,
-    commentBodyDto,
-    userId,
+    videoId: number,
+    userId: number,
+    commentBodyDto: CommentBodyDto,
   ): Promise<Comment> {
-    // 댓글 리소스 생성하기
-    const { content } = commentBodyDto;
     const comment = this.commentRepository.create({
       video: {
-        id: videoParamDto.id,
+        id: videoId,
       },
       user: {
         id: userId,
       },
-      content,
+      content: commentBodyDto.content,
     });
     await this.commentRepository.save(comment);
 
-    // 비디오의 commentsCount increment 하기
-    const video = await this.videoRepository.findOne(videoParamDto.id);
+    const video = await this.videoRepository.findOne(videoId);
     video.commentsCount = video.commentsCount + 1;
     this.videoRepository.save(video);
 
     return comment;
   }
 
-  // 답글 작성하기
   public async createReply(
-    commentParamDto,
-    commentBodyDto,
-    userId,
+    videoId: number,
+    commentId: number,
+    userId: number,
+    commentBodyDto: CommentBodyDto,
   ): Promise<Comment> {
-    // 댓글 리소스 작성하기
-    // 부모 댓글과의 관계 설정하기
-    const { id: videoId, commentId } = commentParamDto;
     const { content } = commentBodyDto;
     const reply = await this.commentRepository.create({
       video: {
@@ -72,12 +65,10 @@ export class CommentService {
     });
     await this.commentRepository.save(reply);
 
-    // 부모 댓글의 childrenCount를 increment하기
     const parent = await this.commentRepository.findOne(commentId);
     parent.childrenCount = parent.childrenCount + 1;
     await this.commentRepository.save(parent);
 
-    // 비디오의 commentsCount increment 하기
     const video = await this.videoRepository.findOne(videoId);
     video.commentsCount = video.commentsCount + 1;
     await this.videoRepository.save(video);
