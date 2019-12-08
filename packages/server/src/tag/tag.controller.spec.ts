@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { TagController } from 'Tag/tag.controller';
 import { TagService } from 'Tag/tag.service';
@@ -14,6 +15,7 @@ describe('-- Tag Controller --', () => {
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([Tag])],
       controllers: [TagController],
       providers: [TagService],
     }).compile();
@@ -29,8 +31,8 @@ describe('-- Tag Controller --', () => {
   describe('getTags', () => {
     it('should return an array of tags, not search results', async () => {
       const tagListQueryDto = new TagListQueryDto(1, undefined);
-      const repositoryMock = new Tag();
-      // jest.spyOn(tagService, 'findTags').mockResolvedValue(tagArray);
+
+      jest.spyOn(tagService, 'findTags').mockResolvedValue(tagArray);
 
       expect(await tagController.getTags(tagListQueryDto)).toBe(
         tagArrayController,

@@ -1,40 +1,39 @@
-import { Tag } from '../../../typeorm/src/entity/tag.entity';
-import { Status } from '../../../typeorm/src/custom-type';
-
 export const tagArray = [
   [
     {
+      id: 756,
+      createdAt: '2019-12-03T20:02:09.000Z',
+      updatedAt: '2019-12-03T20:02:09.000Z',
+      status: true,
+      name: '가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가',
+      videosCount: 444444444,
+    },
+    {
       id: 755,
+      createdAt: '2019-12-03T20:02:09.000Z',
+      updatedAt: '2019-12-03T20:02:09.000Z',
+      status: true,
       name: '김동환',
       videosCount: 99999,
     },
     {
-      id: 754,
-      name: 'typescript',
+      id: 762,
+      createdAt: '2019-12-03T20:35:38.000Z',
+      updatedAt: '2019-12-03T20:35:38.000Z',
+      status: true,
+      name: 'MMMMMMMMMMMMMMMMMMMMMMMMMMMMMM',
       videosCount: 10,
     },
     {
       id: 751,
+      createdAt: '2019-12-02T23:18:24.000Z',
+      updatedAt: '2019-12-02T23:18:24.000Z',
+      status: true,
       name: 'javascript',
       videosCount: 10,
     },
-    {
-      id: 750,
-      name: 'java',
-      videosCount: 5,
-    },
-    {
-      id: 752,
-      name: 'nextjs',
-      videosCount: 3,
-    },
-    {
-      id: 753,
-      name: 'nestjs',
-      videosCount: 2,
-    },
   ],
-  6,
+  4,
 ];
 
 export const tagArrayByKeywordJava = [
@@ -56,19 +55,9 @@ export const tagArrayByKeywordJava = [
 export const tagArrayController = {
   data: [
     {
-      id: 756,
-      name: '가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가',
-      videosCount: 444444444,
-    },
-    {
       id: 755,
       name: '김동환',
       videosCount: 99999,
-    },
-    {
-      id: 762,
-      name: 'MMMMMMMMMMMMMMMMMMMMMMMMMMMMMM',
-      videosCount: 1111,
     },
     {
       id: 754,
@@ -96,5 +85,5 @@ export const tagArrayController = {
       videosCount: 2,
     },
   ],
-  count: 8,
+  count: 6,
 };
