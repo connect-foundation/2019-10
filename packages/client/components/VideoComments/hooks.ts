@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useQuery, Action } from 'react-fetching-library';
+import { useQuery, Action, useMutation } from 'react-fetching-library';
 import { COMMENTS_PER_PAGE } from '../../constants';
 
 const createCommentsAction: Action = (videoId, page, sort) => ({
@@ -45,8 +45,11 @@ export const useComments = videoId => {
 };
 
 export const useCommentForm = () => {
+
+export const useCommentForm = videoId => {
   const [value, setValue] = useState('');
   const [active, setActive] = useState(false);
+  const { loading, error, mutate, reset } = useMutation(createCommentAction);
 
   const handleChange = e => {
     setValue(e.target.value);
@@ -67,6 +70,19 @@ export const useCommentForm = () => {
     setValue('');
   };
 
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const { payload } = await mutate({
+      videoId,
+      payload: {
+        content: value,
+      },
+    });
+
+    setValue('');
+    setActive(false);
+  };
+
   return {
     value,
     active,
@@ -74,6 +90,6 @@ export const useCommentForm = () => {
     onFocus: handleFocus,
     onBlur: handleBlur,
     onCancel: handleCancel,
-    onSubmit: () => null,
+    onSubmit: handleSubmit,
   };
 };

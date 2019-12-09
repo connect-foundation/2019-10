@@ -13,16 +13,6 @@ const VideoComments = () => {
   const { videoId } = router.query;
 
   const {
-    value,
-    active,
-    onChange,
-    onFocus,
-    onBlur,
-    onCancel,
-    onSubmit,
-  } = useCommentForm();
-
-  const {
     comments,
     count,
     sort,
@@ -32,6 +22,16 @@ const VideoComments = () => {
     onSort,
   } = useComments(videoId);
 
+  const {
+    value,
+    active,
+    onChange,
+    onFocus,
+    onBlur,
+    onCancel,
+    onSubmit,
+  } = useCommentForm(videoId);
+
   const loader = (
     <S.CircularProgressContainer>
       <S.CircularProgress thickness={4} />
@@ -40,7 +40,7 @@ const VideoComments = () => {
 
   return (
     <S.VideoComments>
-      <S.Title>{!count ? '댓글' : `${count}개의 댓글`}</S.Title>
+      <S.Title>{count && count > 0 ? `${count}개의 댓글` : '댓글'}</S.Title>
       <S.StyledTabs items={sortOptions} activeValue={sort} onClick={onSort} />
       <CommentForm
         value={value}
