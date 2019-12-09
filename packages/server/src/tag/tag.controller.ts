@@ -1,4 +1,11 @@
-import { Controller, Get, Query, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Param,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { TagService } from 'tag/tag.service';
 import { TagListQueryPipe } from 'tag/pipe/tag-list-query-pipe';
@@ -29,7 +36,14 @@ export class TagController {
     @Param(IdParserPipe) id: number,
   ): Promise<TagResponseDto> {
     const tag = await this.tagService.findTagById(id);
-    return new TagResponseDto(tag);
+    try {
+      return new TagResponseDto(tag);
+    } catch (err) {
+      if (!tag) {
+        throw new NotFoundException(err);
+      }
+      throw new BadRequestException(err);
+    }
   }
 
   @Get('/:id/videos')
