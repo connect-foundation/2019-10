@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
+import { useRouter } from 'next/router';
 
-import { sortOptions } from '../../constants';
+import { sortOptions, endpoint } from '../../constants';
 
 import * as S from './styles';
 
@@ -9,16 +10,29 @@ import TagsSVG from '../../svgs/TagsSVG';
 import Layout from '../../components/Layout';
 import VideoItem from '../../components/VideoItem';
 import CircularProgress from '../../components/CircularProgress';
+import { useTagVideos, useTag } from './hooks';
+import { NATURAL_NUMBER_REGEX } from '../../libs/regex';
 
-import { useTagVideos } from './hooks';
+const TagVideos: React.FunctionComponent = () => {
+  const router = useRouter();
 
-const Hotlist: React.FunctionComponent = () => {
+  const tagId = NATURAL_NUMBER_REGEX.test(router.query.tagId as string)
+    ? Number(router.query.tagId)
+    : null;
+
   const [activeSortOption, setActiveSortOption] = useState(
     sortOptions[0].value,
   );
   const [page, setPage] = useState(1);
 
-  const { videos, hasMore } = useTagVideos(page, activeSortOption);
+  const { tag, error } = useTag(tagId);
+  const { videos, hasMore } = useTagVideos(tagId, page, activeSortOption);
+
+  useEffect(() => {
+    if (!tagId || error) {
+      router.push(endpoint.hotlist);
+    }
+  }, [error]);
 
   const handleFilterClick = value => {
     setActiveSortOption(value);
@@ -34,9 +48,8 @@ const Hotlist: React.FunctionComponent = () => {
       <S.Container>
         <S.Title>
           <TagsSVG />
-          <span>태그 제목</span>
+          <span>{tag.name !== null && tag.name}</span>
         </S.Title>
-
         <S.StyledTabs
           items={sortOptions}
           activeValue={activeSortOption}
@@ -64,4 +77,4 @@ const Hotlist: React.FunctionComponent = () => {
   );
 };
 
-export default Hotlist;
+export default TagVideos;
