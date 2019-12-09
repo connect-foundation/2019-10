@@ -11,6 +11,8 @@ import {
   SEARCHED_ITEM_NUMBER,
   VIDEO_ITEMS_PER_PAGE,
   LATEST,
+  VIDEO_QUERY_SELECT_COLUMNS,
+  USER_QUERY_SELECT_COLUMNS,
 } from 'common/constants';
 import { TagVideoListQueryDto } from 'tag/dto/tag-video-list-query.dto';
 import { Video } from '../../../typeorm/src/entity/video.entity';
@@ -80,15 +82,19 @@ export class TagService {
     const orderBy = sort === LATEST ? 'video.createdAt' : 'video.popularity';
 
     const tagVideoList = await this.tagRepository
-      .createQueryBuilder('tag')
+      .createQueryBuilder('Tag')
       .where({
         id,
       })
-      .leftJoinAndSelect('tag.videos', 'video')
+      .leftJoin('Tag.videos', 'Video')
       .orderBy(orderBy, 'DESC')
-      .orderBy('video.id', 'DESC')
+      .orderBy('Video.id', 'DESC')
       .offset(offset)
       .limit(VIDEO_ITEMS_PER_PAGE)
+      .leftJoin('Video.user', 'User')
+      .select(TAG_QUERY_SELECT_COLUMNS)
+      .addSelect(VIDEO_QUERY_SELECT_COLUMNS)
+      .addSelect(USER_QUERY_SELECT_COLUMNS)
       .getOne();
 
     if (!tagVideoList) {
