@@ -57,7 +57,7 @@ export const useVideoUpload = () => {
     const { payload } = await getPreSignedUrl(videoName);
     const videoPreSignedUrl = payload;
 
-    await uploadToBucket({ preSignedUrl: videoPreSignedUrl, file: video });
+    return uploadToBucket({ preSignedUrl: videoPreSignedUrl, file: video });
   };
 
   const uploadThumbnailToBucket = async (id: string) => {
@@ -65,7 +65,7 @@ export const useVideoUpload = () => {
     const { payload } = await getPreSignedUrl(thumbnailName);
     const thumbnailPreSignedUrl = payload;
 
-    await uploadToBucket({
+    return uploadToBucket({
       preSignedUrl: thumbnailPreSignedUrl,
       file: thumbnail,
     });
@@ -96,14 +96,14 @@ export const useVideoUpload = () => {
       await uploadVideoToBucket(id);
       await uploadThumbnailToBucket(id);
 
-      const res = await sendVideoInfo(
-        UploadVideoDetailDtoFactory.makeUploadVideoDetailDTO(
-          id,
-          user.id,
-          tags,
-          textFormData,
-        ),
+      const dto = UploadVideoDetailDtoFactory.makeUploadVideoDetailDTO(
+        id,
+        user.id,
+        tags,
+        textFormData,
       );
+
+      const res = await sendVideoInfo(dto);
 
       // console.log(res);
     } catch (err) {
@@ -123,6 +123,7 @@ export const useVideoUpload = () => {
     }
 
     setThumbnail(currentFile);
+    URL.revokeObjectURL(thumbnailObjectURL);
     setThumbnailObjectURL(URL.createObjectURL(currentFile));
   };
 
