@@ -9,7 +9,11 @@ import {
   TAG_ITEMS_PER_PAGE,
   TAG_QUERY_SELECT_COLUMNS,
   SEARCHED_ITEM_NUMBER,
+  VIDEO_ITEMS_PER_PAGE,
+  LATEST,
 } from 'common/constants';
+import { TagVideoListQueryDto } from 'tag/dto/tag-video-list-query.dto';
+import { Video } from '../../../typeorm/src/entity/video.entity';
 
 @Injectable()
 export class TagService {
@@ -57,5 +61,40 @@ export class TagService {
     }
 
     return await this.uploadVideoCountQuery(qb.limit(SEARCHED_ITEM_NUMBER));
+  }
+
+  public async findTagById(id: number): Promise<Tag> {
+    return await this.tagRepository.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
+  public async findTagVideos(
+    id: number,
+    tagVideoListQueryDto: TagVideoListQueryDto,
+  ): Promise<[Video[], number]> {
+    const { page, sort } = tagVideoListQueryDto;
+    const offset = getOffset(page, VIDEO_ITEMS_PER_PAGE);
+    const orderBy = sort === LATEST ? 'video.createdAt' : 'video.popularity';
+
+    const tagVideoList = await this.tagRepository
+      .createQueryBuilder('tag')
+      .where({
+        id,
+      })
+      .leftJoinAndSelect('tag.videos', 'video')
+      .orderBy(orderBy, 'DESC')
+      .orderBy('video.id', 'DESC')
+      .offset(offset)
+      .limit(VIDEO_ITEMS_PER_PAGE)
+      .getOne();
+
+    if (!tagVideoList) {
+      return [[], 0];
+    }
+
+    return [tagVideoList.videos, tagVideoList.videos.length];
   }
 }
