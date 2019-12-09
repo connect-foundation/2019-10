@@ -1,9 +1,8 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
-
-import { UserSessionService } from 'user-session/user-session.service';
-import { SessionJWTData } from 'authentication/model/session-jwt-data';
+import { UserSessionService } from '../../../user-session/user-session.service';
+import { SessionJWTData } from '../../../authentication/model/session-jwt-data';
 
 declare global {
   namespace Express {
@@ -17,7 +16,11 @@ declare global {
 export class DeserializerMiddleware implements NestMiddleware {
   public constructor(private readonly userSessionService: UserSessionService) {}
 
-  public use(request: Request, response: Response, next: () => void): void {
+  public async use(
+    request: Request,
+    response: Response,
+    next: () => void,
+  ): Promise<void> {
     const sessionToken = request.cookies.SessionToken;
 
     if (!sessionToken) {
@@ -36,7 +39,9 @@ export class DeserializerMiddleware implements NestMiddleware {
       return next();
     }
 
-    const userToken = this.userSessionService.find(tokenData.sessionId);
+    const userToken = JSON.parse(
+      await this.userSessionService.find(tokenData.sessionId),
+    );
 
     if (userToken) {
       request.user = userToken;

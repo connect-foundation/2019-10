@@ -1,10 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { CustomMap } from 'libs/custom-map';
-import { UploadedVideoInfo } from 'uploaded-video-table/model/uploaded-video-info';
+import * as Redis from 'ioredis';
+
+import { UploadedVideoInfo } from './model/uploaded-video-info';
 
 @Injectable()
-export class UploadedVideoTableService extends CustomMap<UploadedVideoInfo> {
+export class UploadedVideoTableService {
+  private uploadedVideoInfoTable: Redis.Redis;
+
   public constructor() {
-    super();
+    this.uploadedVideoInfoTable = new Redis({
+      port: parseInt(process.env.REDIS_USER_TABLE_PORT, 10),
+      host: process.env.REDIS_USER_TABLE_HOST,
+    });
+  }
+
+  public async insert(
+    id: string,
+    uploadedVideoInfo: UploadedVideoInfo,
+  ): Promise<void> {
+    await this.uploadedVideoInfoTable.set(
+      id,
+      JSON.stringify(uploadedVideoInfo),
+    );
+  }
+
+  public async find(id: string): Promise<UploadedVideoInfo> {
+    const ret = await this.uploadedVideoInfoTable.get(id);
+    return JSON.parse(await this.uploadedVideoInfoTable.get(id));
+  }
+
+  public async remove(id: string): Promise<number> {
+    const ret = await this.uploadedVideoInfoTable.del(id);
+    return ret;
   }
 }
