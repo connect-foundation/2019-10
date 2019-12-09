@@ -14,19 +14,17 @@ import {
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import { setSessionTokenCookie, deleteCookie } from 'libs/cookie-setter';
-import { IdParserPipe } from 'common/pipes/id-parser/id-parser.pipe';
-import { errName, errCode } from 'common/errors';
-import { endpoint, GITHUB_USER_DETAIL } from 'common/constants';
-
-import { UserService } from 'user/user.service';
-import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
-import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
-
-import { User } from '../../../typeorm/src/entity/user.entity';
-import { UserListQueryPipe } from 'user/pipe/user-list-query-pipe';
-import { UserListQueryDto } from 'user/dto/user-list-query.dto';
-import { UserListResponseDto } from 'user/dto/user-list-response.dto';
+import { endpoint, GITHUB_USER_DETAIL } from '../common/constants';
+import { UserService } from './user.service';
+import { UserListQueryPipe } from './pipe/user-list-query-pipe';
+import { UserListQueryDto } from './dto/user-list-query.dto';
+import { UserListResponseDto } from './dto/user-list-response.dto';
+import { IdParserPipe } from '../common/pipes/id-parser/id-parser.pipe';
+import { SignUpFormDataDto } from './dto/sign-up-user-form.dto';
+import { ParsedGithubUserDetail } from './model/parsed-github-user-detail';
+import { errName, errCode } from '../common/errors';
+import { User } from '../../entity/user.entity';
+import { setSessionTokenCookie, deleteCookie } from '../libs/cookie-setter';
 
 @Controller(endpoint.users)
 export class UserController {

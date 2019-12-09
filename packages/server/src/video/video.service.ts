@@ -3,24 +3,24 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as moment from 'moment';
 import { Repository } from 'typeorm';
 
+import { Video } from '../../entity/video.entity';
+import { UploadedVideoTableService } from '../uploaded-video-table/uploaded-video-table.service';
+import { VideoListQueryDto } from './dto/video-list-query.dto';
 import {
-  LATEST,
-  POPULAR,
   VIDEO_ITEMS_PER_PAGE,
-  PERIODS,
-  MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS,
-  MOMENT_DATETIME_FORMAT,
   VIDEO_QUERY_SELECT_COLUMNS,
   USER_QUERY_SELECT_COLUMNS,
-  SEARCHED_ITEM_NUMBER,
+  LATEST,
+  PERIODS,
+  POPULAR,
+  MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS,
+  MOMENT_DATETIME_FORMAT,
   VIDEO_SEARCH_QUERY,
-} from 'common/constants';
-import { getOffset } from 'libs/get-offset';
-import { VideoListQueryDto } from 'video/dto/video-list-query.dto';
-import { Video } from '../../../typeorm/src/entity/video.entity';
-import { UploadedVideoTableService } from 'uploaded-video-table/uploaded-video-table.service';
-import { UploadedVideoInfoDto } from 'video/dto/uploaded-video-info.dto';
-import { UploadedVideoInfo } from 'uploaded-video-table/model/uploaded-video-info';
+  SEARCHED_ITEM_NUMBER,
+} from '../common/constants';
+import { getOffset } from '../libs/get-offset';
+import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
+import { UploadedVideoInfo } from '../uploaded-video-table/model/uploaded-video-info';
 
 @Injectable()
 export class VideoService {
@@ -102,10 +102,10 @@ export class VideoService {
       .getOne();
   }
 
-  public instructToSerializeVideoInfo(
+  public async instructToSerializeVideoInfo(
     uploadedVideoInfoDto: UploadedVideoInfoDto,
-  ) {
-    this.uploadedVideoTableService.insert(
+  ): Promise<void> {
+    await this.uploadedVideoTableService.insert(
       uploadedVideoInfoDto.id,
       new UploadedVideoInfo(uploadedVideoInfoDto),
     );

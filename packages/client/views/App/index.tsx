@@ -22,6 +22,7 @@ class MyApp extends App<AppProps> {
 
     if (req) {
       const cookies = new Cookies(req.headers.cookie);
+
       const token = cookies.get(process.env.JWT_SESSION_TOKEN_KEY);
 
       try {

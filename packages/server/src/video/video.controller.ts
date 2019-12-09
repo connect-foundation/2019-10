@@ -7,27 +7,27 @@ import {
   NotFoundException,
   Post,
 } from '@nestjs/common';
-import { endpoint } from 'common/constants';
 
-import { VideoService } from 'video/video.service';
-import { CommentService } from 'comment/comment.service';
-import { UploadedVideoInfoDto } from 'video/dto/uploaded-video-info.dto';
-import { VideoListQueryPipe } from 'video/pipe/video-list-query-pipe';
-import { VideoListQueryDto } from 'video/dto/video-list-query.dto';
-import { VideoListResponseDto } from 'video/dto/video-list-response.dto';
-import { VideoResponseDto } from 'video/dto/video-response.dto';
-import { VideoParamPipe } from 'video/pipe/video-param-pipe';
-import { VideoParamDto } from 'video/dto/video-param.dto';
-import { CommentsParamPipe } from 'video/pipe/comments-param-pipe';
-import { CommentsParamDto } from 'video/dto/comments-param.dto';
-import { CommentsQueryPipe } from 'video/pipe/comments-query-pipe';
-import { CommentsQueryDto } from 'video/dto/comments-query.dto';
-import { CommentsResponseDto } from 'video/dto/comments-response.dto';
-import { CommentResponseDto } from 'video/dto/comment-response.dto';
-import { RepliesParamPipe } from 'video/pipe/replies-param-pipe';
-import { RepliesParamDto } from 'video/dto/replies-param.dto';
-import { RepliesQueryPipe } from 'video/pipe/replies-query-pipe';
-import { RepliesQueryDto } from 'video/dto/replies-query.dto';
+import { endpoint } from '../common/constants';
+import { VideoService } from './video.service';
+import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
+import { CommentService } from '../comment/comment.service';
+import { VideoListQueryDto } from './dto/video-list-query.dto';
+import { VideoListQueryPipe } from './pipe/video-list-query-pipe';
+import { VideoListResponseDto } from './dto/video-list-response.dto';
+import { VideoParamDto } from './dto/video-param.dto';
+import { VideoParamPipe } from './pipe/video-param-pipe';
+import { VideoResponseDto } from './dto/video-response.dto';
+import { CommentsParamPipe } from './pipe/comments-param-pipe';
+import { CommentsQueryPipe } from './pipe/comments-query-pipe';
+import { CommentsParamDto } from './dto/comments-param.dto';
+import { CommentsQueryDto } from './dto/comments-query.dto';
+import { CommentsResponseDto } from './dto/comments-response.dto';
+import { CommentResponseDto } from './dto/comment-response.dto';
+import { RepliesParamDto } from './dto/replies-param.dto';
+import { RepliesQueryDto } from './dto/replies-query.dto';
+import { RepliesParamPipe } from './pipe/replies-param-pipe';
+import { RepliesQueryPipe } from './pipe/replies-query-pipe';
 
 @Controller(endpoint.videos)
 export class VideoController {
@@ -36,11 +36,13 @@ export class VideoController {
     private readonly commentService: CommentService,
   ) {}
 
-  @Post('upload')
-  public saveVideoInfo(
+  @Post('/upload')
+  public async saveVideoInfo(
     @Body() uploadedVideoInfoDto: UploadedVideoInfoDto,
-  ): void {
-    this.videoService.instructToSerializeVideoInfo(uploadedVideoInfoDto);
+  ): Promise<boolean> {
+    await this.videoService.instructToSerializeVideoInfo(uploadedVideoInfoDto);
+
+    return true;
   }
 
   @Get('/')
@@ -54,75 +56,75 @@ export class VideoController {
     return new VideoListResponseDto(videos, count);
   }
 
-  @Get('/:id')
-  public async getVideo(
-    @Param(null, new VideoParamPipe()) videoParamDto: VideoParamDto,
-  ): Promise<VideoResponseDto> {
-    const { id } = videoParamDto;
-    const video = await this.videoService.findVideo(id);
+  // @Get('/:id')
+  // public async getVideo(
+  //   @Param(null, new VideoParamPipe()) videoParamDto: VideoParamDto,
+  // ): Promise<VideoResponseDto> {
+  //   const { id } = videoParamDto;
+  //   const video = await this.videoService.findVideo(id);
 
-    if (!video) {
-      throw new NotFoundException();
-    }
+  //   if (!video) {
+  //     throw new NotFoundException();
+  //   }
 
-    return new VideoResponseDto(video);
-  }
+  //   return new VideoResponseDto(video);
+  // }
 
-  @Get('/:id/comments')
-  public async getComments(
-    @Param(null, new CommentsParamPipe()) commentsParamDto: CommentsParamDto,
-    @Query(null, new CommentsQueryPipe()) commentsQueryDto: CommentsQueryDto,
-  ): Promise<CommentsResponseDto> {
-    const { id } = commentsParamDto;
-    const { page, sort } = commentsQueryDto;
+  // @Get('/:id/comments')
+  // public async getComments(
+  //   @Param(null, new CommentsParamPipe()) commentsParamDto: CommentsParamDto,
+  //   @Query(null, new CommentsQueryPipe()) commentsQueryDto: CommentsQueryDto,
+  // ): Promise<CommentsResponseDto> {
+  //   const { id } = commentsParamDto;
+  //   const { page, sort } = commentsQueryDto;
 
-    const video = await this.videoService.findVideo(id);
+  //   const video = await this.videoService.findVideo(id);
 
-    if (!video) {
-      throw new NotFoundException();
-    }
+  //   if (!video) {
+  //     throw new NotFoundException();
+  //   }
 
-    const [comments, count] = await this.commentService.findCommentsByVideo({
-      videoId: id,
-      page,
-      sort,
-    });
+  //   const [comments, count] = await this.commentService.findCommentsByVideo({
+  //     videoId: id,
+  //     page,
+  //     sort,
+  //   });
 
-    return {
-      count,
-      data: comments.map(comment => new CommentResponseDto(comment)),
-    };
-  }
+  //   return {
+  //     count,
+  //     data: comments.map(comment => new CommentResponseDto(comment)),
+  //   };
+  // }
 
-  @Get('/:id/comments/:commentId/replies')
-  public async getReplies(
-    @Param(null, new RepliesParamPipe()) repliesParamDto: RepliesParamDto,
-    @Query(null, new RepliesQueryPipe()) repliesQueryDto: RepliesQueryDto,
-  ): Promise<CommentsResponseDto> {
-    const { id, commentId } = repliesParamDto;
-    const { page } = repliesQueryDto;
+  // @Get('/:id/comments/:commentId/replies')
+  // public async getReplies(
+  //   @Param(null, new RepliesParamPipe()) repliesParamDto: RepliesParamDto,
+  //   @Query(null, new RepliesQueryPipe()) repliesQueryDto: RepliesQueryDto,
+  // ): Promise<CommentsResponseDto> {
+  //   const { id, commentId } = repliesParamDto;
+  //   const { page } = repliesQueryDto;
 
-    const video = await this.videoService.findVideo(id);
+  //   const video = await this.videoService.findVideo(id);
 
-    if (!video) {
-      throw new NotFoundException();
-    }
+  //   if (!video) {
+  //     throw new NotFoundException();
+  //   }
 
-    const comment = await this.commentService.findComment(commentId);
+  //   const comment = await this.commentService.findComment(commentId);
 
-    if (!comment) {
-      throw new NotFoundException();
-    }
+  //   if (!comment) {
+  //     throw new NotFoundException();
+  //   }
 
-    const [comments, count] = await this.commentService.findReplies({
-      id: commentId,
-      videoId: id,
-      page,
-    });
+  //   const [comments, count] = await this.commentService.findReplies({
+  //     id: commentId,
+  //     videoId: id,
+  //     page,
+  //   });
 
-    return {
-      count,
-      data: comments.map(item => new CommentResponseDto(item)),
-    };
-  }
+  //   return {
+  //     count,
+  //     data: comments.map(item => new CommentResponseDto(item)),
+  //   };
+  // }
 }

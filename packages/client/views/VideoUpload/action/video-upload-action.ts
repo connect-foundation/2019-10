@@ -1,4 +1,5 @@
 import { Action } from 'react-fetching-library';
+import { UploadVideoDetailDTO } from '../dto/upload-video-detail-dto';
 
 export const makeGetPreSignedUrlAction: Action = (fileName: string) => ({
   method: 'POST',
@@ -18,11 +19,13 @@ export const makeUploadToBucketAction: Action = ({ preSignedUrl, file }) => ({
   endpoint: preSignedUrl,
 });
 
-export const makeSendVideoInfoAction: Action = uploadVideoDTO => ({
+export const makeSendVideoInfoAction: Action = (
+  uploadVideoDetailDTO: UploadVideoDetailDTO,
+) => ({
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
   },
-  body: uploadVideoDTO,
+  body: uploadVideoDetailDTO,
   endpoint: process.env.VIDEO_UPLOAD_API_SERVER_URL,
 });

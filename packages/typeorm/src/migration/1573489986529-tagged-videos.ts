@@ -4,7 +4,7 @@ import {
   Table,
   TableForeignKey,
 } from 'typeorm';
-import { Status } from '../custom-type';
+import { Status } from '../../../server/src/entity/custom-type';
 
 export class taggedVideos1573489986529 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {

@@ -1,0 +1,33 @@
+service: wedev-api
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: ap-northeast-1
+  profile: default
+  stage: api
+
+plugins:
+  - serverless-offline
+
+package:
+  exclude:
+    - .git/**
+    - src/**
+    - test/**
+    - e2e/**
+    - nodemon.json
+    - README.md
+
+functions:
+  index:
+    handler: dist/src/index.handler
+    events:
+      - http:
+          cors: true
+          path: '/'
+          method: any
+      - http:
+          path: '{proxy+}'
+          method: any
+          cors: true

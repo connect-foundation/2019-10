@@ -1,12 +1,5 @@
 import { TextFormData } from '../model/text-form-data';
-
-export interface UploadVideoDetailDTO {
-  id: string;
-  userId: number;
-  title: string;
-  description: string;
-  tags: string[];
-}
+import { UploadVideoDetailDTO } from './upload-video-detail-dto';
 
 export class UploadVideoDetailDtoFactory {
   public static makeUploadVideoDetailDTO(

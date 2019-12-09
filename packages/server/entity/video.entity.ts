@@ -64,7 +64,7 @@ export class Video extends Base {
     length: 2083,
     nullable: false,
   })
-  public sourceUrl: string;
+  public source: string;
 
   @Column({
     name: 'thumbnail',
@@ -123,11 +123,11 @@ export class Video extends Base {
   @JoinTable({
     name: 'liked_videos',
     joinColumn: {
-      name: 'userId',
+      name: 'videoId',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'videoId',
+      name: 'userId',
       referencedColumnName: 'id',
     },
   })

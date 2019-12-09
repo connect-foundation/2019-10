@@ -1,6 +1,7 @@
+import { Action } from 'react-fetching-library';
+
 import { FormData } from '../model/form-data';
 import { endpoint } from '../../../constants';
-import { Action } from 'react-fetching-library';
 
 export const makeSignUpAction: Action = (formData: FormData) => ({
   method: 'POST',
