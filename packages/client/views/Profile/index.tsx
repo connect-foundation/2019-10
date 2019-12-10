@@ -12,6 +12,7 @@ const Profile: React.FunctionComponent = () => {
   const user = useUser();
   const userAvatar = user ? user.avatar : DEFAULT_USER_IMAGE;
   const [avatarURL, setAvatarURL] = useState(userAvatar);
+  const [isFetching, setIsFetching] = useState(false);
 
   const [profile, dispatchProfile] = useReducer(
     profileReducer,
@@ -31,6 +32,35 @@ const Profile: React.FunctionComponent = () => {
         type: 'updateAvatar',
         value: e.target.files[0],
       });
+    }
+  };
+
+  const handleSubmit = async e => {
+    try {
+      setIsFetching(true);
+      if (!profile.avatar) {
+        // console.log('NO Image');
+      } else {
+        const avatarName = `${user.username}/${profile.avatar.name}`;
+        const avatarPreSignedURL = await getAvatarPreSignedUrl(avatarName);
+
+        const isAvatarUploaded = await uploadAvatarToBucket(
+          avatarPreSignedURL,
+          profile.avatar,
+        );
+
+        if (!isAvatarUploaded) {
+          // 업로드 안됬을 때 에러 메세지 (다시 시도하십시요)
+          setIsFetching(false);
+          return;
+        }
+
+        const avatarPath = `${process.env.S3_AVATAR_PATH}/${avatarName}`;
+
+        setIsFetching(false);
+      }
+    } catch (e) {
+      // console.log(e);
     }
   };
 
@@ -88,7 +118,9 @@ const Profile: React.FunctionComponent = () => {
                 ></S.DescriptionInput>
               </S.Item>
               <S.SubmitButton>
-                <button>제출하기</button>
+                <button type="button" onClick={handleSubmit}>
+                  {isFetching ? <S.CircularProgress /> : '제출하기'}
+                </button>
               </S.SubmitButton>
             </S.Form>
           </Grid>
@@ -96,6 +128,33 @@ const Profile: React.FunctionComponent = () => {
       </S.Container>
     </Layout>
   );
+};
+
+const getAvatarPreSignedUrl = async (path): Promise<string> => {
+  const option = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ fileName: `workspace/${path}` }),
+  };
+
+  const response = await fetch(process.env.AVATAR_AUTH_LAMBDA_HOST, option);
+
+  const url = await response.json();
+
+  return url;
+};
+
+const uploadAvatarToBucket = async (preSignedUrl, file) => {
+  const option = {
+    method: 'PUT',
+    body: file,
+  };
+
+  const response = await fetch(preSignedUrl, option);
+
+  return response.ok;
 };
 
 export default Profile;

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { BREAKPOINT } from '../../constants';
 
 import MaterialGrid from '@material-ui/core/Grid';
+import MaterialCircularProgress from '@material-ui/core/CircularProgress';
 
 export const Profile = styled.div``;
 
@@ -116,11 +117,17 @@ export const DescriptionInput = styled.textarea`
 `;
 
 export const SubmitButton = styled.div`
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   margin-top: 3rem;
   cursor: pointer;
   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
     width: 15.8rem;
     height: 4.4rem;
     border: none;
@@ -142,4 +149,13 @@ export const RequireMark = styled.div`
   border-radius: 100%;
   background-color: #02cf5d;
   margin: 0rem 0rem 0.9rem 0.2rem;
+`;
+
+export const CircularProgress = styled(MaterialCircularProgress)`
+  && {
+    z-index: 900;
+    width: 3rem !important;
+    height: 3rem !important;
+    color: rgba(255, 255, 255, 1);
+  }
 `;
