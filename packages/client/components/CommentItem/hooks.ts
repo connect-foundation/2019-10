@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { Action, useQuery, useMutation } from 'react-fetching-library';
+import { useState, useEffect } from 'react';
 
 const getRepliesAction: Action = (videoId, commentId, page) => ({
   method: 'GET',
@@ -7,73 +7,115 @@ const getRepliesAction: Action = (videoId, commentId, page) => ({
   credentials: 'include',
 });
 
-export const useReplies = (videoId, commentId) => {
-  const [page, setPage] = useState(1);
-  const [open, setOpen] = useState(false);
-  const [replies, setReplies] = useState([]);
-  const [hasData, setHasData] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const action = getRepliesAction(videoId, commentId, page);
-  const { payload, error, query, ...rest } = useQuery(action, false);
+const createReplyAction: Action = ({ videoId, commentId, payload }) => ({
+  method: 'POST',
+  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/comments/${commentId}`,
+  credentials: 'include',
+  body: payload,
+});
 
-  useEffect(() => {
-    if (payload && !error) {
-      setHasData(true);
-      setHasMore(payload.data.length >= 5);
-      setReplies([...replies, ...payload.data]);
-    }
-  }, [payload, error]);
+export const useReplies = (videoId, commentId) => {
+  // replies
+  const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const [replies, setReplies] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  // form
+  const [formValue, setFormValue] = useState('');
+  const [formOpen, setFormOpen] = useState(false);
+  const [submittedReplies, setSubmittedReplies] = useState([]);
+
+  const action = getRepliesAction(videoId, commentId, page);
+  const queryState = useQuery(action, false);
+  const mutationState = useMutation(createReplyAction);
 
   useEffect(() => {
     if (open) {
-      query();
+      const fetch = async () => {
+        const data = await queryState.query();
+        if (data.payload && !data.error) {
+          setCount(data.payload.count);
+          setReplies(data.payload.data);
+          setHasMore(data.payload.data.length >= 5);
+        }
+      };
+      fetch();
     }
   }, [open]);
 
   useEffect(() => {
-    if (page !== 1) {
-      query();
+    if (page > 1) {
+      const fetch = async () => {
+        const data = await queryState.query();
+        if (data.payload && !data.error) {
+          setCount(data.payload.count);
+          setReplies([...replies, ...data.payload.data]);
+          setHasMore(data.payload.data.length >= 5);
+        }
+      };
+      fetch();
     }
   }, [page]);
-
-  return {
-    replies,
-    open,
-    hasData,
-    hasMore,
-    loading: rest.loading,
-    onNext: () => setPage(page + 1),
-    onOpen: () => setOpen(true),
-  };
-};
-
-export const useReplyForm = () => {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
 
   const handleOpen = () => {
     setOpen(true);
   };
 
-  const handleChange = e => {
-    setValue(e.target.value);
+  const handleNext = () => {
+    setPage(page + 1);
   };
 
-  const handleCancel = () => {
-    setOpen(false);
+  const handleFormOpen = () => {
+    setFormOpen(true);
   };
 
-  const handleSubmit = () => {
-    return null;
+  const handleFormChange = e => {
+    setFormValue(e.target.value);
+  };
+
+  const handleFormCancel = () => {
+    setFormOpen(false);
+  };
+
+  const handleFormSubmit = async e => {
+    e.preventDefault();
+    const data = await mutationState.mutate({
+      videoId,
+      commentId,
+      payload: {
+        content: formValue,
+      },
+    });
+    setFormOpen(false);
+    setFormValue('');
+    if (data.payload && !data.error) {
+      setSubmittedReplies([data.payload, ...submittedReplies]);
+    }
+
+    if (!open) {
+      handleOpen();
+    }
   };
 
   return {
+    ...queryState,
     open,
-    value,
+    page,
+    count,
+    replies,
+    hasMore,
+    formValue,
+    formOpen,
+    formLoading: mutationState.loading,
+    submittedReplies,
     onOpen: handleOpen,
-    onChange: handleChange,
-    onCancel: handleCancel,
-    onSubmit: handleSubmit,
+    onNext: handleNext,
+    onFormOpen: handleFormOpen,
+    onFormChange: handleFormChange,
+    onFormCancel: handleFormCancel,
+    onFormSubmit: handleFormSubmit,
   };
 };
 

@@ -5,9 +5,9 @@ import { format } from '../../libs/timeago';
 
 import * as S from './styles';
 import { FavoriteSVG } from '../../svgs';
-import { useReplies, useReplyForm, useCommentLike } from './hooks';
 import { CircularProgress } from '@material-ui/core';
 import { useUser } from '../UserProvider/hooks';
+import { useCommentLike, useReplies } from './hooks';
 
 const CommentItem = ({
   reply,
@@ -27,24 +27,7 @@ const CommentItem = ({
 
   const myComment = user.id === loggedInUser.id;
 
-  const {
-    open: formOpen,
-    value,
-    onOpen: onFormOpen,
-    onChange,
-    onCancel,
-    onSubmit,
-  } = useReplyForm();
-
-  const {
-    replies,
-    open: repliesOpen,
-    hasData,
-    hasMore,
-    loading,
-    onNext,
-    onOpen: onRepliesOpen,
-  } = useReplies(videoId, id);
+  const repliesState = useReplies(videoId, id);
 
   const { likesCount, liked, onLike } = useCommentLike(
     videoId,
@@ -82,7 +65,7 @@ const CommentItem = ({
           {!reply && (
             <>
               <span className="dot">・</span>
-              <button onClick={onFormOpen}>댓글 달기</button>
+              <button onClick={repliesState.onFormOpen}>댓글 달기</button>
             </>
           )}
 
@@ -96,55 +79,47 @@ const CommentItem = ({
           )}
         </S.Actions>
 
-        {formOpen && (
+        {repliesState.formOpen && (
           <S.StyledCommentForm
             reply
             rows={1}
-            value={value}
-            onChange={onChange}
-            onCancel={onCancel}
-            onSubmit={onSubmit}
+            loading={repliesState.formLoading}
+            value={repliesState.formValue}
+            onChange={repliesState.onFormChange}
+            onCancel={repliesState.onFormCancel}
+            onSubmit={repliesState.onFormSubmit}
           />
         )}
 
-        {childrenCount !== 0 && !repliesOpen && (
+        {childrenCount > 0 && !repliesState.open && (
           <S.MoreRepliesButton>
-            <button type="button" onClick={onRepliesOpen}>
+            <button type="button" onClick={repliesState.onOpen}>
               <S.StyledSubdirectoryArrowRightSVG />
               <span>댓글 {childrenCount}개 더 보기</span>
             </button>
           </S.MoreRepliesButton>
         )}
 
-        {repliesOpen && (
+        {repliesState.open && (
           <S.Replies>
-            {hasData ? (
-              <>
-                {replies.map(replyComment => {
-                  return (
-                    <CommentItem
-                      key={replyComment.id}
-                      reply
-                      {...replyComment}
-                    />
-                  );
-                })}
-                {hasMore ? (
-                  loading ? (
-                    loader
-                  ) : (
-                    <S.LoadMoreRepliesButton>
-                      <button type="button" onClick={onNext}>
-                        <S.StyledArrowDropDownSVG />
-                        <span>댓글 더 불러오기</span>
-                      </button>
-                    </S.LoadMoreRepliesButton>
-                  )
-                ) : null}
-              </>
-            ) : (
-              loader
-            )}
+            {repliesState.submittedReplies.map(replyComment => (
+              <CommentItem key={replyComment.id} reply {...replyComment} />
+            ))}
+            {repliesState.replies.map(replyComment => {
+              return (
+                <CommentItem key={replyComment.id} reply {...replyComment} />
+              );
+            })}
+            {repliesState.loading
+              ? loader
+              : repliesState.hasMore && (
+                  <S.LoadMoreRepliesButton>
+                    <button type="button" onClick={repliesState.onNext}>
+                      <S.StyledArrowDropDownSVG />
+                      <span>댓글 더 불러오기</span>
+                    </button>
+                  </S.LoadMoreRepliesButton>
+                )}
           </S.Replies>
         )}
       </S.Content>
