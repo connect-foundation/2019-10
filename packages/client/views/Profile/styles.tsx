@@ -49,7 +49,7 @@ export const Label = styled.div`
   }
 `;
 
-export const ProfileImageItem = styled.div`
+export const AvatarItem = styled.div`
   display: flex;
   flex-direction: flex-start;
   align-items: center;
@@ -57,9 +57,13 @@ export const ProfileImageItem = styled.div`
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin: 2rem 0 3rem 0;
   }
+
+  input[type='file'] {
+    display: none;
+  }
 `;
 
-export const ProfileImage = styled.img`
+export const Avatar = styled.img`
   display: inline-block;
   width: 10rem;
   height: 10rem;
@@ -67,7 +71,8 @@ export const ProfileImage = styled.img`
   margin-right: 2rem;
 `;
 
-export const ChangeImageButton = styled.button`
+export const AvatarInputLabel = styled.div`
+  display: flex;
   width: 8rem;
   height: 3rem;
   font-size: 1.6rem;
@@ -75,6 +80,9 @@ export const ChangeImageButton = styled.button`
   background-color: #484c50;
   border: none;
   border-radius: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 `;
 
 export const UserNameInput = styled.input`

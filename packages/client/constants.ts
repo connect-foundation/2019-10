@@ -71,3 +71,6 @@ export const signUpFormDataMaxLength = {
   username: 30,
   introduction: 1500,
 };
+
+export const DEFAULT_USER_IMAGE =
+  'https://icon-library.net/images/small-icon-images/small-icon-images-11.jpg';

@@ -1,11 +1,39 @@
-import React from 'react';
+import React, { useState, useReducer } from 'react';
 import { Grid } from '@material-ui/core';
 
 import Layout from '../../components/Layout';
 import * as S from './styles';
 import SettingSVG from '../../svgs/SettingSVG';
+import { useUser } from '../../components/UserProvider/hooks';
+import { initialProfileState, profileReducer } from './hooks';
+import { DEFAULT_USER_IMAGE } from '../../constants';
 
 const Profile: React.FunctionComponent = () => {
+  const user = useUser();
+  const userAvatar = user ? user.avatar : DEFAULT_USER_IMAGE;
+  const [avatarURL, setAvatarURL] = useState(userAvatar);
+
+  const [profile, dispatchProfile] = useReducer(
+    profileReducer,
+    initialProfileState,
+  );
+
+  const handleUserName = e =>
+    dispatchProfile({ type: 'updateUserName', value: e.target.value });
+
+  const handleDescription = e =>
+    dispatchProfile({ type: 'updateDescription', value: e.target.value });
+
+  const handleAvatar = e => {
+    if (e.target.files[0]) {
+      setAvatarURL(URL.createObjectURL(e.target.files[0]));
+      dispatchProfile({
+        type: 'updateAvatar',
+        value: e.target.files[0],
+      });
+    }
+  };
+
   return (
     <Layout drawer={false}>
       <S.Container>
@@ -23,10 +51,13 @@ const Profile: React.FunctionComponent = () => {
                     <S.RequireMark />
                   </label>
                 </S.Label>
-                <S.ProfileImageItem>
-                  <S.ProfileImage src="https://icon-library.net/images/small-icon-images/small-icon-images-11.jpg" />
-                  <S.ChangeImageButton>변경하기</S.ChangeImageButton>
-                </S.ProfileImageItem>
+                <S.AvatarItem>
+                  <S.Avatar src={avatarURL} />
+                  <label htmlFor="avatar">
+                    <S.AvatarInputLabel>변경하기</S.AvatarInputLabel>
+                  </label>
+                  <input id="avatar" type="file" onChange={handleAvatar} />
+                </S.AvatarItem>
               </S.Item>
               <S.Item>
                 <S.Label>
@@ -40,6 +71,7 @@ const Profile: React.FunctionComponent = () => {
                   id="username"
                   name="username"
                   type="text"
+                  onChange={handleUserName}
                   spellCheck={false}
                 ></S.UserNameInput>
               </S.Item>
@@ -51,6 +83,7 @@ const Profile: React.FunctionComponent = () => {
                 <S.DescriptionInput
                   id="description"
                   name="description"
+                  onChange={handleDescription}
                   spellCheck={false}
                 ></S.DescriptionInput>
               </S.Item>
