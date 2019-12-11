@@ -94,3 +94,7 @@ export const COMMENT_QUERY_SELECT_COLUMNS = [
   'Comment.createdAt',
   'Comment.updatedAt',
 ];
+
+export const CLIENT_ENDPOINT = {
+  SIGN_UP: '/auth/signup',
+};

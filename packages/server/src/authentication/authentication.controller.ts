@@ -6,6 +6,7 @@ import {
   clientPath,
   GITHUB_USER_DETAIL,
   ONE_MINUTE_MILLISECONDS,
+  CLIENT_ENDPOINT,
 } from '../common/constants';
 import { AuthenticationService } from './authentication.service';
 import { OnlyGuestGuard } from '../common/guards/only-guest.guard';
@@ -38,7 +39,9 @@ export class AuthenticationController {
 
     if (!user) {
       this.setAccessTokenCookie(response, userDetail);
-      return response.redirect(clientPath.signUp);
+      return response.redirect(
+        `${process.env.CLIENT_SERVER_URL}${CLIENT_ENDPOINT.SIGN_UP}`,
+      );
     }
 
     await this.authenticationService.updateUserGithubAccessToken(
@@ -50,7 +53,7 @@ export class AuthenticationController {
 
     setSessionTokenCookie(response, user, sessionId);
 
-    return response.redirect(clientPath.main);
+    return response.redirect(process.env.CLIENT_SERVER_URL);
   }
 
   private setAccessTokenCookie(

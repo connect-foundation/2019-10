@@ -1,14 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Tag } from '../entity/tag.entity';
-import { Repository } from 'typeorm';
 
 import * as Redis from 'ioredis';
 
 @Controller()
 export class AppController {
-  private redis;
-  private redis2;
+  private redis: Redis.Redis;
+  private redis2: Redis.Redis;
 
   public constructor() {
     this.redis = new Redis({
@@ -21,8 +18,12 @@ export class AppController {
       host: process.env.REDIS_USER_TABLE_HOST,
     });
   }
+  @Get()
+  public test() {
+    return '200 OK';
+  }
 
-  @Get('redis')
+  @Get('/redis')
   public async redisTest() {
     // await this.redis.set('framework', 'AngularJS');
     const ret = await this.redis.get('framework');
@@ -30,7 +31,7 @@ export class AppController {
     return ret;
   }
 
-  @Get('redis2')
+  @Get('/redis2')
   public async redisTest2() {
     await this.redis2.set('java', 'JAVA');
     const ret = await this.redis2.get('java');

@@ -9,8 +9,8 @@ export class UploadedVideoTableService {
 
   public constructor() {
     this.uploadedVideoInfoTable = new Redis({
-      port: parseInt(process.env.REDIS_USER_TABLE_PORT, 10),
-      host: process.env.REDIS_USER_TABLE_HOST,
+      port: parseInt(process.env.REDIS_VIDEO_TABLE_PORT, 10),
+      host: process.env.REDIS_VIDEO_TABLE_HOST,
     });
   }
 

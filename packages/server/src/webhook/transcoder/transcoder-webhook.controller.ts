@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -8,7 +8,6 @@ import { User } from '../../../entity/user.entity';
 import { UploadedVideoTableService } from '../../uploaded-video-table/uploaded-video-table.service';
 import { TranscoderNotificationState } from '../../common/constants';
 import { TranscoderNotificationDto } from './dto/elastic-transcoder/transcoder-notification.dto';
-import { Request } from 'express';
 
 @Controller('webhook/transcoder')
 export class TranscoderWebhookController {
@@ -22,10 +21,10 @@ export class TranscoderWebhookController {
 
   @Post('/')
   public async listenTranscoderNotification(
-    @Req() request: Request,
     @Body() notificationMessage: TranscoderNotificationDto,
   ) {
     notificationMessage = JSON.parse(notificationMessage.toString().trim());
+
     if (notificationMessage.state === TranscoderNotificationState.completed) {
       const mpdSourceUrl = `https://${process.env.BUCKET_NAME}.s3-${process.env.BUCKET_REGION}.amazonaws.com/${notificationMessage.outputKeyPrefix}${notificationMessage.playlists[0].name}.mpd`;
 
@@ -36,7 +35,7 @@ export class TranscoderWebhookController {
       videoInfo.source = mpdSourceUrl;
 
       const user = await this.userRepository.find({
-        where: { id: 1 },
+        where: { id: videoInfo.userId },
       });
 
       const tags = await videoInfo.tags.reduce(
@@ -50,14 +49,14 @@ export class TranscoderWebhookController {
           const tag = tagEntities[0];
 
           if (!tag) {
-            const newTag = this.tagRepository.create({ name: tagName });
-            newTag.name = tagName;
-            await this.tagRepository.save(newTag);
+            const tagInfo = this.tagRepository.create({ name: tagName });
+            tagInfo.name = tagName;
+            const newTag = await this.tagRepository.save(tagInfo);
 
-            return Promise.resolve([...tagIds, newTag]);
+            return Promise.resolve([...tagIds, newTag.id]);
           }
 
-          return Promise.resolve([...tagIds, tag]);
+          return Promise.resolve([...tagIds, tag.id]);
         },
         Promise.resolve([]),
       );

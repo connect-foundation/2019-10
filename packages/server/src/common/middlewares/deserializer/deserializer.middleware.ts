@@ -3,11 +3,12 @@ import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { UserSessionService } from '../../../user-session/user-session.service';
 import { SessionJWTData } from '../../../authentication/model/session-jwt-data';
+import { UserToken } from '../../../user-session/model/user-session-token';
 
 declare global {
   namespace Express {
     interface Request {
-      user?: {};
+      user?: UserToken;
     }
   }
 }
