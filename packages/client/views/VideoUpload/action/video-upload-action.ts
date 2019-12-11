@@ -7,7 +7,7 @@ export const makeGetPreSignedUrlAction: Action = (fileName: string) => ({
     'Content-Type': 'application/json',
   },
   body: { fileName: `workspace/${fileName}` },
-  endpoint: process.env.AUTH_LAMBDA_HOST,
+  endpoint: process.env.GET_PRESIGNED_URL_LAMBDA_URL,
   credentials: 'include',
 });
 
