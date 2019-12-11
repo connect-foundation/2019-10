@@ -96,14 +96,14 @@ export const useVideoUpload = () => {
       await uploadVideoToBucket(id);
       await uploadThumbnailToBucket(id);
 
-      const dto = UploadVideoDetailDtoFactory.makeUploadVideoDetailDTO(
-        id,
-        user.id,
-        tags,
-        textFormData,
+      const res = await sendVideoInfo(
+        UploadVideoDetailDtoFactory.makeUploadVideoDetailDTO(
+          id,
+          user.id,
+          tags,
+          textFormData,
+        ),
       );
-
-      const res = await sendVideoInfo(dto);
 
       // console.log(res);
     } catch (err) {
