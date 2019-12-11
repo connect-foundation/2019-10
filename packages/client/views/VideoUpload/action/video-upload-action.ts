@@ -8,6 +8,7 @@ export const makeGetPreSignedUrlAction: Action = (fileName: string) => ({
   },
   body: { fileName: `workspace/${fileName}` },
   endpoint: process.env.AUTH_LAMBDA_HOST,
+  credentials: 'include',
 });
 
 export const makeUploadToBucketAction: Action = ({ preSignedUrl, file }) => ({
