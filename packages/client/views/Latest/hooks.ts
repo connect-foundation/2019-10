@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 const createLatestAction: Action = page => ({
   method: 'GET',
-  endpoint: `${process.env.API_URL_HOST}/videos?page=${page}&sort=latest`,
+  endpoint: `${process.env.API_SERVER_HOST}/videos?page=${page}&sort=latest`,
 });
 
 export const useLatestVideos = page => {

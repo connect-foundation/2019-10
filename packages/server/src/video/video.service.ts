@@ -1,28 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as moment from 'moment';
-import { Repository, MoreThan, Like, FindOperator } from 'typeorm';
+import { Repository, MoreThan, Like } from 'typeorm';
 
+import { Video } from '../../entity/video.entity';
+import { UploadedVideoTableService } from '../uploaded-video-table/uploaded-video-table.service';
+import { VideoListQueryDto } from './dto/video-list-query.dto';
 import {
-  LATEST,
-  POPULAR,
   VIDEO_ITEMS_PER_PAGE,
+  LATEST,
   PERIODS,
+  POPULAR,
   MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS,
   MOMENT_DATETIME_FORMAT,
   SEARCHED_ITEM_NUMBER,
 } from '../common/constants';
-
 import { getOffset } from '../libs/get-offset';
-import { VideoListQueryDto } from './dto/video-list-query.dto';
-import { Video } from '../../../typeorm/src/entity/video.entity';
-import { QueryOptionWhere } from './interface/QueryOptionWhere';
+import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
+import { UploadedVideoInfo } from '../uploaded-video-table/model/uploaded-video-info';
+import {QueryOptionWhere} from './interface/QueryOptionWhere';
 
 @Injectable()
 export class VideoService {
   public constructor(
     @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
+    private readonly uploadedVideoTableService: UploadedVideoTableService,
   ) {}
 
   public async findVideos(
@@ -90,5 +93,14 @@ export class VideoService {
       relations: ['user'],
       where: { id },
     });
+  }
+
+  public async instructToSerializeVideoInfo(
+    uploadedVideoInfoDto: UploadedVideoInfoDto,
+  ): Promise<void> {
+    await this.uploadedVideoTableService.insert(
+      uploadedVideoInfoDto.id,
+      new UploadedVideoInfo(uploadedVideoInfoDto),
+    );
   }
 }

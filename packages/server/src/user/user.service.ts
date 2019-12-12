@@ -2,16 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 
+import { User } from '../../entity/user.entity';
 import { UserSerializerService } from '../serializer/user-serializer.service';
-
-import { ParsedGithubUserDetail } from './model/parsed-github-user-detail';
-import { SignUpFormDataDto } from './dto/sign-up-user-form.dto';
-import { SignUpUserData } from './model/sign-up-form-data';
-
-import { User } from '../../../typeorm/src/entity/user.entity';
 import { UserListQueryDto } from './dto/user-list-query.dto';
 import { getOffset } from '../libs/get-offset';
 import { USER_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from '../common/constants';
+import { ParsedGithubUserDetail } from './model/parsed-github-user-detail';
+import { SignUpFormDataDto } from './dto/sign-up-user-form.dto';
+import { SignUpUserData } from './model/sign-up-form-data';
 
 @Injectable()
 export class UserService {

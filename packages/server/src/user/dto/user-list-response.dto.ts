@@ -1,5 +1,5 @@
-import { User } from '../../../../typeorm/src/entity/user.entity';
-import { UserInfo } from 'user/model/user-info';
+import { User } from '../../../entity/user.entity';
+import { UserInfo } from '../model/user-info';
 
 export class UserListResponseDto {
   public constructor(userList: User[], count: number) {

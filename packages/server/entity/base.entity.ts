@@ -1,6 +1,5 @@
 import { PrimaryGeneratedColumn, Column } from 'typeorm';
-
-import { Status } from '../custom-type';
+import { Status } from './custom-type';
 
 export class Base {
   @PrimaryGeneratedColumn({

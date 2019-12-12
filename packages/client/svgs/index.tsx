@@ -10,6 +10,8 @@ import SearchSVG from './SearchSVG';
 import ArrowBackSVG from './ArrowBackSVG';
 import TagsSVG from './TagsSVG';
 import SubdirectoryArrowRightSVG from './SubdirectoryArrowRightSVG';
+import PhotoSVG from './PhotoSVG';
+import CancelSVG from './CancelSVG';
 
 export {
   ArrowDropDownSVG,
@@ -24,4 +26,6 @@ export {
   ArrowBackSVG,
   TagsSVG,
   SubdirectoryArrowRightSVG,
+  CancelSVG,
+  PhotoSVG,
 };

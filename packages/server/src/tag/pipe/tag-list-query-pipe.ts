@@ -1,6 +1,7 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
-import { NATURAL_NUMBER_REGEX } from 'common/regexes';
+
+import { TagListQueryDto } from '../dto/tag-list-query.dto';
+import { NATURAL_NUMBER_REGEX } from '../../common/regexes';
 
 @Injectable()
 export class TagListQueryPipe implements PipeTransform {

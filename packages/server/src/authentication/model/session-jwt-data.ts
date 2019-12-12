@@ -1,4 +1,4 @@
-import { UserPublicInfo } from 'authentication/model/user-public-info';
+import { UserPublicInfo } from './user-public-info';
 
 export class SessionJWTData {
   public constructor(
