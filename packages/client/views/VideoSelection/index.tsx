@@ -5,7 +5,7 @@ import { NextComponentType } from 'next';
 import Layout from '../../components/Layout';
 import * as S from './styles';
 import CloudSVG from '../../svgs/CloudSVG';
-import { endpoint } from '../../constants';
+import { endpoint, VIDEO_TYPE } from '../../constants';
 import {
   checkLogInStatusServerSide,
   redirect,
