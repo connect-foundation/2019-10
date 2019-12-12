@@ -1,5 +1,7 @@
 import { Action } from 'react-fetching-library';
+
 import { UploadVideoDetailDTO } from '../dto/upload-video-detail-dto';
+import { SERVER_ENDPOINT } from '../../../constants';
 
 export const makeGetPreSignedUrlAction: Action = (fileName: string) => ({
   method: 'POST',
@@ -27,5 +29,5 @@ export const makeSendVideoInfoAction: Action = (
     'Content-Type': 'application/json',
   },
   body: uploadVideoDetailDTO,
-  endpoint: process.env.VIDEO_UPLOAD_API_SERVER_URL,
+  endpoint: `${process.env.API_SERVER_HOST}${SERVER_ENDPOINT.VIDEO_UPLOAD}`,
 });

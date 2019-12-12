@@ -33,6 +33,10 @@ export const endpoint = {
   users: '/users',
 };
 
+export const SERVER_ENDPOINT = {
+  VIDEO_UPLOAD: '/videos/upload',
+};
+
 export const periods = {
   week: 'week',
   month: 'month',
