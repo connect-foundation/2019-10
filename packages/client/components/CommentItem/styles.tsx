@@ -73,7 +73,6 @@ export const Actions = styled.div`
   align-items: center;
 
   button {
-    cursor: pointer;
     user-select: none;
     background-color: unset;
     border: unset;
@@ -119,7 +118,6 @@ export const StyledCommentForm = styled(CommentForm)`
 export const MoreRepliesButton = styled.div`
   margin-top: 2rem;
   button {
-    cursor: pointer;
     background: none;
     border: 0;
     padding: 0;
@@ -143,7 +141,6 @@ export const MoreRepliesButton = styled.div`
 export const LoadMoreRepliesButton = styled.div`
   margin-top: -2rem;
   button {
-    cursor: pointer;
     background: none;
     border: 0;
     padding: 0;
