@@ -3,7 +3,6 @@ import { Response } from 'express';
 
 import {
   endpoint,
-  clientPath,
   GITHUB_USER_DETAIL,
   ONE_MINUTE_MILLISECONDS,
   CLIENT_ENDPOINT,

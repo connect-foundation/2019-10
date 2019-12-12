@@ -5,7 +5,7 @@ import { CancelSVG } from '../../svgs';
 
 export const TagLabel = ({ name, deleteTag }) => {
   return (
-    <S.TagLabel key={name}>
+    <S.TagLabel>
       <S.TagName>{name}</S.TagName>
       <CancelSVG
         onClick={() => {

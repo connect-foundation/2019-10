@@ -120,7 +120,7 @@ const VideoUpload: NextComponentType = () => {
           </S.ItemHead>
           <S.TagContainer onClick={focusTagInput}>
             {tags.map(tag => {
-              return <TagLabel name={tag} deleteTag={deleteTag} />;
+              return <TagLabel key={tag} name={tag} deleteTag={deleteTag} />;
             })}
             <S.TagInput
               ref={tagInput}
