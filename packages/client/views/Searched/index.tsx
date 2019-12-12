@@ -28,6 +28,8 @@ const Searched: React.FunctionComponent = () => {
 
   const hasData = videoHasData && userHasData && tagHasData;
 
+  const allCount = hasData ? videoCount + userCount + tagCount : null;
+
   const countArray = [
     { label: '영상', value: 'videos', count: videoCount },
     { label: '사용자', value: 'users', count: userCount },
@@ -41,7 +43,6 @@ const Searched: React.FunctionComponent = () => {
     return acc;
   }, []);
 
-  const allCount = videoCount + userCount + tagCount;
   if (customSearchOptions.length >= 2) {
     customSearchOptions.unshift({ label: '모두', value: 'all' });
   }
@@ -79,7 +80,7 @@ const Searched: React.FunctionComponent = () => {
           <Grid item xs={12} md={8}>
             <SearchedTitle searchKeyword={searchKeyword} />
 
-            {allCount === 0 && hasData ? (
+            {allCount === null && hasData ? (
               <S.NoResults>
                 <span>"{searchKeyword}"에 대한 검색결과가 없습니다...</span>
               </S.NoResults>
