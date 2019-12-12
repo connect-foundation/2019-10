@@ -1,9 +1,9 @@
 import { Response, CookieOptions } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import { User } from '../../../../typeorm/src/entity/user.entity';
-import { ONE_DAY_MILLISECONDS, ONE_DAY_SECONDS } from 'common/constants';
-import { UserPublicInfo } from 'authentication/model/user-public-info';
+import { User } from '../../../entity/user.entity';
+import { ONE_DAY_MILLISECONDS, ONE_DAY_SECONDS } from '../../common/constants';
+import { UserPublicInfo } from '../../authentication/model/user-public-info';
 
 export function deleteCookie(response: Response, name: string): void {
   setTokenOnResponseCookie(response, name, '', {

@@ -67,7 +67,7 @@ export const VIDEO_QUERY_SELECT_COLUMNS = [
   'Video.id',
   'Video.title',
   'Video.description',
-  'Video.sourceUrl',
+  'Video.source',
   'Video.thumbnail',
   'Video.playtime',
   'Video.likedUsersCount',
@@ -94,3 +94,7 @@ export const COMMENT_QUERY_SELECT_COLUMNS = [
   'Comment.createdAt',
   'Comment.updatedAt',
 ];
+
+export const CLIENT_ENDPOINT = {
+  SIGN_UP: '/auth/signup',
+};

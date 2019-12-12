@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { v1 } from 'uuid';
 
-import { UserSessionService } from 'user-session/user-session.service';
-import { User } from '../../../typeorm/src/entity/user.entity';
-import { UserToken } from 'user-session/model/user-session-token';
+import { User } from '../../entity/user.entity';
+import { UserSessionService } from '../user-session/user-session.service';
+import { UserToken } from '../user-session/model/user-session-token';
 
 @Injectable()
 export class UserSerializerService {

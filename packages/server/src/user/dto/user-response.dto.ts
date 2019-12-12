@@ -1,4 +1,4 @@
-import { User } from '../../../../typeorm/src/entity/user.entity';
+import { User } from '../../../entity/user.entity';
 
 export class UserResponseDto {
   public constructor(user: User) {

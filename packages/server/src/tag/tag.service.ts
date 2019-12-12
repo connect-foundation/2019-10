@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Tag } from '../../../typeorm/src/entity/tag.entity';
-import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
-import { getOffset } from 'libs/get-offset';
+import { Tag } from '../../entity/tag.entity';
+import { TagListQueryDto } from './dto/tag-list-query.dto';
+import { getOffset } from '../libs/get-offset';
 import {
   TAG_ITEMS_PER_PAGE,
   TAG_QUERY_SELECT_COLUMNS,
   SEARCHED_ITEM_NUMBER,
-} from 'common/constants';
+} from '../common/constants';
 
 @Injectable()
 export class TagService {

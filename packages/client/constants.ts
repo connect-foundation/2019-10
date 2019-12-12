@@ -10,6 +10,15 @@ export const TOP = 'top';
 export const PERSISTENT = 'persistent';
 export const TAGS_PER_PAGE = 24;
 
+export const fileType = {
+  video: 'video',
+  image: 'image',
+};
+
+export const fileActions = {
+  upload: 'UPLOAD',
+};
+
 export const userActions = {
   logout: 'LOGOUT',
 };
@@ -18,10 +27,15 @@ export const endpoint = {
   tags: '/tags',
   hotlist: '/',
   latest: '/latest',
-  upload: '/videos/upload',
+  uploadVideoFile: '/videos/upload/file',
+  uploadVideoDetail: '/videos/upload/detail',
   search: '/search',
   login: '/auth/login',
   users: '/users',
+};
+
+export const SERVER_ENDPOINT = {
+  VIDEO_UPLOAD: '/videos/upload',
 };
 
 export const periods = {
@@ -71,3 +85,20 @@ export const signUpFormDataMaxLength = {
   username: 30,
   introduction: 1500,
 };
+
+export const VIDEO_FORM_DATA_MAX_LENGTH = {
+  TITLE: '45',
+  DESCRIPTION: '3000',
+  TAGS: 10,
+};
+
+export const MAX_TAGS_NUMBER = 10;
+
+export const ALLOWED_CHARS = ['.', '#', '-'];
+
+export const SPACEBAR = ' ';
+
+export const TITLE = 'title';
+export const DESCRIPTION = 'description';
+
+export const VIDEO_TYPE = 'video/mp4,video/x-m4v,video/*';
