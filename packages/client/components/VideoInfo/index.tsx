@@ -37,7 +37,7 @@ const VideoInfo = ({
         <S.Tag>whyPythonIsSlow</S.Tag>
       </S.Tags>
 
-      <S.Like active={liked} onClick={onLike}>
+      <S.Like type="button" active={liked} onClick={onLike}>
         <div>
           <FavoriteSVG />
         </div>
