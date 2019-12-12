@@ -30,4 +30,5 @@ export const makeSendVideoInfoAction: Action = (
   },
   body: uploadVideoDetailDTO,
   endpoint: `${process.env.API_SERVER_HOST}${SERVER_ENDPOINT.VIDEO_UPLOAD}`,
+  credentials: 'include',
 });
