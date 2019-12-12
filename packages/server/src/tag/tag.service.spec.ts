@@ -93,6 +93,7 @@ describe('-- TagService --', () => {
           videosCount: 'DESC',
           id: 'DESC',
         },
+        skip: 0,
         take: SEARCHED_ITEM_NUMBER,
       });
     });

@@ -56,10 +56,7 @@ describe('-- UserService --', () => {
       );
 
       expect(repoSpy).toBeCalledWith({
-        where: [
-          { username: Like(`%java%`) },
-          { description: Like(`%java%`), status: 1 },
-        ],
+        where: { username: Like(`%java%`), status: 1 },
         order: {
           videosCount: 'DESC',
           id: 'DESC',
@@ -78,14 +75,12 @@ describe('-- UserService --', () => {
       );
 
       expect(repoSpy).toBeCalledWith({
-        where: [
-          { username: Like(`%java%`) },
-          { description: Like(`%java%`), status: 1 },
-        ],
+        where: { username: Like(`%java%`), status: 1 },
         order: {
           videosCount: 'DESC',
           id: 'DESC',
         },
+        skip: 0,
         take: SEARCHED_ITEM_NUMBER,
       });
     });

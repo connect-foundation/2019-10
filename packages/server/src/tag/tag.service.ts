@@ -21,7 +21,7 @@ export class TagService {
     const { page, keyword } = tagListQueryDto;
 
     const skip = page ? getOffset(page, TAG_ITEMS_PER_PAGE) : 0;
-    const take = keyword || !page ? SEARCHED_ITEM_NUMBER : TAG_ITEMS_PER_PAGE;
+    const take = keyword && !page ? SEARCHED_ITEM_NUMBER : TAG_ITEMS_PER_PAGE;
     const where: QueryOptionWhere = {
       status: 1,
     };

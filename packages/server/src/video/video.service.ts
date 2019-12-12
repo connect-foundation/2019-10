@@ -31,7 +31,7 @@ export class VideoService {
     const { page, sort, period, keyword } = videoListQueryDto;
 
     const skip = page ? getOffset(page, VIDEO_ITEMS_PER_PAGE) : 0;
-    const take = keyword || !page ? SEARCHED_ITEM_NUMBER : VIDEO_ITEMS_PER_PAGE;
+    const take = keyword && !page ? SEARCHED_ITEM_NUMBER : VIDEO_ITEMS_PER_PAGE;
 
     if (keyword) {
       return await this.videoRepository.findAndCount({

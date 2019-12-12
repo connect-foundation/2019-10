@@ -55,7 +55,6 @@ describe('-- VideoService --', () => {
       expect(repoSpy).toBeCalledWith({
         relations: ['user'],
         order: {
-          popularity: 'DESC',
           id: 'DESC',
         },
         skip: 0,
@@ -110,7 +109,7 @@ describe('-- VideoService --', () => {
 
     it('should return an array of videos when keyword is 너무나', () => {
       const videoListQueryDto = new VideoListQueryDto(
-        NaN,
+        null,
         null,
         null,
         '너무나',
@@ -131,7 +130,7 @@ describe('-- VideoService --', () => {
           popularity: 'DESC',
           id: 'DESC',
         },
-        skip: NaN,
+        skip: 0,
         take: SEARCHED_ITEM_NUMBER,
       });
     });

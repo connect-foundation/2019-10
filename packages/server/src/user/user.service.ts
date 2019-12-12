@@ -26,7 +26,7 @@ export class UserService {
     const { page, keyword } = userListQueryDto;
 
     const skip = page ? getOffset(page, USER_ITEMS_PER_PAGE) : 0;
-    const take = keyword || !page ? SEARCHED_ITEM_NUMBER : USER_ITEMS_PER_PAGE;
+    const take = keyword && !page ? SEARCHED_ITEM_NUMBER : USER_ITEMS_PER_PAGE;
 
     return await this.userRepository.findAndCount({
       where: { username: Like(`%${keyword}%`), status: 1 },
