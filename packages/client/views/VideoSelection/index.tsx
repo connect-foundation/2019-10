@@ -35,7 +35,7 @@ const VideoSelection: NextComponentType = () => {
             <S.UploadButton onClick={showExplorer}>
               파일 선택하기
               <S.File
-                accept={'video/mp4,video/x-m4v,video/*'}
+                accept={VIDEO_TYPE}
                 ref={Videoinput}
                 onChange={changeVideo}
               />
@@ -52,7 +52,7 @@ VideoSelection.getInitialProps = ({ req, res, isLoggedIn, ...rest }) => {
     redirect(res, endpoint.hotlist);
   }
 
-  return { ...rest };
+  return rest;
 };
 
 export default VideoSelection;

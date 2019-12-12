@@ -1,5 +1,5 @@
-export const responseStatus = {
-  unauthorized: 401,
-  unprocessableEntity: 422,
-  found: 302,
+export const RESPONSE_STATUS = {
+  UNAUTHORIZED: 401,
+  UNPROCESSABLE_ENTITY: 422,
+  FOUND: 302,
 };

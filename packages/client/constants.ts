@@ -81,17 +81,19 @@ export const signUpFormDataMaxLength = {
   introduction: 1500,
 };
 
-export const videoFormDataMaxLength = {
-  title: '45',
-  description: '3000',
-  tags: 10,
+export const VIDEO_FORM_DATA_MAX_LENGTH = {
+  TITLE: '45',
+  DESCRIPTION: '3000',
+  TAGS: 10,
 };
 
 export const MAX_TAGS_NUMBER = 10;
 
-export const allowedChar = ['.', '#', '-'];
+export const ALLOWED_CHARS = ['.', '#', '-'];
 
 export const SPACEBAR = ' ';
 
 export const TITLE = 'title';
 export const DESCRIPTION = 'description';
+
+export const VIDEO_TYPE = 'video/mp4,video/x-m4v,video/*';

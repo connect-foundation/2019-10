@@ -67,7 +67,7 @@ export const VIDEO_QUERY_SELECT_COLUMNS = [
   'Video.id',
   'Video.title',
   'Video.description',
-  'Video.sourceUrl',
+  'Video.source',
   'Video.thumbnail',
   'Video.playtime',
   'Video.likedUsersCount',

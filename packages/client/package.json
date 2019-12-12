@@ -11,8 +11,6 @@
   "dependencies": {
     "@material-ui/core": "^4.6.0",
     "@material-ui/lab": "^4.0.0-alpha.33",
-    "@types/uuid": "^3.4.6",
-    "@types/validator": "^12.0.1",
     "aws-sdk": "^2.573.0",
     "dotenv": "^8.2.0",
     "isomorphic-unfetch": "^3.0.0",
@@ -31,6 +29,8 @@
     "webpack": "^4.41.2"
   },
   "devDependencies": {
+    "@types/uuid": "^3.4.6",
+    "@types/validator": "^12.0.1",
     "@types/jsonwebtoken": "^8.3.5",
     "@types/node": "^12.12.7",
     "@types/react": "^16.9.11",

@@ -1,4 +1,4 @@
-import { responseStatus } from '../../response';
+import { RESPONSE_STATUS } from '../../response';
 import { ServerResponse } from 'http';
 import { useRouter } from 'next/router';
 import { useUser } from '../../components/UserProvider/hooks';
@@ -25,7 +25,7 @@ export const checkLogInStatusServerSide = (isLoggedIn: boolean) => {
 };
 
 export const redirect = (res: ServerResponse, location: string) => {
-  res.writeHead(responseStatus.found, {
+  res.writeHead(RESPONSE_STATUS.FOUND, {
     Location: location,
   });
   res.end();

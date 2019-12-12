@@ -19,7 +19,7 @@ export class UserSessionService {
   }
 
   public async find(id: string): Promise<string> {
-    return this.userSessionTable.get(id);
+    return this.userSessionTable.get(id); // JSON.parse 예외처리
   }
 
   public async remove(id: string): Promise<number> {
