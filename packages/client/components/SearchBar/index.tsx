@@ -17,10 +17,19 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
 }) => {
   const router = useRouter();
   const sendQuery = e => {
+    const inputValue = e.target.value;
+    const blankRegex = /^\s+|\s+$/;
+
+    if (inputValue.replace(blankRegex, '') === '') {
+      return;
+    }
+
     if (e.key === 'Enter') {
+      const value = inputValue.replace(/\s/, '');
+
       router.push({
         pathname: endpoint.search,
-        query: { keyword: e.target.value },
+        query: { keyword: value },
       });
     }
   };
