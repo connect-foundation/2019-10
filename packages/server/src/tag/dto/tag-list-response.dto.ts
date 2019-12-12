@@ -1,5 +1,5 @@
-import { Tag } from '../../../../typeorm/src/entity/tag.entity';
-import { TagInfo } from 'tag/model/tag-info';
+import { Tag } from '../../../entity/tag.entity';
+import { TagInfo } from '../model/tag-info';
 
 export class TagListResponseDto {
   public constructor(tagList: Tag[], count: number) {

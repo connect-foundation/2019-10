@@ -11,6 +11,8 @@ import ArrowBackSVG from './ArrowBackSVG';
 import TagsSVG from './TagsSVG';
 import SubdirectoryArrowRightSVG from './SubdirectoryArrowRightSVG';
 import ArrowRightSVG from './ArrowRightSVG';
+import PhotoSVG from './PhotoSVG';
+import CancelSVG from './CancelSVG';
 
 export {
   ArrowDropDownSVG,
@@ -26,4 +28,6 @@ export {
   TagsSVG,
   SubdirectoryArrowRightSVG,
   ArrowRightSVG,
+  CancelSVG,
+  PhotoSVG,
 };

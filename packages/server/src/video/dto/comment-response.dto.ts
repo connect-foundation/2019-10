@@ -1,6 +1,5 @@
-import { CommentUserDto } from 'video/dto/comment-user.dto';
-
-import { Comment } from '../../../../typeorm/src/entity/comment.entity';
+import { CommentUserDto } from './comment-user.dto';
+import { Comment } from '../../../entity/comment.entity';
 
 export class CommentResponseDto {
   public constructor(comment: Comment) {

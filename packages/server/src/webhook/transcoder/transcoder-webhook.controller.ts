@@ -2,13 +2,12 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { TranscoderNotificationState } from 'common/constants';
-import { UploadedVideoTableService } from 'uploaded-video-table/uploaded-video-table.service';
-import { TranscoderNotificationDto } from 'webhook/transcoder/dto/elastic-transcoder/transcoder-notification.dto';
-
-import { Video } from '../../../../typeorm/src/entity/video.entity';
-import { Tag } from '../../../../typeorm/src/entity/tag.entity';
-import { User } from '../../../../typeorm/src/entity/user.entity';
+import { Video } from '../../../entity/video.entity';
+import { Tag } from '../../../entity/tag.entity';
+import { User } from '../../../entity/user.entity';
+import { UploadedVideoTableService } from '../../uploaded-video-table/uploaded-video-table.service';
+import { TranscoderNotificationState } from '../../common/constants';
+import { TranscoderNotificationDto } from './dto/elastic-transcoder/transcoder-notification.dto';
 
 @Controller('webhook/transcoder')
 export class TranscoderWebhookController {
@@ -25,17 +24,19 @@ export class TranscoderWebhookController {
     @Body() notificationMessage: TranscoderNotificationDto,
   ) {
     notificationMessage = JSON.parse(notificationMessage.toString().trim());
-    // console.log(notificationMessage);
+
     if (notificationMessage.state === TranscoderNotificationState.completed) {
       const mpdSourceUrl = `https://${process.env.BUCKET_NAME}.s3-${process.env.BUCKET_REGION}.amazonaws.com/${notificationMessage.outputKeyPrefix}${notificationMessage.playlists[0].name}.mpd`;
 
       const path = notificationMessage.outputKeyPrefix.split('/');
       const id = path[path.length - 2];
 
-      const videoInfo = this.uploadedVideoTableService.find(id);
+      const videoInfo = await this.uploadedVideoTableService.find(id);
       videoInfo.source = mpdSourceUrl;
 
-      const user = await this.userRepository.find({ where: { id: 1 } });
+      const user = await this.userRepository.find({
+        where: { id: videoInfo.userId },
+      });
 
       const tags = await videoInfo.tags.reduce(
         // tslint:disable-next-line: no-any
@@ -48,14 +49,14 @@ export class TranscoderWebhookController {
           const tag = tagEntities[0];
 
           if (!tag) {
-            const newTag = this.tagRepository.create({ name: tagName });
-            newTag.name = tagName;
-            await this.tagRepository.save(newTag);
+            const tagInfo = this.tagRepository.create({ name: tagName });
+            tagInfo.name = tagName;
+            const newTag = await this.tagRepository.save(tagInfo);
 
-            return Promise.resolve([...tagIds, newTag]);
+            return Promise.resolve([...tagIds, newTag.id]);
           }
 
-          return Promise.resolve([...tagIds, tag]);
+          return Promise.resolve([...tagIds, tag.id]);
         },
         Promise.resolve([]),
       );
@@ -63,7 +64,7 @@ export class TranscoderWebhookController {
       const video = this.videoRepository.create({
         title: videoInfo.title,
         description: videoInfo.description,
-        sourceUrl: videoInfo.source,
+        source: videoInfo.source,
         thumbnail: 'thumbnail',
         playtime: notificationMessage.outputs[0].duration,
         tags,

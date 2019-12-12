@@ -1,11 +1,10 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { endpoint } from 'common/constants';
+import { endpoint } from '../common/constants';
 
-import { TagService } from 'tag/tag.service';
-
-import { TagListQueryPipe } from 'tag/pipe/tag-list-query-pipe';
-import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
-import { TagListResponseDto } from 'tag/dto/tag-list-response.dto';
+import { TagService } from './tag.service';
+import { TagListQueryPipe } from './pipe/tag-list-query-pipe';
+import { TagListQueryDto } from './dto/tag-list-query.dto';
+import { TagListResponseDto } from './dto/tag-list-response.dto';
 
 @Controller(endpoint.tags)
 export class TagController {
