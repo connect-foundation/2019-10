@@ -7,44 +7,42 @@ import {
   NotFoundException,
   Post,
 } from '@nestjs/common';
-import { endpoint } from 'common/constants';
 
-import { VideoService } from 'video/video.service';
-import { CommentService } from 'comment/comment.service';
-import { UploadedVideoTableService } from 'uploaded-video-table/uploaded-video-table.service';
-import { UploadedVideoInfoDto } from 'video/dto/uploaded-video-info.dto';
-import { UploadedVideoInfo } from 'uploaded-video-table/model/uploaded-video-info';
-import { VideoListQueryPipe } from 'video/pipe/video-list-query-pipe';
-import { VideoListQueryDto } from 'video/dto/video-list-query.dto';
-import { VideoListResponseDto } from 'video/dto/video-list-response.dto';
-import { VideoResponseDto } from 'video/dto/video-response.dto';
-import { VideoParamPipe } from 'video/pipe/video-param-pipe';
-import { VideoParamDto } from 'video/dto/video-param.dto';
-import { CommentsParamPipe } from 'video/pipe/comments-param-pipe';
-import { CommentsParamDto } from 'video/dto/comments-param.dto';
-import { CommentsQueryPipe } from 'video/pipe/comments-query-pipe';
-import { CommentsQueryDto } from 'video/dto/comments-query.dto';
-import { CommentsResponseDto } from 'video/dto/comments-response.dto';
-import { CommentResponseDto } from 'video/dto/comment-response.dto';
-import { RepliesParamPipe } from 'video/pipe/replies-param-pipe';
-import { RepliesParamDto } from 'video/dto/replies-param.dto';
-import { RepliesQueryPipe } from 'video/pipe/replies-query-pipe';
-import { RepliesQueryDto } from 'video/dto/replies-query.dto';
+import { endpoint } from '../common/constants';
+import { VideoService } from './video.service';
+import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
+import { CommentService } from '../comment/comment.service';
+import { VideoListQueryDto } from './dto/video-list-query.dto';
+import { VideoListQueryPipe } from './pipe/video-list-query-pipe';
+import { VideoListResponseDto } from './dto/video-list-response.dto';
+import { VideoParamDto } from './dto/video-param.dto';
+import { VideoParamPipe } from './pipe/video-param-pipe';
+import { VideoResponseDto } from './dto/video-response.dto';
+import { CommentsParamPipe } from './pipe/comments-param-pipe';
+import { CommentsQueryPipe } from './pipe/comments-query-pipe';
+import { CommentsParamDto } from './dto/comments-param.dto';
+import { CommentsQueryDto } from './dto/comments-query.dto';
+import { CommentsResponseDto } from './dto/comments-response.dto';
+import { CommentResponseDto } from './dto/comment-response.dto';
+import { RepliesParamDto } from './dto/replies-param.dto';
+import { RepliesQueryDto } from './dto/replies-query.dto';
+import { RepliesParamPipe } from './pipe/replies-param-pipe';
+import { RepliesQueryPipe } from './pipe/replies-query-pipe';
 
 @Controller(endpoint.videos)
 export class VideoController {
   public constructor(
     private readonly videoService: VideoService,
-    private readonly uploadedVideoTableService: UploadedVideoTableService,
     private readonly commentService: CommentService,
   ) {}
 
-  @Post('upload')
-  public saveVideoInfo(@Body() uploadedVideoInfoDto: UploadedVideoInfoDto) {
-    return this.uploadedVideoTableService.insert(
-      uploadedVideoInfoDto.id,
-      new UploadedVideoInfo(uploadedVideoInfoDto),
-    );
+  @Post('/upload')
+  public async saveVideoInfo(
+    @Body() uploadedVideoInfoDto: UploadedVideoInfoDto,
+  ): Promise<boolean> {
+    await this.videoService.instructToSerializeVideoInfo(uploadedVideoInfoDto);
+
+    return true;
   }
 
   @Get('/')
@@ -129,19 +127,4 @@ export class VideoController {
       data: comments.map(item => new CommentResponseDto(item)),
     };
   }
-
-  // @Post('/:id/comments')
-  // public async createComment() {
-  //   return {};
-  // }
-
-  // @Put('/:id/comments/:commentId')
-  // public async updateComment() {
-  //   return {};
-  // }
-
-  // @Delete('/:id/comments/:commentId')
-  // public async deleteComment() {
-  //   return {};
-  // }
 }

@@ -4,7 +4,7 @@ import { COMMENTS_PER_PAGE } from '../../constants';
 
 const createCommentsAction: Action = (videoId, page, sort) => ({
   method: 'GET',
-  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/comments?page=${page}&sort=${sort}`,
+  endpoint: `${process.env.API_SERVER_HOST}/videos/${videoId}/comments?page=${page}&sort=${sort}`,
 });
 
 export const useComments = videoId => {

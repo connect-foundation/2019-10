@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
-import { UserSessionService } from 'user-session/user-session.service';
+
+import { UserSessionService } from './user-session.service';
 
 @Module({
   providers: [UserSessionService],

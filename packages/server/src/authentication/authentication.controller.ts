@@ -1,20 +1,20 @@
 import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
-import {
-  setTokenOnResponseCookie,
-  setSessionTokenCookie,
-} from 'libs/cookie-setter';
-import { GithubOauthCodeDto } from 'third-party-api/github-api/dto/github-oauth-code.dto';
-import { GithubUserDetail } from 'third-party-api/model/github-user-detail';
-import { AuthenticationService } from 'authentication/authentication.service';
 
-import { OnlyGuestGuard } from 'common/guards/only-guest.guard';
 import {
   endpoint,
-  clientPath,
   GITHUB_USER_DETAIL,
   ONE_MINUTE_MILLISECONDS,
-} from 'common/constants';
+  CLIENT_ENDPOINT,
+} from '../common/constants';
+import { AuthenticationService } from './authentication.service';
+import { OnlyGuestGuard } from '../common/guards/only-guest.guard';
+import { GithubOauthCodeDto } from '../third-party-api/github-api/dto/github-oauth-code.dto';
+import {
+  setSessionTokenCookie,
+  setTokenOnResponseCookie,
+} from '../libs/cookie-setter';
+import { GithubUserDetail } from '../third-party-api/model/github-user-detail';
 
 @Controller(endpoint.auth)
 export class AuthenticationController {
@@ -38,7 +38,9 @@ export class AuthenticationController {
 
     if (!user) {
       this.setAccessTokenCookie(response, userDetail);
-      return response.redirect(clientPath.signUp);
+      return response.redirect(
+        `${process.env.CLIENT_SERVER_URL}${CLIENT_ENDPOINT.SIGN_UP}`,
+      );
     }
 
     await this.authenticationService.updateUserGithubAccessToken(
@@ -50,7 +52,7 @@ export class AuthenticationController {
 
     setSessionTokenCookie(response, user, sessionId);
 
-    return response.redirect(clientPath.main);
+    return response.redirect(process.env.CLIENT_SERVER_URL);
   }
 
   private setAccessTokenCookie(

@@ -1,4 +1,4 @@
-import { Tag } from '../../../../typeorm/src/entity/tag.entity';
+import { Tag } from '../../../entity/tag.entity';
 
 export class TagResponseDto {
   public constructor(tag: Tag) {

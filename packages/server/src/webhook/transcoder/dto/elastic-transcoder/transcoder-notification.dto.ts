@@ -1,6 +1,6 @@
-import { TranscoderJobInputDto } from 'webhook/transcoder/dto/elastic-transcoder/job/input.dto';
-import { TranscoderJobOutputDto } from 'webhook/transcoder/dto/elastic-transcoder/job/output.dto';
-import { TranscoderJobPlaylistDto } from 'webhook/transcoder/dto/elastic-transcoder/job/playlist.dto';
+import { TranscoderJobInputDto } from './job/input.dto';
+import { TranscoderJobOutputDto } from './job/output.dto';
+import { TranscoderJobPlaylistDto } from './job/playlist.dto';
 
 export class TranscoderNotificationDto {
   public constructor(

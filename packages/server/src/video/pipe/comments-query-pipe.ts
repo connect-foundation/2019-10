@@ -1,7 +1,8 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { CommentsRequestQueryDto } from 'video/dto/comments-request-query.dto';
-import { CommentsQueryDto } from 'video/dto/comments-query.dto';
-import { POPULAR, LATEST } from 'common/constants';
+
+import { CommentsRequestQueryDto } from '../dto/comments-request-query.dto';
+import { CommentsQueryDto } from '../dto/comments-query.dto';
+import { POPULAR, LATEST } from '../../common/constants';
 
 @Injectable()
 export class CommentsQueryPipe implements PipeTransform {

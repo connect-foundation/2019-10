@@ -14,23 +14,23 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { endpoint, GITHUB_USER_DETAIL } from 'common/constants';
-import { UserService } from 'user/user.service';
-import { UserListQueryPipe } from 'user/pipe/user-list-query-pipe';
-import { UserListQueryDto } from 'user/dto/user-list-query.dto';
-import { UserListResponseDto } from 'user/dto/user-list-response.dto';
-import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
-import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
-import { deleteCookie, setSessionTokenCookie } from 'libs/cookie-setter';
-import { errName, errCode } from 'common/errors';
-import { User } from '../../../typeorm/src/entity/user.entity';
-import { UserParamPipe } from 'user/pipe/user-param.pipe';
-import { UserParamDto } from 'user/dto/user-param.dto';
-import { UserResponseDto } from 'user/dto/user-response.dto';
-import { UserVideoListParamPipe } from 'user/pipe/user-video-list-param.pipe';
-import { UserVideoListParamDto } from 'user/dto/user-video-list-param.dto';
-import { UserVideoListQueryDto } from 'user/dto/user-video-list-query.dto';
-import { UserVideoListResponseDto } from 'user/dto/user-video-list-response.dto';
+import { endpoint, GITHUB_USER_DETAIL } from '../common/constants';
+import { UserService } from '../user/user.service';
+import { UserListQueryPipe } from '../user/pipe/user-list-query-pipe';
+import { UserListQueryDto } from '../user/dto/user-list-query.dto';
+import { UserListResponseDto } from '../user/dto/user-list-response.dto';
+import { SignUpFormDataDto } from '../user/dto/sign-up-user-form.dto';
+import { ParsedGithubUserDetail } from '../user/model/parsed-github-user-detail';
+import { deleteCookie, setSessionTokenCookie } from '../libs/cookie-setter';
+import { errName, errCode } from '../common/errors';
+import { UserParamPipe } from '../user/pipe/user-param.pipe';
+import { UserParamDto } from '../user/dto/user-param.dto';
+import { UserResponseDto } from '../user/dto/user-response.dto';
+import { UserVideoListParamPipe } from '../user/pipe/user-video-list-param.pipe';
+import { UserVideoListParamDto } from '../user/dto/user-video-list-param.dto';
+import { UserVideoListQueryDto } from '../user/dto/user-video-list-query.dto';
+import { UserVideoListResponseDto } from '../user/dto/user-video-list-response.dto';
+import { User } from '../../entity/user.entity';
 
 @Controller(endpoint.users)
 export class UserController {

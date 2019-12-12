@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
-import { Status } from '../custom-type';
+import { Status } from '../../../server/src/entity/custom-type';
 
 export class videos1573489863767 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
