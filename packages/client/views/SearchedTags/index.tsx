@@ -3,28 +3,26 @@ import { useRouter } from 'next/router';
 
 import Grid from '@material-ui/core/Grid';
 
-import * as S from '../styles';
+import * as S from '../Searched/styles';
 
-import Layout from '../../../components/Layout';
-import CircularProgress from '../../../components/CircularProgress';
-import { SearchedVideos, SearchedTitle } from '../../../components/Searched';
+import Layout from '../../components/Layout';
+import CircularProgress from '../../components/CircularProgress';
+import { SearchedTags, SearchedTitle } from '../../components/Searched';
 
-import { endpoint, searchOptions } from '../../../constants';
-import { useSearchVideos } from '../hooks';
+import { endpoint, searchOptions } from '../../constants';
+import { useSearchTags } from '../Searched/hooks';
 
-const SearchedVideosView: React.FunctionComponent = () => {
+const SearchedTagsView: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
   const options = router.query.options as string;
   const optionArray = options.split(',');
+
   const [page, setPage] = useState(1);
 
-  const activeSearch = searchOptions[1].value;
+  const activeSearch = searchOptions[3].value;
 
-  const { videos, videoHasMore, videoHasData } = useSearchVideos(
-    page,
-    searchKeyword,
-  );
+  const { tags, tagHasMore, tagHasData } = useSearchTags(page, searchKeyword);
 
   const optionMap = new Map();
   optionMap.set('all', '모두');
@@ -86,13 +84,13 @@ const SearchedVideosView: React.FunctionComponent = () => {
             />
             <S.Line />
 
-            {videoHasData ? (
+            {tagHasData ? (
               <S.StyledInfiniteScroll
-                dataLength={videos.length}
+                dataLength={tags.length}
                 next={handlePageChange}
-                hasMore={videoHasMore}
+                hasMore={tagHasMore}
               >
-                <SearchedVideos videos={videos} />
+                <SearchedTags tags={tags} />
               </S.StyledInfiniteScroll>
             ) : (
               loader
@@ -104,4 +102,4 @@ const SearchedVideosView: React.FunctionComponent = () => {
   );
 };
 
-export default SearchedVideosView;
+export default SearchedTagsView;

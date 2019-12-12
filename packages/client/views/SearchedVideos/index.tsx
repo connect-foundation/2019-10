@@ -3,26 +3,25 @@ import { useRouter } from 'next/router';
 
 import Grid from '@material-ui/core/Grid';
 
-import * as S from '../styles';
+import * as S from '../Searched/styles';
 
-import Layout from '../../../components/Layout';
-import CircularProgress from '../../../components/CircularProgress';
-import { SearchedUsers, SearchedTitle } from '../../../components/Searched';
+import Layout from '../../components/Layout';
+import CircularProgress from '../../components/CircularProgress';
+import { SearchedVideos, SearchedTitle } from '../../components/Searched';
 
-import { endpoint, searchOptions } from '../../../constants';
-import { useSearchUsers } from '../hooks';
+import { endpoint, searchOptions } from '../../constants';
+import { useSearchVideos } from '../Searched/hooks';
 
-const SearchedUsersView: React.FunctionComponent = () => {
+const SearchedVideosView: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
   const options = router.query.options as string;
   const optionArray = options.split(',');
-
   const [page, setPage] = useState(1);
 
-  const activeSearch = searchOptions[2].value;
+  const activeSearch = searchOptions[1].value;
 
-  const { users, userHasMore, userHasData } = useSearchUsers(
+  const { videos, videoHasMore, videoHasData } = useSearchVideos(
     page,
     searchKeyword,
   );
@@ -87,13 +86,13 @@ const SearchedUsersView: React.FunctionComponent = () => {
             />
             <S.Line />
 
-            {userHasData ? (
+            {videoHasData ? (
               <S.StyledInfiniteScroll
-                dataLength={users.length}
+                dataLength={videos.length}
                 next={handlePageChange}
-                hasMore={userHasMore}
+                hasMore={videoHasMore}
               >
-                <SearchedUsers users={users} />
+                <SearchedVideos videos={videos} />
               </S.StyledInfiniteScroll>
             ) : (
               loader
@@ -105,4 +104,4 @@ const SearchedUsersView: React.FunctionComponent = () => {
   );
 };
 
-export default SearchedUsersView;
+export default SearchedVideosView;
