@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 
 import { Tag } from '../../../typeorm/src/entity/tag.entity';
-import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
-import { getOffset } from 'libs/get-offset';
-import { TAG_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from 'common/constants';
+import { TagListQueryDto } from './dto/tag-list-query.dto';
+import { getOffset } from '../libs/get-offset';
+import { TAG_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from '../common/constants';
 import { QueryOptionWhere } from './interface/QueryOptionWhere';
 
 @Injectable()

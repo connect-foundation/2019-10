@@ -3,13 +3,13 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { User } from '../../../typeorm/src/entity/user.entity';
 
-import { UserSerializerModule } from 'serializer/user-serializer.module';
-import { UserSerializerService } from 'serializer/user-serializer.service';
-import { UserService } from 'user/user.service';
-import { UserListQueryDto } from 'user/dto/user-list-query.dto';
+import { UserSerializerModule } from '../serializer/user-serializer.module';
+import { UserSerializerService } from '../serializer/user-serializer.service';
+import { UserService } from './user.service';
+import { UserListQueryDto } from './dto/user-list-query.dto';
 
-import { USER_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from 'common/constants';
-import { USER_LIST_BY_KEYWORD_JAVA } from 'user/user.test.dummy.data';
+import { USER_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from '../common/constants';
+import { USER_LIST_BY_KEYWORD_JAVA } from './user.test.dummy.data';
 
 describe('-- UserService --', () => {
   let userService: UserService;

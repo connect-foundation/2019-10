@@ -5,17 +5,18 @@ import * as moment from 'moment';
 
 import { Video } from '../../../typeorm/src/entity/video.entity';
 
-import { VideoService } from 'video/video.service';
-import { VideoListQueryDto } from 'video/dto/video-list-query.dto';
+import { VideoService } from './video.service';
+import { VideoListQueryDto } from './dto/video-list-query.dto';
 
-import { VIDEO_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from 'common/constants';
-import { VIDEO_LIST } from 'video/video.test.dummy.data';
+import { VIDEO_LIST } from './video.test.dummy.data';
 
 import {
   PERIODS,
+  VIDEO_ITEMS_PER_PAGE,
+  SEARCHED_ITEM_NUMBER,
   MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS,
   MOMENT_DATETIME_FORMAT,
-} from 'common/constants';
+} from '../common/constants';
 
 describe('-- VideoService --', () => {
   let videoService: VideoService;

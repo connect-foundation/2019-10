@@ -3,10 +3,10 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 
 import { Tag } from '../../../typeorm/src/entity/tag.entity';
-import { TagService } from 'tag/tag.service';
-import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
-import { TAG_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from 'common/constants';
-import { TAG_LIST, TAG_LIST_BY_KEYWORD_JAVA } from 'tag/tag.test.dummy.data';
+import { TagService } from './tag.service';
+import { TagListQueryDto } from './dto/tag-list-query.dto';
+import { TAG_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from '../common/constants';
+import { TAG_LIST, TAG_LIST_BY_KEYWORD_JAVA } from './tag.test.dummy.data';
 
 describe('-- TagService --', () => {
   let tagService: TagService;

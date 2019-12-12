@@ -11,10 +11,10 @@ import {
   MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS,
   MOMENT_DATETIME_FORMAT,
   SEARCHED_ITEM_NUMBER,
-} from 'common/constants';
+} from '../common/constants';
 
-import { getOffset } from 'libs/get-offset';
-import { VideoListQueryDto } from 'video/dto/video-list-query.dto';
+import { getOffset } from '../libs/get-offset';
+import { VideoListQueryDto } from './dto/video-list-query.dto';
 import { Video } from '../../../typeorm/src/entity/video.entity';
 import { QueryOptionWhere } from './interface/QueryOptionWhere';
 
