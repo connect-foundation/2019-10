@@ -1,38 +1,39 @@
 import { regex, signUpFormDataMaxLength } from '../constants';
+import { ValidateResult } from './model/validateResult';
 
 const validateUserName = (
   userName: string,
   isDuplicated: boolean,
-): [boolean, string] => {
+): ValidateResult => {
   if (isDuplicated) {
-    return [
+    return new ValidateResult(
       false,
       `닉네임 '${userName}'을 사용중인 회원이 존재합니다. 다른 닉네임을 사용해주시길 바랍니다.`,
-    ];
+    );
   }
-  if (!userName || userName.length === 0) {
-    return [true, ``];
+  if (!userName) {
+    return new ValidateResult(true, '');
   }
   if (userName.match(regex.userName)) {
-    return [true, ``];
+    return new ValidateResult(true, '');
   }
   if (userName.length > signUpFormDataMaxLength.username) {
-    return [
+    return new ValidateResult(
       false,
       `${signUpFormDataMaxLength.username}자 이하로 작성해주세요.`,
-    ];
+    );
   }
-  return [false, '특수문자는 사용이 불가능합니다.'];
+  return new ValidateResult(false, '특수문자는 사용이 불가능합니다.');
 };
 
-const validateDescription = (description: string): [boolean, string] => {
+const validateDescription = (description: string): ValidateResult => {
   if (description && description.length > signUpFormDataMaxLength.username) {
-    return [
+    return new ValidateResult(
       false,
       `${signUpFormDataMaxLength.description}자 이하로 작성해주세요.`,
-    ];
+    );
   }
-  return [true, ''];
+  return new ValidateResult(true, '');
 };
 
 export { validateUserName, validateDescription };

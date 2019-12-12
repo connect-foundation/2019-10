@@ -22,10 +22,10 @@ const SignUp: React.FunctionComponent = () => {
     debounceTime.userName,
   );
 
-  const [isUserNameValid, userNameMessage] = validateUserName(
-    debouncedUserName,
-    userForm.isUserNameDuplicated,
-  );
+  const {
+    result: isUserNameValid,
+    message: userNameMessage,
+  } = validateUserName(debouncedUserName, userForm.isUserNameDuplicated);
 
   useEffect(() => {
     const shouldCheckDuplicated = () => {
@@ -49,9 +49,10 @@ const SignUp: React.FunctionComponent = () => {
     }
   }, [debouncedUserName]);
 
-  const [isDescriptionValid, descriptionMessage] = validateDescription(
-    userForm.description,
-  );
+  const {
+    result: isDescriptionValid,
+    message: descriptionMessage,
+  } = validateDescription(userForm.description);
 
   const isFormValid =
     isUserNameValid &&
