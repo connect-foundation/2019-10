@@ -192,3 +192,81 @@ export const useCommentLike = (
     onLike: handleClick,
   };
 };
+
+const editCommentAction: Action = ({ videoId, commentId, payload }) => ({
+  method: 'PATCH',
+  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/comments/${commentId}`,
+  credentials: 'include',
+  body: payload,
+});
+
+export const useCommentEdit = (videoId, commentId, content) => {
+  const [edit, setEdit] = useState(false);
+  const [editedComment, setEditedComment] = useState();
+
+  const [formValue, setFormValue] = useState(content);
+
+  const mutationState = useMutation(editCommentAction);
+
+  const handleEdit = () => {
+    setEdit(!edit);
+  };
+
+  const handleFormChange = e => {
+    setFormValue(e.target.value);
+  };
+
+  const handleFormSubmit = async e => {
+    e.preventDefault();
+    const data = await mutationState.mutate({
+      videoId,
+      commentId,
+      payload: {
+        content: formValue,
+      },
+    });
+    setEdit(false);
+
+    if (data.payload && !data.error) {
+      setFormValue(data.payload.content);
+      setEditedComment(data.payload.content);
+    }
+  };
+
+  return {
+    edit,
+    editedComment,
+    formValue,
+    formLoading: mutationState.loading,
+    onEdit: handleEdit,
+    onFormChange: handleFormChange,
+    onFormSubmit: handleFormSubmit,
+  };
+};
+
+const deleteCommentAction: Action = ({ videoId, commentId }) => ({
+  method: 'DELETE',
+  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/comments/${commentId}`,
+  credentials: 'include',
+});
+
+export const useCommentDelete = (videoId, commentId) => {
+  const [deleted, setDeleted] = useState(false);
+  const mutationState = useMutation(deleteCommentAction);
+
+  const handleDelete = async () => {
+    const confirm = window.confirm('정말로 삭제하시겠습니까?');
+    if (confirm) {
+      await mutationState.mutate({
+        videoId,
+        commentId,
+      });
+      setDeleted(true);
+    }
+  };
+
+  return {
+    deleted,
+    onDelete: handleDelete,
+  };
+};

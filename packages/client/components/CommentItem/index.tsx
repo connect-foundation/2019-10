@@ -7,7 +7,13 @@ import * as S from './styles';
 import { FavoriteSVG } from '../../svgs';
 import { CircularProgress } from '@material-ui/core';
 import { useUser } from '../UserProvider/hooks';
-import { useCommentLike, useReplies } from './hooks';
+import {
+  useCommentLike,
+  useReplies,
+  useCommentEdit,
+  useCommentDelete,
+} from './hooks';
+import CommentForm from '../CommentForm';
 
 const CommentItem = ({
   reply,
@@ -27,6 +33,8 @@ const CommentItem = ({
 
   const myComment = user.id === loggedInUser.id;
 
+  const commentEditState = useCommentEdit(videoId, id, content);
+  const commentDeleteState = useCommentDelete(videoId, id);
   const repliesState = useReplies(videoId, id);
 
   const { likesCount, liked, onLike } = useCommentLike(
@@ -44,40 +52,74 @@ const CommentItem = ({
     </S.Loader>
   );
 
+  if (commentDeleteState.deleted) {
+    return null;
+  }
+
   return (
     <S.CommentItem reply={reply}>
       <S.Avatar reply={reply}>
         <img src={user.avatar} />
       </S.Avatar>
       <S.Content>
-        <S.User>
-          <span>{user.username}</span>
-          <span className="dates-ago">{format(createdAt, 'ko')}</span>
-        </S.User>
-        <S.Description>{content}</S.Description>
+        {commentEditState.edit ? (
+          <CommentForm
+            style={{
+              marginBottom: '0rem',
+            }}
+            rows={1}
+            reply
+            avatar={false}
+            loading={commentEditState.formLoading}
+            value={commentEditState.formValue}
+            submitMessage="수정"
+            onChange={commentEditState.onFormChange}
+            onFocus={() => null}
+            onBlur={() => null}
+            onCancel={() => commentEditState.onEdit()}
+            onSubmit={commentEditState.onFormSubmit}
+          />
+        ) : (
+          <>
+            <S.User>
+              <span>{user.username}</span>
+              <span className="dates-ago">{format(createdAt, 'ko')}</span>
+            </S.User>
+            <S.Description>
+              {commentEditState.editedComment || content}
+            </S.Description>
 
-        <S.Actions>
-          <S.Like type="button" active={liked} onClick={onLike}>
-            <FavoriteSVG />
-            <span>좋아요 {likesCount > 0 && `${likesCount}개`}</span>
-          </S.Like>
+            <S.Actions>
+              <S.Like type="button" active={liked} onClick={onLike}>
+                <FavoriteSVG />
+                <span>좋아요 {likesCount > 0 && `${likesCount}개`}</span>
+              </S.Like>
 
-          {!reply && (
-            <>
-              <span className="dot">・</span>
-              <button onClick={repliesState.onFormOpen}>댓글 달기</button>
-            </>
-          )}
+              {!reply && (
+                <>
+                  <span className="dot">・</span>
+                  <button onClick={repliesState.onFormOpen}>댓글 달기</button>
+                </>
+              )}
 
-          {myComment && (
-            <>
-              <span className="dot">・</span>
-              <button>수정</button>
-              <span className="dot">・</span>
-              <button>삭제</button>
-            </>
-          )}
-        </S.Actions>
+              {myComment && (
+                <>
+                  <span className="dot">・</span>
+                  <button
+                    onClick={() => {
+                      repliesState.onFormCancel();
+                      commentEditState.onEdit();
+                    }}
+                  >
+                    수정
+                  </button>
+                  <span className="dot">・</span>
+                  <button onClick={commentDeleteState.onDelete}>삭제</button>
+                </>
+              )}
+            </S.Actions>
+          </>
+        )}
 
         {repliesState.formOpen && (
           <S.StyledCommentForm
