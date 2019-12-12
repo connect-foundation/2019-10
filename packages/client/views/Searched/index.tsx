@@ -6,13 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import * as S from './styles';
 
 import Layout from '../../components/Layout';
-import {
-  SearchedVideos,
-  SearchedUsers,
-  SearchedTags,
-  SearchedTitle,
-  ViewMore,
-} from '../../components/Searched';
+import SearchedTitle from '../../components/SearchedTitle';
+import SearchedArea from '../../components/SearchedArea';
+import ViewMore from '../../components/ViewMore';
 
 import { endpoint, searchOptions, search } from '../../constants';
 import { useSearchVideos, useSearchUsers, useSearchTags } from './hooks';
@@ -98,7 +94,7 @@ const Searched: React.FunctionComponent = () => {
 
                 {videoCount > 0 && (
                   <>
-                    <SearchedVideos videos={videos} />
+                    <SearchedArea data={videos} type="videos" subject="영상" />
                     {activeSearch === search.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
@@ -112,7 +108,7 @@ const Searched: React.FunctionComponent = () => {
 
                 {userCount > 0 && (
                   <>
-                    <SearchedUsers users={users} />
+                    <SearchedArea data={users} type="users" subject="사용자" />
                     {activeSearch === search.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
@@ -126,7 +122,7 @@ const Searched: React.FunctionComponent = () => {
 
                 {tagCount > 0 && (
                   <>
-                    <SearchedTags tags={tags} />
+                    <SearchedArea data={tags} type="tags" subject="태그" />
                     {activeSearch === search.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}

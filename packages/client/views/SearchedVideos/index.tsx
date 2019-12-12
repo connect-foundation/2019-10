@@ -7,7 +7,8 @@ import * as S from '../Searched/styles';
 
 import Layout from '../../components/Layout';
 import CircularProgress from '../../components/CircularProgress';
-import { SearchedVideos, SearchedTitle } from '../../components/Searched';
+import SearchedTitle from '../../components/SearchedTitle';
+import SearchedArea from '../../components/SearchedArea';
 
 import { endpoint, searchOptions } from '../../constants';
 import { useSearchVideos } from '../Searched/hooks';
@@ -92,7 +93,7 @@ const SearchedVideosView: React.FunctionComponent = () => {
                 next={handlePageChange}
                 hasMore={videoHasMore}
               >
-                <SearchedVideos videos={videos} />
+                <SearchedArea data={videos} type="videos" subject="영상" />
               </S.StyledInfiniteScroll>
             ) : (
               loader

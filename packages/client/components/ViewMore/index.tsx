@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import * as S from '../styles';
+import * as S from './styles';
 
-import { ArrowRightSVG } from '../../../svgs';
-import { endpoint, searchOptions } from '../../../constants';
+import { ArrowRightSVG } from '../../svgs';
+import { endpoint, searchOptions } from '../../constants';
 
 const ViewMore = ({ searchKeyword, num, options }) => {
   return (

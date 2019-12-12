@@ -1,6 +1,6 @@
 import React from 'react';
-import * as S from '../styles';
-import { SearchSVG } from '../../../svgs';
+import * as S from './styles';
+import { SearchSVG } from '../../svgs';
 
 const SearchedTitle = ({ searchKeyword }) => {
   return (

@@ -7,7 +7,8 @@ import * as S from '../Searched/styles';
 
 import Layout from '../../components/Layout';
 import CircularProgress from '../../components/CircularProgress';
-import { SearchedUsers, SearchedTitle } from '../../components/Searched';
+import SearchedTitle from '../../components/SearchedTitle';
+import SearchedArea from '../../components/SearchedArea';
 
 import { endpoint, searchOptions } from '../../constants';
 import { useSearchUsers } from '../Searched/hooks';
@@ -93,7 +94,7 @@ const SearchedUsersView: React.FunctionComponent = () => {
                 next={handlePageChange}
                 hasMore={userHasMore}
               >
-                <SearchedUsers users={users} />
+                <SearchedArea data={users} type="users" subject="사용자" />
               </S.StyledInfiniteScroll>
             ) : (
               loader

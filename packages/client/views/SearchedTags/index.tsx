@@ -7,7 +7,8 @@ import * as S from '../Searched/styles';
 
 import Layout from '../../components/Layout';
 import CircularProgress from '../../components/CircularProgress';
-import { SearchedTags, SearchedTitle } from '../../components/Searched';
+import SearchedTitle from '../../components/SearchedTitle';
+import SearchedArea from '../../components/SearchedArea';
 
 import { endpoint, searchOptions } from '../../constants';
 import { useSearchTags } from '../Searched/hooks';
@@ -90,7 +91,7 @@ const SearchedTagsView: React.FunctionComponent = () => {
                 next={handlePageChange}
                 hasMore={tagHasMore}
               >
-                <SearchedTags tags={tags} />
+                <SearchedArea data={tags} type="tags" subject="태그" />
               </S.StyledInfiniteScroll>
             ) : (
               loader
