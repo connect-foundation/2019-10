@@ -6,6 +6,7 @@ import { Tag } from '../../../typeorm/src/entity/tag.entity';
 import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
 import { getOffset } from 'libs/get-offset';
 import { TAG_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from 'common/constants';
+import { QueryOptionWhere } from './interface/QueryOptionWhere';
 
 @Injectable()
 export class TagService {
@@ -18,39 +19,25 @@ export class TagService {
     tagListQueryDto: TagListQueryDto,
   ): Promise<[Tag[], number]> {
     const { page, keyword } = tagListQueryDto;
-    const offset = getOffset(page, TAG_ITEMS_PER_PAGE);
 
-    if (!keyword) {
-      return await this.tagRepository.findAndCount({
-        where: { status: 1 },
-        order: {
-          videosCount: 'DESC',
-          id: 'DESC',
-        },
-        skip: offset,
-        take: TAG_ITEMS_PER_PAGE,
-      });
-    }
+    const skip = page ? getOffset(page, TAG_ITEMS_PER_PAGE) : 0;
+    const take = keyword || !page ? SEARCHED_ITEM_NUMBER : TAG_ITEMS_PER_PAGE;
+    const where: QueryOptionWhere = {
+      status: 1,
+    };
 
-    if (page) {
-      return await this.tagRepository.findAndCount({
-        where: { name: Like(`%${keyword}%`), status: 1 },
-        order: {
-          videosCount: 'DESC',
-          id: 'DESC',
-        },
-        skip: offset,
-        take: TAG_ITEMS_PER_PAGE,
-      });
+    if (keyword) {
+      where.name = Like(`%${keyword}%`);
     }
 
     return await this.tagRepository.findAndCount({
-      where: { name: Like(`%${keyword}%`), status: 1 },
+      where,
       order: {
         videosCount: 'DESC',
         id: 'DESC',
       },
-      take: SEARCHED_ITEM_NUMBER,
+      skip,
+      take,
     });
   }
 }

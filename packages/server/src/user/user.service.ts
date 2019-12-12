@@ -25,33 +25,17 @@ export class UserService {
   ): Promise<[User[], number]> {
     const { page, keyword } = userListQueryDto;
 
-    const offset = getOffset(page, USER_ITEMS_PER_PAGE);
-
-    if (page) {
-      return await this.userRepository.findAndCount({
-        where: [
-          { username: Like(`%${keyword}%`) },
-          { description: Like(`%${keyword}%`), status: 1 },
-        ],
-        order: {
-          videosCount: 'DESC',
-          id: 'DESC',
-        },
-        skip: offset,
-        take: USER_ITEMS_PER_PAGE,
-      });
-    }
+    const skip = page ? getOffset(page, USER_ITEMS_PER_PAGE) : 0;
+    const take = keyword || !page ? SEARCHED_ITEM_NUMBER : USER_ITEMS_PER_PAGE;
 
     return await this.userRepository.findAndCount({
-      where: [
-        { username: Like(`%${keyword}%`) },
-        { description: Like(`%${keyword}%`), status: 1 },
-      ],
+      where: { username: Like(`%${keyword}%`), status: 1 },
       order: {
         videosCount: 'DESC',
         id: 'DESC',
       },
-      take: SEARCHED_ITEM_NUMBER,
+      skip,
+      take,
     });
   }
 

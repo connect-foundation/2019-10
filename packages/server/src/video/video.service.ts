@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as moment from 'moment';
-import { Repository, MoreThan, Like } from 'typeorm';
+import { Repository, MoreThan, Like, FindOperator } from 'typeorm';
 
 import {
   LATEST,
@@ -14,10 +14,9 @@ import {
 } from 'common/constants';
 
 import { getOffset } from 'libs/get-offset';
-
 import { VideoListQueryDto } from 'video/dto/video-list-query.dto';
-
 import { Video } from '../../../typeorm/src/entity/video.entity';
+import { QueryOptionWhere } from './interface/QueryOptionWhere';
 
 @Injectable()
 export class VideoService {
@@ -31,53 +30,10 @@ export class VideoService {
   ): Promise<[Video[], number]> {
     const { page, sort, period, keyword } = videoListQueryDto;
 
-    const offset = getOffset(page, VIDEO_ITEMS_PER_PAGE);
+    const skip = page ? getOffset(page, VIDEO_ITEMS_PER_PAGE) : 0;
+    const take = keyword || !page ? SEARCHED_ITEM_NUMBER : VIDEO_ITEMS_PER_PAGE;
 
-    if (!keyword) {
-      if (sort === LATEST) {
-        return await this.videoRepository.findAndCount({
-          relations: ['user'],
-          where: { status: 1 },
-          order: {
-            popularity: 'DESC',
-            id: 'DESC',
-          },
-          skip: offset,
-          take: VIDEO_ITEMS_PER_PAGE,
-        });
-      }
-
-      if (sort === POPULAR) {
-        if (period !== PERIODS.all) {
-          const startDatetime = moment()
-            .subtract(...MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS[period])
-            .format(MOMENT_DATETIME_FORMAT);
-
-          return await this.videoRepository.findAndCount({
-            relations: ['user'],
-            where: { createdAt: MoreThan(startDatetime), status: 1 },
-            order: {
-              popularity: 'DESC',
-              id: 'DESC',
-            },
-            skip: offset,
-            take: VIDEO_ITEMS_PER_PAGE,
-          });
-        }
-        return await this.videoRepository.findAndCount({
-          relations: ['user'],
-          where: { status: 1 },
-          order: {
-            popularity: 'DESC',
-            id: 'DESC',
-          },
-          skip: offset,
-          take: VIDEO_ITEMS_PER_PAGE,
-        });
-      }
-    }
-
-    if (page) {
+    if (keyword) {
       return await this.videoRepository.findAndCount({
         relations: ['user'],
         where: [
@@ -88,23 +44,44 @@ export class VideoService {
           popularity: 'DESC',
           id: 'DESC',
         },
-        skip: offset,
-        take: VIDEO_ITEMS_PER_PAGE,
+        skip,
+        take,
       });
+    }
+
+    const where: QueryOptionWhere = {
+      status: 1,
+    };
+
+    if (sort === LATEST) {
+      return await this.videoRepository.findAndCount({
+        relations: ['user'],
+        where,
+        order: {
+          id: 'DESC',
+        },
+        skip,
+        take,
+      });
+    }
+
+    if (sort === POPULAR && period !== PERIODS.all) {
+      const startDatetime = moment()
+        .subtract(...MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS[period])
+        .format(MOMENT_DATETIME_FORMAT);
+
+      where.createdAt = MoreThan(startDatetime);
     }
 
     return await this.videoRepository.findAndCount({
       relations: ['user'],
-      where: [
-        { title: Like(`%${keyword}%`) },
-        { description: Like(`%${keyword}%`), status: 1 },
-      ],
+      where,
       order: {
         popularity: 'DESC',
         id: 'DESC',
       },
-      skip: offset,
-      take: SEARCHED_ITEM_NUMBER,
+      skip,
+      take,
     });
   }
 
