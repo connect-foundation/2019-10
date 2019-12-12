@@ -8,7 +8,7 @@ import { TagLabel } from '../../components/TagLabel';
 import { CloudSVG, PhotoSVG } from '../../svgs';
 import {
   endpoint,
-  videoFormDataMaxLength,
+  VIDEO_FORM_DATA_MAX_LENGTH,
   TITLE,
   DESCRIPTION,
 } from '../../constants';
@@ -35,11 +35,8 @@ const VideoUpload: NextComponentType = () => {
     changeCurrentTag,
     makeTag,
     deleteTag,
-    checkVideoExist,
     thumbnailObjectURL,
   } = useVideoUpload();
-
-  checkVideoExist();
 
   return (
     <Layout drawer={false}>
@@ -68,15 +65,13 @@ const VideoUpload: NextComponentType = () => {
             </S.ItemHead>
             <S.Thumbnail>
               {thumbnail ? (
-                <>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={thumbnailObjectURL}
-                  >
-                    <img src={thumbnailObjectURL} />
-                  </a>
-                </>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={thumbnailObjectURL}
+                >
+                  <img src={thumbnailObjectURL} />
+                </a>
               ) : (
                 <>
                   <PhotoSVG />
@@ -102,7 +97,7 @@ const VideoUpload: NextComponentType = () => {
           <S.VideoTitle
             autoComplete={'off'}
             name={TITLE}
-            maxLength={videoFormDataMaxLength.title}
+            maxLength={VIDEO_FORM_DATA_MAX_LENGTH.TITLE}
             onChange={changeTextFormData}
             value={textFormData.title}
           />
@@ -114,7 +109,7 @@ const VideoUpload: NextComponentType = () => {
           <S.VideoDescription
             name={DESCRIPTION}
             rows={4}
-            maxLength={videoFormDataMaxLength.description}
+            maxLength={VIDEO_FORM_DATA_MAX_LENGTH.DESCRIPTION}
             onChange={changeTextFormData}
             value={textFormData.description}
           />

@@ -25,12 +25,10 @@ export class UploadedVideoTableService {
   }
 
   public async find(id: string): Promise<UploadedVideoInfo> {
-    const ret = await this.uploadedVideoInfoTable.get(id);
     return JSON.parse(await this.uploadedVideoInfoTable.get(id));
   }
 
   public async remove(id: string): Promise<number> {
-    const ret = await this.uploadedVideoInfoTable.del(id);
-    return ret;
+    return await this.uploadedVideoInfoTable.del(id);
   }
 }

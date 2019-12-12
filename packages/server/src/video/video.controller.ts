@@ -56,75 +56,75 @@ export class VideoController {
     return new VideoListResponseDto(videos, count);
   }
 
-  // @Get('/:id')
-  // public async getVideo(
-  //   @Param(null, new VideoParamPipe()) videoParamDto: VideoParamDto,
-  // ): Promise<VideoResponseDto> {
-  //   const { id } = videoParamDto;
-  //   const video = await this.videoService.findVideo(id);
+  @Get('/:id')
+  public async getVideo(
+    @Param(null, new VideoParamPipe()) videoParamDto: VideoParamDto,
+  ): Promise<VideoResponseDto> {
+    const { id } = videoParamDto;
+    const video = await this.videoService.findVideo(id);
 
-  //   if (!video) {
-  //     throw new NotFoundException();
-  //   }
+    if (!video) {
+      throw new NotFoundException();
+    }
 
-  //   return new VideoResponseDto(video);
-  // }
+    return new VideoResponseDto(video);
+  }
 
-  // @Get('/:id/comments')
-  // public async getComments(
-  //   @Param(null, new CommentsParamPipe()) commentsParamDto: CommentsParamDto,
-  //   @Query(null, new CommentsQueryPipe()) commentsQueryDto: CommentsQueryDto,
-  // ): Promise<CommentsResponseDto> {
-  //   const { id } = commentsParamDto;
-  //   const { page, sort } = commentsQueryDto;
+  @Get('/:id/comments')
+  public async getComments(
+    @Param(null, new CommentsParamPipe()) commentsParamDto: CommentsParamDto,
+    @Query(null, new CommentsQueryPipe()) commentsQueryDto: CommentsQueryDto,
+  ): Promise<CommentsResponseDto> {
+    const { id } = commentsParamDto;
+    const { page, sort } = commentsQueryDto;
 
-  //   const video = await this.videoService.findVideo(id);
+    const video = await this.videoService.findVideo(id);
 
-  //   if (!video) {
-  //     throw new NotFoundException();
-  //   }
+    if (!video) {
+      throw new NotFoundException();
+    }
 
-  //   const [comments, count] = await this.commentService.findCommentsByVideo({
-  //     videoId: id,
-  //     page,
-  //     sort,
-  //   });
+    const [comments, count] = await this.commentService.findCommentsByVideo({
+      videoId: id,
+      page,
+      sort,
+    });
 
-  //   return {
-  //     count,
-  //     data: comments.map(comment => new CommentResponseDto(comment)),
-  //   };
-  // }
+    return {
+      count,
+      data: comments.map(comment => new CommentResponseDto(comment)),
+    };
+  }
 
-  // @Get('/:id/comments/:commentId/replies')
-  // public async getReplies(
-  //   @Param(null, new RepliesParamPipe()) repliesParamDto: RepliesParamDto,
-  //   @Query(null, new RepliesQueryPipe()) repliesQueryDto: RepliesQueryDto,
-  // ): Promise<CommentsResponseDto> {
-  //   const { id, commentId } = repliesParamDto;
-  //   const { page } = repliesQueryDto;
+  @Get('/:id/comments/:commentId/replies')
+  public async getReplies(
+    @Param(null, new RepliesParamPipe()) repliesParamDto: RepliesParamDto,
+    @Query(null, new RepliesQueryPipe()) repliesQueryDto: RepliesQueryDto,
+  ): Promise<CommentsResponseDto> {
+    const { id, commentId } = repliesParamDto;
+    const { page } = repliesQueryDto;
 
-  //   const video = await this.videoService.findVideo(id);
+    const video = await this.videoService.findVideo(id);
 
-  //   if (!video) {
-  //     throw new NotFoundException();
-  //   }
+    if (!video) {
+      throw new NotFoundException();
+    }
 
-  //   const comment = await this.commentService.findComment(commentId);
+    const comment = await this.commentService.findComment(commentId);
 
-  //   if (!comment) {
-  //     throw new NotFoundException();
-  //   }
+    if (!comment) {
+      throw new NotFoundException();
+    }
 
-  //   const [comments, count] = await this.commentService.findReplies({
-  //     id: commentId,
-  //     videoId: id,
-  //     page,
-  //   });
+    const [comments, count] = await this.commentService.findReplies({
+      id: commentId,
+      videoId: id,
+      page,
+    });
 
-  //   return {
-  //     count,
-  //     data: comments.map(item => new CommentResponseDto(item)),
-  //   };
-  // }
+    return {
+      count,
+      data: comments.map(item => new CommentResponseDto(item)),
+    };
+  }
 }

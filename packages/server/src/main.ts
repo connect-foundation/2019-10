@@ -18,6 +18,6 @@ async function bootstrap() {
   app.use(bodyParser.text());
   app.use(cookieParser());
 
-  await app.listen(4000 || process.env.PORT);
+  await app.listen(process.env.PORT || 4000);
 }
 bootstrap();

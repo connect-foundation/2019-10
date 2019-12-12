@@ -5,15 +5,15 @@ import { useRouter } from 'next/router';
 
 export const useVideoSelection = () => {
   const fileDispatch = useVideoFileDispatch();
-  const Videoinput = useRef<HTMLInputElement>();
+  const videoinput = useRef<HTMLInputElement>();
   const router = useRouter();
 
   const showExplorer = e => {
-    Videoinput.current.click();
+    videoinput.current.click();
   };
 
   const changeVideo = e => {
-    const currentFile = Videoinput.current.files[0];
+    const currentFile = videoinput.current.files[0];
 
     if (!currentFile || !isVideo(currentFile.type)) {
       return;
@@ -28,7 +28,7 @@ export const useVideoSelection = () => {
   };
 
   return {
-    Videoinput,
+    Videoinput: videoinput,
     showExplorer,
     changeVideo,
   };

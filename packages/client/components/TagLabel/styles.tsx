@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Tag = styled.div`
+export const TagLabel = styled.div`
   margin: 0 1rem 0.8rem 0;
 
   background-color: #303537;

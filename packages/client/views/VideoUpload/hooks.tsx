@@ -33,6 +33,9 @@ export const useVideoUpload = () => {
   const uploadToBucket = useMutation(makeUploadToBucketAction).mutate;
   const sendVideoInfo = useMutation(makeSendVideoInfoAction).mutate;
 
+  if (!video.name) {
+    router.push(endpoint.uploadVideoFile);
+  }
   //////////////////////////////////////////////
   // private
   /////////////////////////////////////////////
@@ -158,12 +161,6 @@ export const useVideoUpload = () => {
     );
   };
 
-  const checkVideoExist = () => {
-    if (!video.name) {
-      router.push(endpoint.uploadVideoFile);
-    }
-  };
-
   const moveBackPage = e => {
     router.push(endpoint.uploadVideoFile);
   };
@@ -185,7 +182,6 @@ export const useVideoUpload = () => {
     changeCurrentTag,
     makeTag,
     deleteTag,
-    checkVideoExist,
     thumbnailObjectURL,
   };
 };
