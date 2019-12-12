@@ -1,5 +1,5 @@
-import { Comment } from '../../../../typeorm/src/entity/comment.entity';
-import { CommentUserDto } from 'comment/dto/comment-user.dto';
+import { Comment } from '../../../entity/comment.entity';
+import { CommentUserDto } from '../dto/comment-user.dto';
 
 export class CommentInfo {
   public constructor(comment: Comment, likedByUser: boolean = false) {

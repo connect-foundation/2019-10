@@ -1,6 +1,6 @@
 import { Injectable, PipeTransform, BadRequestException } from '@nestjs/common';
-import { CommentParamDto } from 'comment/dto/comment-param.dto';
-import { NATURAL_NUMBER_REGEX } from 'common/regexes';
+import { CommentParamDto } from '../dto/comment-param.dto';
+import { NATURAL_NUMBER_REGEX } from '../../common/regexes';
 
 @Injectable()
 export class CommentParamPipe implements PipeTransform {

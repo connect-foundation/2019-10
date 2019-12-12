@@ -1,5 +1,5 @@
-import { CommentInfo } from 'comment/model/comment-info';
-import { Comment } from '../../../../typeorm/src/entity/comment.entity';
+import { CommentInfo } from '../model/comment-info';
+import { Comment } from '../../../entity/comment.entity';
 
 export class CommentListResponseDto {
   public constructor(commentList: Comment[], count: number, likes?) {

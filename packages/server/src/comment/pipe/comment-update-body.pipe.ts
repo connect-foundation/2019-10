@@ -1,5 +1,5 @@
 import { Injectable, PipeTransform, BadRequestException } from '@nestjs/common';
-import { CommentBodyDto } from 'comment/dto/comment-body.dto';
+import { CommentBodyDto } from '../dto/comment-body.dto';
 
 @Injectable()
 export class CommentUpdateBodyPipe implements PipeTransform {

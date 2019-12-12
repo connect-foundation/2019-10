@@ -39,6 +39,7 @@ import { CommentBodyDto } from '../comment/dto/comment-body.dto';
 import { CommentParamPipe } from '../comment/pipe/comment-param.pipe';
 import { CommentParamDto } from '../comment/dto/comment-param.dto';
 import { CommentUpdateBodyPipe } from '../comment/pipe/comment-update-body.pipe';
+import { Request } from 'express';
 
 @Controller(endpoint.videos)
 export class VideoController {
