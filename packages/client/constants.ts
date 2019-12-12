@@ -8,7 +8,12 @@ export const EVENT = {
 export const LEFT = 'left';
 export const TOP = 'top';
 export const PERSISTENT = 'persistent';
+
 export const TAGS_PER_PAGE = 24;
+export const HOTLIST_VIDEOS_PER_PAGE = 20;
+export const LATEST_VIDEOS_PER_PAGE = 20;
+export const USER_VIDEOS_PER_PAGE = 12;
+export const COMMENTS_PER_PAGE = 5;
 
 export const fileType = {
   video: 'video',
@@ -32,6 +37,7 @@ export const endpoint = {
   search: '/search',
   login: '/auth/login',
   users: '/users',
+  profileEdit: '/profile/edit',
 };
 
 export const SERVER_ENDPOINT = {
@@ -86,6 +92,10 @@ export const signUpFormDataMaxLength = {
   introduction: 1500,
 };
 
+export const orientation = {
+  vertical: 'vertical',
+  horizontal: 'horizontal',
+};
 export const VIDEO_FORM_DATA_MAX_LENGTH = {
   TITLE: '45',
   DESCRIPTION: '3000',
