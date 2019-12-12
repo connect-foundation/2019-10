@@ -40,7 +40,7 @@ const SearchedTagsView: React.FunctionComponent = () => {
     setPage(page + 1);
   };
 
-  const routerObject = (queryKeyword, num) => {
+  const makeRouter = (queryKeyword, num) => {
     if (num === 0) {
       return {
         pathname: `${endpoint.search}`,
@@ -56,16 +56,16 @@ const SearchedTagsView: React.FunctionComponent = () => {
   const handleFilterClick = value => {
     setPage(1);
     if (value === searchOptions[0].value) {
-      router.push(routerObject(searchKeyword, 0));
+      router.push(makeRouter(searchKeyword, 0));
     }
     if (value === searchOptions[1].value) {
-      router.push(routerObject(searchKeyword, 1));
+      router.push(makeRouter(searchKeyword, 1));
     }
     if (value === searchOptions[2].value) {
-      router.push(routerObject(searchKeyword, 2));
+      router.push(makeRouter(searchKeyword, 2));
     }
     if (value === searchOptions[3].value) {
-      router.push(routerObject(searchKeyword, 3));
+      router.push(makeRouter(searchKeyword, 3));
     }
   };
 

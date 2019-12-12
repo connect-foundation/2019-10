@@ -21,7 +21,7 @@ export const ViewMore = styled.div`
   }
   svg {
     vertical-align: middle;
-
+    opacity: 0.8;
     path:first-child {
       fill: white;
     }

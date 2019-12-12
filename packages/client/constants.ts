@@ -110,6 +110,7 @@ export const searchOptions = [
     value: search.tags,
   },
 ];
+
 export const VIDEO_FORM_DATA_MAX_LENGTH = {
   TITLE: '45',
   DESCRIPTION: '3000',
