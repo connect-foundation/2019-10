@@ -14,29 +14,31 @@ describe('-- TagService --', () => {
   let testingModule: TestingModule;
   let tagRepository: Repository<Tag>;
 
-  beforeEach(async () => {
-    testingModule = await Test.createTestingModule({
-      providers: [
-        TagService,
-        {
-          provide: getRepositoryToken(Tag),
-          useValue: {
-            findAndCount: jest.fn().mockResolvedValue(TAG_LIST),
+  describe('findTags not search results', () => {
+    beforeEach(async () => {
+      testingModule = await Test.createTestingModule({
+        providers: [
+          TagService,
+          {
+            provide: getRepositoryToken(Tag),
+            useValue: {
+              findAndCount: jest.fn().mockResolvedValue(TAG_LIST),
+            },
           },
-        },
-      ],
-    }).compile();
+        ],
+      }).compile();
 
-    tagService = testingModule.get<TagService>(TagService);
-    tagRepository = testingModule.get<Repository<Tag>>(getRepositoryToken(Tag));
-  });
+      tagService = testingModule.get<TagService>(TagService);
+      tagRepository = testingModule.get<Repository<Tag>>(
+        getRepositoryToken(Tag),
+      );
+    });
 
-  it('should be defined', () => {
-    expect(tagService).toBeDefined();
-  });
+    it('should be defined', () => {
+      expect(tagService).toBeDefined();
+    });
 
-  describe('findTags', () => {
-    it('should return an array of tags, not search results', () => {
+    it('should return an array of tags', () => {
       const tagListQueryDto = new TagListQueryDto(1, undefined);
       const repoSpy = jest.spyOn(tagRepository, 'findAndCount');
       expect(tagService.findTags(tagListQueryDto)).resolves.toEqual(TAG_LIST);
@@ -50,8 +52,35 @@ describe('-- TagService --', () => {
         take: 24,
       });
     });
+  });
 
-    it('should return an array of search result tags with no pages', () => {
+  describe('findTags search result', () => {
+    beforeEach(async () => {
+      testingModule = await Test.createTestingModule({
+        providers: [
+          TagService,
+          {
+            provide: getRepositoryToken(Tag),
+            useValue: {
+              findAndCount: jest
+                .fn()
+                .mockResolvedValue(TAG_LIST_BY_KEYWORD_JAVA),
+            },
+          },
+        ],
+      }).compile();
+
+      tagService = testingModule.get<TagService>(TagService);
+      tagRepository = testingModule.get<Repository<Tag>>(
+        getRepositoryToken(Tag),
+      );
+    });
+
+    it('should be defined', () => {
+      expect(tagService).toBeDefined();
+    });
+
+    it('should return an array with no pages', () => {
       const tagListQueryDto = new TagListQueryDto(NaN, 'java');
 
       const repoSpy = jest.spyOn(tagRepository, 'findAndCount');
@@ -69,7 +98,7 @@ describe('-- TagService --', () => {
       });
     });
 
-    it('should return an array of search result tags with pages and keyword', () => {
+    it('should return an array with pages and keyword', () => {
       const tagListQueryDto = new TagListQueryDto(1, 'java');
 
       const repoSpy = jest.spyOn(tagRepository, 'findAndCount');
