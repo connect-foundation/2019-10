@@ -1,7 +1,7 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 
 import { UserParamDto } from '../dto/user-param.dto';
-import { NATURAL_NUMBER_REGEX } from 'common/regexes';
+import { NATURAL_NUMBER_REGEX } from '../../common/regexes';
 
 @Injectable()
 export class UserParamPipe implements PipeTransform {

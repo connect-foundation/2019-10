@@ -1,6 +1,6 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { UserVideoListParamDto } from 'user/dto/user-video-list-param.dto';
-import { NATURAL_NUMBER_REGEX } from 'common/regexes';
+import { UserVideoListParamDto } from '../../user/dto/user-video-list-param.dto';
+import { NATURAL_NUMBER_REGEX } from '../../common/regexes';
 
 @Injectable()
 export class UserVideoListParamPipe implements PipeTransform {

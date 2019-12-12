@@ -1,7 +1,7 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { UserVideoListQueryDto } from 'user/dto/user-video-list-query.dto';
-import { POPULAR, LATEST } from 'common/constants';
-import { NATURAL_NUMBER_REGEX } from 'common/regexes';
+import { UserVideoListQueryDto } from '../../user/dto/user-video-list-query.dto';
+import { POPULAR, LATEST } from '../../common/constants';
+import { NATURAL_NUMBER_REGEX } from '../../common/regexes';
 
 @Injectable()
 export class UserVideoListQueryPipe implements PipeTransform {

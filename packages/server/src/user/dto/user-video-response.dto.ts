@@ -1,11 +1,11 @@
-import { Video } from '../../../../typeorm/src/entity/video.entity';
+import { Video } from '../../../entity/video.entity';
 
 export class UserVideoResponseDto {
   public constructor(video: Video) {
     this.id = video.id;
     this.title = video.title;
     this.description = video.description;
-    this.sourceUrl = video.sourceUrl;
+    this.source = video.source;
     this.thumbnail = video.thumbnail;
     this.playtime = (video.playtime as unknown) as string;
     this.likedUsersCount = video.likedUsersCount;
@@ -19,7 +19,7 @@ export class UserVideoResponseDto {
   public readonly id: number;
   public readonly title: string;
   public readonly description: string;
-  public readonly sourceUrl: string;
+  public readonly source: string;
   public readonly thumbnail: string;
   public readonly playtime: string;
   public readonly likedUsersCount: number;
