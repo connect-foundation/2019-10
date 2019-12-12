@@ -3,16 +3,19 @@ import { useQuery, Action } from 'react-fetching-library';
 
 const createVideoAction: Action = id => ({
   method: 'GET',
-  endpoint: `${process.env.API_SERVER_HOST}/videos/${id}`,
+  endpoint: `${process.env.API_URL_HOST}/videos/${id}`,
+  credentials: 'include',
 });
 
 export const useVideo = id => {
   const [hasData, setHasData] = useState(false);
   const [video, setVideo] = useState({
+    id: '',
     views: null,
     createdAt: '',
     title: '',
     likedUsersCount: null,
+    likedByUser: false,
     description: '',
     user: {
       id: '',

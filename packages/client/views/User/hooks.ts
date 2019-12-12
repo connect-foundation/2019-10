@@ -5,6 +5,7 @@ import { USER_VIDEOS_PER_PAGE } from '../../constants';
 const createUserAction: Action = id => ({
   method: 'GET',
   endpoint: `${process.env.API_URL_HOST}/users/${id}`,
+  credentials: 'include',
 });
 
 export const useUser = id => {
@@ -37,6 +38,7 @@ export const useUser = id => {
 const createVideosAction: Action = (id, page, sort) => ({
   method: 'GET',
   endpoint: `${process.env.API_URL_HOST}/users/${id}/videos?page=${page}&sort=${sort}`,
+  credentials: 'include',
 });
 
 export const useVideos = id => {
