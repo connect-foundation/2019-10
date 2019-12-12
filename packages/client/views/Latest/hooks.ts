@@ -1,5 +1,6 @@
 import { Action, useQuery } from 'react-fetching-library';
 import { useEffect, useState } from 'react';
+import { LATEST_VIDEOS_PER_PAGE } from '../../constants';
 
 const createLatestAction: Action = page => ({
   method: 'GET',
@@ -15,7 +16,7 @@ export const useLatestVideos = page => {
 
   useEffect(() => {
     if (payload && !error) {
-      setHasMore(payload.data.length >= 20);
+      setHasMore(payload.data.length >= LATEST_VIDEOS_PER_PAGE);
       setVideos([...videos, ...payload.data]);
     }
   }, [payload]);

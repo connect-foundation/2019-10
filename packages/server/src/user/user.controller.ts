@@ -10,21 +10,27 @@ import {
   UnprocessableEntityException,
   Res,
   Query,
+  NotFoundException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
-
 import { endpoint, GITHUB_USER_DETAIL } from '../common/constants';
-import { UserService } from './user.service';
-import { UserListQueryPipe } from './pipe/user-list-query-pipe';
-import { UserListQueryDto } from './dto/user-list-query.dto';
-import { UserListResponseDto } from './dto/user-list-response.dto';
-import { IdParserPipe } from '../common/pipes/id-parser/id-parser.pipe';
-import { SignUpFormDataDto } from './dto/sign-up-user-form.dto';
-import { ParsedGithubUserDetail } from './model/parsed-github-user-detail';
+import { UserService } from '../user/user.service';
+import { UserListQueryPipe } from '../user/pipe/user-list-query-pipe';
+import { UserListQueryDto } from '../user/dto/user-list-query.dto';
+import { UserListResponseDto } from '../user/dto/user-list-response.dto';
+import { SignUpFormDataDto } from '../user/dto/sign-up-user-form.dto';
+import { ParsedGithubUserDetail } from '../user/model/parsed-github-user-detail';
+import { deleteCookie, setSessionTokenCookie } from '../libs/cookie-setter';
 import { errName, errCode } from '../common/errors';
+import { UserParamPipe } from '../user/pipe/user-param.pipe';
+import { UserParamDto } from '../user/dto/user-param.dto';
+import { UserResponseDto } from '../user/dto/user-response.dto';
+import { UserVideoListParamPipe } from '../user/pipe/user-video-list-param.pipe';
+import { UserVideoListParamDto } from '../user/dto/user-video-list-param.dto';
+import { UserVideoListQueryDto } from '../user/dto/user-video-list-query.dto';
+import { UserVideoListResponseDto } from '../user/dto/user-video-list-response.dto';
 import { User } from '../../entity/user.entity';
-import { setSessionTokenCookie, deleteCookie } from '../libs/cookie-setter';
 
 @Controller(endpoint.users)
 export class UserController {
@@ -37,11 +43,6 @@ export class UserController {
     const [users, count] = await this.userService.findUsers(userListqueryDto);
 
     return new UserListResponseDto(users, count);
-  }
-
-  @Get('/:id')
-  public getUserDetail(@Param(IdParserPipe) userId: number) {
-    // console.log(userId);
   }
 
   @Post()
@@ -84,5 +85,36 @@ export class UserController {
   private login(response: Response, user: User): void {
     const sessionId = this.userService.instructToSerialize(user);
     setSessionTokenCookie(response, user, sessionId);
+  }
+
+  @Get('/:id')
+  public async getUser(
+    @Param(null, new UserParamPipe()) userParamDto: UserParamDto,
+  ): Promise<UserResponseDto> {
+    const { id } = userParamDto;
+    const user = await this.userService.findUser(id);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    return new UserResponseDto(user);
+  }
+
+  @Get('/:id/videos')
+  public async getVideos(
+    @Param(null, new UserVideoListParamPipe())
+    userVideoListParamDto: UserVideoListParamDto,
+    @Query() userVideoListQueryDto: UserVideoListQueryDto,
+  ): Promise<UserVideoListResponseDto> {
+    const { id } = userVideoListParamDto;
+    const { page, sort } = userVideoListQueryDto;
+    const [videos, count] = await this.userService.findVideosByUser({
+      id,
+      page,
+      sort,
+    });
+
+    return new UserVideoListResponseDto(videos, count);
   }
 }

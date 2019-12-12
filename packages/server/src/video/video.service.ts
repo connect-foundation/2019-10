@@ -20,6 +20,7 @@ import {
 } from '../common/constants';
 import { getOffset } from '../libs/get-offset';
 import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
+
 import { UploadedVideoInfo } from '../uploaded-video-table/model/uploaded-video-info';
 
 @Injectable()

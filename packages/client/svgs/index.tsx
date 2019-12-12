@@ -10,6 +10,8 @@ import SearchSVG from './SearchSVG';
 import ArrowBackSVG from './ArrowBackSVG';
 import TagsSVG from './TagsSVG';
 import SubdirectoryArrowRightSVG from './SubdirectoryArrowRightSVG';
+import SettingsSVG from './SettingsSVG';
+import PowerSVG from './PowerSVG';
 import PhotoSVG from './PhotoSVG';
 import CancelSVG from './CancelSVG';
 
@@ -26,6 +28,8 @@ export {
   ArrowBackSVG,
   TagsSVG,
   SubdirectoryArrowRightSVG,
+  SettingsSVG,
+  PowerSVG,
   CancelSVG,
   PhotoSVG,
 };

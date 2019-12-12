@@ -34,6 +34,7 @@ export const Content = styled.div`
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     flex-direction: row;
+    align-items: flex-start;
   }
 `;
 
@@ -42,12 +43,33 @@ export const Avatar = styled.div`
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin-right: 5rem;
+    margin-bottom: 0rem;
   }
 
   img {
+    display: block;
     width: 12rem;
     height: 12rem;
     border-radius: 100%;
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: 14rem;
+      height: 14rem;
+    }
+  }
+`;
+
+export const AvatarSkeleton = styled.div`
+  margin-bottom: 4rem;
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    margin-right: 5rem;
+    margin-bottom: 0rem;
+  }
+
+  > div {
+    width: 12rem;
+    height: 12rem;
 
     @media only screen and (min-width: ${BREAKPOINT}px) {
       width: 14rem;
@@ -62,13 +84,13 @@ export const Info = styled.div`
   h1 {
     margin: 0;
     margin-bottom: 1rem;
-    font-size: 2.8rem;
+    font-size: 2.4rem;
     font-weight: ${fontWeight.extraBold};
     color: white;
 
     @media only screen and (min-width: ${BREAKPOINT}px) {
       margin-bottom: 2rem;
-      font-size: 3.2rem;
+      font-size: 2.8rem;
     }
   }
 
@@ -77,5 +99,34 @@ export const Info = styled.div`
     font-weight: ${fontWeight.regular};
     color: white;
     opacity: 0.7;
+  }
+`;
+
+export const InfoSkeleton = styled.div`
+  width: 100%;
+
+  > div:first-child {
+    width: 50%;
+    height: 3.4rem;
+    margin-bottom: 1rem;
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: 20rem;
+      height: 4rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  > div {
+    height: 2.3rem;
+  }
+
+  > div:last-child {
+    display: block;
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      /* 데스크톱에서는 한 줄을 가립니다. */
+      display: none;
+    }
   }
 `;
