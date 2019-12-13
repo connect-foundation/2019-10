@@ -10,7 +10,11 @@ import SearchedResultsTitle from '../../components/SearchedResultsTitle';
 import SearchedResultsArea from '../../components/SearchedResultsArea';
 import ViewMore from '../../components/ViewMore';
 
-import { endpoint, searchOptions, search } from '../../constants';
+import {
+  endpoint,
+  SEARCH_OPTION_LABELS,
+  SEARCH_OPTION_VALUES,
+} from '../../constants';
 import { useSearchVideos, useSearchUsers, useSearchTags } from './hooks';
 
 const SearchedResults: React.FunctionComponent = () => {
@@ -30,17 +34,22 @@ const SearchedResults: React.FunctionComponent = () => {
 
   const allCount = hasData ? videoCount + userCount + tagCount : null;
 
-  const countArray = [
-    { label: '영상', value: 'videos', count: videoCount },
-    { label: '사용자', value: 'users', count: userCount },
-    { label: '태그', value: 'tags', count: tagCount },
-  ];
-
   const optionMap = new Map();
-  optionMap.set('all', { label: '모두', count: videoCount });
-  optionMap.set('videos', { label: '영상', count: videoCount });
-  optionMap.set('users', { label: '사용자', count: userCount });
-  optionMap.set('tags', { label: '태그', count: tagCount });
+  optionMap.set(SEARCH_OPTION_VALUES.all, {
+    label: SEARCH_OPTION_LABELS.all,
+  });
+  optionMap.set(SEARCH_OPTION_VALUES.videos, {
+    label: SEARCH_OPTION_LABELS.videos,
+    count: videoCount,
+  });
+  optionMap.set(SEARCH_OPTION_VALUES.users, {
+    label: SEARCH_OPTION_LABELS.users,
+    count: userCount,
+  });
+  optionMap.set(SEARCH_OPTION_VALUES.tags, {
+    label: SEARCH_OPTION_LABELS.tags,
+    count: tagCount,
+  });
 
   const customSearchOptions = [];
 
@@ -51,7 +60,10 @@ const SearchedResults: React.FunctionComponent = () => {
   });
 
   if (customSearchOptions.length >= 2) {
-    customSearchOptions.unshift({ label: '모두', value: 'all' });
+    customSearchOptions.unshift({
+      label: SEARCH_OPTION_LABELS.all,
+      value: SEARCH_OPTION_VALUES.all,
+    });
   }
 
   const options = customSearchOptions
@@ -107,7 +119,7 @@ const SearchedResults: React.FunctionComponent = () => {
                       type="videos"
                       subject="영상"
                     />
-                    {activeSearch === search.all && (
+                    {activeSearch === SEARCH_OPTION_VALUES.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
                         num={1}
@@ -125,7 +137,7 @@ const SearchedResults: React.FunctionComponent = () => {
                       type="users"
                       subject="사용자"
                     />
-                    {activeSearch === search.all && (
+                    {activeSearch === SEARCH_OPTION_VALUES.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
                         num={2}
@@ -143,7 +155,7 @@ const SearchedResults: React.FunctionComponent = () => {
                       type="tags"
                       subject="태그"
                     />
-                    {activeSearch === search.all && (
+                    {activeSearch === SEARCH_OPTION_VALUES.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
                         num={3}
