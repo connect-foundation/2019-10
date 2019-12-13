@@ -80,7 +80,7 @@ const Searched: React.FunctionComponent = () => {
           <Grid item xs={12} md={8}>
             <SearchedTitle searchKeyword={searchKeyword} />
 
-            {allCount === null && hasData ? (
+            {allCount === 0 && hasData ? (
               <S.NoResults>
                 <span>"{searchKeyword}"에 대한 검색결과가 없습니다...</span>
               </S.NoResults>
