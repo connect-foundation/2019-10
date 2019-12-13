@@ -2,17 +2,18 @@ import React from 'react';
 import Link from 'next/link';
 import * as S from './styles';
 import VideoItem from '../VideoItem';
+import { search } from '../../constants';
 
 const SearchedResultsArea = ({ subject, data, type }) => {
   let children;
 
-  if (type === 'tags') {
+  if (type === search.tags) {
     children = data.map(tag => {
       return (
         <Link href="/tags/[tagId]" as={`/tags/${tag.id}`}>
           <a onClick={e => e.stopPropagation()}>
             <div key={tag.id}>
-              <S.Tag>{tag.name}</S.Tag>;
+              <S.Tag>{tag.name}</S.Tag>
             </div>
           </a>
         </Link>
@@ -20,7 +21,7 @@ const SearchedResultsArea = ({ subject, data, type }) => {
     });
   }
 
-  if (type === 'users') {
+  if (type === search.users) {
     children = data.map(user => {
       return (
         <Link href="/users/[userId]" as={`/users/${user.id}`}>
@@ -37,7 +38,7 @@ const SearchedResultsArea = ({ subject, data, type }) => {
     });
   }
 
-  if (type === 'videos') {
+  if (type === search.videos) {
     children = data.map(video => {
       return (
         <S.Videos key={video.id}>
