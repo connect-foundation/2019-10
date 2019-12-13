@@ -9,7 +9,7 @@ const createSearchAction: Action = (subject, page, keyword) => {
     : `/${subject}?keyword=${keyword}`;
   return {
     method: 'GET',
-    endpoint: `${process.env.API_SERVER_HOST}${queryString}`,
+    endpoint: `${process.env.API_URL_HOST}${queryString}`,
   };
 };
 
