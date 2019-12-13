@@ -12,7 +12,7 @@
 
 ### :house: [HomePage]()
 
-### :tv: [DEMO](https://client.riverandeye.now.sh/)
+### :tv: [DEMO](http://18.177.66.155:3000/)
 
 ### :book: [Document](https://github.com/connect-foundation/2019-10/wiki)
 
