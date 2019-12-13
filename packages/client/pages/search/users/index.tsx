@@ -1,1 +1,1 @@
-export { default } from '../../../views/SearcedUsers';
+export { default } from '../../../views/SearchedResultsUsers';

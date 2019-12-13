@@ -3,7 +3,7 @@ import Link from 'next/link';
 import * as S from './styles';
 import VideoItem from '../VideoItem';
 
-const SearchedArea = ({ subject, data, type }) => {
+const SearchedResultsArea = ({ subject, data, type }) => {
   let children;
 
   if (type === 'tags') {
@@ -59,4 +59,4 @@ const SearchedArea = ({ subject, data, type }) => {
   );
 };
 
-export default SearchedArea;
+export default SearchedResultsArea;

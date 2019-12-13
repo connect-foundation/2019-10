@@ -2,7 +2,7 @@ import React from 'react';
 import * as S from './styles';
 import { SearchSVG } from '../../svgs';
 
-const SearchedTitle = ({ searchKeyword }) => {
+const SearchedResultsTitle = ({ searchKeyword }) => {
   return (
     <>
       <S.Title>
@@ -13,4 +13,4 @@ const SearchedTitle = ({ searchKeyword }) => {
   );
 };
 
-export default SearchedTitle;
+export default SearchedResultsTitle;

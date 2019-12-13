@@ -6,14 +6,14 @@ import Grid from '@material-ui/core/Grid';
 import * as S from './styles';
 
 import Layout from '../../components/Layout';
-import SearchedTitle from '../../components/SearchedTitle';
-import SearchedArea from '../../components/SearchedArea';
+import SearchedResultsTitle from '../../components/SearchedResultsTitle';
+import SearchedResultsArea from '../../components/SearchedResultsArea';
 import ViewMore from '../../components/ViewMore';
 
 import { endpoint, searchOptions, search } from '../../constants';
 import { useSearchVideos, useSearchUsers, useSearchTags } from './hooks';
 
-const Searched: React.FunctionComponent = () => {
+const SearchedResults: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
 
@@ -78,7 +78,7 @@ const Searched: React.FunctionComponent = () => {
       <S.Container>
         <S.ContainerGrid container spacing={2} justify="center">
           <Grid item xs={12} md={8}>
-            <SearchedTitle searchKeyword={searchKeyword} />
+            <SearchedResultsTitle searchKeyword={searchKeyword} />
 
             {allCount === 0 && hasData ? (
               <S.NoResults>
@@ -95,7 +95,7 @@ const Searched: React.FunctionComponent = () => {
 
                 {videoCount > 0 && (
                   <>
-                    <SearchedArea data={videos} type="videos" subject="영상" />
+                    <SearchedResultsArea data={videos} type="videos" subject="영상" />
                     {activeSearch === search.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
@@ -109,7 +109,7 @@ const Searched: React.FunctionComponent = () => {
 
                 {userCount > 0 && (
                   <>
-                    <SearchedArea data={users} type="users" subject="사용자" />
+                    <SearchedResultsArea data={users} type="users" subject="사용자" />
                     {activeSearch === search.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
@@ -123,7 +123,7 @@ const Searched: React.FunctionComponent = () => {
 
                 {tagCount > 0 && (
                   <>
-                    <SearchedArea data={tags} type="tags" subject="태그" />
+                    <SearchedResultsArea data={tags} type="tags" subject="태그" />
                     {activeSearch === search.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
@@ -143,4 +143,4 @@ const Searched: React.FunctionComponent = () => {
   );
 };
 
-export default Searched;
+export default SearchedResults;

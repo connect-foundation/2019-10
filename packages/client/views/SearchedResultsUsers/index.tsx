@@ -3,17 +3,17 @@ import { useRouter } from 'next/router';
 
 import Grid from '@material-ui/core/Grid';
 
-import * as S from '../Searched/styles';
+import * as S from '../SearchedResults/styles';
 
 import Layout from '../../components/Layout';
 import CircularProgress from '../../components/CircularProgress';
-import SearchedTitle from '../../components/SearchedTitle';
-import SearchedArea from '../../components/SearchedArea';
+import SearchedResultsTitle from '../../components/SearchedResultsTitle';
+import SearchedResultsArea from '../../components/SearchedResultsArea';
 
 import { endpoint, searchOptions } from '../../constants';
-import { useSearchTags } from '../Searched/hooks';
+import { useSearchUsers } from '../SearchedResults/hooks';
 
-const SearchedTagsView: React.FunctionComponent = () => {
+const SearchedResultsUsers: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
   const options = router.query.options as string;
@@ -21,9 +21,12 @@ const SearchedTagsView: React.FunctionComponent = () => {
 
   const [page, setPage] = useState(1);
 
-  const activeSearch = searchOptions[3].value;
+  const activeSearch = searchOptions[2].value;
 
-  const { tags, tagHasMore, tagHasData } = useSearchTags(page, searchKeyword);
+  const { users, userHasMore, userHasData } = useSearchUsers(
+    page,
+    searchKeyword,
+  );
 
   const optionMap = new Map();
   optionMap.set('all', '모두');
@@ -40,7 +43,7 @@ const SearchedTagsView: React.FunctionComponent = () => {
     setPage(page + 1);
   };
 
-  const makeRouter = (queryKeyword, num) => {
+  const routerObject = (queryKeyword, num) => {
     if (num === 0) {
       return {
         pathname: `${endpoint.search}`,
@@ -56,16 +59,16 @@ const SearchedTagsView: React.FunctionComponent = () => {
   const handleFilterClick = value => {
     setPage(1);
     if (value === searchOptions[0].value) {
-      router.push(makeRouter(searchKeyword, 0));
+      router.push(routerObject(searchKeyword, 0));
     }
     if (value === searchOptions[1].value) {
-      router.push(makeRouter(searchKeyword, 1));
+      router.push(routerObject(searchKeyword, 1));
     }
     if (value === searchOptions[2].value) {
-      router.push(makeRouter(searchKeyword, 2));
+      router.push(routerObject(searchKeyword, 2));
     }
     if (value === searchOptions[3].value) {
-      router.push(makeRouter(searchKeyword, 3));
+      router.push(routerObject(searchKeyword, 3));
     }
   };
 
@@ -76,7 +79,7 @@ const SearchedTagsView: React.FunctionComponent = () => {
       <S.Container>
         <S.ContainerGrid container spacing={2} justify="center">
           <Grid item xs={12} md={8}>
-            <SearchedTitle searchKeyword={searchKeyword} />
+            <SearchedResultsTitle searchKeyword={searchKeyword} />
 
             <S.StyledTabs
               items={customSearchOptions}
@@ -85,13 +88,17 @@ const SearchedTagsView: React.FunctionComponent = () => {
             />
             <S.Line />
 
-            {tagHasData ? (
+            {userHasData ? (
               <S.StyledInfiniteScroll
-                dataLength={tags.length}
+                dataLength={users.length}
                 next={handlePageChange}
-                hasMore={tagHasMore}
+                hasMore={userHasMore}
               >
-                <SearchedArea data={tags} type="tags" subject="태그" />
+                <SearchedResultsArea
+                  data={users}
+                  type="users"
+                  subject="사용자"
+                />
               </S.StyledInfiniteScroll>
             ) : (
               loader
@@ -103,4 +110,4 @@ const SearchedTagsView: React.FunctionComponent = () => {
   );
 };
 
-export default SearchedTagsView;
+export default SearchedResultsUsers;

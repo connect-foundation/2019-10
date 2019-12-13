@@ -3,17 +3,17 @@ import { useRouter } from 'next/router';
 
 import Grid from '@material-ui/core/Grid';
 
-import * as S from '../Searched/styles';
+import * as S from '../SearchedResults/styles';
 
 import Layout from '../../components/Layout';
 import CircularProgress from '../../components/CircularProgress';
-import SearchedTitle from '../../components/SearchedTitle';
-import SearchedArea from '../../components/SearchedArea';
+import SearchedResultsTitle from '../../components/SearchedResultsTitle';
+import SearchedResultsArea from '../../components/SearchedResultsArea';
 
 import { endpoint, searchOptions } from '../../constants';
-import { useSearchVideos } from '../Searched/hooks';
+import { useSearchVideos } from '../SearchedResults/hooks';
 
-const SearchedVideosView: React.FunctionComponent = () => {
+const SearchedResultsVideos: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
   const options = router.query.options as string;
@@ -78,7 +78,7 @@ const SearchedVideosView: React.FunctionComponent = () => {
       <S.Container>
         <S.ContainerGrid container spacing={2} justify="center">
           <Grid item xs={12} md={8}>
-            <SearchedTitle searchKeyword={searchKeyword} />
+            <SearchedResultsTitle searchKeyword={searchKeyword} />
 
             <S.StyledTabs
               items={customSearchOptions}
@@ -93,7 +93,11 @@ const SearchedVideosView: React.FunctionComponent = () => {
                 next={handlePageChange}
                 hasMore={videoHasMore}
               >
-                <SearchedArea data={videos} type="videos" subject="영상" />
+                <SearchedResultsArea
+                  data={videos}
+                  type="videos"
+                  subject="영상"
+                />
               </S.StyledInfiniteScroll>
             ) : (
               loader
@@ -105,4 +109,4 @@ const SearchedVideosView: React.FunctionComponent = () => {
   );
 };
 
-export default SearchedVideosView;
+export default SearchedResultsVideos;
