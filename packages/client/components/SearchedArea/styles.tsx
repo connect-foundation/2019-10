@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import { BREAKPOINT } from '../../constants';
 
 export const Subject = styled.div`
-  margin-top: 2rem;
+  padding-top: 2rem;
   margin-bottom: 2rem;
   color: white;
   font-size: 2.2rem;
   font-weight: 700;
   @media only screen and (min-width: ${BREAKPOINT}px) {
-    margin-top: 3rem;
+    padding-top: 3rem;
     margin-bottom: 3rem;
   }
 `;

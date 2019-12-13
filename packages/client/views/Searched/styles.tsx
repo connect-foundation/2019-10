@@ -42,8 +42,21 @@ export const StyledInfiniteScroll = styled(InfiniteScroll)`
   flex-direction: column;
 `;
 
-export const Line = styled.hr`
-  border: 1px solid #484c50;
+export const Line = styled.div`
+  position: relative;
+
+  &&:after {
+    position: absolute;
+    content: '';
+    display: block;
+    border-bottom: 0.1rem solid #484c50;
+    width: calc(100% + 4rem);
+    left: -2rem;
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      left: 0rem;
+    }
+  }
 `;
 
 export const NoResults = styled.div`
