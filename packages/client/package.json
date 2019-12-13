@@ -21,6 +21,7 @@
     "react-dom": "16.11.0",
     "react-fetching-library": "^1.5.12",
     "react-infinite-scroll-component": "^5.0.3",
+    "shaka-player": "^2.5.6",
     "styled-components": "^4.4.1",
     "timeago.js": "^4.0.1",
     "universal-cookie": "^4.0.2",
