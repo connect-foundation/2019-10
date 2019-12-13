@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useRef } from 'react';
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import * as S from './styles';
 
@@ -15,20 +15,16 @@ const VideoPlayer: React.FunctionComponent<VideoPlayerProps> = (
 ) => {
   const uiContainerRef = useRef(null);
   const videoRef = useRef(null);
-  const controller = useRef({
+  const controllerRef = useRef({
     player: null,
     videoElement: null,
   });
 
-  let shaka;
-  if (typeof window !== 'undefined') {
-    shaka = require('shaka-player');
-  }
-
   useEffect(() => {
-    if (shaka) {
+    if (typeof window !== 'undefined') {
+      const shaka = require('shaka-player');
       const player = new shaka.Player(videoRef.current);
-      controller.current = {
+      controllerRef.current = {
         player,
         videoElement: videoRef.current,
       };
@@ -36,7 +32,7 @@ const VideoPlayer: React.FunctionComponent<VideoPlayerProps> = (
   }, []);
 
   useEffect(() => {
-    const { player } = controller.current;
+    const { player } = controllerRef.current;
     if (player) {
       player.load(src);
     }
