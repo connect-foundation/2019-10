@@ -16,20 +16,20 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
   isActive,
 }) => {
   const router = useRouter();
-  const [value, setValue] = useState('');
+  const [inputValue, setInputValue] = useState('');
 
   const handleChange = e => {
     if (e.target.value !== ' ') {
-      setValue(e.target.value);
+      setInputValue(e.target.value);
     }
-    setValue(e.target.value.replace(/\s/, ''));
+    setInputValue(e.target.value.replace(/\s/, ''));
   };
 
   const handleKeyPress = e => {
     if (e.key === 'Enter') {
       router.push({
         pathname: endpoint.search,
-        query: { keyword: value },
+        query: { keyword: inputValue },
       });
     }
   };
@@ -43,7 +43,7 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
       <S.Input isActive={isActive}>
         <SearchSVG width={20} height={20} viewBox="0 0 24 24" />
         <input
-          value={value}
+          value={inputValue}
           onChange={handleChange}
           type="text"
           placeholder="검색"
