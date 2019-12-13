@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import * as S from './styles';
 import VideoItem from '../VideoItem';
 
@@ -8,9 +9,13 @@ const SearchedArea = ({ subject, data, type }) => {
   if (type === 'tags') {
     children = data.map(tag => {
       return (
-        <div key={tag.id}>
-          <S.Tag>{tag.name}</S.Tag>;
-        </div>
+        <Link href="/tags/[tagId]" as={`/tags/${tag.id}`}>
+          <a onClick={e => e.stopPropagation()}>
+            <div key={tag.id}>
+              <S.Tag>{tag.name}</S.Tag>;
+            </div>
+          </a>
+        </Link>
       );
     });
   }
@@ -18,12 +23,16 @@ const SearchedArea = ({ subject, data, type }) => {
   if (type === 'users') {
     children = data.map(user => {
       return (
-        <S.User key={user.id}>
-          <S.Avatar>
-            <img src={user.avatar} />
-          </S.Avatar>
-          <S.Username>{user.username}</S.Username>
-        </S.User>
+        <Link href="/users/[userId]" as={`/users/${user.id}`}>
+          <a onClick={e => e.stopPropagation()}>
+            <S.User key={user.id}>
+              <S.Avatar>
+                <img src={user.avatar} />
+              </S.Avatar>
+              <S.Username>{user.username}</S.Username>
+            </S.User>
+          </a>
+        </Link>
       );
     });
   }
