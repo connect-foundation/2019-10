@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { endpoint } from '../../constants';
@@ -16,17 +16,17 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
   isActive,
 }) => {
   const router = useRouter();
-  const sendQuery = e => {
-    const inputValue = e.target.value;
-    const blankRegex = /^\s+|\s+$/;
+  const [value, setValue] = useState('');
 
-    if (inputValue.replace(blankRegex, '') === '') {
-      return;
+  const handleChange = e => {
+    if (e.target.value !== ' ') {
+      setValue(e.target.value);
     }
+    setValue(e.target.value.replace(/\s/, ''));
+  };
 
+  const handleKeyPress = e => {
     if (e.key === 'Enter') {
-      const value = inputValue.replace(/\s/, '');
-
       router.push({
         pathname: endpoint.search,
         query: { keyword: value },
@@ -42,7 +42,13 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
 
       <S.Input isActive={isActive}>
         <SearchSVG width={20} height={20} viewBox="0 0 24 24" />
-        <input type="text" placeholder="검색" onKeyPress={sendQuery} />
+        <input
+          value={value}
+          onChange={handleChange}
+          type="text"
+          placeholder="검색"
+          onKeyPress={handleKeyPress}
+        />
       </S.Input>
     </>
   );
