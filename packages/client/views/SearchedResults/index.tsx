@@ -36,12 +36,19 @@ const SearchedResults: React.FunctionComponent = () => {
     { label: '태그', value: 'tags', count: tagCount },
   ];
 
-  const customSearchOptions = countArray.reduce((acc, cur) => {
-    if (cur.count) {
-      acc.push({ label: cur.label, value: cur.value });
+  const optionMap = new Map();
+  optionMap.set('all', { label: '모두', count: videoCount });
+  optionMap.set('videos', { label: '영상', count: videoCount });
+  optionMap.set('users', { label: '사용자', count: userCount });
+  optionMap.set('tags', { label: '태그', count: tagCount });
+
+  const customSearchOptions = [];
+
+  optionMap.forEach((key, value) => {
+    if (value.count) {
+      customSearchOptions.push({ label: value.label, value: key });
     }
-    return acc;
-  }, []);
+  });
 
   if (customSearchOptions.length >= 2) {
     customSearchOptions.unshift({ label: '모두', value: 'all' });
@@ -95,7 +102,11 @@ const SearchedResults: React.FunctionComponent = () => {
 
                 {videoCount > 0 && (
                   <>
-                    <SearchedResultsArea data={videos} type="videos" subject="영상" />
+                    <SearchedResultsArea
+                      data={videos}
+                      type="videos"
+                      subject="영상"
+                    />
                     {activeSearch === search.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
@@ -109,7 +120,11 @@ const SearchedResults: React.FunctionComponent = () => {
 
                 {userCount > 0 && (
                   <>
-                    <SearchedResultsArea data={users} type="users" subject="사용자" />
+                    <SearchedResultsArea
+                      data={users}
+                      type="users"
+                      subject="사용자"
+                    />
                     {activeSearch === search.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
@@ -123,7 +138,11 @@ const SearchedResults: React.FunctionComponent = () => {
 
                 {tagCount > 0 && (
                   <>
-                    <SearchedResultsArea data={tags} type="tags" subject="태그" />
+                    <SearchedResultsArea
+                      data={tags}
+                      type="tags"
+                      subject="태그"
+                    />
                     {activeSearch === search.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}

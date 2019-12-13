@@ -92,30 +92,18 @@ export const signUpFormDataMaxLength = {
   introduction: 1500,
 };
 
-export const search = {
+export const SEARCH_OPTION_LABELS = {
+  videos: '영상',
+  users: '사용자',
+  tags: '태그',
+  all: '모두',
+};
+export const SEARCH_OPTION_VALUES = {
   videos: 'videos',
   users: 'users',
   tags: 'tags',
   all: 'all',
 };
-export const searchOptions = [
-  {
-    label: '모두',
-    value: search.all,
-  },
-  {
-    label: '영상',
-    value: search.videos,
-  },
-  {
-    label: '사용자',
-    value: search.users,
-  },
-  {
-    label: '태그',
-    value: search.tags,
-  },
-];
 
 export const orientation = {
   vertical: 'vertical',
