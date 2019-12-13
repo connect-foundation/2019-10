@@ -1,5 +1,5 @@
-import React from 'react';
 import { Grid } from '@material-ui/core';
+import { useRouter } from 'next/router';
 
 import * as S from './styles';
 
@@ -8,29 +8,17 @@ import VideoInfo from '../../components/VideoInfo';
 import VideoMeta from '../../components/VideoMeta';
 
 import { useVideo } from './hooks';
-import { useRouter } from 'next/router';
 import VideoComments from '../../components/VideoComments';
+import VideoPlayer from '../../components/VideoPlayer';
 
 const Video = () => {
   const router = useRouter();
   const { videoId } = router.query;
-
   const { video, hasData } = useVideo(videoId);
 
   return (
     <Layout drawer={false}>
-      <S.Video>
-        <video controls>
-          <source
-            src="https://www.w3schools.com/html/mov_bbb.mp4"
-            type="video/mp4"
-          />
-          <source
-            src="https://www.w3schools.com/html/mov_bbb.ogg"
-            type="video/ogg"
-          />
-        </video>
-      </S.Video>
+      <VideoPlayer src={video.source} />
       <S.Details>
         <Grid container justify="center">
           <Grid item xs={12} md={8}>

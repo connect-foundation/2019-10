@@ -11,12 +11,15 @@ export const useVideo = id => {
   const [hasData, setHasData] = useState(false);
   const [video, setVideo] = useState({
     id: '',
-    views: null,
-    createdAt: '',
     title: '',
-    likedUsersCount: null,
-    likedByUser: false,
     description: '',
+    likedUsersCount: null,
+    views: null,
+    source: null,
+    thumbnail: null,
+    playtime: null,
+    createdAt: '',
+    likedByUser: false,
     user: {
       id: '',
       username: '',
