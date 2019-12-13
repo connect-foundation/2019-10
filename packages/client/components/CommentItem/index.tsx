@@ -31,7 +31,10 @@ const CommentItem = ({
 
   const loggedInUser = useUser();
 
-  const myComment = user.id === loggedInUser.id;
+  let myComment = false;
+  if (loggedInUser) {
+    myComment = user.id === loggedInUser.id;
+  }
 
   const commentEditState = useCommentEdit(videoId, id, content);
   const commentDeleteState = useCommentDelete(videoId, id);
