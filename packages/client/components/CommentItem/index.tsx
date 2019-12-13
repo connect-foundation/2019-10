@@ -1,17 +1,19 @@
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { format } from '../../libs/timeago';
 
-import * as S from './style';
+import * as S from './styles';
 import { FavoriteSVG } from '../../svgs';
 import { CircularProgress } from '@material-ui/core';
 import { useUser } from '../UserProvider/hooks';
-
+import {
+  useCommentLike,
+  useReplies,
+  useCommentEdit,
+  useCommentDelete,
+} from './hooks';
 import CommentForm from '../CommentForm';
-import { useCommentUpdate } from './hook/use-comment-update';
-import { useCommentDelete } from './hook/use-comment-delete';
-import { useReplies } from './hook/use-replies';
-import { useCommentLike } from './hook/use-comment-like';
 
 const CommentItem = ({
   reply,
@@ -31,19 +33,11 @@ const CommentItem = ({
 
   let myComment = false;
   if (loggedInUser) {
-    myComment = user.id === loggedInUser.userId;
+    myComment = user.id === loggedInUser.id;
   }
 
-  const {
-    update,
-    formLoading,
-    formValue,
-    updatedComment,
-    onFormChange,
-    onUpdate,
-    onFormSubmit,
-  } = useCommentUpdate(videoId, id, content);
-  const { deleted, onDelete } = useCommentDelete(videoId, id);
+  const commentEditState = useCommentEdit(videoId, id, content);
+  const commentDeleteState = useCommentDelete(videoId, id);
   const repliesState = useReplies(videoId, id);
 
   const { likesCount, liked, onLike } = useCommentLike(
@@ -61,7 +55,7 @@ const CommentItem = ({
     </S.Loader>
   );
 
-  if (deleted) {
+  if (commentDeleteState.deleted) {
     return null;
   }
 
@@ -71,23 +65,22 @@ const CommentItem = ({
         <img src={user.avatar} />
       </S.Avatar>
       <S.Content>
-        {update ? (
+        {commentEditState.edit ? (
           <CommentForm
-            // TODO: 스타일 내재화 하기
             style={{
               marginBottom: '0rem',
             }}
             rows={1}
             reply
             avatar={false}
-            loading={formLoading}
-            value={formValue}
+            loading={commentEditState.formLoading}
+            value={commentEditState.formValue}
             submitMessage="수정"
-            onChange={onFormChange}
+            onChange={commentEditState.onFormChange}
             onFocus={() => null}
             onBlur={() => null}
-            onCancel={onUpdate}
-            onSubmit={onFormSubmit}
+            onCancel={() => commentEditState.onEdit()}
+            onSubmit={commentEditState.onFormSubmit}
           />
         ) : (
           <>
@@ -95,7 +88,9 @@ const CommentItem = ({
               <span>{user.username}</span>
               <span className="dates-ago">{format(createdAt, 'ko')}</span>
             </S.User>
-            <S.Description>{updatedComment.content || content}</S.Description>
+            <S.Description>
+              {commentEditState.editedComment || content}
+            </S.Description>
 
             <S.Actions>
               <S.Like type="button" active={liked} onClick={onLike}>
@@ -116,13 +111,13 @@ const CommentItem = ({
                   <button
                     onClick={() => {
                       repliesState.onFormCancel();
-                      onUpdate();
+                      commentEditState.onEdit();
                     }}
                   >
                     수정
                   </button>
                   <span className="dot">・</span>
-                  <button onClick={onDelete}>삭제</button>
+                  <button onClick={commentDeleteState.onDelete}>삭제</button>
                 </>
               )}
             </S.Actions>
