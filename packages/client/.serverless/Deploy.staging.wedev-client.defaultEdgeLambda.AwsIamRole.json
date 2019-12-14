@@ -1,0 +1,12 @@
+{
+  "name": "y6vcyd-zz4htgk",
+  "arn": "arn:aws:iam::579164850622:role/y6vcyd-zz4htgk",
+  "service": [
+    "lambda.amazonaws.com",
+    "edgelambda.amazonaws.com"
+  ],
+  "policy": {
+    "arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  },
+  "region": "us-east-1"
+}
