@@ -12,8 +12,8 @@ import { AppBarProps } from './interface';
 
 export const AppBar: React.FunctionComponent<AppBarProps> = ({
   backgroundColor = '#383d3f',
-  showSearchBar = true,
-  showButtons = true,
+  searchBar = true,
+  buttons = true,
 }) => {
   const [isSearchBarActive, setSearchBarActive] = useState(false);
 
@@ -34,7 +34,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({
           </Link>
         </S.Logo>
 
-        {showButtons && (
+        {buttons && (
           <S.MobileButtons isSearchBarActive={isSearchBarActive}>
             <Link href={endpoint.upload}>
               <a>
@@ -58,14 +58,14 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({
           </S.MobileButtons>
         )}
 
-        {showSearchBar && (
+        {searchBar && (
           <SearchBar
             deactivate={handleSearchBar}
             isActive={isSearchBarActive}
           />
         )}
 
-        {showSearchBar && (
+        {searchBar && (
           <S.DesktopButtons>
             <Link href={user ? endpoint.upload : endpoint.login}>
               <a>

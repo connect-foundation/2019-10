@@ -1,5 +1,5 @@
 export interface AppBarProps {
   backgroundColor?: string;
-  showSearchBar?: boolean;
-  showButtons?: boolean;
+  searchBar?: boolean;
+  buttons?: boolean;
 }
