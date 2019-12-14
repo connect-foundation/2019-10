@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import MaterialAppBar from '@material-ui/core/AppBar';
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const AppBar = styled(MaterialAppBar)`
   && {
@@ -17,6 +17,7 @@ export const AppBar = styled(MaterialAppBar)`
 `;
 
 export const Container = styled.div`
+  position: relative;
   padding: 0 2rem;
   display: flex;
   height: 6.4rem;
@@ -52,9 +53,14 @@ export const Logo = styled.div`
 `;
 
 export const MobileButtons = styled.div`
-  display: ${props => (props.isSearchBarActive ? 'none' : 'block')};
+  display: ${props => (props.isSearchBarActive ? 'none' : 'flex')};
+
+  a {
+    display: inherit;
+  }
 
   button {
+    outline: none;
     padding: 0;
     margin-left: 1.5rem;
     color: white;
@@ -63,8 +69,8 @@ export const MobileButtons = styled.div`
     margin-left: 1.5rem;
 
     img {
-      width: 2.4rem;
-      height: 2.4rem;
+      width: 3.2rem;
+      height: 3.2rem;
       border-radius: 100%;
     }
   }
@@ -82,6 +88,7 @@ export const DesktopButtons = styled.div`
     display: block;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
   }
 
   a {
@@ -89,6 +96,7 @@ export const DesktopButtons = styled.div`
     margin-left: 1rem;
 
     button {
+      outline: none;
       user-select: none;
       height: 3.2rem;
       padding: 0 1.6rem;
@@ -114,22 +122,112 @@ export const DesktopButtons = styled.div`
       background-color: #02cf5d;
     }
   }
+`;
 
-  a.avatar {
-    margin-left: 2rem;
+export const DesktopAvatar = styled.div`
+  margin-left: 2rem;
+  position: relative;
 
-    button {
-      background: unset;
-      padding: unset;
-      margin-left: 0;
+  button {
+    background: unset;
+    padding: unset;
+    margin-left: 0;
+    border: 0px;
 
-      img {
-        display: inline-block;
-        width: 3.2rem;
-        height: 3.2rem;
-        border-radius: 100%;
+    img {
+      display: inline-block;
+      width: 3.8rem;
+      height: 3.8rem;
+      border-radius: 100%;
+      vertical-align: middle;
+    }
+  }
+`;
+
+export const MobileMenu = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(34, 34, 34, 0.8);
+
+  > div {
+    background: #383d3f;
+
+    > a {
+      text-decoration: none;
+      display: block;
+      height: 5rem;
+      color: white;
+      font-size: 1.6rem;
+      font-weight: ${fontWeight.bold};
+      padding: 1.4rem 2rem;
+
+      svg {
+        vertical-align: middle;
+        margin-right: 1rem;
+      }
+
+      span {
         vertical-align: middle;
       }
+    }
+  }
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    display: none;
+  }
+`;
+
+export const DesktopMenuTail = styled.div`
+  display: none;
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    display: block;
+    width: 1.4rem;
+    height: 1.4rem;
+    position: absolute;
+    top: 100%;
+    right: 1.2rem;
+    background: #383d3f;
+    transform: rotate(45deg);
+    z-index: 1;
+  }
+`;
+
+export const DesktopMenu = styled.div`
+  display: none;
+
+  @media only screen and (min-width: ${BREAKPOINT}px) {
+    display: block;
+    position: absolute;
+    top: calc(100% + 1rem);
+    right: 0;
+    width: 20rem;
+    background: #383d3f;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  > a {
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      text-decoration: none;
+      margin: 0;
+      display: block;
+      font-size: 1.6rem;
+      color: white;
+      font-weight: ${fontWeight.bold};
+      padding: 1.4rem 1.6rem;
+    }
+
+    svg {
+      vertical-align: middle;
+      margin-right: 1rem;
+    }
+
+    span {
+      vertical-align: middle;
     }
   }
 `;

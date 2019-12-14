@@ -10,25 +10,30 @@ import {
   UnprocessableEntityException,
   Res,
   Query,
+  NotFoundException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import { setSessionTokenCookie, deleteCookie } from 'libs/cookie-setter';
-import { IdParserPipe } from 'common/pipes/id-parser/id-parser.pipe';
-import { errName, errCode } from 'common/errors';
-import { endpoint, GITHUB_USER_DETAIL } from 'common/constants';
-
-import { UserService } from 'user/user.service';
-import { SignUpFormDataDto } from 'user/dto/sign-up-user-form.dto';
-import { ParsedGithubUserDetail } from 'user/model/parsed-github-user-detail';
-
-import { User } from '../../../typeorm/src/entity/user.entity';
-import { UserListQueryPipe } from 'user/pipe/user-list-query-pipe';
-import { UserListQueryDto } from 'user/dto/user-list-query.dto';
-import { UserListResponseDto } from 'user/dto/user-list-response.dto';
-import { UserResponseDto } from 'user/dto/user-response.dto';
-import { UserNameParamPipe } from 'user/pipe/user-name-param-pipe';
+import { endpoint, GITHUB_USER_DETAIL } from '../common/constants';
+import { UserService } from '../user/user.service';
+import { UserListQueryPipe } from '../user/pipe/user-list-query-pipe';
+import { UserListQueryDto } from '../user/dto/user-list-query.dto';
+import { UserListResponseDto } from '../user/dto/user-list-response.dto';
+import { SignUpFormDataDto } from '../user/dto/sign-up-user-form.dto';
+import { ParsedGithubUserDetail } from '../user/model/parsed-github-user-detail';
+import { deleteCookie, setSessionTokenCookie } from '../libs/cookie-setter';
+import { errName, errCode } from '../common/errors';
+import { UserParamPipe } from '../user/pipe/user-param.pipe';
+import { UserParamDto } from '../user/dto/user-param.dto';
+import { UserResponseDto } from '../user/dto/user-response.dto';
+import { UserVideoListParamPipe } from '../user/pipe/user-video-list-param.pipe';
+import { UserVideoListParamDto } from '../user/dto/user-video-list-param.dto';
+import { UserVideoListQueryDto } from '../user/dto/user-video-list-query.dto';
+import { UserVideoListResponseDto } from '../user/dto/user-video-list-response.dto';
+import { User } from '../../entity/user.entity';
+import { IdParserPipe } from '../common/pipes/id-parser/id-parser.pipe';
+import { UserNameParamPipe } from '../user/pipe/user-name-param-pipe';
 
 @Controller(endpoint.users)
 export class UserController {
@@ -58,10 +63,6 @@ export class UserController {
     }
   }
 
-  @Get('/:id')
-  public getUserDetail(@Param(IdParserPipe) userId: number) {
-    // console.log(userId);
-  }
   @Post()
   // pipe 사용해서 동의 안했으면 요청 거절하게 만들어야함
   public async signUp(
@@ -102,5 +103,36 @@ export class UserController {
   private login(response: Response, user: User): void {
     const sessionId = this.userService.instructToSerialize(user);
     setSessionTokenCookie(response, user, sessionId);
+  }
+
+  @Get('/:id')
+  public async getUser(
+    @Param(null, new UserParamPipe()) userParamDto: UserParamDto,
+  ): Promise<UserResponseDto> {
+    const { id } = userParamDto;
+    const user = await this.userService.findUser(id);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    return new UserResponseDto(user);
+  }
+
+  @Get('/:id/videos')
+  public async getVideos(
+    @Param(null, new UserVideoListParamPipe())
+    userVideoListParamDto: UserVideoListParamDto,
+    @Query() userVideoListQueryDto: UserVideoListQueryDto,
+  ): Promise<UserVideoListResponseDto> {
+    const { id } = userVideoListParamDto;
+    const { page, sort } = userVideoListQueryDto;
+    const [videos, count] = await this.userService.findVideosByUser({
+      id,
+      page,
+      sort,
+    });
+
+    return new UserVideoListResponseDto(videos, count);
   }
 }

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
-import { TranscoderWebhookModule } from 'webhook/transcoder/transcoder-webhook.module';
+
+import { TranscoderWebhookModule } from './transcoder/transcoder-webhook.module';
 
 @Module({
   imports: [TranscoderWebhookModule],

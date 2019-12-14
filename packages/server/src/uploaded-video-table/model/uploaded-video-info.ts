@@ -1,4 +1,4 @@
-import { UploadedVideoInfoDto } from 'video/dto/uploaded-video-info.dto';
+import { UploadedVideoInfoDto } from '../../video/dto/uploaded-video-info.dto';
 
 export class UploadedVideoInfo {
   public readonly id: string;

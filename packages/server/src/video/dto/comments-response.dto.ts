@@ -1,4 +1,4 @@
-import { CommentResponseDto } from 'video/dto/comment-response.dto';
+import { CommentResponseDto } from './comment-response.dto';
 
 export class CommentsResponseDto {
   public constructor(

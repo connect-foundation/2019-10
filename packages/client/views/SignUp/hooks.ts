@@ -3,7 +3,7 @@ import { useState, useReducer } from 'react';
 import { useRouter } from 'next/router';
 import { FormData } from './model/form-data';
 import { makeSignUpAction } from './action/sign-up-action';
-import { responseStatus } from '../../response';
+import { RESPONSE_STATUS } from '../../response';
 import { endpoint } from '../../constants';
 
 export const initialUserState = {
@@ -54,12 +54,12 @@ export const useFormSubmit = (
 
     const response = await mutate(formData);
 
-    if (response.status === responseStatus.unprocessableEntity) {
+    if (response.status === RESPONSE_STATUS.UNPROCESSABLE_ENTITY) {
       setIsFetching(false);
       window.alert('이미 가입된 유저입니다.');
     }
 
-    if (response.status === responseStatus.unauthorized) {
+    if (response.status === RESPONSE_STATUS.UNAUTHORIZED) {
       router.push(endpoint.login);
     }
 

@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+
 import { Repository } from 'typeorm';
 import * as jwt from 'jsonwebtoken';
-
-import { GithubApiService } from 'third-party-api/github-api/github-api.service';
-import { GithubOauthCodeDto } from 'third-party-api/github-api/dto/github-oauth-code.dto';
-import { GithubUserDetail } from 'third-party-api/model/github-user-detail';
-import { UserSerializerService } from 'serializer/user-serializer.service';
-
-import { ONE_MINUTE_SECONDS } from 'common/constants';
-
-import { User } from '../../../typeorm/src/entity/user.entity';
+import { GithubApiService } from '../third-party-api/github-api/github-api.service';
+import { UserSerializerService } from '../serializer/user-serializer.service';
+import { User } from '../../entity/user.entity';
+import { GithubOauthCodeDto } from '../third-party-api/github-api/dto/github-oauth-code.dto';
+import { GithubUserDetail } from '../third-party-api/model/github-user-detail';
+import { ONE_MINUTE_SECONDS } from '../common/constants';
 
 @Injectable()
 export class AuthenticationService {
@@ -26,9 +24,11 @@ export class AuthenticationService {
     const { code } = codeDto;
 
     const accessToken = await this.githubApiService.requestAccessToken(code);
+
     const userDetail = await this.githubApiService.requestUserDetail(
       accessToken,
     );
+
     userDetail.setAccessToken(accessToken);
 
     return userDetail;

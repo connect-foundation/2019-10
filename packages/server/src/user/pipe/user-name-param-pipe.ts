@@ -1,5 +1,5 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { USER_NAME_REGEX } from 'common/regexes';
+import { USER_NAME_REGEX } from '../../common/regexes';
 
 @Injectable()
 export class UserNameParamPipe implements PipeTransform {

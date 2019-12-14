@@ -63,7 +63,6 @@ export const Item = styled.div`
     width: 100%;
     height: 5rem;
     border: none;
-    font-size: 1.6rem;
     border-radius: 0.5rem;
     color: white;
     padding: 1rem;
@@ -84,6 +83,7 @@ export const Item = styled.div`
     display: block;
     width: 100%;
     height: 12rem;
+    font-size: 1.6rem;
     resize: unset;
     background-color: #484c50;
     border: none;
