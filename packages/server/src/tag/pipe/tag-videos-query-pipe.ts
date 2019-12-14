@@ -1,8 +1,8 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 
-import { TagVideoListQueryDto } from 'tag/dto/tag-video-list-query.dto';
-import { NATURAL_NUMBER_REGEX } from 'common/regexes';
-import { LATEST, POPULAR } from 'common/constants';
+import { TagVideoListQueryDto } from '../dto/tag-video-list-query.dto';
+import { NATURAL_NUMBER_REGEX } from '../../common/regexes';
+import { LATEST, POPULAR } from '../../common/constants';
 
 @Injectable()
 export class TagVideoListQueryPipe implements PipeTransform {

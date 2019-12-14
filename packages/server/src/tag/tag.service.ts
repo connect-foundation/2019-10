@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 
-import { Tag } from '../../../typeorm/src/entity/tag.entity';
-import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
-import { getOffset } from 'libs/get-offset';
 import {
   TAG_ITEMS_PER_PAGE,
   TAG_QUERY_SELECT_COLUMNS,
@@ -13,9 +10,13 @@ import {
   LATEST,
   VIDEO_QUERY_SELECT_COLUMNS,
   USER_QUERY_SELECT_COLUMNS,
-} from 'common/constants';
-import { TagVideoListQueryDto } from 'tag/dto/tag-video-list-query.dto';
-import { Video } from '../../../typeorm/src/entity/video.entity';
+} from '../common/constants';
+import { TagVideoListQueryDto } from './dto/tag-video-list-query.dto';
+import { Video } from '../../entity/video.entity';
+import { Tag } from '../../entity/tag.entity';
+import { TagListQueryDto } from './dto/tag-list-query.dto';
+import { getOffset } from '../libs/get-offset';
+import { QueryOptionWhere } from './interface/QueryOptionWhere';
 
 @Injectable()
 export class TagService {
@@ -24,45 +25,30 @@ export class TagService {
     private readonly tagRepository: Repository<Tag>,
   ) {}
 
-  private async uploadVideoCountQuery(qb): Promise<[Tag[], number]> {
-    return await qb
-      .orderBy('videosCount', 'DESC')
-      .addOrderBy('createdAt', 'DESC')
-      .addOrderBy('id', 'DESC')
-      .getManyAndCount();
-  }
-
   public async findTags(
     tagListQueryDto: TagListQueryDto,
   ): Promise<[Tag[], number]> {
     const { page, keyword } = tagListQueryDto;
-    const offset = getOffset(page, TAG_ITEMS_PER_PAGE);
 
-    if (!keyword) {
-      return await this.tagRepository.findAndCount({
-        order: {
-          videosCount: 'DESC',
-        },
+    const skip = page ? getOffset(page, TAG_ITEMS_PER_PAGE) : 0;
+    const take = keyword && !page ? SEARCHED_ITEM_NUMBER : TAG_ITEMS_PER_PAGE;
+    const where: QueryOptionWhere = {
+      status: 1,
+    };
 
-        skip: offset,
-        take: TAG_ITEMS_PER_PAGE,
-      });
+    if (keyword) {
+      where.name = Like(`%${keyword}%`);
     }
 
-    const qb = this.tagRepository
-      .createQueryBuilder()
-      .select(TAG_QUERY_SELECT_COLUMNS)
-      .where('Tag.name like :nameKeyword', {
-        nameKeyword: '%' + keyword + '%',
-      });
-
-    if (page) {
-      return await this.uploadVideoCountQuery(
-        qb.limit(TAG_ITEMS_PER_PAGE).offset(offset),
-      );
-    }
-
-    return await this.uploadVideoCountQuery(qb.limit(SEARCHED_ITEM_NUMBER));
+    return await this.tagRepository.findAndCount({
+      where,
+      order: {
+        videosCount: 'DESC',
+        id: 'DESC',
+      },
+      skip,
+      take,
+    });
   }
 
   public async findTagById(id: number): Promise<Tag> {

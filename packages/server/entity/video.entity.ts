@@ -64,7 +64,7 @@ export class Video extends Base {
     length: 2083,
     nullable: false,
   })
-  public sourceUrl: string;
+  public source: string;
 
   @Column({
     name: 'thumbnail',

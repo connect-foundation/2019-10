@@ -19,8 +19,7 @@ const Searched: React.FunctionComponent = () => {
           <span>"{router.query.query}" 검색 결과</span>
         </S.Title>
         <S.Subject> 영상 </S.Subject>
-        <S.ContainerGrid container spacing={2}>
-        </S.ContainerGrid>
+        <S.ContainerGrid container spacing={2}></S.ContainerGrid>
       </S.Container>
     </Layout>
   );

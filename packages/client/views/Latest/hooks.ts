@@ -1,9 +1,10 @@
 import { Action, useQuery } from 'react-fetching-library';
 import { useEffect, useState } from 'react';
+import { LATEST_VIDEOS_PER_PAGE } from '../../constants';
 
 const createLatestAction: Action = page => ({
   method: 'GET',
-  endpoint: `${process.env.API_URL_HOST}/videos?page=${page}&sort=latest`,
+  endpoint: `${process.env.API_SERVER_HOST}/videos?page=${page}&sort=latest`,
 });
 
 export const useLatestVideos = page => {
@@ -15,7 +16,7 @@ export const useLatestVideos = page => {
 
   useEffect(() => {
     if (payload && !error) {
-      setHasMore(payload.data.length >= 20);
+      setHasMore(payload.data.length >= LATEST_VIDEOS_PER_PAGE);
       setVideos([...videos, ...payload.data]);
     }
   }, [payload]);

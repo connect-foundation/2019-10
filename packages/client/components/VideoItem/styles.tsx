@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight, orientation } from '../../constants';
 
 export const VideoItem = styled.div`
   user-select: none;
@@ -7,7 +7,7 @@ export const VideoItem = styled.div`
   width: 100%;
 
   ${props => {
-    if (props.mobileType === 'vertical') {
+    if (props.mobileType === orientation.vertical) {
       return `
         margin-bottom: 1.4rem;
       `;
@@ -21,7 +21,7 @@ export const VideoItem = styled.div`
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     ${props => {
-      if (props.desktopType === 'vertical') {
+      if (props.desktopType === orientation.vertical) {
         return `
           display: inherit;
           margin-bottom: 2.6rem;
@@ -36,7 +36,7 @@ export const VideoItem = styled.div`
 
   && > a {
     ${props => {
-      if (props.mobileType === 'vertical') {
+      if (props.mobileType === orientation.vertical) {
         return ``;
       } else {
         return `
@@ -48,7 +48,7 @@ export const VideoItem = styled.div`
 
     @media only screen and (min-width: ${BREAKPOINT}px) {
       ${props => {
-        if (props.desktopType === 'vertical') {
+        if (props.desktopType === orientation.vertical) {
           return ``;
         } else {
           return `
@@ -68,7 +68,7 @@ export const Thumbnail = styled.div`
   background-color: black;
 
   ${props => {
-    if (props.mobileType === 'vertical') {
+    if (props.mobileType === orientation.vertical) {
       return `
         margin-left: -2rem;
         width: calc(100% + 4rem);
@@ -80,7 +80,7 @@ export const Thumbnail = styled.div`
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     ${props => {
-      if (props.desktopType === 'vertical') {
+      if (props.desktopType === orientation.vertical) {
         return `
           margin-left: 0;
           width: 100%;
@@ -110,7 +110,7 @@ export const Thumbnail = styled.div`
     font-size: 1.2rem;
     padding: 0 0.5rem;
     color: white;
-    font-weight: 700;
+    font-weight: ${fontWeight.bold};
     background: rgba(0, 0, 0, 0.7);
     border-radius: 0.3rem;
     height: 2.3rem;
@@ -118,9 +118,42 @@ export const Thumbnail = styled.div`
   }
 `;
 
+export const ThumbnailSkeleton = styled.div`
+  > div {
+    padding-top: 56.25%;
+    overflow: hidden;
+
+    ${props => {
+      if (props.mobileType === orientation.vertical) {
+        return `
+        margin-left: -2rem;
+        width: calc(100% + 4.8rem);
+      `;
+      } else {
+        return ``;
+      }
+    }}
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      ${props => {
+        if (props.desktopType === orientation.vertical) {
+          return `
+          margin-left: 0;
+          width: 100%;
+        `;
+        } else {
+          return `
+          width: 24.6rem;
+        `;
+        }
+      }}
+    }
+  }
+`;
+
 export const Details = styled.div`
   ${props => {
-    if (props.mobileType === 'vertical') {
+    if (props.mobileType === orientation.vertical) {
       return `
         width: 100%;
         display: flex;
@@ -131,6 +164,7 @@ export const Details = styled.div`
       `;
     } else {
       return `
+        width: 100%;
         flex: 1;
         margin-left: 0.8rem;
       `;
@@ -139,8 +173,11 @@ export const Details = styled.div`
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     ${props => {
-      if (props.desktopType === 'vertical') {
+      if (props.desktopType === orientation.vertical) {
         return `
+          display: flex;
+          align-items: flex-start;
+          margin-left: 0;
         `;
       } else {
         return `
@@ -162,6 +199,15 @@ export const Avatar = styled.div`
   }
 `;
 
+export const AvatarSkeleton = styled.div`
+  margin-right: 1rem;
+
+  > div {
+    width: 4rem;
+    height: 4rem;
+  }
+`;
+
 export const Info = styled.div`
   color: white;
   width: 100%;
@@ -176,7 +222,7 @@ export const Info = styled.div`
 export const Title = styled.div`
   /* https://stackoverflow.com/questions/5269713/css-ellipsis-on-second-line/19049457#19049457 */
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: ${fontWeight.extraBold};
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -184,13 +230,42 @@ export const Title = styled.div`
   -webkit-box-orient: vertical;
 `;
 
+export const TitleSkeleton = styled.div`
+  > div {
+    width: 100%;
+    height: 2.25rem;
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: 70%;
+    }
+  }
+`;
+
 export const Username = styled.div`
   font-size: 1.4rem;
   display: inline-block;
 `;
 
+export const UsernameSkeleton = styled.div`
+  > div {
+    width: 50%;
+    height: 2.1rem;
+  }
+`;
+
 export const Additionals = styled.div`
   span {
     font-size: 1.2rem;
+  }
+`;
+
+export const AdditionalsSkeleton = styled.div`
+  > div {
+    width: 50%;
+    height: 1.8rem;
+
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: 30%;
+    }
   }
 `;

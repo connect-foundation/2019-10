@@ -1,6 +1,6 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { IdParserDto } from 'common/pipes/id-parser/dto/id-parser.dto';
-import { NATURAL_NUMBER_REGEX } from 'common/regexes';
+import { IdParserDto } from './dto/id-parser.dto';
+import { NATURAL_NUMBER_REGEX } from '../../../common/regexes';
 
 @Injectable()
 export class IdParserPipe implements PipeTransform {

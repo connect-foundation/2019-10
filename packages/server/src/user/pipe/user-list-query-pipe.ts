@@ -1,6 +1,7 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { UserListQueryDto } from 'user/dto/user-list-query.dto';
-import { NATURAL_NUMBER_REGEX } from 'common/regexes';
+
+import { UserListQueryDto } from '../dto/user-list-query.dto';
+import { NATURAL_NUMBER_REGEX } from '../../common/regexes';
 
 @Injectable()
 export class UserListQueryPipe implements PipeTransform {

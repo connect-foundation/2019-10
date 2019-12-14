@@ -7,16 +7,16 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
-import { TagService } from 'tag/tag.service';
-import { TagListQueryPipe } from 'tag/pipe/tag-list-query-pipe';
-import { TagListQueryDto } from 'tag/dto/tag-list-query.dto';
-import { TagListResponseDto } from 'tag/dto/tag-list-response.dto';
-import { IdParserPipe } from 'common/pipes/id-parser/id-parser.pipe';
-import { TagVideoListQueryDto } from 'tag/dto/tag-video-list-query.dto';
-import { TagVideoListQueryPipe } from 'tag/pipe/tag-videos-query-pipe';
-import { TagResponseDto } from 'tag/dto/tag-response.dto';
-import { endpoint } from 'common/constants';
+import { TagService } from './tag.service';
+import { TagResponseDto } from './dto/tag-response.dto';
+import { TagListQueryDto } from './dto/tag-list-query.dto';
+import { TagListResponseDto } from './dto/tag-list-response.dto';
+import { TagVideoListQueryDto } from './dto/tag-video-list-query.dto';
 import { TagVideoListResponseDto } from './dto/tag-video-list-response.dto';
+import { IdParserPipe } from '../common/pipes/id-parser/id-parser.pipe';
+import { TagVideoListQueryPipe } from './pipe/tag-videos-query-pipe';
+import { TagListQueryPipe } from './pipe/tag-list-query-pipe';
+import { endpoint } from '../common/constants';
 
 @Controller(endpoint.tags)
 export class TagController {
