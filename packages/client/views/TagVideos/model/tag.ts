@@ -1,5 +1,5 @@
 export class Tag {
-  constructor(id: number, name: string, videosCount: number) {
+  public constructor(id: number, name: string, videosCount: number) {
     this.id = id;
     this.name = name;
     this.videosCount = videosCount;

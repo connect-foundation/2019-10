@@ -23,6 +23,8 @@ export class TagService {
   public constructor(
     @InjectRepository(Tag)
     private readonly tagRepository: Repository<Tag>,
+    @InjectRepository(Video)
+    private readonly videoRepository: Repository<Video>,
   ) {}
 
   public async findTags(
@@ -65,28 +67,21 @@ export class TagService {
   ): Promise<[Video[], number]> {
     const { page, sort } = tagVideoListQueryDto;
     const offset = getOffset(page, VIDEO_ITEMS_PER_PAGE);
-    const orderBy = sort === LATEST ? 'video.createdAt' : 'video.popularity';
+    const orderBy = sort === LATEST ? 'Video.createdAt' : 'Video.popularity';
 
-    const tagVideoList = await this.tagRepository
-      .createQueryBuilder('Tag')
-      .where({
-        id,
-      })
-      .leftJoin('Tag.videos', 'Video')
-      .orderBy(orderBy, 'DESC')
-      .orderBy('Video.id', 'DESC')
-      .offset(offset)
-      .limit(VIDEO_ITEMS_PER_PAGE)
-      .leftJoin('Video.user', 'User')
-      .select(TAG_QUERY_SELECT_COLUMNS)
-      .addSelect(VIDEO_QUERY_SELECT_COLUMNS)
+    const videos = await this.videoRepository
+      .createQueryBuilder('Video')
+      .leftJoin('Video.tags', 'Tag')
+      .leftJoinAndSelect('Video.user', 'User')
+      .where('Video.status = :status', { status: 1 })
+      .andWhere('Tag.id = :tagId', { tagId: id })
+      .select(VIDEO_QUERY_SELECT_COLUMNS)
       .addSelect(USER_QUERY_SELECT_COLUMNS)
-      .getOne();
+      .orderBy(orderBy, 'DESC')
+      .skip(offset)
+      .take(VIDEO_ITEMS_PER_PAGE)
+      .getManyAndCount();
 
-    if (!tagVideoList) {
-      return [[], 0];
-    }
-
-    return [tagVideoList.videos, tagVideoList.videos.length];
+    return videos;
   }
 }

@@ -35,26 +35,28 @@ export class TagController {
   public async getTagById(
     @Param(IdParserPipe) id: number,
   ): Promise<TagResponseDto> {
-    const tag = await this.tagService.findTagById(id);
     try {
+      const tag = await this.tagService.findTagById(id);
       return new TagResponseDto(tag);
     } catch (err) {
-      if (!tag) {
-        throw new NotFoundException(err);
-      }
-      throw new BadRequestException(err);
+      throw new NotFoundException(err);
     }
   }
 
   @Get('/:id/videos')
   public async getTagVideoList(
-    @Param(IdParserPipe) id: number,
-    @Query(TagVideoListQueryPipe) tagVideoListQueryDto: TagVideoListQueryDto,
+    @Param(null, new IdParserPipe()) id: number,
+    @Query(null, new TagVideoListQueryPipe())
+    tagVideoListQueryDto: TagVideoListQueryDto,
   ): Promise<TagVideoListResponseDto> {
-    const [videos, count] = await this.tagService.findTagVideos(
-      id,
-      tagVideoListQueryDto,
-    );
-    return new TagVideoListResponseDto(videos, count);
+    try {
+      const [videos, count] = await this.tagService.findTagVideos(
+        id,
+        tagVideoListQueryDto,
+      );
+      return new TagVideoListResponseDto(videos, count);
+    } catch (e) {
+      throw new NotFoundException(e);
+    }
   }
 }

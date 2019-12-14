@@ -13,7 +13,7 @@ export class TagVideoListQueryPipe implements PipeTransform {
     const sort = value.sort;
 
     if (!this.validateTagVideosQueryPipeDto(page, sort)) {
-      throw new BadRequestException();
+      throw new BadRequestException('invalida query');
     }
 
     return {
