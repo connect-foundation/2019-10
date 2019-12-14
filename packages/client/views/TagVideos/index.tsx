@@ -2,21 +2,20 @@ import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { useRouter } from 'next/router';
 
-import { sortOptions, endpoint } from '../../constants';
-
 import * as S from './styles';
-
+import { sortOptions, endpoint } from '../../constants';
 import TagsSVG from '../../svgs/TagsSVG';
 import Layout from '../../components/Layout';
 import VideoItem from '../../components/VideoItem';
 import CircularProgress from '../../components/CircularProgress';
 import { useTagVideos, useTag } from './hooks';
 import { NATURAL_NUMBER_REGEX } from '../../libs/regex';
+import { RouterQuery } from './interface/router-query';
 
 const TagVideos: React.FunctionComponent = () => {
   const router = useRouter();
-
-  const tagId = NATURAL_NUMBER_REGEX.test(router.query.tagId as string)
+  const { tagId } = router.query;
+  const ValidateTagId = NATURAL_NUMBER_REGEX.test(tagId.toString())
     ? Number(router.query.tagId)
     : null;
 
@@ -25,8 +24,12 @@ const TagVideos: React.FunctionComponent = () => {
   );
   const [page, setPage] = useState(1);
 
-  const { tag, error } = useTag(tagId);
-  const { videos, hasMore } = useTagVideos(tagId, page, activeSortOption);
+  const { tag, error } = useTag(ValidateTagId);
+  const { videos, hasMore } = useTagVideos(
+    ValidateTagId,
+    page,
+    activeSortOption,
+  );
 
   useEffect(() => {
     if (!tagId || error) {

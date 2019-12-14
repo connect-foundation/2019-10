@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useQuery, Action } from 'react-fetching-library';
+import { endpoint, TAG_VIDEOS_PER_PAGE } from '../../constants';
+import { Tag } from './model/tag';
 
 const createTagAction: Action = (id: number) => ({
   method: 'GET',
-  endpoint: `${process.env.API_URL_HOST}/tags/${id}`,
+  endpoint: `${process.env.API_URL_HOST}${endpoint.tags}/${id}`,
 });
 
 const createTagVideosAction: Action = (
@@ -12,13 +14,11 @@ const createTagVideosAction: Action = (
   sort: string,
 ) => ({
   method: 'GET',
-  endpoint: `${process.env.API_URL_HOST}/tags/${id}/videos?page=${page}&sort=${sort}`,
+  endpoint: `${process.env.API_URL_HOST}${endpoint.tags}/${id}/videos?page=${page}&sort=${sort}`,
 });
 
 export const useTag = (id: number) => {
-  const [tag, setTag] = useState({
-    name: null,
-  });
+  const [tag, setTag] = useState(new Tag(0, '', 0));
 
   const action = createTagAction(id);
   const { payload, error, ...rest } = useQuery(action);
@@ -45,7 +45,7 @@ export const useTagVideos = (id: number, page: number, sort: string) => {
 
   useEffect(() => {
     if (payload && !error) {
-      setHasMore(payload.data.length >= 20);
+      setHasMore(payload.data.length >= TAG_VIDEOS_PER_PAGE);
       setVideos([...videos, ...payload.data]);
     }
   }, [payload]);
