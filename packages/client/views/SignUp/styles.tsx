@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import MaterialGrid from '@material-ui/core/Grid';
 
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const SignUp = styled.div`
   height: 100%;
@@ -24,7 +24,7 @@ export const HeadMessage = styled.div`
   text-align: center;
   color: white;
   font-size: 2.8rem;
-  font-weight: bold;
+  font-weight: ${fontWeight.bold};
   margin-bottom: 5.5rem;
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin-bottom: 6rem;
@@ -63,6 +63,7 @@ export const Item = styled.div`
     width: 100%;
     height: 5rem;
     border: none;
+    font-size: 1.6rem;
     border-radius: 0.5rem;
     color: white;
     padding: 1rem;
@@ -72,6 +73,7 @@ export const Item = styled.div`
     width: 1.5rem;
     height: 1.5rem;
     background-color: #484c50;
+    font-size: 1.6rem;
     margin: 0;
     margin-right: 1rem;
     vertical-align: middle;
@@ -94,7 +96,7 @@ export const Item = styled.div`
     display: ${props => (props.valid ? 'none' : 'inline')};
     margin-top: 1rem;
     font-size: 1.4rem;
-    font-weight: bold;
+    font-weight: ${fontWeight.bold};
     color: #e52528;
   }
 `;
@@ -105,7 +107,7 @@ export const Label = styled.div`
   label {
     color: white;
     font-size: 1.6rem;
-    font-weight: bold;
+    font-weight: ${fontWeight.bold};
     margin-right: 0.5rem;
   }
   span {
@@ -118,8 +120,7 @@ export const Label = styled.div`
     display: inline-block;
     color: white;
     font-size: 1.6rem;
-    font-weight: bold;
-    font-weight: normal;
+    font-weight: ${fontWeight.bold};
     vertical-align: middle;
     u {
       cursor: pointer;
@@ -138,7 +139,7 @@ export const SubmitButton = styled.div`
     border: none;
     border-radius: 0.5rem;
     font-size: 1.6rem;
-    font-weight: bold;
+    font-weight: ${fontWeight.bold};
     color: white;
     background-color: #02cf5d;
     cursor: pointer;

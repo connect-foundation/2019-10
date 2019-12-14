@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import MaterialGrid from '@material-ui/core/Grid';
 
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const Login = styled.div`
   height: 100%;
@@ -25,7 +25,7 @@ export const Title = styled.div`
   width: 100%;
   text-align: center;
   font-size: 2.8rem;
-  font-weight: 800;
+  font-weight: ${fontWeight.extraBold};
   color: white;
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
