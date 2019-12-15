@@ -1,4 +1,4 @@
-import { GithubUserDetailDto } from 'third-party-api/github-api/dto/github-user-detail-dto';
+import { GithubUserDetailDto } from '../github-api/dto/github-user-detail-dto';
 
 export class GithubUserDetail {
   public constructor(githubUserDetailDto: GithubUserDetailDto) {

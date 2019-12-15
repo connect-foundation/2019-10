@@ -1,6 +1,7 @@
 .vscode
 dist
 .env
+.serverless
 
 # compiled output
 /dist

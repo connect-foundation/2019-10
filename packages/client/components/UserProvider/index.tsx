@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from 'react';
+import { useReducer } from 'react';
 import { userActions } from '../../constants';
 import { UserDispatchContext, UserStateContext } from './contexts';
 
@@ -7,7 +7,7 @@ const reducer = (state, action) => {
     case userActions.logout:
       return null;
     default:
-      throw new Error(`Unkown action: ${action.type}`);
+      throw new Error(`Unknown action: ${action.type}`);
   }
 };
 
