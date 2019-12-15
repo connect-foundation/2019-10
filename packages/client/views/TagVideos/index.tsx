@@ -8,8 +8,9 @@ import TagsSVG from '../../svgs/TagsSVG';
 import Layout from '../../components/Layout';
 import VideoItem from '../../components/VideoItem';
 import CircularProgress from '../../components/CircularProgress';
-import { useTagVideos, useTag } from './hooks';
 import { NATURAL_NUMBER_REGEX } from '../../libs/regex';
+import { useTag } from './hook/use-tag';
+import { useTagVideos } from './hook/use-tag-videos';
 
 const TagVideos: React.FunctionComponent = () => {
   const router = useRouter();
