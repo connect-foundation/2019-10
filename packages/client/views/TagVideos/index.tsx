@@ -10,13 +10,12 @@ import VideoItem from '../../components/VideoItem';
 import CircularProgress from '../../components/CircularProgress';
 import { useTagVideos, useTag } from './hooks';
 import { NATURAL_NUMBER_REGEX } from '../../libs/regex';
-import { RouterQuery } from './interface/router-query';
 
 const TagVideos: React.FunctionComponent = () => {
   const router = useRouter();
   const { tagId } = router.query;
-  const ValidateTagId = NATURAL_NUMBER_REGEX.test(tagId.toString())
-    ? Number(router.query.tagId)
+  const validatedTagId = NATURAL_NUMBER_REGEX.test(tagId.toString())
+    ? Number(tagId)
     : null;
 
   const [activeSortOption, setActiveSortOption] = useState(
@@ -24,9 +23,9 @@ const TagVideos: React.FunctionComponent = () => {
   );
   const [page, setPage] = useState(1);
 
-  const { tag, error } = useTag(ValidateTagId);
+  const { tag, error } = useTag(validatedTagId);
   const { videos, hasMore } = useTagVideos(
-    ValidateTagId,
+    validatedTagId,
     page,
     activeSortOption,
   );
