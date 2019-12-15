@@ -1,6 +1,6 @@
 {
-  "name": "y6vcyd-zz4htgk",
-  "arn": "arn:aws:iam::579164850622:role/y6vcyd-zz4htgk",
+  "name": "up93vyv-8gak7og",
+  "arn": "arn:aws:iam::579164850622:role/up93vyv-8gak7og",
   "service": [
     "lambda.amazonaws.com",
     "edgelambda.amazonaws.com"

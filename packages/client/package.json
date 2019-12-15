@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 3000",
-    "deploy:staging": "BUCKET_NAME=wedev-client-staging serverless --stage=staging",
-    "deploy:production": "BUCKET_NAME=wedev-client-production serverless --stage=production",
+    "deploy:dev": "serverless --stage=dev",
+    "deploy:stage": "serverless --stage=stage",
+    "deploy:prod": "serverless --stage=prod",
     "lint": "tslint -p tsconfig.json -c tslint.json"
   },
   "dependencies": {
