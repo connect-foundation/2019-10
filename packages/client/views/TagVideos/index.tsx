@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { useRouter } from 'next/router';
 
-import * as S from './styles';
+import * as S from './style';
 import { sortOptions, endpoint } from '../../constants';
 import TagsSVG from '../../svgs/TagsSVG';
 import Layout from '../../components/Layout';
