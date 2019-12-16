@@ -1,19 +1,9 @@
-import { Action, useMutation } from 'react-fetching-library';
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useUser } from '../UserProvider/hooks';
-
-const likeVideoAction: Action = videoId => ({
-  method: 'POST',
-  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/likes`,
-  credentials: 'include',
-});
-
-const unlikeVideoAction: Action = videoId => ({
-  method: 'DELETE',
-  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/likes`,
-  credentials: 'include',
-});
+import { useState, useEffect } from 'react';
+import { useMutation } from 'react-fetching-library';
+import { makeLikeVideoAction } from '../action/make-like-video-action';
+import { makeUnlikeVideoAction } from '../action/make-unlike-video-action';
+import { useUser } from '../../UserProvider/hooks';
 
 export const useVideoLike = (likedUsersCount: number, likedByUser: boolean) => {
   const router = useRouter();
@@ -36,12 +26,12 @@ export const useVideoLike = (likedUsersCount: number, likedByUser: boolean) => {
     error: likeError,
     mutate: likeMutate,
     reset: likeReset,
-  } = useMutation(likeVideoAction);
+  } = useMutation(makeLikeVideoAction);
   const {
     error: unlikeError,
     mutate: unlikeMutate,
     reset: unlikeReset,
-  } = useMutation(unlikeVideoAction);
+  } = useMutation(makeUnlikeVideoAction);
 
   useEffect(() => {
     if (likeError || unlikeError) {

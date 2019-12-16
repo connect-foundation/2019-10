@@ -5,7 +5,7 @@ import * as S from './styles';
 import VideoInfoSkeleton from './skeleton';
 
 import { FavoriteSVG } from '../../svgs';
-import { useVideoLike } from './hooks';
+import { useVideoLike } from './hook/use-video-like';
 
 const VideoInfo = ({
   skeleton,

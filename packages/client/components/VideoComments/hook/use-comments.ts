@@ -1,25 +1,8 @@
-import { Action, useQuery, useMutation } from 'react-fetching-library';
 import { useState, useEffect } from 'react';
-import { COMMENTS_PER_PAGE } from '../../constants';
-
-export const getPopularCommentsAction: Action = (videoId, page) => ({
-  method: 'GET',
-  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/comments?page=${page}&sort=popular`,
-  credentials: 'include',
-});
-
-export const getLatestCommentsAction: Action = (videoId, page) => ({
-  method: 'GET',
-  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/comments?page=${page}&sort=latest`,
-  credentials: 'include',
-});
-
-const createCommentAction: Action = ({ videoId, payload }) => ({
-  method: 'POST',
-  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/comments`,
-  credentials: 'include',
-  body: payload,
-});
+import { useQuery, useMutation } from 'react-fetching-library';
+import { makeQueryPopularCommentsAction } from '../action/make-query-popular-comments-action';
+import { makeQueryLatestCommentsAction } from '../action/make-query-latest-comments-action';
+import { makeCreateCommentAction } from '../action/make-create-comment-action';
 
 export const useComments = videoId => {
   // comments
@@ -36,11 +19,11 @@ export const useComments = videoId => {
 
   const action =
     sort === 'popular'
-      ? getPopularCommentsAction(videoId, page)
-      : getLatestCommentsAction(videoId, page);
+      ? makeQueryPopularCommentsAction(videoId, page)
+      : makeQueryLatestCommentsAction(videoId, page);
 
   const queryState = useQuery(action, false);
-  const mutationState = useMutation(createCommentAction);
+  const mutationState = useMutation(makeCreateCommentAction);
 
   useEffect(() => {
     if (page > 1) {

@@ -1,8 +1,6 @@
 import React from 'react';
-
 import * as S from './styles';
 import CircularLoader from '../CircularLoader';
-import { CircularProgress } from '@material-ui/core';
 
 const CommentForm = ({
   rows = 1,
@@ -21,9 +19,10 @@ const CommentForm = ({
 }) => {
   return (
     <S.CommentForm {...rest}>
+      {/* TODO: 로그인 유저의 avatar로 변경하기 */}
       {avatar && (
         <S.User>
-          <img src="https://miro.medium.com/max/3150/1*n4VB9UbNNoB78-vGIhulag.jpeg" />
+          <img src="https://www.pngkey.com/png/detail/193-1938385_-pikachu-avatar.png" />
         </S.User>
       )}
       <S.Form onSubmit={onSubmit}>

@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { format } from '../../libs/timeago';
 
-import * as S from './styles';
+import * as S from './style';
 import { FavoriteSVG } from '../../svgs';
 import { CircularProgress } from '@material-ui/core';
 import { useUser } from '../UserProvider/hooks';
-import {
-  useCommentLike,
-  useReplies,
-  useCommentEdit,
-  useCommentDelete,
-} from './hooks';
+
 import CommentForm from '../CommentForm';
+import { useCommentUpdate } from './hook/use-comment-update';
+import { useCommentDelete } from './hook/use-comment-delete';
+import { useReplies } from './hook/use-replies';
+import { useCommentLike } from './hook/use-comment-like';
 
 const CommentItem = ({
   reply,
@@ -33,7 +31,7 @@ const CommentItem = ({
 
   const myComment = user.id === loggedInUser.id;
 
-  const commentEditState = useCommentEdit(videoId, id, content);
+  const commentEditState = useCommentUpdate(videoId, id, content);
   const commentDeleteState = useCommentDelete(videoId, id);
   const repliesState = useReplies(videoId, id);
 
