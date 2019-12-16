@@ -14,6 +14,5 @@ declare module 'next/app' {
     };
     user: User;
     pathname: string;
-    queryString: string;
   }
 }

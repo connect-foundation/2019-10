@@ -7,19 +7,19 @@ import { ClientContextProvider as FetchingProvider } from 'react-fetching-librar
 import Cookies from 'universal-cookie';
 
 import './interfaces/extend';
-import { endpoint, QUERY_STRING } from '../../constants';
+// import { endpoint, QUERY_STRING } from '../../constants';
 import { UserProvider } from '../../components/UserProvider';
 import { FileProvider } from '../../components/FileProvider';
-import { SearchedResultsTabProvider } from '../../components/SearchResultsTabProvider';
+import { SearchedResultsProvider } from '../../components/SearchResultsProvider';
 import { client } from '../../libs/fetching';
 import { Token } from './interfaces/Token';
 import { User } from './interfaces/User';
 
 class MyApp extends App<AppProps> {
   public static async getInitialProps(appContext) {
-    const { pathname, queryString, req } = appContext.ctx;
+    const { pathname, req } = appContext.ctx;
 
-    const props = initProps(pathname, queryString);
+    const props = initProps(pathname);
 
     if (req) {
       const cookies = new Cookies(req.headers.cookie);
@@ -43,14 +43,7 @@ class MyApp extends App<AppProps> {
   }
 
   public render() {
-    const {
-      Component,
-      pageProps,
-      cacheItems,
-      user,
-      pathname,
-      queryString,
-    } = this.props;
+    const { Component, pageProps, cacheItems, user } = this.props;
     const theme = {};
 
     client.cache.setItems(cacheItems);
@@ -60,34 +53,33 @@ class MyApp extends App<AppProps> {
       <FetchingProvider client={client}>
         <ThemeProvider theme={theme}>
           <UserProvider user={user}>
-            <SearchedResultsTabProvider>
+            <SearchedResultsProvider>
               <FileProvider>
                 <Component {...pageProps} />
               </FileProvider>
-            </SearchedResultsTabProvider>
+            </SearchedResultsProvider>
           </UserProvider>
         </ThemeProvider>
       </FetchingProvider>
     );
   }
 
-  private insNeedSearchedResultsTabProvider(queryString: string) {
-    return queryString === QUERY_STRING.keyword;
-  }
+  // private insNeedSearchedResultsProvider(queryString: string) {
+  //   return queryString === QUERY_STRING.keyword;
+  // }
 
-  private isNeedFileProvider(pathname: string) {
-    return (
-      pathname === endpoint.uploadVideoFile ||
-      pathname === endpoint.uploadVideoDetail
-    );
-  }
+  // private isNeedFileProvider(pathname: string) {
+  //   return (
+  //     pathname === endpoint.uploadVideoFile ||
+  //     pathname === endpoint.uploadVideoDetail
+  //   );
+  // }
 }
 
-function initProps(pathname: string, queryString: string): AppProps {
+function initProps(pathname: string): AppProps {
   return {
     cacheItems: client.cache.getItems(),
     pathname,
-    queryString,
     user: null,
   };
 }

@@ -14,9 +14,10 @@ import {
   endpoint,
   SEARCH_OPTION_LABELS,
   SEARCH_OPTION_VALUES,
+  SET_TABS,
 } from '../../constants';
 import { useSearchVideos, useSearchUsers, useSearchTags } from './hooks';
-import { useSearchedResultsTabDispatch } from '../../components/SearchResultsTabProvider/hooks';
+import { useSearchedResultsDispatch } from '../../components/SearchResultsProvider/hooks';
 
 const SearchedResults: React.FunctionComponent = () => {
   const router = useRouter();
@@ -74,9 +75,9 @@ const SearchedResults: React.FunctionComponent = () => {
       })
       .join(',');
 
-    const searchedResultsTabDispatch = useSearchedResultsTabDispatch();
-    searchedResultsTabDispatch({
-      type: 'tabs',
+    const searchedResultsDispatch = useSearchedResultsDispatch();
+    searchedResultsDispatch({
+      type: SET_TABS,
       tabs: options,
     });
   }

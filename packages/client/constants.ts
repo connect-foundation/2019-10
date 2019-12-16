@@ -129,3 +129,7 @@ export const TITLE = 'title';
 export const DESCRIPTION = 'description';
 
 export const VIDEO_TYPE = 'video/mp4,video/x-m4v,video/*';
+
+export const SET_TABS = 'setTabs';
+
+export const CENTER = 'center';

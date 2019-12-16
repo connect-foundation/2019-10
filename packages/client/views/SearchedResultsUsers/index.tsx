@@ -14,14 +14,15 @@ import {
   endpoint,
   SEARCH_OPTION_LABELS,
   SEARCH_OPTION_VALUES,
+  CENTER,
 } from '../../constants';
 import { useSearchUsers } from '../SearchedResults/hooks';
-import { useSearchedResultsTab } from '../../components/SearchResultsTabProvider/hooks';
+import { useSearchedResults } from '../../components/SearchResultsProvider/hooks';
 
 const SearchedResultsUsers: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
-  const options = useSearchedResultsTab();
+  const options = useSearchedResults();
   const optionArray = options.split(',');
 
   const [page, setPage] = useState(1);
@@ -32,10 +33,10 @@ const SearchedResultsUsers: React.FunctionComponent = () => {
   );
 
   const optionMap = new Map();
-  optionMap.set('all', '모두');
-  optionMap.set('videos', '영상');
-  optionMap.set('users', '사용자');
-  optionMap.set('tags', '태그');
+  optionMap.set(SEARCH_OPTION_VALUES.all, SEARCH_OPTION_LABELS.all);
+  optionMap.set(SEARCH_OPTION_VALUES.videos, SEARCH_OPTION_LABELS.videos);
+  optionMap.set(SEARCH_OPTION_VALUES.users, SEARCH_OPTION_LABELS.users);
+  optionMap.set(SEARCH_OPTION_VALUES.tags, SEARCH_OPTION_LABELS.tags);
 
   const customSearchOptions = optionArray.reduce((acc, cur) => {
     acc.push({ label: optionMap.get(cur), value: cur });
@@ -66,7 +67,7 @@ const SearchedResultsUsers: React.FunctionComponent = () => {
   return (
     <Layout drawer={false}>
       <S.Container>
-        <S.ContainerGrid container spacing={2} justify="center">
+        <S.ContainerGrid container spacing={2} justify={CENTER}>
           <Grid item xs={12} md={8}>
             <SearchedResultsTitle searchKeyword={searchKeyword} />
 

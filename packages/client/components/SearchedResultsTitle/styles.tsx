@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const Title = styled.div`
   margin-top: 4rem;
@@ -11,7 +11,7 @@ export const Title = styled.div`
     margin-left: 1rem;
     color: white;
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: ${fontWeight.bold};
     vertical-align: middle;
   }
   svg {

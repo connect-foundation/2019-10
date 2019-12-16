@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const Subject = styled.div`
   padding-top: 2rem;
   margin-bottom: 2rem;
   color: white;
   font-size: 2.2rem;
-  font-weight: 700;
+  font-weight: ${fontWeight.bold};
   @media only screen and (min-width: ${BREAKPOINT}px) {
     padding-top: 3rem;
     margin-bottom: 3rem;
@@ -20,7 +20,7 @@ export const Tag = styled.span`
   height: 3.4rem;
   line-height: 3.4rem;
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: ${fontWeight.bold};
   color: white;
   background: #484c50;
   border-radius: 10rem;
@@ -57,7 +57,7 @@ export const Username = styled.div`
   align-items: flex-start;
   color: white;
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: ${fontWeight.bold};
 `;
 
 export const Videos = styled.div`

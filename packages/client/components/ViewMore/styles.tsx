@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAKPOINT } from '../../constants';
+import { fontWeight } from '../../constants';
 
 export const ViewMore = styled.div`
   display: flex;
@@ -12,7 +12,7 @@ export const ViewMore = styled.div`
   span {
     color: white;
     font-size: 1.6rem;
-    font-weight: 700;
+    font-weight: ${fontWeight.bold};
     user-select: none;
     opacity: 0.8;
     margin-left: 1rem;

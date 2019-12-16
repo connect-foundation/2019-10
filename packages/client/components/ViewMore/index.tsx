@@ -9,7 +9,6 @@ const ViewMore = ({ searchKeyword, optionValue }) => {
   return (
     <S.ViewMore>
       <Link
-        prefetch={false}
         href={{
           pathname: `${endpoint.search}/${optionValue}`,
           query: { keyword: searchKeyword },
