@@ -44,8 +44,13 @@ const SearchedResultsTags: React.FunctionComponent = () => {
   };
 
   const makeRouter = (queryKeyword, optionValue) => {
+    const pathname =
+      optionValue === SEARCH_OPTION_VALUES.all
+        ? `${endpoint.search}`
+        : `${endpoint.search}/${optionValue}`;
+
     return {
-      pathname: `${endpoint.search}/${optionValue}`,
+      pathname,
       query: { keyword: queryKeyword },
     };
   };

@@ -85,10 +85,17 @@ const SearchedResults: React.FunctionComponent = () => {
     ? customSearchOptions[0].value
     : SEARCH_OPTION_VALUES.all;
 
-  const makeRouter = (queryKeyword, optionValue) => ({
-    pathname: `${endpoint.search}/${optionValue}`,
-    query: { keyword: queryKeyword },
-  });
+  const makeRouter = (queryKeyword, optionValue) => {
+    const pathname =
+      optionValue === SEARCH_OPTION_VALUES.all
+        ? `${endpoint.search}`
+        : `${endpoint.search}/${optionValue}`;
+
+    return {
+      pathname,
+      query: { keyword: queryKeyword },
+    };
+  };
 
   const handleFilterClick = optionValue => {
     router.push(makeRouter(searchKeyword, optionValue));
