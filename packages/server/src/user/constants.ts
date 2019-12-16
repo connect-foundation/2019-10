@@ -1,1 +1,2 @@
 export const VIDEO_ITEMS_PER_PAGE = 12;
+export const DESCRIPTION_MAX_LENGTH = 1500;
