@@ -11,9 +11,11 @@ import {
   Res,
   Query,
   NotFoundException,
+  Patch,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
+
 import { endpoint, GITHUB_USER_DETAIL } from '../common/constants';
 import { UserService } from '../user/user.service';
 import { UserListQueryPipe } from '../user/pipe/user-list-query-pipe';
@@ -30,7 +32,10 @@ import { UserVideoListParamPipe } from '../user/pipe/user-video-list-param.pipe'
 import { UserVideoListParamDto } from '../user/dto/user-video-list-param.dto';
 import { UserVideoListQueryDto } from '../user/dto/user-video-list-query.dto';
 import { UserVideoListResponseDto } from '../user/dto/user-video-list-response.dto';
+import { IdParserPipe } from '../common/pipes/id-parser/id-parser.pipe';
 import { User } from '../../entity/user.entity';
+import { UserUpdateBodyPipe } from './pipe/user-update-body-pipe';
+import { UserUpdateBodyDto } from './dto/user-update-body.dto';
 
 @Controller(endpoint.users)
 export class UserController {
@@ -116,5 +121,23 @@ export class UserController {
     });
 
     return new UserVideoListResponseDto(videos, count);
+  }
+
+  @Patch('/:id')
+  public async updateUser(
+    @Param(null, new IdParserPipe()) id: number,
+    @Body(null, new UserUpdateBodyPipe()) body: UserUpdateBodyDto,
+  ) {
+    try {
+      const user = await this.userService.updateUser(id, body);
+
+      if (!user) {
+        throw new NotFoundException('invalid id');
+      }
+
+      return user;
+    } catch (err) {
+      throw new BadRequestException(err.msg);
+    }
   }
 }
