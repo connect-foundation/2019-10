@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery, Action } from 'react-fetching-library';
-
-import { search } from '../../constants';
+import { useSearchedResultsTabDispatch } from '../../components/SearchResultsTabProvider/hooks';
+import { SEARCH_OPTION_VALUES } from '../../constants';
 
 const createSearchAction: Action = (subject, page, keyword) => {
   const queryString = page
@@ -19,7 +19,7 @@ export const useSearchVideos = (page, keyword) => {
   const [videoHasMore, setVideoHasMore] = useState(true);
   const [videoHasData, setVideoHasData] = useState(false);
 
-  const action = createSearchAction(search.videos, page, keyword);
+  const action = createSearchAction(SEARCH_OPTION_VALUES.videos, page, keyword);
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const useSearchUsers = (page, keyword) => {
   const [userHasMore, setUserHasMore] = useState(true);
   const [userHasData, setUserHasData] = useState(false);
 
-  const action = createSearchAction(search.users, page, keyword);
+  const action = createSearchAction(SEARCH_OPTION_VALUES.users, page, keyword);
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export const useSearchTags = (page, keyword) => {
   const [tagHasMore, setTagHasMore] = useState(true);
   const [tagHasData, setTagHasData] = useState(false);
 
-  const action = createSearchAction(search.tags, page, keyword);
+  const action = createSearchAction(SEARCH_OPTION_VALUES.tags, page, keyword);
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
@@ -74,4 +74,12 @@ export const useSearchTags = (page, keyword) => {
   }, [payload]);
 
   return { tags, tagCount, tagHasMore, tagHasData };
+};
+
+export const useSearchedResults = (options: string) => {
+  const searchedResultsTabDispatch = useSearchedResultsTabDispatch();
+  searchedResultsTabDispatch({
+    type: 'tabs',
+    tabs: options,
+  });
 };

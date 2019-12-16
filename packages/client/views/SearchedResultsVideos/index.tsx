@@ -10,17 +10,21 @@ import CircularProgress from '../../components/CircularProgress';
 import SearchedResultsTitle from '../../components/SearchedResultsTitle';
 import SearchedResultsArea from '../../components/SearchedResultsArea';
 
-import { endpoint, searchOptions } from '../../constants';
+import {
+  endpoint,
+  SEARCH_OPTION_LABELS,
+  SEARCH_OPTION_VALUES,
+} from '../../constants';
 import { useSearchVideos } from '../SearchedResults/hooks';
+import { useSearchedResultsTab } from '../../components/SearchResultsTabProvider/hooks';
 
 const SearchedResultsVideos: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
-  const options = router.query.options as string;
-  const optionArray = options.split(',');
-  const [page, setPage] = useState(1);
+  const options = useSearchedResultsTab();
+  const optionArray = options.tab.split(',');
 
-  const activeSearch = searchOptions[1].value;
+  const [page, setPage] = useState(1);
 
   const { videos, videoHasMore, videoHasData } = useSearchVideos(
     page,
@@ -42,36 +46,17 @@ const SearchedResultsVideos: React.FunctionComponent = () => {
     setPage(page + 1);
   };
 
-  const routerObject = (queryKeyword, num) => {
-    if (num === 0) {
-      return {
-        pathname: `${endpoint.search}`,
-        query: { keyword: queryKeyword },
-      };
-    }
+  const makeRouter = (queryKeyword, optionValue) => {
     return {
-      pathname: `${endpoint.search}/${searchOptions[num].value}`,
-      query: { keyword: queryKeyword, options },
+      pathname: `${endpoint.search}/${optionValue}`,
+      query: { keyword: queryKeyword },
     };
   };
 
-  const handleFilterClick = value => {
+  const handleFilterClick = optionValue => {
     setPage(1);
-    if (value === searchOptions[0].value) {
-      router.push(routerObject(searchKeyword, 0));
-    }
-    if (value === searchOptions[1].value) {
-      router.push(routerObject(searchKeyword, 1));
-    }
-    if (value === searchOptions[2].value) {
-      router.push(routerObject(searchKeyword, 2));
-    }
-    if (value === searchOptions[3].value) {
-      router.push(routerObject(searchKeyword, 3));
-    }
+    router.push(makeRouter(searchKeyword, optionValue));
   };
-
-  const loader = <CircularProgress size={28} thickness={4.5} />;
 
   return (
     <Layout drawer={false}>
@@ -82,7 +67,7 @@ const SearchedResultsVideos: React.FunctionComponent = () => {
 
             <S.StyledTabs
               items={customSearchOptions}
-              activeValue={activeSearch}
+              activeValue={SEARCH_OPTION_VALUES.videos}
               onClick={handleFilterClick}
             />
             <S.Line />
@@ -95,12 +80,12 @@ const SearchedResultsVideos: React.FunctionComponent = () => {
               >
                 <SearchedResultsArea
                   data={videos}
-                  type="videos"
-                  subject="영상"
+                  type={SEARCH_OPTION_VALUES.videos}
+                  subject={SEARCH_OPTION_LABELS.videos}
                 />
               </S.StyledInfiniteScroll>
             ) : (
-              loader
+              <CircularProgress size={28} thickness={4.5} />
             )}
           </Grid>
         </S.ContainerGrid>

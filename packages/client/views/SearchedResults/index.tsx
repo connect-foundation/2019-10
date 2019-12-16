@@ -15,7 +15,12 @@ import {
   SEARCH_OPTION_LABELS,
   SEARCH_OPTION_VALUES,
 } from '../../constants';
-import { useSearchVideos, useSearchUsers, useSearchTags } from './hooks';
+import {
+  useSearchVideos,
+  useSearchUsers,
+  useSearchTags,
+  useSearchedResults,
+} from './hooks';
 
 const SearchedResults: React.FunctionComponent = () => {
   const router = useRouter();
@@ -72,24 +77,20 @@ const SearchedResults: React.FunctionComponent = () => {
     })
     .join(',');
 
-  const activeSearch =
-    customSearchOptions[0] === undefined ? 'all' : customSearchOptions[0].value;
+  useSearchedResults(options);
 
-  const routerObject = (queryKeyword, num) => ({
-    pathname: `${endpoint.search}/${searchOptions[num].value}`,
-    query: { keyword: queryKeyword, options },
+  const activeSearch =
+    customSearchOptions[0] !== SEARCH_OPTION_VALUES.all
+      ? customSearchOptions[0].value
+      : SEARCH_OPTION_VALUES.all;
+
+  const makeRouter = (queryKeyword, optionValue) => ({
+    pathname: `${endpoint.search}/${optionValue}`,
+    query: { keyword: queryKeyword },
   });
 
-  const handleFilterClick = value => {
-    if (value === searchOptions[1].value) {
-      router.push(routerObject(searchKeyword, 1));
-    }
-    if (value === searchOptions[2].value) {
-      router.push(routerObject(searchKeyword, 2));
-    }
-    if (value === searchOptions[3].value) {
-      router.push(routerObject(searchKeyword, 3));
-    }
+  const handleFilterClick = optionValue => {
+    router.push(makeRouter(searchKeyword, optionValue));
   };
 
   return (
@@ -122,8 +123,7 @@ const SearchedResults: React.FunctionComponent = () => {
                     {activeSearch === SEARCH_OPTION_VALUES.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
-                        num={1}
-                        options={options}
+                        optionValue={SEARCH_OPTION_VALUES.videos}
                       />
                     )}
                     <S.Line />
@@ -140,8 +140,7 @@ const SearchedResults: React.FunctionComponent = () => {
                     {activeSearch === SEARCH_OPTION_VALUES.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
-                        num={2}
-                        options={options}
+                        optionValue={SEARCH_OPTION_VALUES.users}
                       />
                     )}
                     <S.Line />
@@ -158,8 +157,7 @@ const SearchedResults: React.FunctionComponent = () => {
                     {activeSearch === SEARCH_OPTION_VALUES.all && (
                       <ViewMore
                         searchKeyword={searchKeyword}
-                        num={3}
-                        options={options}
+                        optionValue={SEARCH_OPTION_VALUES.tags}
                       />
                     )}
                     <S.Line />

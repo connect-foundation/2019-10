@@ -3,21 +3,21 @@ import Link from 'next/link';
 import * as S from './styles';
 
 import { ArrowRightSVG } from '../../svgs';
-import { endpoint, searchOptions } from '../../constants';
+import { endpoint, SEARCH_OPTION_LABELS } from '../../constants';
 
-const ViewMore = ({ searchKeyword, index, options }) => {
+const ViewMore = ({ searchKeyword, optionValue }) => {
   return (
     <S.ViewMore>
       <Link
         prefetch={false}
         href={{
-          pathname: `${endpoint.search}/${searchOptions[index].value}`,
-          query: { keyword: searchKeyword, options },
+          pathname: `${endpoint.search}/${optionValue}`,
+          query: { keyword: searchKeyword },
         }}
       >
         <a>
           <button>
-            <span>전체 {searchOptions[index].label}</span>
+            <span>전체 {SEARCH_OPTION_LABELS[optionValue]}</span>
             <ArrowRightSVG />
           </button>
         </a>

@@ -10,18 +10,21 @@ import CircularProgress from '../../components/CircularProgress';
 import SearchedResultsTitle from '../../components/SearchedResultsTitle';
 import SearchedResultsArea from '../../components/SearchedResultsArea';
 
-import { endpoint, searchOptions } from '../../constants';
+import {
+  endpoint,
+  SEARCH_OPTION_LABELS,
+  SEARCH_OPTION_VALUES,
+} from '../../constants';
 import { useSearchUsers } from '../SearchedResults/hooks';
+import { useSearchedResultsTab } from '../../components/SearchResultsTabProvider/hooks';
 
 const SearchedResultsUsers: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
-  const options = router.query.options as string;
-  const optionArray = options.split(',');
+  const options = useSearchedResultsTab();
+  const optionArray = options.tab.split(',');
 
   const [page, setPage] = useState(1);
-
-  const activeSearch = searchOptions[2].value;
 
   const { users, userHasMore, userHasData } = useSearchUsers(
     page,
@@ -43,36 +46,17 @@ const SearchedResultsUsers: React.FunctionComponent = () => {
     setPage(page + 1);
   };
 
-  const routerObject = (queryKeyword, num) => {
-    if (num === 0) {
-      return {
-        pathname: `${endpoint.search}`,
-        query: { keyword: queryKeyword },
-      };
-    }
+  const makeRouter = (queryKeyword, optionValue) => {
     return {
-      pathname: `${endpoint.search}/${searchOptions[num].value}`,
-      query: { keyword: queryKeyword, options },
+      pathname: `${endpoint.search}/${optionValue}`,
+      query: { keyword: queryKeyword },
     };
   };
 
-  const handleFilterClick = value => {
+  const handleFilterClick = optionValue => {
     setPage(1);
-    if (value === searchOptions[0].value) {
-      router.push(routerObject(searchKeyword, 0));
-    }
-    if (value === searchOptions[1].value) {
-      router.push(routerObject(searchKeyword, 1));
-    }
-    if (value === searchOptions[2].value) {
-      router.push(routerObject(searchKeyword, 2));
-    }
-    if (value === searchOptions[3].value) {
-      router.push(routerObject(searchKeyword, 3));
-    }
+    router.push(makeRouter(searchKeyword, optionValue));
   };
-
-  const loader = <CircularProgress size={28} thickness={4.5} />;
 
   return (
     <Layout drawer={false}>
@@ -83,7 +67,7 @@ const SearchedResultsUsers: React.FunctionComponent = () => {
 
             <S.StyledTabs
               items={customSearchOptions}
-              activeValue={activeSearch}
+              activeValue={SEARCH_OPTION_VALUES.users}
               onClick={handleFilterClick}
             />
             <S.Line />
@@ -96,12 +80,12 @@ const SearchedResultsUsers: React.FunctionComponent = () => {
               >
                 <SearchedResultsArea
                   data={users}
-                  type="users"
-                  subject="사용자"
+                  type={SEARCH_OPTION_VALUES.users}
+                  subject={SEARCH_OPTION_LABELS.users}
                 />
               </S.StyledInfiniteScroll>
             ) : (
-              loader
+              <CircularProgress size={28} thickness={4.5} />
             )}
           </Grid>
         </S.ContainerGrid>

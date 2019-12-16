@@ -28,6 +28,10 @@ export const userActions = {
   logout: 'LOGOUT',
 };
 
+export const QUERY_STRING = {
+  keyword: 'keyword',
+};
+
 export const endpoint = {
   tags: '/tags',
   hotlist: '/',

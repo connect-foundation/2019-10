@@ -7,18 +7,19 @@ import { ClientContextProvider as FetchingProvider } from 'react-fetching-librar
 import Cookies from 'universal-cookie';
 
 import './interfaces/extend';
-import { endpoint } from '../../constants';
+import { endpoint, QUERY_STRING } from '../../constants';
 import { UserProvider } from '../../components/UserProvider';
 import { FileProvider } from '../../components/FileProvider';
+import { SearchedResultsTabProvider } from '../../components/SearchResultsTabProvider';
 import { client } from '../../libs/fetching';
 import { Token } from './interfaces/Token';
 import { User } from './interfaces/User';
 
 class MyApp extends App<AppProps> {
   public static async getInitialProps(appContext) {
-    const { pathname, req } = appContext.ctx;
+    const { pathname, queryString, req } = appContext.ctx;
 
-    const props = initProps(pathname);
+    const props = initProps(pathname, queryString);
 
     if (req) {
       const cookies = new Cookies(req.headers.cookie);
@@ -42,7 +43,14 @@ class MyApp extends App<AppProps> {
   }
 
   public render() {
-    const { Component, pageProps, cacheItems, user, pathname } = this.props;
+    const {
+      Component,
+      pageProps,
+      cacheItems,
+      user,
+      pathname,
+      queryString,
+    } = this.props;
     const theme = {};
 
     client.cache.setItems(cacheItems);
@@ -51,6 +59,13 @@ class MyApp extends App<AppProps> {
       <FetchingProvider client={client}>
         <ThemeProvider theme={theme}>
           <UserProvider user={user}>
+            {this.insNeedSearchedResultsTabProvider(queryString) ? (
+              <SearchedResultsTabProvider>
+                <Component {...pageProps} />
+              </SearchedResultsTabProvider>
+            ) : (
+              <Component {...pageProps} />
+            )}
             {this.isNeedFileProvider(pathname) ? (
               <FileProvider>
                 <Component {...pageProps} />
@@ -64,6 +79,10 @@ class MyApp extends App<AppProps> {
     );
   }
 
+  private insNeedSearchedResultsTabProvider(queryString: string) {
+    return queryString === QUERY_STRING.keyword;
+  }
+
   private isNeedFileProvider(pathname: string) {
     return (
       pathname === endpoint.uploadVideoFile ||
@@ -72,10 +91,11 @@ class MyApp extends App<AppProps> {
   }
 }
 
-function initProps(pathname: string): AppProps {
+function initProps(pathname: string, queryString: string): AppProps {
   return {
     cacheItems: client.cache.getItems(),
     pathname,
+    queryString,
     user: null,
   };
 }
