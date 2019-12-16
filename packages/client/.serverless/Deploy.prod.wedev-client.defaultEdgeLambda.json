@@ -1,0 +1,17 @@
+{
+  "name": "up93vyv-pwn328q",
+  "hash": "mGy+tE1D7Z+HCzveJw/U1BU+7Xc6sDa2JI35TSlL35M=",
+  "description": "Default Lambda@Edge for Next CloudFront distribution",
+  "memory": 512,
+  "timeout": 10,
+  "code": "/Users/alexkwon/Developments/boostmembership/2019-10/packages/client/.serverless_nextjs/default-lambda",
+  "shims": [],
+  "handler": "index.handler",
+  "runtime": "nodejs10.x",
+  "env": {},
+  "role": {
+    "arn": "arn:aws:iam::579164850622:role/up93vyv-jv0fqcc"
+  },
+  "arn": "arn:aws:lambda:us-east-1:579164850622:function:up93vyv-pwn328q",
+  "region": "us-east-1"
+}
