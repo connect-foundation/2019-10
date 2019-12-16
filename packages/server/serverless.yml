@@ -1,15 +1,20 @@
-service: wedev-api
+service: wedev-api # service name. Lambda 이름 제일 앞에 위치
+
+custom:
+  STAGE: ${self:provider.stage, 'dev'}
+  CONFIG: ${file(./config/config.js):CONFIG.${self:custom.STAGE}}
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs10.x
   region: ap-northeast-1
   profile: default
-  stage: api
-  apiName: wedev-api
+  stage: ${opt:stage, 'dev'} # API Gateway stage // 우선 자신의 github id로 작성
+  apiName: ${self:custom.CONFIG.API_NAME} # API Gateway name
 
 plugins:
   - serverless-offline
+  - serverless-aws-alias
 
 package:
   exclude:
@@ -20,15 +25,24 @@ package:
     - README.md
 
 functions:
-  index:
-    name: wedev-api
+  index: # Lambda 이름 마지막에 추가
+    name: ${self:custom.CONFIG.API_NAME}
     handler: dist/src/index.handler
+    vpc:
+      securityGroupIds:
+        - ${self:custom.CONFIG.SECURITY_GROUP_ID}
+      subnetIds:
+        - ${self:custom.CONFIG.PRIVATE_SUBNET_1}
+        - ${self:custom.CONFIG.PRIVATE_SUBNET_2}
+        - ${self:custom.CONFIG.PRIVATE_SUBNET_3}
+
     events:
       - http:
           cors: true
           path: '/'
           method: any
       - http:
+          cors: true
           path: '{proxy+}'
           method: any
-          cors: true
+    retain: false

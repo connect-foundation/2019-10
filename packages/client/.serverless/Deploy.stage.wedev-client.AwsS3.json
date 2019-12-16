@@ -1,0 +1,6 @@
+{
+  "name": "wedev-client-stage",
+  "region": "us-east-1",
+  "accelerated": true,
+  "url": "https://wedev-client-stage.s3.amazonaws.com"
+}
