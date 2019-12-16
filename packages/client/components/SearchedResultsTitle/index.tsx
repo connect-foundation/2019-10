@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './styles';
+import * as S from './style';
 import { SearchSVG } from '../../svgs';
 
 const SearchedResultsTitle = ({ searchKeyword }) => {

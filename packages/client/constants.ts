@@ -133,3 +133,5 @@ export const VIDEO_TYPE = 'video/mp4,video/x-m4v,video/*';
 export const SET_TABS = 'setTabs';
 
 export const CENTER = 'center';
+
+export const ENTER = 'Enter';

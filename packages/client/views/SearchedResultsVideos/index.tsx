@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import Grid from '@material-ui/core/Grid';
 
-import * as S from '../SearchedResults/styles';
+import * as S from '../SearchedResults/style';
 
 import Layout from '../../components/Layout';
 import CircularProgress from '../../components/CircularProgress';
@@ -16,8 +16,8 @@ import {
   SEARCH_OPTION_VALUES,
   CENTER,
 } from '../../constants';
-import { useSearchVideos } from '../SearchedResults/hooks';
-import { useSearchedResults } from '../../components/SearchResultsProvider/hooks';
+import { useSearchVideos } from '../SearchedResults/hook/use_search';
+import { useSearchedResults } from '../../components/SearchResultsProvider/hook/use_searched_results';
 
 const SearchedResultsVideos: React.FunctionComponent = () => {
   const router = useRouter();

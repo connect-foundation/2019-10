@@ -1,16 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useQuery, Action } from 'react-fetching-library';
-import { SEARCH_OPTION_VALUES } from '../../constants';
-
-const createSearchAction: Action = (subject, page, keyword) => {
-  const queryString = page
-    ? `/${subject}?keyword=${keyword}&page=${page}`
-    : `/${subject}?keyword=${keyword}`;
-  return {
-    method: 'GET',
-    endpoint: `${process.env.API_URL_HOST}${queryString}`,
-  };
-};
+import { useQuery } from 'react-fetching-library';
+import { SEARCH_OPTION_VALUES } from '../../../constants';
+import { makeQuerySearchAction } from '../action/make_query_search_action';
 
 export const useSearchVideos = (page, keyword) => {
   const [videos, setVideos] = useState([]);
@@ -18,7 +9,11 @@ export const useSearchVideos = (page, keyword) => {
   const [videoHasMore, setVideoHasMore] = useState(true);
   const [videoHasData, setVideoHasData] = useState(false);
 
-  const action = createSearchAction(SEARCH_OPTION_VALUES.videos, page, keyword);
+  const action = makeQuerySearchAction(
+    SEARCH_OPTION_VALUES.videos,
+    page,
+    keyword,
+  );
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
@@ -42,7 +37,11 @@ export const useSearchUsers = (page, keyword) => {
   const [userHasMore, setUserHasMore] = useState(true);
   const [userHasData, setUserHasData] = useState(false);
 
-  const action = createSearchAction(SEARCH_OPTION_VALUES.users, page, keyword);
+  const action = makeQuerySearchAction(
+    SEARCH_OPTION_VALUES.users,
+    page,
+    keyword,
+  );
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
@@ -66,7 +65,11 @@ export const useSearchTags = (page, keyword) => {
   const [tagHasMore, setTagHasMore] = useState(true);
   const [tagHasData, setTagHasData] = useState(false);
 
-  const action = createSearchAction(SEARCH_OPTION_VALUES.tags, page, keyword);
+  const action = makeQuerySearchAction(
+    SEARCH_OPTION_VALUES.tags,
+    page,
+    keyword,
+  );
   const { payload, error } = useQuery(action);
 
   useEffect(() => {

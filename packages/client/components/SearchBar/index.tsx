@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { endpoint } from '../../constants';
+import { endpoint, ENTER } from '../../constants';
 import { ArrowBackSVG, SearchSVG } from '../../svgs';
 
-import * as S from './styles';
+import * as S from './style';
 
 interface SearchBarProps {
   deactivate: () => void;
@@ -26,7 +26,7 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
   };
 
   const handleKeyPress = e => {
-    if (e.key === 'Enter') {
+    if (e.key === ENTER) {
       router.push({
         pathname: endpoint.search,
         query: { keyword: inputValue },

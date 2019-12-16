@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import * as S from './styles';
+import * as S from './style';
 import VideoItem from '../VideoItem';
 import { SEARCH_OPTION_VALUES, orientation } from '../../constants';
 

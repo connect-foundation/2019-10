@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import Grid from '@material-ui/core/Grid';
 
-import * as S from './styles';
+import * as S from './style';
 
 import Layout from '../../components/Layout';
 import SearchedResultsTitle from '../../components/SearchedResultsTitle';
@@ -15,9 +15,14 @@ import {
   SEARCH_OPTION_LABELS,
   SEARCH_OPTION_VALUES,
   SET_TABS,
+  CENTER,
 } from '../../constants';
-import { useSearchVideos, useSearchUsers, useSearchTags } from './hooks';
-import { useSearchedResultsDispatch } from '../../components/SearchResultsProvider/hooks';
+import {
+  useSearchVideos,
+  useSearchUsers,
+  useSearchTags,
+} from './hook/use_search';
+import { useSearchedResultsDispatch } from '../../components/SearchResultsProvider/hook/use_searched_results';
 
 const SearchedResults: React.FunctionComponent = () => {
   const router = useRouter();
@@ -105,7 +110,7 @@ const SearchedResults: React.FunctionComponent = () => {
   return (
     <Layout drawer={false}>
       <S.Container>
-        <S.ContainerGrid container spacing={2} justify="center">
+        <S.ContainerGrid container spacing={2} justify={CENTER}>
           <Grid item xs={12} md={8}>
             <SearchedResultsTitle searchKeyword={searchKeyword} />
 
@@ -126,8 +131,8 @@ const SearchedResults: React.FunctionComponent = () => {
                   <>
                     <SearchedResultsArea
                       data={videos}
-                      type="videos"
-                      subject="영상"
+                      type={SEARCH_OPTION_VALUES.videos}
+                      subject={SEARCH_OPTION_LABELS.videos}
                     />
                     {activeSearch === SEARCH_OPTION_VALUES.all && (
                       <ViewMore
@@ -143,8 +148,8 @@ const SearchedResults: React.FunctionComponent = () => {
                   <>
                     <SearchedResultsArea
                       data={users}
-                      type="users"
-                      subject="사용자"
+                      type={SEARCH_OPTION_VALUES.users}
+                      subject={SEARCH_OPTION_LABELS.users}
                     />
                     {activeSearch === SEARCH_OPTION_VALUES.all && (
                       <ViewMore
@@ -160,8 +165,8 @@ const SearchedResults: React.FunctionComponent = () => {
                   <>
                     <SearchedResultsArea
                       data={tags}
-                      type="tags"
-                      subject="태그"
+                      type={SEARCH_OPTION_VALUES.tags}
+                      subject={SEARCH_OPTION_LABELS.tags}
                     />
                     {activeSearch === SEARCH_OPTION_VALUES.all && (
                       <ViewMore

@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import * as S from './styles';
+import * as S from './style';
 
 import { ArrowRightSVG } from '../../svgs';
 import { endpoint, SEARCH_OPTION_LABELS } from '../../constants';

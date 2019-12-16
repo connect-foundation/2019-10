@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 import {
   SearchedResultsStateContext,
   SearchedResultsDispatchContext,
-} from './contexts';
+} from './context';
 import { SET_TABS } from '../../constants';
 
 const reducer = (state, action) => {

@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import {
   SearchedResultsStateContext,
   SearchedResultsDispatchContext,
-} from './contexts';
+} from '../context';
 
 export const useSearchedResults = () => useContext(SearchedResultsStateContext);
 export const useSearchedResultsDispatch = () =>
