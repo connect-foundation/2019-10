@@ -54,6 +54,7 @@ export const Line = styled.div`
     left: -2rem;
 
     @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: 100%;
       left: 0rem;
     }
   }
