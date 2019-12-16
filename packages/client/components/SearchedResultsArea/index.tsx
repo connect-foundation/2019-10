@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import * as S from './styles';
 import VideoItem from '../VideoItem';
-import { SEARCH_OPTION_VALUES } from '../../constants';
+import { SEARCH_OPTION_VALUES, orientation } from '../../constants';
 
 const SearchedResultsArea = ({ subject, data, type }) => {
   let children;
@@ -10,7 +10,10 @@ const SearchedResultsArea = ({ subject, data, type }) => {
   if (type === SEARCH_OPTION_VALUES.tags) {
     children = data.map(tag => {
       return (
-        <Link href="/tags/[tagId]" as={`/tags/${tag.id}`}>
+        <Link
+          href={`/${SEARCH_OPTION_VALUES.tags}/[tagId]`}
+          as={`/${SEARCH_OPTION_VALUES.tags}/${tag.id}`}
+        >
           <a onClick={e => e.stopPropagation()}>
             <div key={tag.id}>
               <S.Tag>{tag.name}</S.Tag>
@@ -24,7 +27,10 @@ const SearchedResultsArea = ({ subject, data, type }) => {
   if (type === SEARCH_OPTION_VALUES.users) {
     children = data.map(user => {
       return (
-        <Link href="/users/[userId]" as={`/users/${user.id}`}>
+        <Link
+          href={`/${SEARCH_OPTION_VALUES.users}/[userId]`}
+          as={`/${SEARCH_OPTION_VALUES.users}/${user.id}`}
+        >
           <a onClick={e => e.stopPropagation()}>
             <S.User key={user.id}>
               <S.Avatar>
@@ -45,8 +51,8 @@ const SearchedResultsArea = ({ subject, data, type }) => {
           <VideoItem
             {...video}
             showUser={false}
-            mobileType="horizontal"
-            desktopType="horizontal"
+            mobileType={orientation.horizontal}
+            desktopType={orientation.horizontal}
           />
         </S.Videos>
       );
