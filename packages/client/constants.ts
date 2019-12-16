@@ -37,7 +37,7 @@ export const endpoint = {
   search: '/search',
   login: '/auth/login',
   users: '/users',
-  profileEdit: '/profile/edit',
+  profileEdit: '/settings/profile',
 };
 
 export const SERVER_ENDPOINT = {
