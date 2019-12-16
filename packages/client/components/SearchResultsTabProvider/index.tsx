@@ -17,10 +17,10 @@ export const SearchedResultsTabProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {});
 
   return (
-    <SearchedResultsTabStateContext.Provider value={dispatch}>
-      <SearchedResultsTabDispatchContext.Provider value={state}>
+    <SearchedResultsTabDispatchContext.Provider value={dispatch}>
+      <SearchedResultsTabStateContext.Provider value={state}>
         {children}
-      </SearchedResultsTabDispatchContext.Provider>
-    </SearchedResultsTabStateContext.Provider>
+      </SearchedResultsTabStateContext.Provider>
+    </SearchedResultsTabDispatchContext.Provider>
   );
 };

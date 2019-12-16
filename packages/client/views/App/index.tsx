@@ -55,24 +55,16 @@ class MyApp extends App<AppProps> {
 
     client.cache.setItems(cacheItems);
 
+    // TODO: page별 필요한 context 제공하기
     return (
       <FetchingProvider client={client}>
         <ThemeProvider theme={theme}>
           <UserProvider user={user}>
-            {this.insNeedSearchedResultsTabProvider(queryString) ? (
-              <SearchedResultsTabProvider>
-                <Component {...pageProps} />
-              </SearchedResultsTabProvider>
-            ) : (
-              <Component {...pageProps} />
-            )}
-            {this.isNeedFileProvider(pathname) ? (
+            <SearchedResultsTabProvider>
               <FileProvider>
                 <Component {...pageProps} />
               </FileProvider>
-            ) : (
-              <Component {...pageProps} />
-            )}
+            </SearchedResultsTabProvider>
           </UserProvider>
         </ThemeProvider>
       </FetchingProvider>

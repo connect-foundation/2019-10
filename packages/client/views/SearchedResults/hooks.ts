@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useQuery, Action } from 'react-fetching-library';
-import { useSearchedResultsTabDispatch } from '../../components/SearchResultsTabProvider/hooks';
 import { SEARCH_OPTION_VALUES } from '../../constants';
 
 const createSearchAction: Action = (subject, page, keyword) => {
@@ -74,12 +73,4 @@ export const useSearchTags = (page, keyword) => {
   }, [payload]);
 
   return { tags, tagCount, tagHasMore, tagHasData };
-};
-
-export const useSearchedResults = (options: string) => {
-  const searchedResultsTabDispatch = useSearchedResultsTabDispatch();
-  searchedResultsTabDispatch({
-    type: 'tabs',
-    tabs: options,
-  });
 };

@@ -2,12 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 import * as S from './styles';
 import VideoItem from '../VideoItem';
-import { search } from '../../constants';
+import { SEARCH_OPTION_VALUES } from '../../constants';
 
 const SearchedResultsArea = ({ subject, data, type }) => {
   let children;
 
-  if (type === search.tags) {
+  if (type === SEARCH_OPTION_VALUES.tags) {
     children = data.map(tag => {
       return (
         <Link href="/tags/[tagId]" as={`/tags/${tag.id}`}>
@@ -21,7 +21,7 @@ const SearchedResultsArea = ({ subject, data, type }) => {
     });
   }
 
-  if (type === search.users) {
+  if (type === SEARCH_OPTION_VALUES.users) {
     children = data.map(user => {
       return (
         <Link href="/users/[userId]" as={`/users/${user.id}`}>
@@ -38,7 +38,7 @@ const SearchedResultsArea = ({ subject, data, type }) => {
     });
   }
 
-  if (type === search.videos) {
+  if (type === SEARCH_OPTION_VALUES.videos) {
     children = data.map(video => {
       return (
         <S.Videos key={video.id}>

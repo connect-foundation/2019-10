@@ -15,12 +15,8 @@ import {
   SEARCH_OPTION_LABELS,
   SEARCH_OPTION_VALUES,
 } from '../../constants';
-import {
-  useSearchVideos,
-  useSearchUsers,
-  useSearchTags,
-  useSearchedResults,
-} from './hooks';
+import { useSearchVideos, useSearchUsers, useSearchTags } from './hooks';
+import { useSearchedResultsTabDispatch } from '../../components/SearchResultsTabProvider/hooks';
 
 const SearchedResults: React.FunctionComponent = () => {
   const router = useRouter();
@@ -58,31 +54,36 @@ const SearchedResults: React.FunctionComponent = () => {
 
   const customSearchOptions = [];
 
-  optionMap.forEach((key, value) => {
-    if (value.count) {
-      customSearchOptions.push({ label: value.label, value: key });
-    }
-  });
+  if (hasData) {
+    optionMap.forEach((key, value) => {
+      if (key.count) {
+        customSearchOptions.push({ label: key.label, value });
+      }
+    });
 
-  if (customSearchOptions.length >= 2) {
-    customSearchOptions.unshift({
-      label: SEARCH_OPTION_LABELS.all,
-      value: SEARCH_OPTION_VALUES.all,
+    if (customSearchOptions.length >= 2) {
+      customSearchOptions.unshift({
+        label: SEARCH_OPTION_LABELS.all,
+        value: SEARCH_OPTION_VALUES.all,
+      });
+    }
+
+    const options = customSearchOptions
+      .map(option => {
+        return option.value;
+      })
+      .join(',');
+
+    const searchedResultsTabDispatch = useSearchedResultsTabDispatch();
+    searchedResultsTabDispatch({
+      type: 'tabs',
+      tabs: options,
     });
   }
 
-  const options = customSearchOptions
-    .map(option => {
-      return option.value;
-    })
-    .join(',');
-
-  useSearchedResults(options);
-
-  const activeSearch =
-    customSearchOptions[0] !== SEARCH_OPTION_VALUES.all
-      ? customSearchOptions[0].value
-      : SEARCH_OPTION_VALUES.all;
+  const activeSearch = hasData
+    ? customSearchOptions[0].value
+    : SEARCH_OPTION_VALUES.all;
 
   const makeRouter = (queryKeyword, optionValue) => ({
     pathname: `${endpoint.search}/${optionValue}`,

@@ -22,7 +22,7 @@ const SearchedResultsUsers: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
   const options = useSearchedResultsTab();
-  const optionArray = options.tab.split(',');
+  const optionArray = options.split(',');
 
   const [page, setPage] = useState(1);
 
