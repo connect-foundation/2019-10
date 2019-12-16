@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { BREAKPOINT } from '../../constants';
-
+import Skeleton from '@material-ui/lab/Skeleton';
 import MaterialGrid from '@material-ui/core/Grid';
 import MaterialCircularProgress from '@material-ui/core/CircularProgress';
+
+import { BREAKPOINT } from '../../constants';
 
 export const Profile = styled.div``;
 
@@ -54,6 +55,7 @@ export const AvatarItem = styled.div`
   display: flex;
   flex-direction: flex-start;
   align-items: center;
+  height: 10rem;
   margin: 1rem 0 3rem 0;
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin: 2rem 0 3rem 0;
@@ -151,11 +153,28 @@ export const RequireMark = styled.div`
   margin: 0rem 0rem 0.9rem 0.2rem;
 `;
 
-export const CircularProgress = styled(MaterialCircularProgress)`
+export const FormCircularProgress = styled(MaterialCircularProgress)`
   && {
     z-index: 900;
     width: 3rem !important;
     height: 3rem !important;
     color: rgba(255, 255, 255, 1);
+  }
+`;
+
+export const AvatarCircularProgress = styled(MaterialCircularProgress)`
+  && {
+    z-index: 900;
+    width: 2rem !important;
+    height: 2rem !important;
+    color: rgba(255, 255, 255, 1);
+  }
+`;
+
+export const AvatarSkeleton = styled(Skeleton)`
+  && {
+    width: 10rem;
+    height: 10rem;
+    margin-right: 2rem;
   }
 `;
