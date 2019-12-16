@@ -10,16 +10,16 @@ const SearchedResultsArea = ({ subject, data, type }) => {
   if (type === SEARCH_OPTION_VALUES.tags) {
     children = data.map(tag => {
       return (
-        <Link
-          href={`/${SEARCH_OPTION_VALUES.tags}/[tagId]`}
-          as={`/${SEARCH_OPTION_VALUES.tags}/${tag.id}`}
-        >
-          <a onClick={e => e.stopPropagation()}>
-            <div key={tag.id}>
+        <div key={tag.id}>
+          <Link
+            href={`/${SEARCH_OPTION_VALUES.tags}/[tagId]`}
+            as={`/${SEARCH_OPTION_VALUES.tags}/${tag.id}`}
+          >
+            <a onClick={e => e.stopPropagation()}>
               <S.Tag>{tag.name}</S.Tag>
-            </div>
-          </a>
-        </Link>
+            </a>
+          </Link>
+        </div>
       );
     });
   }
@@ -27,19 +27,19 @@ const SearchedResultsArea = ({ subject, data, type }) => {
   if (type === SEARCH_OPTION_VALUES.users) {
     children = data.map(user => {
       return (
-        <Link
-          href={`/${SEARCH_OPTION_VALUES.users}/[userId]`}
-          as={`/${SEARCH_OPTION_VALUES.users}/${user.id}`}
-        >
-          <a onClick={e => e.stopPropagation()}>
-            <S.User key={user.id}>
+        <S.User key={user.id}>
+          <Link
+            href={`/${SEARCH_OPTION_VALUES.users}/[userId]`}
+            as={`/${SEARCH_OPTION_VALUES.users}/${user.id}`}
+          >
+            <a onClick={e => e.stopPropagation()}>
               <S.Avatar>
                 <img src={user.avatar} />
               </S.Avatar>
               <S.Username>{user.username}</S.Username>
-            </S.User>
-          </a>
-        </Link>
+            </a>
+          </Link>
+        </S.User>
       );
     });
   }

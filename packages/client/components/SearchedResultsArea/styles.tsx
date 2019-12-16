@@ -29,10 +29,15 @@ export const Tag = styled.span`
 `;
 
 export const User = styled.div`
-  display: flex;
   margin-bottom: 2rem;
+  a {
+    display: inline-block;
+  }
 `;
+
 export const Avatar = styled.div`
+  display: inline-block;
+  vertical-align: middle;
   margin-right: 1.6rem;
   img {
     width: 4rem;
@@ -45,11 +50,11 @@ export const Avatar = styled.div`
 `;
 
 export const Username = styled.div`
-  display: flex;
+  display: inline-block;
+  vertical-align: middle;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  width: 100%;
   color: white;
   font-size: 1.6rem;
   font-weight: 700;
