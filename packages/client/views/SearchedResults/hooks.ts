@@ -22,6 +22,9 @@ export const useSearchVideos = (page, keyword) => {
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
+    if (error) {
+      return;
+    }
     if (payload && !error) {
       setVideoHasData(true);
       setVideoHasMore(payload.data.length >= 20);
@@ -43,6 +46,9 @@ export const useSearchUsers = (page, keyword) => {
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
+    if (error) {
+      return;
+    }
     if (payload && !error) {
       setUserHasData(true);
       setUserHasMore(payload.data.length >= 20);
@@ -64,6 +70,9 @@ export const useSearchTags = (page, keyword) => {
   const { payload, error } = useQuery(action);
 
   useEffect(() => {
+    if (error) {
+      return;
+    }
     if (payload && !error) {
       setTagHasData(true);
       setTagHasMore(payload.data.length >= 20);
