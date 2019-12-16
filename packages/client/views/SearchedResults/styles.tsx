@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAKPOINT } from '../../constants';
+import { BREAKPOINT, fontWeight } from '../../constants';
 
 import MaterialGrid from '@material-ui/core/Grid';
 import Tabs from '../../components/Tabs';
@@ -64,7 +64,7 @@ export const NoResults = styled.div`
   span {
     color: white;
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: ${fontWeight.bold};
     user-select: none;
     opacity: 0.8;
   }
