@@ -18,6 +18,7 @@ import {
 import { ParsedGithubUserDetail } from './model/parsed-github-user-detail';
 import { SignUpFormDataDto } from './dto/sign-up-user-form.dto';
 import { SignUpUserData } from './model/sign-up-form-data';
+import { UserUpdateBodyDto } from './dto/user-update-body.dto';
 
 @Injectable()
 export class UserService {
@@ -102,5 +103,14 @@ export class UserService {
     if (sort === POPULAR) {
       return qb.orderBy('Video_popularity', 'DESC').getManyAndCount();
     }
+  }
+
+  public async updateUser(id: number, body: UserUpdateBodyDto): Promise<User> {
+    await this.userRepository.update(id, body);
+    return await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
   }
 }
