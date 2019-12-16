@@ -1,68 +1,21 @@
-import React, { useState, useReducer } from 'react';
+import React from 'react';
 import { Grid } from '@material-ui/core';
 
+import * as S from './style';
 import Layout from '../../components/Layout';
-import * as S from './styles';
 import SettingSVG from '../../svgs/SettingSVG';
-import { useUser } from '../../components/UserProvider/hooks';
-import { initialProfileState, profileReducer } from './hooks';
-import { DEFAULT_USER_IMAGE } from '../../constants';
+import { useProfile } from './hook/use-profile';
 
 const Profile: React.FunctionComponent = () => {
-  const user = useUser();
-  const userAvatar = user ? user.avatar : DEFAULT_USER_IMAGE;
-  const [avatarURL, setAvatarURL] = useState(userAvatar);
-  const [isFetching, setIsFetching] = useState(false);
-
-  const [profile, dispatchProfile] = useReducer(
-    profileReducer,
-    initialProfileState,
-  );
-
-  const handleUserName = e =>
-    dispatchProfile({ type: 'updateUserName', value: e.target.value });
-
-  const handleDescription = e =>
-    dispatchProfile({ type: 'updateDescription', value: e.target.value });
-
-  const handleAvatar = e => {
-    if (e.target.files[0]) {
-      setAvatarURL(URL.createObjectURL(e.target.files[0]));
-      dispatchProfile({
-        type: 'updateAvatar',
-        value: e.target.files[0],
-      });
-    }
-  };
-
-  const handleSubmit = async e => {
-    try {
-      setIsFetching(true);
-      if (!profile.avatar) {
-        // console.log('NO Image');
-      } else {
-        const avatarName = `${user.username}/${profile.avatar.name}`;
-        const avatarPreSignedURL = await getAvatarPreSignedUrl(avatarName);
-
-        const isAvatarUploaded = await uploadAvatarToBucket(
-          avatarPreSignedURL,
-          profile.avatar,
-        );
-
-        if (!isAvatarUploaded) {
-          // 업로드 안됬을 때 에러 메세지 (다시 시도하십시요)
-          setIsFetching(false);
-          return;
-        }
-
-        const avatarPath = `${process.env.S3_AVATAR_PATH}/${avatarName}`;
-
-        setIsFetching(false);
-      }
-    } catch (e) {
-      // console.log(e);
-    }
-  };
+  const {
+    userProfile,
+    handleUsername,
+    handleDescription,
+    handleAvatarSubmit,
+    handleFormSubmit,
+    isAvatarFetching,
+    isFormFetching,
+  } = useProfile();
 
   return (
     <Layout drawer={false}>
@@ -73,22 +26,31 @@ const Profile: React.FunctionComponent = () => {
               <SettingSVG />
               <span>프로필 편집</span>
             </S.Title>
+            <S.Label>
+              <label>
+                프로필 사진
+                <S.RequireMark />
+              </label>
+            </S.Label>
+            <S.AvatarItem>
+              {userProfile.avatar ? (
+                <S.Avatar src={userProfile.avatar} />
+              ) : (
+                <S.AvatarSkeleton variant="circle" />
+              )}
+              <label htmlFor="avatar">
+                <S.AvatarInputLabel>
+                  {isAvatarFetching ? <S.AvatarCircularProgress /> : `변경하기`}
+                </S.AvatarInputLabel>
+              </label>
+              <input
+                id="avatar"
+                type="file"
+                accept="image/png, image/jpeg"
+                onChange={handleAvatarSubmit}
+              />
+            </S.AvatarItem>
             <S.Form>
-              <S.Item>
-                <S.Label>
-                  <label>
-                    프로필 사진
-                    <S.RequireMark />
-                  </label>
-                </S.Label>
-                <S.AvatarItem>
-                  <S.Avatar src={avatarURL} />
-                  <label htmlFor="avatar">
-                    <S.AvatarInputLabel>변경하기</S.AvatarInputLabel>
-                  </label>
-                  <input id="avatar" type="file" onChange={handleAvatar} />
-                </S.AvatarItem>
-              </S.Item>
               <S.Item>
                 <S.Label>
                   <label>
@@ -101,7 +63,8 @@ const Profile: React.FunctionComponent = () => {
                   id="username"
                   name="username"
                   type="text"
-                  onChange={handleUserName}
+                  value={userProfile.username}
+                  onChange={handleUsername}
                   spellCheck={false}
                 ></S.UserNameInput>
               </S.Item>
@@ -113,13 +76,14 @@ const Profile: React.FunctionComponent = () => {
                 <S.DescriptionInput
                   id="description"
                   name="description"
+                  value={userProfile.description}
                   onChange={handleDescription}
                   spellCheck={false}
                 ></S.DescriptionInput>
               </S.Item>
               <S.SubmitButton>
-                <button type="button" onClick={handleSubmit}>
-                  {isFetching ? <S.CircularProgress /> : '제출하기'}
+                <button type="button" onClick={handleFormSubmit}>
+                  {isFormFetching ? <S.FormCircularProgress /> : '제출하기'}
                 </button>
               </S.SubmitButton>
             </S.Form>
@@ -128,33 +92,6 @@ const Profile: React.FunctionComponent = () => {
       </S.Container>
     </Layout>
   );
-};
-
-const getAvatarPreSignedUrl = async (path): Promise<string> => {
-  const option = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ fileName: `workspace/${path}` }),
-  };
-
-  const response = await fetch(process.env.AVATAR_AUTH_LAMBDA_HOST, option);
-
-  const url = await response.json();
-
-  return url;
-};
-
-const uploadAvatarToBucket = async (preSignedUrl, file) => {
-  const option = {
-    method: 'PUT',
-    body: file,
-  };
-
-  const response = await fetch(preSignedUrl, option);
-
-  return response.ok;
 };
 
 export default Profile;
