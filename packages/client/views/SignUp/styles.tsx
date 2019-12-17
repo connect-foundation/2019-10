@@ -10,14 +10,27 @@ export const SignUp = styled.div`
 
 export const Container = styled.div`
   margin: 0 auto;
-  padding: 8rem 2rem 0 2rem;
+  padding: 8rem 2rem 4rem 2rem;
   @media only screen and (min-width: ${BREAKPOINT}px) {
-    padding: 12rem 0 0 0;
+    padding: 12rem 0 4rem 0;
     max-width: 120rem;
   }
 `;
 
-export const ContainerGrid = styled(MaterialGrid)``;
+export const ContainerGrid = styled(MaterialGrid)`
+  && {
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: calc(100% + 24px);
+      margin: -12px;
+    }
+  }
+
+  && > .MuiGrid-item {
+    @media only screen and (min-width: ${BREAKPOINT}px) {
+      padding: 12px;
+    }
+  }
+`;
 
 export const HeadMessage = styled.div`
   width: 100%;
@@ -63,6 +76,7 @@ export const Item = styled.div`
     width: 100%;
     height: 5rem;
     border: none;
+    font-size: 1.6rem;
     border-radius: 0.5rem;
     color: white;
     padding: 1rem;
@@ -118,12 +132,13 @@ export const Label = styled.div`
   }
   .agreement {
     display: inline-block;
-    color: white;
+    color: #ffffffb3;
     font-size: 1.6rem;
     font-weight: ${fontWeight.bold};
     vertical-align: middle;
     u {
       cursor: pointer;
+      color: white;
     }
   }
 `;
@@ -131,7 +146,7 @@ export const Label = styled.div`
 export const SubmitButton = styled.div`
   width: 100%;
   text-align: center;
-  margin-top: 3rem;
+  margin-top: 1rem;
   cursor: pointer;
   button {
     width: 15.8rem;
@@ -145,6 +160,6 @@ export const SubmitButton = styled.div`
     cursor: pointer;
   }
   @media only screen and (min-width: ${BREAKPOINT}px) {
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
 `;
