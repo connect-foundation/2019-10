@@ -1,89 +1,20 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React from 'react';
 import { Grid } from '@material-ui/core';
-import { useDebounce } from '../../hooks/use-debounce';
 
 import * as S from './styles';
-import {
-  signUpFormDataMaxLength,
-  endpoint,
-  debounceTime,
-} from '../../constants';
-import { validateUserName, validateDescription } from '../../libs/validate';
-import { useFormSubmit, userFormReducer, initialUserState } from './hooks';
+import { signUpFormDataMaxLength } from '../../constants';
+import { useSignUp } from './hook/use-sign-up';
 
 const SignUp: React.FunctionComponent = () => {
-  const [userForm, dispatchUserForm] = useReducer(
-    userFormReducer,
-    initialUserState,
-  );
-
-  const debouncedUserName = useDebounce(
-    userForm.userName,
-    debounceTime.userName,
-  );
-
   const {
-    result: isUserNameValid,
-    message: userNameMessage,
-  } = validateUserName(debouncedUserName, userForm.isUserNameDuplicated);
-
-  useEffect(() => {
-    const shouldCheckDuplicated = () => {
-      return debouncedUserName && isUserNameValid;
-    };
-
-    const checkUserNameDuplicate = async () => {
-      const user = await fetch(
-        `${process.env.API_URL_HOST}${endpoint.users}/verify/${debouncedUserName}`,
-      ).then(response => response.json());
-
-      if (user && user.username) {
-        dispatchUserForm({ type: 'updateUserNameDuplicated', value: true });
-      }
-    };
-
-    if (shouldCheckDuplicated()) {
-      checkUserNameDuplicate();
-    } else if (userForm.isUserNameDuplicated) {
-      dispatchUserForm({ type: 'updateUserNameDuplicated', value: false });
-    }
-  }, [debouncedUserName]);
-
-  const {
-    result: isDescriptionValid,
-    message: descriptionMessage,
-  } = validateDescription(userForm.description);
-
-  const isFormValid =
-    isUserNameValid &&
-    isDescriptionValid &&
-    userForm.isAgreed &&
-    !userForm.isUserNameDuplicated;
-
-  const { handleSubmit, checkSubmitAvailable } = useFormSubmit(
-    debouncedUserName,
-    userForm.description,
-    userForm.isAgreed,
-    isFormValid,
-  );
-
-  const handleUserName = e =>
-    dispatchUserForm({
-      type: 'updateUserName',
-      value: e.target.value,
-    });
-
-  const handleDescription = e =>
-    dispatchUserForm({
-      type: 'updateDescription',
-      value: e.target.value,
-    });
-
-  const handleIsAgreed = e =>
-    dispatchUserForm({
-      type: 'updateIsAgreed',
-      value: e.target.checked,
-    });
+    userFormState,
+    userFormValidationState,
+    changeUserForm,
+    changeUserName,
+    changeDescription,
+    isSubmitable,
+    submitUserForm,
+  } = useSignUp();
 
   return (
     <S.SignUp>
@@ -93,7 +24,7 @@ const SignUp: React.FunctionComponent = () => {
             <S.HeadMessage>거의 다 되었어요!</S.HeadMessage>
             <S.Form>
               <S.Item>
-                <S.Label valid={isUserNameValid}>
+                <S.Label valid={userFormValidationState.username.isValid}>
                   <label htmlFor="username">
                     닉네임
                     <S.RequireMark />
@@ -104,14 +35,14 @@ const SignUp: React.FunctionComponent = () => {
                   id="username"
                   name="username"
                   maxLength={signUpFormDataMaxLength.username}
-                  onChange={handleUserName}
+                  onChange={changeUserName}
                   type="text"
                   spellCheck={false}
                 />
-                <span>{userNameMessage}</span>
+                <span>{userFormValidationState.username.message}</span>
               </S.Item>
               <S.Item>
-                <S.Label valid={isDescriptionValid}>
+                <S.Label valid={userFormValidationState.description.isValid}>
                   <label htmlFor="description">소개</label>
                   <span>(최대 1,500자)</span>
                 </S.Label>
@@ -119,29 +50,21 @@ const SignUp: React.FunctionComponent = () => {
                   id="description"
                   name="description"
                   maxLength={signUpFormDataMaxLength.description}
-                  onChange={handleDescription}
+                  onChange={changeDescription}
                   spellCheck={false}
                 />
-                <span>{descriptionMessage}</span>
+                <span>{userFormValidationState.description.message}</span>
               </S.Item>
               <S.Item>
                 <S.Label>
-                  <input
-                    type="checkbox"
-                    name="isAgreed"
-                    onChange={handleIsAgreed}
-                    spellCheck={false}
-                  />
                   <div className={'agreement'}>
-                    <u>서비스 약관</u>에 동의합니다.
+                    가입하기 버튼을 누르면 wedev의 <u>약관</u>,{' '}
+                    <u>데이터 정책</u> 및 <u>쿠키 정책</u>에 동의하게 됩니다.
                   </div>
                 </S.Label>
               </S.Item>
               <S.SubmitButton>
-                <button
-                  disabled={!checkSubmitAvailable()}
-                  onClick={handleSubmit}
-                >
+                <button disabled={!isSubmitable} onClick={submitUserForm}>
                   가입하기
                 </button>
               </S.SubmitButton>
