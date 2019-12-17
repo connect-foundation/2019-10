@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 
-import { Tag } from '../../../typeorm/src/entity/tag.entity';
+import { Tag } from '../../entity/tag.entity';
 import { TagService } from './tag.service';
 import { TagListQueryDto } from './dto/tag-list-query.dto';
 import { TAG_ITEMS_PER_PAGE, SEARCHED_ITEM_NUMBER } from '../common/constants';

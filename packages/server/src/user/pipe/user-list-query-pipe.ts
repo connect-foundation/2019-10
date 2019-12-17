@@ -10,7 +10,7 @@ export class UserListQueryPipe implements PipeTransform {
     const { keyword } = value;
 
     if (!this.validateUserQueryPipeDto(page)) {
-      throw new BadRequestException();
+      throw new BadRequestException('page parameter should be a number.');
     }
 
     return {

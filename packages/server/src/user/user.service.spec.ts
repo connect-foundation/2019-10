@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
-import { User } from '../../../typeorm/src/entity/user.entity';
+import { User } from '../../entity/user.entity';
+import { Video } from '../../entity/video.entity';
 
 import { UserSerializerModule } from '../serializer/user-serializer.module';
 import { UserSerializerService } from '../serializer/user-serializer.service';
@@ -28,6 +29,12 @@ describe('-- UserService --', () => {
             findAndCount: jest
               .fn()
               .mockResolvedValue(USER_LIST_BY_KEYWORD_JAVA),
+          },
+        },
+        {
+          provide: getRepositoryToken(Video),
+          useValue: {
+            findAndCount: jest.fn(),
           },
         },
       ],

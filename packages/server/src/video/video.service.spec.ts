@@ -3,7 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, Like, MoreThan } from 'typeorm';
 import * as moment from 'moment';
 
-import { Video } from '../../../typeorm/src/entity/video.entity';
+import { Video } from '../../entity/video.entity';
 
 import { VideoService } from './video.service';
 import { VideoListQueryDto } from './dto/video-list-query.dto';

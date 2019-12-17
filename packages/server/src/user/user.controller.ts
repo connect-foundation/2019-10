@@ -11,6 +11,7 @@ import {
   Res,
   Query,
   NotFoundException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
@@ -40,9 +41,12 @@ export class UserController {
   public async getUsers(
     @Query(null, new UserListQueryPipe()) userListqueryDto: UserListQueryDto,
   ): Promise<UserListResponseDto> {
-    const [users, count] = await this.userService.findUsers(userListqueryDto);
-
-    return new UserListResponseDto(users, count);
+    try {
+      const [users, count] = await this.userService.findUsers(userListqueryDto);
+      return new UserListResponseDto(users, count);
+    } catch (err) {
+      throw new InternalServerErrorException(err.message);
+    }
   }
 
   @Post()
