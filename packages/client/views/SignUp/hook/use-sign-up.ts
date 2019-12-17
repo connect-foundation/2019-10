@@ -49,7 +49,7 @@ export const useSignUp = () => {
   const { query: createUser } = useQuery(signUpAction, false);
 
   const submitUserForm = async e => {
-    const { payload, error } = await createUser();
+    const { error } = await createUser();
 
     if (error) {
       // handle Error
