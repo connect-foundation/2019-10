@@ -16,14 +16,13 @@ import {
   SET_TABS,
   CENTER,
 } from '../../constants';
-import {
-  useSearchVideos,
-  useSearchUsers,
-  useSearchTags,
-  makeCustomSearchOptions,
-} from './hook/use-search';
+import { useSearchVideos } from './hook/use-search-videos';
+import { useSearchUsers } from './hook/use-search-users';
+import { useSearchTags } from './hook/use-search-tags';
+
 import { makeRouter } from './helper/filter-router';
 import { makeOptionString } from './helper/make-option-string';
+import { makeCustomSearchOptions } from './helper/make-custom-search-options';
 
 import { useSearchedResultsDispatch } from '../../components/SearchResultsProvider/hook/use-searched-results';
 

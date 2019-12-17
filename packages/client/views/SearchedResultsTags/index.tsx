@@ -15,7 +15,7 @@ import {
   SEARCH_OPTION_VALUES,
   CENTER,
 } from '../../constants';
-import { useSearchTags } from '../SearchedResults/hook/use-search';
+import { useSearchTags } from '../SearchedResults/hook/use-search-tags';
 import { useSearchedResults } from '../../components/SearchResultsProvider/hook/use-searched-results';
 import { makeOptionMap } from '../SearchedResults/helper/make-option-map';
 import { makeRouter } from '../SearchedResults/helper/filter-router';

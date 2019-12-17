@@ -15,7 +15,7 @@ import {
   SEARCH_OPTION_VALUES,
   CENTER,
 } from '../../constants';
-import { useSearchUsers } from '../SearchedResults/hook/use-search';
+import { useSearchUsers } from '../SearchedResults/hook/use-search-users';
 import { useSearchedResults } from '../../components/SearchResultsProvider/hook/use-searched-results';
 import { makeOptionMap } from '../SearchedResults/helper/make-option-map';
 import { makeRouter } from '../SearchedResults/helper/filter-router';
