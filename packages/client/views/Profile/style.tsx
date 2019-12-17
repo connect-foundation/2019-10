@@ -7,8 +7,6 @@ import { BREAKPOINT } from '../../constants';
 
 export const Profile = styled.div``;
 
-export const Container = styled.div``;
-
 export const ContainerGrid = styled(MaterialGrid)``;
 
 export const Title = styled.div`

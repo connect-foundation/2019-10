@@ -19,7 +19,7 @@ const Profile: React.FunctionComponent = () => {
 
   return (
     <Layout drawer={false}>
-      <S.Container>
+      <S.Profile>
         <S.ContainerGrid container justify="center">
           <Grid item xs={12} md={6}>
             <S.Title>
@@ -89,7 +89,7 @@ const Profile: React.FunctionComponent = () => {
             </S.Form>
           </Grid>
         </S.ContainerGrid>
-      </S.Container>
+      </S.Profile>
     </Layout>
   );
 };
