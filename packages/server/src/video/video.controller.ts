@@ -4,8 +4,9 @@ import {
   Get,
   Query,
   Param,
-  NotFoundException,
   Post,
+  NotFoundException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 
 import { endpoint } from '../common/constants';
@@ -49,11 +50,15 @@ export class VideoController {
   public async getVideos(
     @Query(null, new VideoListQueryPipe()) videoListQueryDto: VideoListQueryDto,
   ): Promise<VideoListResponseDto> {
-    const [videos, count] = await this.videoService.findVideos(
-      videoListQueryDto,
-    );
+    try {
+      const [videos, count] = await this.videoService.findVideos(
+        videoListQueryDto,
+      );
 
-    return new VideoListResponseDto(videos, count);
+      return new VideoListResponseDto(videos, count);
+    } catch (err) {
+      throw new InternalServerErrorException(err.message);
+    }
   }
 
   @Get('/:id')
