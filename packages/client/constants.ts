@@ -38,6 +38,7 @@ export const endpoint = {
   login: '/auth/login',
   users: '/users',
   profileEdit: '/profile/edit',
+  verifyUsername: '/users/verify',
 };
 
 export const SERVER_ENDPOINT = {
