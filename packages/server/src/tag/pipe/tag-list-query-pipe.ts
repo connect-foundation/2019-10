@@ -10,7 +10,7 @@ export class TagListQueryPipe implements PipeTransform {
     const { keyword } = value;
 
     if (!this.validateTagQueryPipeDto(page)) {
-      throw new BadRequestException();
+      throw new BadRequestException('page parameter should be a number.');
     }
 
     return {

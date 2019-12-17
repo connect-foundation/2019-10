@@ -1,4 +1,9 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { endpoint } from '../common/constants';
 
 import { TagService } from './tag.service';
@@ -14,8 +19,12 @@ export class TagController {
   public async getTags(
     @Query(null, new TagListQueryPipe()) tagListqueryDto: TagListQueryDto,
   ): Promise<TagListResponseDto> {
-    const [tags, count] = await this.tagService.findTags(tagListqueryDto);
+    try {
+      const [tags, count] = await this.tagService.findTags(tagListqueryDto);
 
-    return new TagListResponseDto(tags, count);
+      return new TagListResponseDto(tags, count);
+    } catch (err) {
+      throw new InternalServerErrorException(err.message);
+    }
   }
 }

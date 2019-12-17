@@ -11,7 +11,7 @@ export class VideoListQueryPipe implements PipeTransform {
     const { sort, period, keyword } = value;
 
     if (!this.validateGetVideosPipeDto({ page, sort, period, keyword })) {
-      throw new BadRequestException();
+      throw new BadRequestException('should valid query string');
     }
 
     return {
