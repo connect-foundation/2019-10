@@ -1,14 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-fetching-library';
 
+import {
+  validateUsername,
+  validateDescription,
+  validateUsernameDuplicate,
+} from '../helper/validate';
 import { endpoint } from '../../../constants';
 import { UserFormState } from '../model/user-form-state';
+import { useDebounce } from '../../../hooks/use-debounce';
+import { makeGetUserAction } from '../action/make-get-user';
 import { makeSignUpAction } from '../action/make-sign-up-action';
-import { validateUsername, validateDescription } from '../helper/validate';
-import { UserFormValidationState } from '../model/user-form-validation-state';
-import { ValidationState } from '../../../libs/validation-state/validation-state';
 import { SignUpFormDTOFactory } from '../dto/sign-up-form-dto-factory';
+import { UserFormValidationState } from '../model/user-form-validation-state';
+import { DuplicationValidationState } from '../model/duplication-check-state';
+import { ValidationState } from '../../../libs/validation-state/validation-state';
 
 export const useSignUp = () => {
   const router = useRouter();
@@ -19,6 +26,41 @@ export const useSignUp = () => {
   const [userFormValidationState, setUserFormValidationState] = useState(
     new UserFormValidationState(),
   );
+  const [duplicationValidationState, setDuplicationValidationState] = useState(
+    new DuplicationValidationState(),
+  );
+  const isFormValidated = Object.keys(userFormValidationState).every(state => {
+    return Boolean(userFormValidationState[state].isValid);
+  });
+  const isNotDuplicated = Object.keys(duplicationValidationState).every(
+    state => {
+      return Boolean(duplicationValidationState[state].isValid);
+    },
+  );
+
+  const debouncedUsername = useDebounce(userFormState.username, 500);
+  const getUserAction = makeGetUserAction(debouncedUsername);
+  const { query } = useQuery(getUserAction, false);
+
+  useEffect(() => {
+    if (!userFormValidationState.username.isValid) {
+      return;
+    }
+
+    const checkDuplicate = async () => {
+      setDuplicationValidationState(new DuplicationValidationState());
+      const usernameValidationState = await validateUsernameDuplicate(
+        debouncedUsername,
+        query,
+      );
+
+      setDuplicationValidationState({
+        username: usernameValidationState,
+      });
+    };
+
+    checkDuplicate();
+  }, [debouncedUsername]);
 
   const changeUserForm = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -46,7 +88,10 @@ export const useSignUp = () => {
       userFormState.description,
     ),
   );
+
   const { query: createUser } = useQuery(signUpAction, false);
+
+  const isSubmitable = isFormValidated && isNotDuplicated;
 
   const submitUserForm = async e => {
     const { error } = await createUser();
@@ -59,16 +104,9 @@ export const useSignUp = () => {
     router.push(endpoint.hotlist);
   };
 
-  const isValidated = Object.keys(userFormValidationState).every(state => {
-    return Boolean(userFormValidationState[state].isValid);
-  });
-
-  const isSubmitable = isValidated;
-
   return {
-    userFormState,
     userFormValidationState,
-    changeUserForm,
+    duplicationValidationState,
     changeUserName,
     changeDescription,
     isSubmitable,
