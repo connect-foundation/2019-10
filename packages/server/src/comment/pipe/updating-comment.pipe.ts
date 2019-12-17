@@ -2,7 +2,7 @@ import { Injectable, PipeTransform, BadRequestException } from '@nestjs/common';
 import { CommentBodyDto } from '../dto/comment-body.dto';
 
 @Injectable()
-export class CommentUpdateBodyPipe implements PipeTransform {
+export class UpdatingCommentPipe implements PipeTransform {
   public async transform(value: CommentBodyDto): Promise<CommentBodyDto> {
     const { content } = value;
 

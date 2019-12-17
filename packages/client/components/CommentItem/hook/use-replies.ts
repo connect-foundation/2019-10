@@ -21,31 +21,33 @@ export const useReplies = (videoId, commentId) => {
   const mutationState = useMutation(makeCreateReplyAction);
 
   useEffect(() => {
-    if (open) {
-      const fetch = async () => {
-        const data = await queryState.query();
-        if (data.payload && !data.error) {
-          setCount(data.payload.count);
-          setReplies(data.payload.data);
-          setHasMore(data.payload.data.length >= 5);
-        }
-      };
-      fetch();
+    if (!open) {
+      return;
     }
+    const fetch = async () => {
+      const data = await queryState.query();
+      if (data.payload && !data.error) {
+        setCount(data.payload.count);
+        setReplies(data.payload.data);
+        setHasMore(data.payload.data.length >= 5);
+      }
+    };
+    fetch();
   }, [open]);
 
   useEffect(() => {
-    if (page > 1) {
-      const fetch = async () => {
-        const data = await queryState.query();
-        if (data.payload && !data.error) {
-          setCount(data.payload.count);
-          setReplies([...replies, ...data.payload.data]);
-          setHasMore(data.payload.data.length >= 5);
-        }
-      };
-      fetch();
+    if (page <= 1) {
+      return;
     }
+    const fetch = async () => {
+      const data = await queryState.query();
+      if (data.payload && !data.error) {
+        setCount(data.payload.count);
+        setReplies([...replies, ...data.payload.data]);
+        setHasMore(data.payload.data.length >= 5);
+      }
+    };
+    fetch();
   }, [page]);
 
   const handleOpen = () => {

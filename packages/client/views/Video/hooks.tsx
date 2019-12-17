@@ -9,6 +9,7 @@ const createVideoAction: Action = id => ({
 
 export const useVideo = id => {
   const [hasData, setHasData] = useState(false);
+  // TODO: 기본 값 model로 작성하기
   const [video, setVideo] = useState({
     id: '',
     views: null,

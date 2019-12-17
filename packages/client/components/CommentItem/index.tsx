@@ -62,6 +62,7 @@ const CommentItem = ({
       <S.Content>
         {commentEditState.edit ? (
           <CommentForm
+            // TODO: 스타일 내재화 하기
             style={{
               marginBottom: '0rem',
             }}

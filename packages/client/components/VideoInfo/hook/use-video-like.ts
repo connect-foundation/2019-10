@@ -4,6 +4,7 @@ import { useMutation } from 'react-fetching-library';
 import { makeLikeVideoAction } from '../action/make-like-video-action';
 import { makeUnlikeVideoAction } from '../action/make-unlike-video-action';
 import { useUser } from '../../UserProvider/hooks';
+import { endpoint } from '../../../constants';
 
 export const useVideoLike = (likedUsersCount: number, likedByUser: boolean) => {
   const router = useRouter();
@@ -44,7 +45,7 @@ export const useVideoLike = (likedUsersCount: number, likedByUser: boolean) => {
 
   const handleClick = () => {
     if (!user) {
-      router.push('/auth/login');
+      router.push(endpoint.login);
       return;
     }
 
