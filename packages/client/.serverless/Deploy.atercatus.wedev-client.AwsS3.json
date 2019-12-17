@@ -1,0 +1,6 @@
+{
+  "name": "wedev-client-atercatus",
+  "region": "us-east-1",
+  "accelerated": true,
+  "url": "https://wedev-client-atercatus.s3.amazonaws.com"
+}

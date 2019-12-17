@@ -1,0 +1,4 @@
+wedev-client:
+  component: serverless-next.js
+  inputs:
+    bucketName: ${env.BUCKET}
