@@ -15,7 +15,7 @@ const SearchedResultsArea = ({ subject, data, type }) => {
             href={`/${SEARCH_OPTION_VALUES.tags}/[tagId]`}
             as={`/${SEARCH_OPTION_VALUES.tags}/${tag.id}`}
           >
-            <a onClick={e => e.stopPropagation()}>
+            <a>
               <S.Tag>{tag.name}</S.Tag>
             </a>
           </Link>
@@ -32,7 +32,7 @@ const SearchedResultsArea = ({ subject, data, type }) => {
             href={`/${SEARCH_OPTION_VALUES.users}/[userId]`}
             as={`/${SEARCH_OPTION_VALUES.users}/${user.id}`}
           >
-            <a onClick={e => e.stopPropagation()}>
+            <a>
               <S.Avatar>
                 <img src={user.avatar} />
               </S.Avatar>
