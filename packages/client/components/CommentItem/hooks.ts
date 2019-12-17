@@ -3,7 +3,7 @@ import { Action, useQuery } from 'react-fetching-library';
 
 const createRepliesAction: Action = (videoId, commentId, page) => ({
   method: 'GET',
-  endpoint: `${process.env.API_SERVER_HOST}/videos/${videoId}/comments/${commentId}/replies?page=${page}`,
+  endpoint: `${process.env.API_SERVER_URL}/videos/${videoId}/comments/${commentId}/replies?page=${page}`,
 });
 
 export const useReplies = (videoId, commentId) => {
