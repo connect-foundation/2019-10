@@ -59,6 +59,7 @@ export const AuthenticateLink = styled.a`
   span {
     color: white;
     font-size: 1.5rem;
+    font-weight: ${fontWeight.bold};
   }
   @media only screen and (min-width: ${BREAKPOINT}px) {
     max-width: 32rem;
