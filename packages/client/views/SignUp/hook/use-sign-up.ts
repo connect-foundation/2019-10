@@ -7,10 +7,10 @@ import {
   validateDescription,
   validateUsernameDuplicate,
 } from '../helper/validate';
-import { endpoint } from '../../../constants';
 import { UserFormState } from '../model/user-form-state';
 import { useDebounce } from '../../../hooks/use-debounce';
 import { makeGetUserAction } from '../action/make-get-user';
+import { endpoint, DEBOUNCE_TIME } from '../../../constants';
 import { makeSignUpAction } from '../action/make-sign-up-action';
 import { SignUpFormDTOFactory } from '../dto/sign-up-form-dto-factory';
 import { UserFormValidationState } from '../model/user-form-validation-state';
@@ -38,9 +38,12 @@ export const useSignUp = () => {
     },
   );
 
-  const debouncedUsername = useDebounce(userFormState.username, 500);
+  const debouncedUsername = useDebounce(
+    userFormState.username,
+    DEBOUNCE_TIME.USERNAME,
+  );
   const getUserAction = makeGetUserAction(debouncedUsername);
-  const { query } = useQuery(getUserAction, false);
+  const { query: getUserQuery } = useQuery(getUserAction, false);
 
   useEffect(() => {
     if (!userFormValidationState.username.isValid) {
@@ -51,7 +54,7 @@ export const useSignUp = () => {
       setDuplicationValidationState(new DuplicationValidationState());
       const usernameValidationState = await validateUsernameDuplicate(
         debouncedUsername,
-        query,
+        getUserQuery,
       );
 
       setDuplicationValidationState({

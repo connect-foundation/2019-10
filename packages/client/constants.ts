@@ -94,7 +94,7 @@ export const signUpFormDataMaxLength = {
 };
 
 export const DEBOUNCE_TIME = {
-  USERNAME: 300,
+  USERNAME: 200,
 };
 
 export const orientation = {

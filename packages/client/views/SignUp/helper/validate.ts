@@ -63,9 +63,9 @@ const createUsernameDuplicateMessage = (name: string): string =>
 
 export const validateUsernameDuplicate = async (
   username: string,
-  query,
+  getUserQuery,
 ): Promise<ValidationState> => {
-  const { payload, error } = await query(username);
+  const { payload, error } = await getUserQuery(username);
 
   if (error) {
     return ValidationStateFactory.makeFailValidationState(SERVER_ERROR_MESSAGE);
