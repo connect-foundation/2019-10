@@ -6,7 +6,7 @@ export const makeCreateReplyAction: Action = ({
   payload,
 }) => ({
   method: 'POST',
-  endpoint: `${process.env.API_URL_HOST}/videos/${videoId}/comments/${commentId}`,
+  endpoint: `${process.env.API_SERVER_URL}/videos/${videoId}/comments/${commentId}`,
   credentials: 'include',
   body: payload,
 });
