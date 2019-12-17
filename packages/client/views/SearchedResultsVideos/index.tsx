@@ -18,7 +18,7 @@ import {
 import { useSearchVideos } from '../SearchedResults/hook/use-search';
 import { useSearchedResults } from '../../components/SearchResultsProvider/hook/use-searched-results';
 import { getOptionMap } from '../SearchedResults/helper/get-option-map';
-import { makeRouter } from '../SearchedResults/hook/filter-router';
+import { makeRouter } from '../SearchedResults/helper/filter-router';
 
 const SearchedResultsVideos: React.FunctionComponent = () => {
   const router = useRouter();

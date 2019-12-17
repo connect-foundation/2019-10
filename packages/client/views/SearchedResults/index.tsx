@@ -23,7 +23,7 @@ import {
   makeCustomSearchOptions,
   makeOptions,
 } from './hook/use-search';
-import { handleFilterClick } from './hook/filter-router';
+import { makeRouter } from './helper/filter-router';
 
 import { useSearchedResultsDispatch } from '../../components/SearchResultsProvider/hook/use-searched-results';
 
@@ -57,6 +57,10 @@ const SearchedResults: React.FunctionComponent = () => {
     });
   }
 
+  const handleFilterClick = optionValue => {
+    router.push(makeRouter(searchKeyword, optionValue));
+  };
+
   const activeSearch = hasData
     ? customSearchOptions[0].value
     : SEARCH_OPTION_VALUES.all;
@@ -77,7 +81,7 @@ const SearchedResults: React.FunctionComponent = () => {
                 <S.StyledTabs
                   items={customSearchOptions}
                   activeValue={activeSearch}
-                  onClick={e => handleFilterClick(e, searchKeyword)}
+                  onClick={handleFilterClick}
                 />
                 <S.Line />
 
