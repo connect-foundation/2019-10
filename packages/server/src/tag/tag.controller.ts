@@ -1,9 +1,4 @@
-import {
-  Controller,
-  Get,
-  Query,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Controller, Get, Query, BadRequestException } from '@nestjs/common';
 import { endpoint } from '../common/constants';
 
 import { TagService } from './tag.service';
@@ -24,7 +19,7 @@ export class TagController {
 
       return new TagListResponseDto(tags, count);
     } catch (err) {
-      throw new InternalServerErrorException(err.message);
+      throw new BadRequestException();
     }
   }
 }

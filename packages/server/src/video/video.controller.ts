@@ -6,7 +6,7 @@ import {
   Param,
   Post,
   NotFoundException,
-  InternalServerErrorException,
+  BadRequestException,
 } from '@nestjs/common';
 
 import { endpoint } from '../common/constants';
@@ -57,7 +57,7 @@ export class VideoController {
 
       return new VideoListResponseDto(videos, count);
     } catch (err) {
-      throw new InternalServerErrorException(err.message);
+      throw new BadRequestException();
     }
   }
 

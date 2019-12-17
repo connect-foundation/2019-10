@@ -11,7 +11,6 @@ import {
   Res,
   Query,
   NotFoundException,
-  InternalServerErrorException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
@@ -45,7 +44,7 @@ export class UserController {
       const [users, count] = await this.userService.findUsers(userListqueryDto);
       return new UserListResponseDto(users, count);
     } catch (err) {
-      throw new InternalServerErrorException(err.message);
+      throw new BadRequestException();
     }
   }
 
