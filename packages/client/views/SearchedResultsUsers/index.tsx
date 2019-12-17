@@ -11,13 +11,14 @@ import SearchedResultsTitle from '../../components/SearchedResultsTitle';
 import SearchedResultsArea from '../../components/SearchedResultsArea';
 
 import {
-  endpoint,
   SEARCH_OPTION_LABELS,
   SEARCH_OPTION_VALUES,
   CENTER,
 } from '../../constants';
-import { useSearchUsers } from '../SearchedResults/hook/use_search';
-import { useSearchedResults } from '../../components/SearchResultsProvider/hook/use_searched_results';
+import { useSearchUsers } from '../SearchedResults/hook/use-search';
+import { useSearchedResults } from '../../components/SearchResultsProvider/hook/use-searched-results';
+import { getOptionMap } from '../SearchedResults/helper/get-option-map';
+import { makeRouter } from '../SearchedResults/hook/filter-router';
 
 const SearchedResultsUsers: React.FunctionComponent = () => {
   const router = useRouter();
@@ -32,11 +33,7 @@ const SearchedResultsUsers: React.FunctionComponent = () => {
     searchKeyword,
   );
 
-  const optionMap = new Map();
-  optionMap.set(SEARCH_OPTION_VALUES.all, SEARCH_OPTION_LABELS.all);
-  optionMap.set(SEARCH_OPTION_VALUES.videos, SEARCH_OPTION_LABELS.videos);
-  optionMap.set(SEARCH_OPTION_VALUES.users, SEARCH_OPTION_LABELS.users);
-  optionMap.set(SEARCH_OPTION_VALUES.tags, SEARCH_OPTION_LABELS.tags);
+  const optionMap = getOptionMap();
 
   const customSearchOptions = optionArray.reduce((acc, cur) => {
     acc.push({ label: optionMap.get(cur), value: cur });
@@ -45,18 +42,6 @@ const SearchedResultsUsers: React.FunctionComponent = () => {
 
   const handlePageChange = () => {
     setPage(page + 1);
-  };
-
-  const makeRouter = (queryKeyword, optionValue) => {
-    const pathname =
-      optionValue === SEARCH_OPTION_VALUES.all
-        ? `${endpoint.search}`
-        : `${endpoint.search}/${optionValue}`;
-
-    return {
-      pathname,
-      query: { keyword: queryKeyword },
-    };
   };
 
   const handleFilterClick = optionValue => {

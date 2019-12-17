@@ -43,7 +43,7 @@ class MyApp extends App<AppProps> {
   }
 
   public render() {
-    const { Component, pageProps, cacheItems, user } = this.props;
+    const { Component, pageProps, cacheItems, user, pathname } = this.props;
     const theme = {};
 
     client.cache.setItems(cacheItems);
@@ -53,6 +53,13 @@ class MyApp extends App<AppProps> {
       <FetchingProvider client={client}>
         <ThemeProvider theme={theme}>
           <UserProvider user={user}>
+            {/* {this.isNeedFileProvider(pathname) ? (
+              <FileProvider>
+                <Component {...pageProps} />
+              </FileProvider>
+            ) : (
+                <Component {...pageProps} />
+            )} */}
             <SearchedResultsProvider>
               <FileProvider>
                 <Component {...pageProps} />

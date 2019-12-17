@@ -5,7 +5,7 @@ import { SearchSVG } from '../../svgs';
 const SearchedResultsTitle = ({ searchKeyword }) => {
   return (
     <S.Title>
-      <SearchSVG width={23} height={24} />
+      <SearchSVG />
       <span>"{searchKeyword}" 검색 결과</span>
     </S.Title>
   );

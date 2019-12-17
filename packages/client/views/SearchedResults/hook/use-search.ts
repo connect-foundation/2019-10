@@ -1,7 +1,54 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-fetching-library';
-import { SEARCH_OPTION_VALUES } from '../../../constants';
-import { makeQuerySearchAction } from '../action/make_query_search_action';
+import { SEARCH_OPTION_LABELS, SEARCH_OPTION_VALUES } from '../../../constants';
+import { makeQuerySearchAction } from '../action/make-query-search-action';
+
+const optionMap = new Map();
+optionMap.set(SEARCH_OPTION_VALUES.all, {
+  label: SEARCH_OPTION_LABELS.all,
+});
+optionMap.set(SEARCH_OPTION_VALUES.videos, {
+  label: SEARCH_OPTION_LABELS.videos,
+});
+optionMap.set(SEARCH_OPTION_VALUES.users, {
+  label: SEARCH_OPTION_LABELS.users,
+});
+optionMap.set(SEARCH_OPTION_VALUES.tags, {
+  label: SEARCH_OPTION_LABELS.tags,
+});
+
+export const setOptionMap = (type, count) => {
+  optionMap.get(SEARCH_OPTION_VALUES[type]).count = count;
+};
+
+export const makeCustomSearchOptions = () => {
+  const customSearchOptions = [];
+
+  optionMap.forEach((key, value) => {
+    if (key.value !== SEARCH_OPTION_VALUES.all) {
+      customSearchOptions.push({ label: key.label, value });
+    }
+  });
+
+  if (customSearchOptions.length >= 2) {
+    customSearchOptions.unshift({
+      label: SEARCH_OPTION_LABELS.all,
+      value: SEARCH_OPTION_VALUES.all,
+    });
+  }
+
+  return customSearchOptions;
+};
+
+export const makeOptions = optionArray => {
+  const options = optionArray
+    .map(option => {
+      return option.value;
+    })
+    .join(',');
+
+  return options;
+};
 
 export const useSearchVideos = (page, keyword) => {
   const [videos, setVideos] = useState([]);
@@ -25,6 +72,7 @@ export const useSearchVideos = (page, keyword) => {
       setVideoHasMore(payload.data.length >= 20);
       setVideos([...payload.data]);
       setVideoCount(payload.count);
+      setOptionMap(SEARCH_OPTION_VALUES.videos, payload.count);
     }
   }, [payload]);
 
@@ -53,6 +101,7 @@ export const useSearchUsers = (page, keyword) => {
       setUserHasMore(payload.data.length >= 20);
       setUsers([...payload.data]);
       setUserCount(payload.count);
+      setOptionMap(SEARCH_OPTION_VALUES.users, payload.count);
     }
   }, [payload]);
 
@@ -81,6 +130,7 @@ export const useSearchTags = (page, keyword) => {
       setTagHasMore(payload.data.length >= 20);
       setTags([...payload.data]);
       setTagCount(payload.count);
+      setOptionMap(SEARCH_OPTION_VALUES.tags, payload.count);
     }
   }, [payload]);
 

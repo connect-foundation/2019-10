@@ -19,10 +19,9 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
   const [inputValue, setInputValue] = useState('');
 
   const handleChange = e => {
-    if (e.target.value !== ' ') {
+    if (e.target.value.trim()) {
       setInputValue(e.target.value);
     }
-    setInputValue(e.target.value.replace(/\s/, ''));
   };
 
   const handleKeyPress = e => {
@@ -41,7 +40,7 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
       </S.ArrowBack>
 
       <S.Input isActive={isActive}>
-        <SearchSVG width={20} height={20} viewBox="0 0 24 24" />
+        <SearchSVG />
         <input
           value={inputValue}
           onChange={handleChange}

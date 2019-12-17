@@ -11,7 +11,6 @@ import SearchedResultsArea from '../../components/SearchedResultsArea';
 import ViewMore from '../../components/ViewMore';
 
 import {
-  endpoint,
   SEARCH_OPTION_LABELS,
   SEARCH_OPTION_VALUES,
   SET_TABS,
@@ -21,8 +20,12 @@ import {
   useSearchVideos,
   useSearchUsers,
   useSearchTags,
-} from './hook/use_search';
-import { useSearchedResultsDispatch } from '../../components/SearchResultsProvider/hook/use_searched_results';
+  makeCustomSearchOptions,
+  makeOptions,
+} from './hook/use-search';
+import { handleFilterClick } from './hook/filter-router';
+
+import { useSearchedResultsDispatch } from '../../components/SearchResultsProvider/hook/use-searched-results';
 
 const SearchedResults: React.FunctionComponent = () => {
   const router = useRouter();
@@ -41,44 +44,11 @@ const SearchedResults: React.FunctionComponent = () => {
 
   const allCount = hasData ? videoCount + userCount + tagCount : null;
 
-  const optionMap = new Map();
-  optionMap.set(SEARCH_OPTION_VALUES.all, {
-    label: SEARCH_OPTION_LABELS.all,
-  });
-  optionMap.set(SEARCH_OPTION_VALUES.videos, {
-    label: SEARCH_OPTION_LABELS.videos,
-    count: videoCount,
-  });
-  optionMap.set(SEARCH_OPTION_VALUES.users, {
-    label: SEARCH_OPTION_LABELS.users,
-    count: userCount,
-  });
-  optionMap.set(SEARCH_OPTION_VALUES.tags, {
-    label: SEARCH_OPTION_LABELS.tags,
-    count: tagCount,
-  });
-
-  const customSearchOptions = [];
+  let customSearchOptions = [];
 
   if (hasData) {
-    optionMap.forEach((key, value) => {
-      if (key.count) {
-        customSearchOptions.push({ label: key.label, value });
-      }
-    });
-
-    if (customSearchOptions.length >= 2) {
-      customSearchOptions.unshift({
-        label: SEARCH_OPTION_LABELS.all,
-        value: SEARCH_OPTION_VALUES.all,
-      });
-    }
-
-    const options = customSearchOptions
-      .map(option => {
-        return option.value;
-      })
-      .join(',');
+    customSearchOptions = makeCustomSearchOptions();
+    const options = makeOptions(customSearchOptions);
 
     const searchedResultsDispatch = useSearchedResultsDispatch();
     searchedResultsDispatch({
@@ -90,22 +60,6 @@ const SearchedResults: React.FunctionComponent = () => {
   const activeSearch = hasData
     ? customSearchOptions[0].value
     : SEARCH_OPTION_VALUES.all;
-
-  const makeRouter = (queryKeyword, optionValue) => {
-    const pathname =
-      optionValue === SEARCH_OPTION_VALUES.all
-        ? `${endpoint.search}`
-        : `${endpoint.search}/${optionValue}`;
-
-    return {
-      pathname,
-      query: { keyword: queryKeyword },
-    };
-  };
-
-  const handleFilterClick = optionValue => {
-    router.push(makeRouter(searchKeyword, optionValue));
-  };
 
   return (
     <Layout drawer={false}>
@@ -123,7 +77,7 @@ const SearchedResults: React.FunctionComponent = () => {
                 <S.StyledTabs
                   items={customSearchOptions}
                   activeValue={activeSearch}
-                  onClick={handleFilterClick}
+                  onClick={e => handleFilterClick(e, searchKeyword)}
                 />
                 <S.Line />
 
