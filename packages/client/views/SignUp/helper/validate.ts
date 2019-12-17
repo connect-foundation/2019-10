@@ -1,12 +1,14 @@
-import { ValidationState } from '../../../libs/validation-state/validation-state';
-import { ValidationStateFactory } from './validation-state-factory';
 import {
   USER_NAME_REGEX,
   USER_FORM_VALIDATION_MESSAGE,
+  SERVER_ERROR_MESSAGE,
+  signUpFormDataMaxLength,
 } from '../../../constants';
+import { ValidationStateFactory } from './validation-state-factory';
+import { ValidationState } from '../../../libs/validation-state/validation-state';
 
 const isValidUsernameLength = (username: string): boolean => {
-  return username.length <= 30;
+  return username.length <= signUpFormDataMaxLength.username;
 };
 
 const isValidUsernameCharacters = (username: string): boolean => {
@@ -41,16 +43,39 @@ export const validateUsername = (username: string): ValidationState => {
 };
 
 const isValidDescriptionLength = (description: string) => {
-  return description.length <= 1500;
+  return description.length <= signUpFormDataMaxLength.description;
 };
 
 export const validateDescription = (description: string): ValidationState => {
   description = description.trim();
 
+  // description은 1500자 이하로 작성되어야 합니다.
   if (!isValidDescriptionLength(description)) {
     return ValidationStateFactory.makeFailValidationState(
       USER_FORM_VALIDATION_MESSAGE.DESCRIPTION_LENGTH,
     );
   }
+  return ValidationStateFactory.makeSuccessValidationState();
+};
+
+const createUsernameDuplicateMessage = (name: string): string =>
+  `'${name}'은 이미 사용중인 닉네임입니다. 다른 닉네임을 작성해 주십시오.`;
+
+export const validateUsernameDuplicate = async (
+  username: string,
+  query,
+): Promise<ValidationState> => {
+  const { payload, error } = await query(username);
+
+  if (error) {
+    return ValidationStateFactory.makeFailValidationState(SERVER_ERROR_MESSAGE);
+  }
+
+  if (payload.username) {
+    return ValidationStateFactory.makeFailValidationState(
+      createUsernameDuplicateMessage(username),
+    );
+  }
+
   return ValidationStateFactory.makeSuccessValidationState();
 };
