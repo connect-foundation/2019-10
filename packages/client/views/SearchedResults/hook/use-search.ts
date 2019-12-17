@@ -2,20 +2,9 @@ import { useState, useEffect } from 'react';
 import { useQuery } from 'react-fetching-library';
 import { SEARCH_OPTION_LABELS, SEARCH_OPTION_VALUES } from '../../../constants';
 import { makeQuerySearchAction } from '../action/make-query-search-action';
+import { makeCustomOptionMap } from '../helper/make-custom-option-map';
 
-const optionMap = new Map();
-optionMap.set(SEARCH_OPTION_VALUES.all, {
-  label: SEARCH_OPTION_LABELS.all,
-});
-optionMap.set(SEARCH_OPTION_VALUES.videos, {
-  label: SEARCH_OPTION_LABELS.videos,
-});
-optionMap.set(SEARCH_OPTION_VALUES.users, {
-  label: SEARCH_OPTION_LABELS.users,
-});
-optionMap.set(SEARCH_OPTION_VALUES.tags, {
-  label: SEARCH_OPTION_LABELS.tags,
-});
+const optionMap = makeCustomOptionMap();
 
 export const setOptionMap = (type, count) => {
   optionMap.get(SEARCH_OPTION_VALUES[type]).count = count;
