@@ -1,7 +1,7 @@
 import { SignUpFormDTO } from './sign-up-form-dto';
 
-export class UploadVideoDetailDtoFactory {
-  public static makeUploadVideoDetailDTO(
+export class SignUpFormDTOFactory {
+  public static makeSignUpFormDTO(
     username: string,
     description: string,
   ): SignUpFormDTO {
