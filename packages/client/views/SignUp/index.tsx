@@ -2,19 +2,21 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 
 import * as S from './styles';
-import { signUpFormDataMaxLength } from '../../constants';
 import { useSignUp } from './hook/use-sign-up';
+import { signUpFormDataMaxLength } from '../../constants';
 
 const SignUp: React.FunctionComponent = () => {
   const {
-    userFormState,
     userFormValidationState,
-    changeUserForm,
+    duplicationValidationState,
     changeUserName,
     changeDescription,
     isSubmitable,
     submitUserForm,
   } = useSignUp();
+
+  const userValidationErrorMessage = userFormValidationState.username.message;
+  const userDuplicateMessage = duplicationValidationState.username.message;
 
   return (
     <S.SignUp>
@@ -36,10 +38,15 @@ const SignUp: React.FunctionComponent = () => {
                   name="username"
                   maxLength={signUpFormDataMaxLength.username}
                   onChange={changeUserName}
+                  autoComplete="off"
                   type="text"
                   spellCheck={false}
                 />
-                <span>{userFormValidationState.username.message}</span>
+                <span>
+                  {userValidationErrorMessage
+                    ? userValidationErrorMessage
+                    : userDuplicateMessage}
+                </span>
               </S.Item>
               <S.Item>
                 <S.Label valid={userFormValidationState.description.isValid}>
@@ -51,6 +58,7 @@ const SignUp: React.FunctionComponent = () => {
                   name="description"
                   maxLength={signUpFormDataMaxLength.description}
                   onChange={changeDescription}
+                  autoComplete="off"
                   spellCheck={false}
                 />
                 <span>{userFormValidationState.description.message}</span>
