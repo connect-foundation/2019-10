@@ -14,7 +14,7 @@ describe('TagListQueryPipe', () => {
 
   describe('success calls', () => {
     it('should let the TagListQueryDto go on through', () => {
-      const tagListQueryDto = new TagListQueryDto(1, 'javascript');
+      const tagListQueryDto = new TagListQueryDto('1', 'javascript');
       const result: TagListQueryDto = { page: 1, keyword: 'javascript' };
       expect(pipe.transform(tagListQueryDto)).resolves.toBe(result);
     });

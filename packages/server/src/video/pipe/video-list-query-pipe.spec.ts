@@ -15,7 +15,7 @@ describe('VideoListQueryPipe', () => {
   describe('success calls', () => {
     it('should let the VideoListQueryDto go on through with keyword', () => {
       const videoListQueryDto = new VideoListQueryDto(
-        1,
+        '1',
         undefined,
         undefined,
         '영상',
@@ -31,7 +31,7 @@ describe('VideoListQueryPipe', () => {
 
     it('should let the VideoListQueryDto go on through with no keyword', () => {
       const videoListQueryDto = new VideoListQueryDto(
-        1,
+        '1',
         'popular',
         'week',
         undefined,

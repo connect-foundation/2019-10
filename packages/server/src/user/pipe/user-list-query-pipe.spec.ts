@@ -14,7 +14,7 @@ describe('UserListQueryPipe', () => {
 
   describe('success calls', () => {
     it('should let the UserListQueryDto go on through', () => {
-      const userListQueryDto = new UserListQueryDto(1, '권');
+      const userListQueryDto = new UserListQueryDto('1', '권');
       const result: UserListQueryDto = { page: 1, keyword: '권' };
       expect(pipe.transform(userListQueryDto)).resolves.toBe(result);
     });
