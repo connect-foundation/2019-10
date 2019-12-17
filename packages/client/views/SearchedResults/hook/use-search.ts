@@ -29,16 +29,6 @@ export const makeCustomSearchOptions = () => {
   return customSearchOptions;
 };
 
-export const makeOptions = optionArray => {
-  const options = optionArray
-    .map(option => {
-      return option.value;
-    })
-    .join(',');
-
-  return options;
-};
-
 export const useSearchVideos = (page, keyword) => {
   const [videos, setVideos] = useState([]);
   const [videoCount, setVideoCount] = useState(null);

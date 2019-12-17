@@ -21,9 +21,9 @@ import {
   useSearchUsers,
   useSearchTags,
   makeCustomSearchOptions,
-  makeOptions,
 } from './hook/use-search';
 import { makeRouter } from './helper/filter-router';
+import { makeOptionString } from './helper/make-option-string';
 
 import { useSearchedResultsDispatch } from '../../components/SearchResultsProvider/hook/use-searched-results';
 
@@ -48,7 +48,7 @@ const SearchedResults: React.FunctionComponent = () => {
 
   if (hasData) {
     customSearchOptions = makeCustomSearchOptions();
-    const options = makeOptions(customSearchOptions);
+    const options = makeOptionString(customSearchOptions);
 
     const searchedResultsDispatch = useSearchedResultsDispatch();
     searchedResultsDispatch({
