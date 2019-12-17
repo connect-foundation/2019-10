@@ -57,7 +57,7 @@ describe('VideoListQueryPipe', () => {
       try {
         pipe.transform(videoListQueryDto);
       } catch (err) {
-        expect(err.message.message).toBe('should valid query string');
+        expect(err.message.message).toBe('query string is not valid');
         expect(err.message.statusCode).toBe(400);
         expect(err.message.error).toBe('Bad Request');
       }
@@ -73,7 +73,7 @@ describe('VideoListQueryPipe', () => {
       try {
         pipe.transform(videoListQueryDto);
       } catch (err) {
-        expect(err.message.message).toBe('should valid query string');
+        expect(err.message.message).toBe('query string is not valid');
         expect(err.message.statusCode).toBe(400);
         expect(err.message.error).toBe('Bad Request');
       }
@@ -89,7 +89,7 @@ describe('VideoListQueryPipe', () => {
       try {
         pipe.transform(videoListQueryDto);
       } catch (err) {
-        expect(err.message.message).toBe('should valid query string');
+        expect(err.message.message).toBe('query string is not valid');
         expect(err.message.statusCode).toBe(400);
         expect(err.message.error).toBe('Bad Request');
       }
@@ -105,7 +105,7 @@ describe('VideoListQueryPipe', () => {
       try {
         pipe.transform(videoListQueryDto);
       } catch (err) {
-        expect(err.message.message).toBe('should valid query string');
+        expect(err.message.message).toBe('query string is not valid');
         expect(err.message.statusCode).toBe(400);
         expect(err.message.error).toBe('Bad Request');
       }
