@@ -17,7 +17,7 @@ import {
 } from '../../constants';
 import { useSearchUsers } from '../SearchedResults/hook/use-search';
 import { useSearchedResults } from '../../components/SearchResultsProvider/hook/use-searched-results';
-import { getOptionMap } from '../SearchedResults/helper/get-option-map';
+import { makeOptionMap } from '../SearchedResults/helper/make-option-map';
 import { makeRouter } from '../SearchedResults/helper/filter-router';
 
 const SearchedResultsUsers: React.FunctionComponent = () => {
@@ -33,7 +33,7 @@ const SearchedResultsUsers: React.FunctionComponent = () => {
     searchKeyword,
   );
 
-  const optionMap = getOptionMap();
+  const optionMap = makeOptionMap();
 
   const customSearchOptions = optionArray.reduce((acc, cur) => {
     acc.push({ label: optionMap.get(cur), value: cur });

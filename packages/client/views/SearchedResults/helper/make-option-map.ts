@@ -1,6 +1,6 @@
 import { SEARCH_OPTION_LABELS, SEARCH_OPTION_VALUES } from '../../../constants';
 
-export const getOptionMap = () => {
+export const makeOptionMap = () => {
   const optionMap = new Map();
 
   optionMap.set(SEARCH_OPTION_VALUES.all, SEARCH_OPTION_LABELS.all);
