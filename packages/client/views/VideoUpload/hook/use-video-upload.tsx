@@ -1,59 +1,66 @@
+import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { v4 } from 'uuid';
 import { useMutation } from 'react-fetching-library';
 
-import { useVideoFile } from '../../components/FileProvider/hooks';
-import { useRef, useState } from 'react';
-import { TextFormData } from './model/text-form-data';
-import { useUser } from '../../components/UserProvider/hooks';
-import { UploadVideoDetailDtoFactory } from './dto/upload-video-dto-factory';
-import { SPACEBAR, MAX_TAGS_NUMBER, endpoint, fileType } from '../../constants';
+import { useVideoFile } from '../../../components/VideoFileProvider/hooks';
+import { VideoFormData } from '../model/video-form-data';
+import { useUser } from '../../../components/UserProvider/hooks';
+import { UploadVideoDetailDtoFactory } from '../dto/upload-video-dto-factory';
+import { SPACEBAR, endpoint } from '../../../constants';
 import {
   makeGetPreSignedUrlAction,
   makeUploadToBucketAction,
   makeSendVideoInfoAction,
-} from './action/video-upload-action';
+} from '../action/video-upload-action';
+import { VideoFormValidationStates } from '../model/video-form-validation-state';
+import {
+  isMakeableTag,
+  isDuplicatedTag,
+  isImage,
+  validateTitle,
+  validateDescription,
+} from '../helper/validate';
+import { ValidationState } from '../../../libs/validation-state/validation-state';
 
 export const useVideoUpload = () => {
   const router = useRouter();
   const video = useVideoFile();
   const user = useUser();
 
+  if (!video.name) {
+    router.push(endpoint.hotlist);
+  }
+
+  useEffect(() => {
+    if (video.name) {
+      previewVideo.current.src = URL.createObjectURL(video);
+    }
+  }, []);
+
+  const previewVideo = useRef<HTMLVideoElement>();
   const tagInput = useRef<HTMLInputElement>();
   const thumbnailInput = useRef<HTMLInputElement>();
 
   const [tags, setTags] = useState([]);
   const [currentTag, setCurrentTag] = useState('');
-  const [textFormData, setTextFormData] = useState(new TextFormData());
+  const [textFormData, setTextFormData] = useState(new VideoFormData());
   const [thumbnail, setThumbnail] = useState();
-  const [videoObjectURL] = useState(URL.createObjectURL(video));
   const [thumbnailObjectURL, setThumbnailObjectURL] = useState();
+  const [isUploading, setIsUploading] = useState(false);
+  const [isUploadComplete, setIsUploadComplete] = useState(false);
+
+  const [videoFormValidationStates, setVideoFormValidationStates] = useState(
+    new VideoFormValidationStates(),
+  );
+
+  const isSubmitabled = Object.keys(videoFormValidationStates).every(state => {
+    return !!videoFormValidationStates[state].isValid;
+  });
 
   const getPreSignedUrl = useMutation(makeGetPreSignedUrlAction).mutate;
   const uploadToBucket = useMutation(makeUploadToBucketAction).mutate;
   const sendVideoInfo = useMutation(makeSendVideoInfoAction).mutate;
-
-  if (!video.name) {
-    router.push(endpoint.uploadVideoFile);
-  }
-  //////////////////////////////////////////////
-  // private
-  /////////////////////////////////////////////
-  const isImage = (type: string): boolean => {
-    return type.includes(fileType.image);
-  };
-
-  const isDuplicatedTag = () => {
-    return tags.includes(currentTag);
-  };
-
-  const isMakeableTag = () => {
-    const tagValidationRegex = /^[a-zA-Z0-9-#._]+$/;
-
-    return (
-      tagValidationRegex.test(currentTag) && tags.length <= MAX_TAGS_NUMBER
-    );
-  };
 
   const uploadVideoToBucket = async (id: string) => {
     const videoName = `${id}/${video.name}`;
@@ -74,15 +81,12 @@ export const useVideoUpload = () => {
     });
   };
 
-  //////////////////////////////////////////////////
-  // public
-  //////////////////////////////////////////////////
   const makeTag = e => {
     if (e.key !== SPACEBAR) {
       return;
     }
 
-    if (!isMakeableTag() || isDuplicatedTag()) {
+    if (!isMakeableTag(currentTag, tags) || isDuplicatedTag(currentTag, tags)) {
       setCurrentTag('');
       return;
     }
@@ -93,11 +97,22 @@ export const useVideoUpload = () => {
 
   const uploadVideo = async e => {
     try {
+      if (!isSubmitabled) {
+        // deprefcated soon
+        window.alert('폼을 정확히 작성해주십시오.');
+        return;
+      }
+
+      setIsUploading(true);
+
       e.preventDefault();
 
       const id = v4();
       await uploadVideoToBucket(id);
-      await uploadThumbnailToBucket(id);
+      // await uploadThumbnailToBucket(id);
+
+      setIsUploading(false);
+      setIsUploadComplete(true);
 
       const res = await sendVideoInfo(
         UploadVideoDetailDtoFactory.makeUploadVideoDetailDTO(
@@ -108,10 +123,19 @@ export const useVideoUpload = () => {
         ),
       );
 
+      if (res.error) {
+        // error control
+        return;
+      }
+
       // console.log(res);
     } catch (err) {
       // console.log(err);
     }
+  };
+
+  const closeModal = () => {
+    router.push(endpoint.hotlist);
   };
 
   const showExplorer = e => {
@@ -130,12 +154,20 @@ export const useVideoUpload = () => {
     setThumbnailObjectURL(URL.createObjectURL(currentFile));
   };
 
-  const changeTextFormData = e => {
+  const changeTextFormData = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    validate: (value: string) => ValidationState,
+  ) => {
     const { name, value } = e.target;
 
     setTextFormData({
       ...textFormData,
       [name]: value,
+    });
+
+    setVideoFormValidationStates({
+      ...videoFormValidationStates,
+      [name]: validate(value),
     });
   };
 
@@ -165,6 +197,14 @@ export const useVideoUpload = () => {
     router.push(endpoint.uploadVideoFile);
   };
 
+  const changeVideoTitle = e => {
+    changeTextFormData(e, validateTitle);
+  };
+
+  const changeVideoDescription = e => {
+    changeTextFormData(e, validateDescription);
+  };
+
   return {
     currentTag,
     thumbnail,
@@ -173,7 +213,7 @@ export const useVideoUpload = () => {
     tagInput,
     textFormData,
     moveBackPage,
-    videoObjectURL,
+    previewVideo,
     uploadVideo,
     showExplorer,
     changeThumbnail,
@@ -183,5 +223,12 @@ export const useVideoUpload = () => {
     makeTag,
     deleteTag,
     thumbnailObjectURL,
+    videoFormValidationStates,
+    isUploading,
+    setIsUploading,
+    isUploadComplete,
+    closeModal,
+    changeVideoTitle,
+    changeVideoDescription,
   };
 };

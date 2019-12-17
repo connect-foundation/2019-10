@@ -3,43 +3,53 @@ import Grid from '@material-ui/core/Grid';
 import { NextComponentType } from 'next';
 
 import Layout from '../../components/Layout';
-import * as S from './styles';
+import * as S from './style';
 import { TagLabel } from '../../components/TagLabel';
 import { CloudSVG, PhotoSVG } from '../../svgs';
 import {
-  endpoint,
   VIDEO_FORM_DATA_MAX_LENGTH,
-  TITLE,
-  DESCRIPTION,
+  VIDEO_UPLOAD_FORM,
+  endpoint,
 } from '../../constants';
 import { redirect, onlyMember } from '../../libs/auth';
-import { useVideoUpload } from './hooks';
+import { useVideoUpload } from './hook/use-video-upload';
+import { ClientOnlyPortal } from '../../components/ClientOnlyPortal';
+import { VideoUploadingModal } from '../../components/VideoUploadingModal';
+import { VideoUploadCompleteModal } from '../../components/VideoUploadCompleteModal';
 
 const VideoUpload: NextComponentType = () => {
   onlyMember();
 
   const {
     currentTag,
-    thumbnail,
-    thumbnailInput,
     tags,
     tagInput,
     textFormData,
     moveBackPage,
-    videoObjectURL,
     uploadVideo,
-    showExplorer,
-    changeThumbnail,
-    changeTextFormData,
+    changeVideoTitle,
+    changeVideoDescription,
     focusTagInput,
     changeCurrentTag,
     makeTag,
     deleteTag,
-    thumbnailObjectURL,
+    videoFormValidationStates,
+    isUploading,
+    isUploadComplete,
+    closeModal,
+    previewVideo,
   } = useVideoUpload();
 
   return (
     <Layout drawer={false}>
+      <ClientOnlyPortal selector={'#modal'} mounted={isUploading}>
+        <VideoUploadingModal />
+      </ClientOnlyPortal>
+
+      <ClientOnlyPortal selector={'#modal'} mounted={isUploadComplete}>
+        <VideoUploadCompleteModal closeModal={closeModal} />
+      </ClientOnlyPortal>
+
       <Grid container spacing={2} justify={'center'}>
         <Grid container spacing={3} justify={'center'}>
           <Grid item xs={12} md={6}>
@@ -55,11 +65,11 @@ const VideoUpload: NextComponentType = () => {
             <S.ItemHead>
               <S.ItemTitle>미리보기</S.ItemTitle>
             </S.ItemHead>
-            <S.PreviewVideo controls src={videoObjectURL} />
+            <S.PreviewVideo controls ref={previewVideo} />
           </Grid>
 
           <Grid item xs={12} md={3}>
-            <S.ItemHead>
+            {/* <S.ItemHead>
               <S.ItemTitle>썸네일 이미지</S.ItemTitle>
               <S.RequireMark />
             </S.ItemHead>
@@ -86,7 +96,7 @@ const VideoUpload: NextComponentType = () => {
                   </button>
                 </>
               )}
-            </S.Thumbnail>
+            </S.Thumbnail> */}
           </Grid>
         </S.ContainerGrid>
         <Grid item xs={12} md={6}>
@@ -94,28 +104,42 @@ const VideoUpload: NextComponentType = () => {
             <S.ItemTitle>제목</S.ItemTitle>
             <S.RequireMark />
           </S.ItemHead>
-          <S.VideoTitle
-            autoComplete={'off'}
-            name={TITLE}
-            maxLength={VIDEO_FORM_DATA_MAX_LENGTH.TITLE}
-            onChange={changeTextFormData}
-            value={textFormData.title}
-          />
+          <S.ItemBody>
+            <S.VideoTitle
+              autoComplete={'off'}
+              name={VIDEO_UPLOAD_FORM.TITLE}
+              maxLength={VIDEO_FORM_DATA_MAX_LENGTH.TITLE}
+              onChange={changeVideoTitle}
+              value={textFormData.title}
+            />
+            {!videoFormValidationStates.title.isValid && (
+              <S.ValidationMessage>
+                {videoFormValidationStates.title.message}
+              </S.ValidationMessage>
+            )}
+          </S.ItemBody>
 
           <S.ItemHead>
             <S.ItemTitle>설명</S.ItemTitle>
-            <S.ItemSubtitle>(최대 1,500자)</S.ItemSubtitle>
+            <S.ItemSubtitle>(최대 3,000자)</S.ItemSubtitle>
           </S.ItemHead>
-          <S.VideoDescription
-            name={DESCRIPTION}
-            rows={4}
-            maxLength={VIDEO_FORM_DATA_MAX_LENGTH.DESCRIPTION}
-            onChange={changeTextFormData}
-            value={textFormData.description}
-          />
+          <S.ItemBody>
+            <S.VideoDescription
+              name={VIDEO_UPLOAD_FORM.DESCRIPTION}
+              rows={5}
+              maxLength={VIDEO_FORM_DATA_MAX_LENGTH.DESCRIPTION}
+              onChange={changeVideoDescription}
+              value={textFormData.description}
+            />
+            {!videoFormValidationStates.description.isValid && (
+              <S.ValidationMessage>
+                {videoFormValidationStates.description.message}
+              </S.ValidationMessage>
+            )}
+          </S.ItemBody>
 
           <S.ItemHead>
-            <S.ItemTitle>주제</S.ItemTitle>
+            <S.ItemTitle>태그</S.ItemTitle>
             <S.ItemSubtitle>(최대 10개)</S.ItemSubtitle>
           </S.ItemHead>
           <S.TagContainer onClick={focusTagInput}>
@@ -136,6 +160,7 @@ const VideoUpload: NextComponentType = () => {
         <S.Button primary onClick={uploadVideo}>
           등록하기
         </S.Button>
+        )}
       </S.ButtonContainer>
     </Layout>
   );
@@ -146,7 +171,7 @@ VideoUpload.getInitialProps = ({ req, res, isLoggedIn, ...rest }) => {
     redirect(res, endpoint.uploadVideoFile);
   }
 
-  return { ...rest };
+  return rest;
 };
 
 export default VideoUpload;

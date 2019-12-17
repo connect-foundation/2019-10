@@ -1,4 +1,4 @@
-import { TextFormData } from '../model/text-form-data';
+import { VideoFormData } from '../model/video-form-data';
 import { UploadVideoDetailDTO } from './upload-video-detail-dto';
 
 export class UploadVideoDetailDtoFactory {
@@ -6,7 +6,7 @@ export class UploadVideoDetailDtoFactory {
     id: string,
     userId: number,
     tags: string[],
-    textFormData: TextFormData,
+    textFormData: VideoFormData,
   ): UploadVideoDetailDTO {
     return {
       id,
