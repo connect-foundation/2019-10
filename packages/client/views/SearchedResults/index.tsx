@@ -88,7 +88,7 @@ const SearchedResults: React.FunctionComponent = () => {
                       type={SEARCH_OPTION_VALUES.videos}
                       subject={SEARCH_OPTION_LABELS.videos}
                     />
-                    {activeSearch === SEARCH_OPTION_VALUES.all && (
+                    {videoCount > 5 && (
                       <ViewMore
                         searchKeyword={searchKeyword}
                         optionValue={SEARCH_OPTION_VALUES.videos}
@@ -105,7 +105,7 @@ const SearchedResults: React.FunctionComponent = () => {
                       type={SEARCH_OPTION_VALUES.users}
                       subject={SEARCH_OPTION_LABELS.users}
                     />
-                    {activeSearch === SEARCH_OPTION_VALUES.all && (
+                    {userCount > 5 && (
                       <ViewMore
                         searchKeyword={searchKeyword}
                         optionValue={SEARCH_OPTION_VALUES.users}
@@ -122,7 +122,7 @@ const SearchedResults: React.FunctionComponent = () => {
                       type={SEARCH_OPTION_VALUES.tags}
                       subject={SEARCH_OPTION_LABELS.tags}
                     />
-                    {activeSearch === SEARCH_OPTION_VALUES.all && (
+                    {tagCount > 5 && (
                       <ViewMore
                         searchKeyword={searchKeyword}
                         optionValue={SEARCH_OPTION_VALUES.tags}

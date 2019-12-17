@@ -25,12 +25,12 @@ export const makeCustomSearchOptions = () => {
   const customSearchOptions = [];
 
   optionMap.forEach((key, value) => {
-    if (key.value !== SEARCH_OPTION_VALUES.all) {
+    if (key.count) {
       customSearchOptions.push({ label: key.label, value });
     }
   });
 
-  if (customSearchOptions.length >= 2) {
+  if (customSearchOptions.length >= 2 || !customSearchOptions.length) {
     customSearchOptions.unshift({
       label: SEARCH_OPTION_LABELS.all,
       value: SEARCH_OPTION_VALUES.all,

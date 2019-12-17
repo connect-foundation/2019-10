@@ -42,7 +42,6 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
       <S.Input isActive={isActive}>
         <SearchSVG />
         <input
-          value={inputValue}
           onChange={handleChange}
           type="text"
           placeholder="검색"
