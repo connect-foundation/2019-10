@@ -3,7 +3,7 @@ import { Grid } from '@material-ui/core';
 
 import * as S from './style';
 import Layout from '../../components/Layout';
-import SettingSVG from '../../svgs/SettingSVG';
+import SettingsSVG from '../../svgs/SettingsSVG';
 import { useProfile } from './hook/use-profile';
 
 const Profile: React.FunctionComponent = () => {
@@ -23,7 +23,7 @@ const Profile: React.FunctionComponent = () => {
         <S.ContainerGrid container justify="center">
           <Grid item xs={12} md={6}>
             <S.Title>
-              <SettingSVG />
+              <SettingsSVG />
               <span>프로필 편집</span>
             </S.Title>
             <S.Label>
