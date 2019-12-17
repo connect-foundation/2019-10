@@ -122,15 +122,13 @@ export class CommentService {
     if (sort === POPULAR) {
       return qb
         .orderBy('Comment_popularity', 'DESC')
-        .addOrderBy('Comment_createdAt', 'DESC')
         .addOrderBy('Comment_id', 'DESC')
         .getManyAndCount();
     }
 
     return qb
-      .orderBy('Comment_createdAt', 'DESC')
+      .orderBy('Comment_id', 'DESC')
       .addOrderBy('Comment_popularity', 'DESC')
-      .addOrderBy('Comment_id', 'DESC')
       .getManyAndCount();
   }
 
@@ -158,7 +156,6 @@ export class CommentService {
         status: 1,
       })
       .orderBy('Comment_popularity', 'DESC')
-      .addOrderBy('Comment_createdAt', 'DESC')
       .addOrderBy('Comment_id', 'DESC')
       .getManyAndCount();
   }
