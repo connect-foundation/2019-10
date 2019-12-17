@@ -39,11 +39,11 @@ export const useProfile = () => {
   const { query } = useQuery(queryUserInfoAction, false);
 
   useEffect(() => {
-    const initialize = async () => {
-      // if (!user) {
-      //   router.push(endpoint.hotlist);
-      // }
+    if (!user) {
+      router.push(endpoint.hotlist);
+    }
 
+    const initialize = async () => {
       const { error: userUndefinedError, payload } = await query();
 
       if (userUndefinedError) {

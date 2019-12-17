@@ -66,7 +66,7 @@ const Profile: React.FunctionComponent = () => {
                   value={userProfile.username}
                   onChange={handleUsername}
                   spellCheck={false}
-                ></S.UserNameInput>
+                />
               </S.Item>
               <S.Item>
                 <S.Label>
@@ -79,7 +79,7 @@ const Profile: React.FunctionComponent = () => {
                   value={userProfile.description}
                   onChange={handleDescription}
                   spellCheck={false}
-                ></S.DescriptionInput>
+                />
               </S.Item>
               <S.SubmitButton>
                 <button type="button" onClick={handleFormSubmit}>

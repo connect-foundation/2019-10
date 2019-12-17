@@ -125,8 +125,8 @@ export class UserController {
 
   @Patch('/:id')
   public async updateUser(
-    @Param(null, new IdParserPipe()) id: number,
-    @Body(null, new UserUpdateBodyPipe()) body: UserUpdateBodyDto,
+    @Param(new IdParserPipe()) id: number,
+    @Body(new UserUpdateBodyPipe()) body: UserUpdateBodyDto,
   ) {
     try {
       const user = await this.userService.updateUser(id, body);

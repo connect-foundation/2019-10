@@ -112,10 +112,6 @@ export class UserService {
       },
     });
 
-    if (!user) {
-      throw new NotFoundException(`There's no user with id = ${id}`);
-    }
-
     const updatedUser = this.userRepository.merge(user, body);
     const savedUser = await this.userRepository.save(updatedUser);
 

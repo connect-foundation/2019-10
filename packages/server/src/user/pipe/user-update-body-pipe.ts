@@ -28,25 +28,15 @@ export class UserUpdateBodyPipe implements PipeTransform {
   }
 
   private validateUserName(username: string) {
-    if (!username) {
-      return true;
-    }
-
-    return USER_NAME_REGEX.test(username);
+    return !username || USER_NAME_REGEX.test(username);
   }
 
   private validateDescription(description: string) {
-    if (!description) {
-      return true;
-    }
-    return description.length < DESCRIPTION_MAX_LENGTH;
+    return !description || description.length < DESCRIPTION_MAX_LENGTH;
   }
 
   private validateAvatar(avatar: string) {
-    if (!avatar) {
-      return true;
-    }
-    return validator.isURL(avatar);
+    return !avatar || validator.isURL(avatar);
   }
 
   private isEmpty(user: UserUpdateBodyDto) {
