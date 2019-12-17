@@ -29,10 +29,21 @@ const CommentItem = ({
 
   const loggedInUser = useUser();
 
-  const myComment = user.id === loggedInUser.id;
+  let myComment = false;
+  if (loggedInUser) {
+    myComment = user.id === loggedInUser.id;
+  }
 
-  const commentEditState = useCommentUpdate(videoId, id, content);
-  const commentDeleteState = useCommentDelete(videoId, id);
+  const {
+    update,
+    formLoading,
+    formValue,
+    updatedComment,
+    onFormChange,
+    onUpdate,
+    onFormSubmit,
+  } = useCommentUpdate(videoId, id, content);
+  const { deleted, onDelete } = useCommentDelete(videoId, id);
   const repliesState = useReplies(videoId, id);
 
   const { likesCount, liked, onLike } = useCommentLike(
@@ -50,7 +61,7 @@ const CommentItem = ({
     </S.Loader>
   );
 
-  if (commentDeleteState.deleted) {
+  if (deleted) {
     return null;
   }
 
@@ -60,7 +71,7 @@ const CommentItem = ({
         <img src={user.avatar} />
       </S.Avatar>
       <S.Content>
-        {commentEditState.edit ? (
+        {update ? (
           <CommentForm
             // TODO: 스타일 내재화 하기
             style={{
@@ -69,14 +80,14 @@ const CommentItem = ({
             rows={1}
             reply
             avatar={false}
-            loading={commentEditState.formLoading}
-            value={commentEditState.formValue}
+            loading={formLoading}
+            value={formValue}
             submitMessage="수정"
-            onChange={commentEditState.onFormChange}
+            onChange={onFormChange}
             onFocus={() => null}
             onBlur={() => null}
-            onCancel={() => commentEditState.onEdit()}
-            onSubmit={commentEditState.onFormSubmit}
+            onCancel={onUpdate}
+            onSubmit={onFormSubmit}
           />
         ) : (
           <>
@@ -84,9 +95,7 @@ const CommentItem = ({
               <span>{user.username}</span>
               <span className="dates-ago">{format(createdAt, 'ko')}</span>
             </S.User>
-            <S.Description>
-              {commentEditState.editedComment || content}
-            </S.Description>
+            <S.Description>{updatedComment.content || content}</S.Description>
 
             <S.Actions>
               <S.Like type="button" active={liked} onClick={onLike}>
@@ -107,13 +116,13 @@ const CommentItem = ({
                   <button
                     onClick={() => {
                       repliesState.onFormCancel();
-                      commentEditState.onEdit();
+                      onUpdate();
                     }}
                   >
                     수정
                   </button>
                   <span className="dot">・</span>
-                  <button onClick={commentDeleteState.onDelete}>삭제</button>
+                  <button onClick={onDelete}>삭제</button>
                 </>
               )}
             </S.Actions>

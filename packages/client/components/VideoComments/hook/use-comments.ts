@@ -3,8 +3,14 @@ import { useQuery, useMutation } from 'react-fetching-library';
 import { makeQueryPopularCommentsAction } from '../action/make-query-popular-comments-action';
 import { makeQueryLatestCommentsAction } from '../action/make-query-latest-comments-action';
 import { makeCreateCommentAction } from '../action/make-create-comment-action';
+import { useUser } from '../../UserProvider/hooks';
+import { useRouter } from 'next/router';
+import { endpoint } from '../../../constants';
 
 export const useComments = videoId => {
+  const router = useRouter();
+  const user = useUser();
+
   // comments
   const [sort, setSort] = useState('popular');
   const [page, setPage] = useState(1);
@@ -72,6 +78,11 @@ export const useComments = videoId => {
   };
 
   const handleFormFocus = () => {
+    if (!user) {
+      router.push(endpoint.login);
+      return;
+    }
+
     setFormActive(true);
   };
 

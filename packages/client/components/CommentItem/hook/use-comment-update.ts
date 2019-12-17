@@ -3,15 +3,15 @@ import { useMutation } from 'react-fetching-library';
 import { makeUpdateCommentAction } from '../action/make-update-comment-action';
 
 export const useCommentUpdate = (videoId, commentId, content) => {
-  const [edit, setEdit] = useState(false);
-  const [editedComment, setEditedComment] = useState();
+  const [update, setUpdate] = useState(false);
+  const [updatedComment, setUpdatedComment] = useState({ content: '' });
 
   const [formValue, setFormValue] = useState(content);
 
   const mutationState = useMutation(makeUpdateCommentAction);
 
-  const handleEdit = () => {
-    setEdit(!edit);
+  const handleUpdate = () => {
+    setUpdate(!update);
   };
 
   const handleFormChange = e => {
@@ -27,20 +27,20 @@ export const useCommentUpdate = (videoId, commentId, content) => {
         content: formValue,
       },
     });
-    setEdit(false);
+    setUpdate(false);
 
     if (data.payload && !data.error) {
       setFormValue(data.payload.content);
-      setEditedComment(data.payload.content);
+      setUpdatedComment({ content: data.payload.content });
     }
   };
 
   return {
-    edit,
-    editedComment,
+    update,
+    updatedComment,
     formValue,
     formLoading: mutationState.loading,
-    onEdit: handleEdit,
+    onUpdate: handleUpdate,
     onFormChange: handleFormChange,
     onFormSubmit: handleFormSubmit,
   };
