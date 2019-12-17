@@ -10,7 +10,12 @@ export const useTag = (id: number) => {
   const { payload, error, ...rest } = useQuery(action);
 
   useEffect(() => {
-    if (payload && !error) {
+    if (!payload) {
+      // handle Error
+      return;
+    }
+
+    if (!error) {
       setTag(payload);
     }
   }, [payload]);

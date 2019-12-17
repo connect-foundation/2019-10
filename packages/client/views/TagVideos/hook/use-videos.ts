@@ -15,7 +15,11 @@ export const useVideos = (id: number, page: number, sort: string) => {
   }, [sort]);
 
   useEffect(() => {
-    if (payload && !error) {
+    if (!payload) {
+      // handle Error
+      return;
+    }
+    if (!error) {
       setHasMore(payload.data.length >= TAG_VIDEOS_PER_PAGE);
       setVideos([...videos, ...payload.data]);
     }
