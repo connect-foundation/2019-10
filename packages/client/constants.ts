@@ -92,13 +92,8 @@ export const signUpFormDataMaxLength = {
   description: 1500,
 };
 
-export const regex = {
-  // username은 영문 대소문자, 숫자, 띄어쓰기, 한글을 1~30자 포함한다.
-  userName: /^[\s0-9a-zA-Z\u3131-\uD79D]{1,30}$/iu,
-};
-
-export const debounceTime = {
-  userName: 300,
+export const DEBOUNCE_TIME = {
+  USERNAME: 300,
 };
 
 export const orientation = {
@@ -121,3 +116,12 @@ export const TITLE = 'title';
 export const DESCRIPTION = 'description';
 
 export const VIDEO_TYPE = 'video/mp4,video/x-m4v,video/*';
+
+export const USER_NAME_REGEX = /^[\s0-9a-zA-Z\u3131-\uD79D]{1,30}$/iu;
+
+export const USER_FORM_VALIDATION_MESSAGE = {
+  EMPTY_VALUE: `필수 항목입니다.`,
+  USERNAME_LENGTH: `30자 이하로 작성해주십시오.`,
+  DESCRIPTION_LENGTH: `1500자 이하로 작성해주십시오.`,
+  INVALID_CHARACTER: `특수 문자는 포함할 수 없습니다.`,
+};
