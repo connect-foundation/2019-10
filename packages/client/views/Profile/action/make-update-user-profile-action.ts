@@ -2,7 +2,7 @@ import { Action } from 'react-fetching-library';
 
 import { endpoint } from '../../../constants';
 
-export const makeMutateUserProfileAction: Action = ({
+export const makeUpdateUserProfileAction: Action = ({
   id,
   username,
   description,
@@ -12,5 +12,5 @@ export const makeMutateUserProfileAction: Action = ({
     'Content-Type': 'application/json',
   },
   body: { username, description },
-  endpoint: `${process.env.API_SERVER_HOST}${endpoint.users}/${id}`,
+  endpoint: `${process.env.API_SERVER_URL}${endpoint.users}/${id}`,
 });
