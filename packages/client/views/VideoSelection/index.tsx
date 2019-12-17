@@ -3,15 +3,11 @@ import Grid from '@material-ui/core/Grid';
 import { NextComponentType } from 'next';
 
 import Layout from '../../components/Layout';
-import * as S from './styles';
+import * as S from './style';
 import CloudSVG from '../../svgs/CloudSVG';
 import { endpoint, VIDEO_TYPE } from '../../constants';
-import {
-  checkLogInStatusServerSide,
-  redirect,
-  onlyMember,
-} from '../../libs/auth';
-import { useVideoSelection } from './hooks';
+import { validateRequest, redirect, onlyMember } from '../../libs/auth';
+import { useVideoSelection } from './hook/use-video-selection';
 
 const VideoSelection: NextComponentType = () => {
   onlyMember();
@@ -48,7 +44,7 @@ const VideoSelection: NextComponentType = () => {
 };
 
 VideoSelection.getInitialProps = ({ req, res, isLoggedIn, ...rest }) => {
-  if (!checkLogInStatusServerSide(isLoggedIn)) {
+  if (!validateRequest(isLoggedIn)) {
     redirect(res, endpoint.hotlist);
   }
 

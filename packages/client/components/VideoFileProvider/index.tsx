@@ -1,17 +1,19 @@
 import { useReducer } from 'react';
-import { fileActions } from '../../constants';
+import { VIDEO_FILE_ACTIONS } from '../../constants';
 import { VideoFileDispatchContext, VideoFileStateContext } from './contexts';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case fileActions.upload:
+    case VIDEO_FILE_ACTIONS.UPLOAD:
       return action.file;
+    case VIDEO_FILE_ACTIONS.COMPLETE:
+      return {};
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
 };
 
-export const FileProvider = ({ children }) => {
+export const VideoFileProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {});
 
   return (

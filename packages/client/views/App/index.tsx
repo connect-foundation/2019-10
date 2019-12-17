@@ -9,7 +9,7 @@ import Cookies from 'universal-cookie';
 import './interfaces/extend';
 import { endpoint } from '../../constants';
 import { UserProvider } from '../../components/UserProvider';
-import { FileProvider } from '../../components/FileProvider';
+import { VideoFileProvider } from '../../components/VideoFileProvider';
 import { client } from '../../libs/fetching';
 import { Token } from './interfaces/Token';
 import { User } from './interfaces/User';
@@ -52,9 +52,9 @@ class MyApp extends App<AppProps> {
         <ThemeProvider theme={theme}>
           <UserProvider user={user}>
             {this.isNeedFileProvider(pathname) ? (
-              <FileProvider>
+              <VideoFileProvider>
                 <Component {...pageProps} />
-              </FileProvider>
+              </VideoFileProvider>
             ) : (
               <Component {...pageProps} />
             )}

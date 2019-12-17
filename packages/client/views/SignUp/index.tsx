@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation } from 'react-fetching-library';
 
-import * as S from './styles';
+import * as S from './style';
 import { signUpFormDataMaxLength, endpoint } from '../../constants';
 import { RESPONSE_STATUS } from '../../response';
 import { FormData } from './model/form-data';
