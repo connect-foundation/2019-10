@@ -9,5 +9,8 @@
     "hooks": {
       "pre-commit": "lerna run lint"
     }
+  },
+  "dependencies": {
+    "next-aws-lambda": "^2.3.4"
   }
 }

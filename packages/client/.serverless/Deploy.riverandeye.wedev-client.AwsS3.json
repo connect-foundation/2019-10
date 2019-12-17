@@ -1,0 +1,6 @@
+{
+  "name": "wedev-client-riverandeye",
+  "region": "us-east-1",
+  "accelerated": true,
+  "url": "https://wedev-client-riverandeye.s3.amazonaws.com"
+}

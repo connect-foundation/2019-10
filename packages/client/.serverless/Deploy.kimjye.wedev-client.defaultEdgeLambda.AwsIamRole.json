@@ -1,0 +1,12 @@
+{
+  "name": "up93vyv-hmx0pxn",
+  "arn": "arn:aws:iam::579164850622:role/up93vyv-hmx0pxn",
+  "service": [
+    "lambda.amazonaws.com",
+    "edgelambda.amazonaws.com"
+  ],
+  "policy": {
+    "arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  },
+  "region": "us-east-1"
+}

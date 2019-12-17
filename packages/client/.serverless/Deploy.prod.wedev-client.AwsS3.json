@@ -1,0 +1,6 @@
+{
+  "name": "wedev-client-prod",
+  "region": "us-east-1",
+  "accelerated": true,
+  "url": "https://wedev-client-prod.s3.amazonaws.com"
+}
