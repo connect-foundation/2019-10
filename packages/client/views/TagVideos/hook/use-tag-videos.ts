@@ -1,25 +1,47 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from 'react-fetching-library';
-import { TAG_VIDEOS_PER_PAGE } from '../../../constants';
-import { makeQueryTagVideosAction } from '../action/make-query-tag-videos-action';
+import { useRouter } from 'next/router';
 
-export const useTagVideos = (id: number, page: number, sort: string) => {
-  const [videos, setVideos] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
+import { useTag } from './use-tag';
+import { useVideos } from './use-videos';
+import { NATURAL_NUMBER_REGEX } from '../../../libs/regex';
+import { sortOptions, endpoint } from '../../../constants';
 
-  const action = makeQueryTagVideosAction(id, page, sort);
-  const { payload, error, ...rest } = useQuery(action);
+export const useTagVideos = () => {
+  const router = useRouter();
+  const { tagId } = router.query;
+  const validatedTagId = NATURAL_NUMBER_REGEX.test(tagId.toString())
+    ? Number(tagId.toString())
+    : null;
+
+  const [activeSortOption, setActiveSortOption] = useState(
+    sortOptions[0].value,
+  );
+  const [page, setPage] = useState(1);
+
+  const { tag, error } = useTag(validatedTagId);
+  const { videos, hasMore } = useVideos(validatedTagId, page, activeSortOption);
 
   useEffect(() => {
-    setVideos([]);
-  }, [sort]);
-
-  useEffect(() => {
-    if (payload && !error) {
-      setHasMore(payload.data.length >= TAG_VIDEOS_PER_PAGE);
-      setVideos([...videos, ...payload.data]);
+    if (!tagId || error) {
+      router.push(endpoint.hotlist);
     }
-  }, [payload]);
+  }, [error]);
 
-  return { videos, hasMore, ...rest };
+  const handleFilterClick = value => {
+    setActiveSortOption(value);
+    setPage(1);
+  };
+
+  const handlePageChange = () => {
+    setPage(page + 1);
+  };
+
+  return {
+    tag,
+    videos,
+    handleFilterClick,
+    handlePageChange,
+    activeSortOption,
+    hasMore,
+  };
 };
