@@ -16,7 +16,7 @@ export class IdParserPipe implements PipeTransform {
   }
 
   private isOnlyDigit(id: string) {
-    const onlyDigitRegex = RegExp(/^[0-9]*$/m);
+    const onlyDigitRegex = RegExp(/^[0-9]*$/);
     return id.match(onlyDigitRegex);
   }
 }

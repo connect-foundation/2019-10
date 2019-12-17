@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 
@@ -106,11 +106,19 @@ export class UserService {
   }
 
   public async updateUser(id: number, body: UserUpdateBodyDto): Promise<User> {
-    await this.userRepository.update(id, body);
-    return await this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: {
         id,
       },
     });
+
+    if (!user) {
+      throw new NotFoundException(`There's no user with id = ${id}`);
+    }
+
+    const updatedUser = this.userRepository.merge(user, body);
+    const savedUser = await this.userRepository.save(updatedUser);
+
+    return savedUser;
   }
 }
