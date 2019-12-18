@@ -34,6 +34,7 @@ import { UserVideoListResponseDto } from '../user/dto/user-video-list-response.d
 import { User } from '../../entity/user.entity';
 import { IdParserPipe } from '../common/pipes/id-parser/id-parser.pipe';
 import { UserNameParamPipe } from '../user/pipe/user-name-param-pipe';
+import { DuplicateCheckResult } from './model/duplicate-check-result';
 
 @Controller(endpoint.users)
 export class UserController {
@@ -49,15 +50,16 @@ export class UserController {
   }
 
   @Get('/verify/:username')
-  public async getUserWithName(
+  public async checkDuplicateUsername(
     @Param('username', new UserNameParamPipe()) username: string,
-  ): Promise<UserResponseDto | object> {
+  ): Promise<DuplicateCheckResult> {
     try {
       const user = await this.userService.findUserByName(username);
       if (!user) {
-        return {};
+        return new DuplicateCheckResult(true);
       }
-      return new UserResponseDto(user);
+
+      return new DuplicateCheckResult(false);
     } catch (err) {
       throw new BadRequestException(err.message);
     }
