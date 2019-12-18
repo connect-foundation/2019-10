@@ -3,7 +3,6 @@ import * as jwt from 'jsonwebtoken';
 
 import { User } from '../../../entity/user.entity';
 import { ONE_DAY_MILLISECONDS, ONE_DAY_SECONDS } from '../../common/constants';
-import { UserPublicInfo } from '../../authentication/model/user-public-info';
 
 export function deleteCookie(response: Response, name: string): void {
   setTokenOnResponseCookie(response, name, '', {
@@ -24,8 +23,10 @@ export function setSessionTokenCookie(
     process.env.JWT_SESSION_TOKEN_KEY,
     sessionToken,
     {
+      domain: 'wedev.tv',
       maxAge: 30 * ONE_DAY_MILLISECONDS,
       httpOnly: true,
+      secure: true,
     },
   );
 }
@@ -40,11 +41,9 @@ export function setTokenOnResponseCookie(
 }
 
 function makeSessionJWT(sessionId: string, userEntity: User): string {
-  const userPublicInfo = new UserPublicInfo(userEntity);
-
   const sessionJWT = jwt.sign(
     {
-      data: { sessionId, userPublicInfo },
+      data: { sessionId },
     },
     process.env.JWT_SECRET,
     {

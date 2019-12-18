@@ -10,7 +10,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { TagModule } from './tag/tag.module';
 import { DeserializerMiddleware } from './common/middlewares/deserializer/deserializer.middleware';
 import { AppController } from './app.controller';
-import { Tag } from '../entity/tag.entity';
+import { MyselfModule } from './myself/myself.module';
 
 @Module({
   imports: [
@@ -22,6 +22,7 @@ import { Tag } from '../entity/tag.entity';
     WebhookModule,
     AuthenticationModule,
     TagModule,
+    MyselfModule,
   ],
   controllers: [AppController],
   providers: [],

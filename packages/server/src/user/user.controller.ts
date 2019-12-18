@@ -62,7 +62,7 @@ export class UserController {
         signUpUserFormDto,
       );
 
-      this.login(response, user);
+      await this.login(response, user);
       deleteCookie(response, GITHUB_USER_DETAIL);
 
       return response.sendStatus(201);
@@ -82,8 +82,8 @@ export class UserController {
     }
   }
 
-  private login(response: Response, user: User): void {
-    const sessionId = this.userService.instructToSerialize(user);
+  private async login(response: Response, user: User): Promise<void> {
+    const sessionId = await this.userService.instructToSerialize(user);
     setSessionTokenCookie(response, user, sessionId);
   }
 

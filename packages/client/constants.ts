@@ -43,6 +43,7 @@ export const endpoint = {
 
 export const SERVER_ENDPOINT = {
   VIDEO_UPLOAD: '/videos/upload',
+  MYSELF: '/myself',
 };
 
 export const periods = {
@@ -97,6 +98,7 @@ export const orientation = {
   vertical: 'vertical',
   horizontal: 'horizontal',
 };
+
 export const VIDEO_FORM_DATA_MAX_LENGTH = {
   TITLE: '45',
   DESCRIPTION: '3000',
