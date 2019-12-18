@@ -13,7 +13,7 @@ import CircularProgress from '../../components/CircularProgress';
 const TagVideos: React.FunctionComponent = () => {
   const {
     tag,
-    videos,
+    allTaggedVideos,
     handleFilterClick,
     handlePageChange,
     activeSortOption,
@@ -34,13 +34,13 @@ const TagVideos: React.FunctionComponent = () => {
         />
 
         <S.StyledInfiniteScroll
-          dataLength={videos.length}
+          dataLength={allTaggedVideos.length}
           next={handlePageChange}
           hasMore={hasMore}
           loader={<CircularProgress size={28} thickness={4.5} />}
         >
           <S.ContainerGrid container spacing={2}>
-            {videos.map(video => {
+            {allTaggedVideos.map(video => {
               return (
                 <Grid key={video.id} item xs={12} md={3}>
                   <VideoItem {...video} />
