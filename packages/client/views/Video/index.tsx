@@ -40,6 +40,7 @@ const Video = () => {
               createdAt={video.createdAt}
               title={video.title}
               likedUsersCount={video.likedUsersCount}
+              likedByUser={video.likedByUser}
             />
             <VideoMeta
               skeleton={!hasData}
