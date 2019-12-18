@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as moment from 'moment';
-import { Repository } from 'typeorm';
+import { Repository, MoreThan, Like } from 'typeorm';
 
 import { Video } from '../../entity/video.entity';
 import { User } from '../../entity/user.entity';
@@ -9,20 +9,18 @@ import { UploadedVideoTableService } from '../uploaded-video-table/uploaded-vide
 import { VideoListQueryDto } from './dto/video-list-query.dto';
 import {
   VIDEO_ITEMS_PER_PAGE,
-  VIDEO_QUERY_SELECT_COLUMNS,
-  USER_QUERY_SELECT_COLUMNS,
   LATEST,
   PERIODS,
   POPULAR,
   MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS,
   MOMENT_DATETIME_FORMAT,
-  VIDEO_SEARCH_QUERY,
   SEARCHED_ITEM_NUMBER,
 } from '../common/constants';
 import { getOffset } from '../libs/get-offset';
 import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
 import { UploadedVideoInfo } from '../uploaded-video-table/model/uploaded-video-info';
 import { LikedVideo } from './model/liked-video';
+import { QueryOptionWhere } from './interface/QueryOptionWhere';
 
 @Injectable()
 export class VideoService {
@@ -34,76 +32,71 @@ export class VideoService {
     private readonly uploadedVideoTableService: UploadedVideoTableService,
   ) {}
 
-  private async popularityQuery(qb): Promise<[Video[], number]> {
-    return await qb
-      .orderBy('Video_popularity', 'DESC')
-      .addOrderBy('Video_createdAt', 'DESC')
-      .addOrderBy('Video_id', 'DESC')
-      .getManyAndCount();
-  }
-
   public async findVideo(id: number): Promise<Video> {
-    return await this.videoRepository
-      .createQueryBuilder()
-      .leftJoin('Video.user', 'User')
-      .select(VIDEO_QUERY_SELECT_COLUMNS)
-      .addSelect(USER_QUERY_SELECT_COLUMNS)
-      .where({
-        id,
-      })
-      .getOne();
+    return await this.videoRepository.findOne({
+      relations: ['user'],
+      where: { id },
+    });
   }
-
+  
   public async findVideos(
     videoListQueryDto: VideoListQueryDto,
   ): Promise<[Video[], number]> {
     const { page, sort, period, keyword } = videoListQueryDto;
 
-    const offset = getOffset(page, VIDEO_ITEMS_PER_PAGE);
+    const skip = page ? getOffset(page, VIDEO_ITEMS_PER_PAGE) : 0;
+    const take = keyword && !page ? SEARCHED_ITEM_NUMBER : VIDEO_ITEMS_PER_PAGE;
 
-    const qb = this.videoRepository
-      .createQueryBuilder()
-      .leftJoin('Video.user', 'User')
-      .select(VIDEO_QUERY_SELECT_COLUMNS)
-      .addSelect(USER_QUERY_SELECT_COLUMNS);
-
-    if (!keyword) {
-      if (sort === LATEST) {
-        return await qb
-          .limit(VIDEO_ITEMS_PER_PAGE)
-          .offset(offset)
-          .orderBy('Video_createdAt', 'DESC')
-          .addOrderBy('Video_popularity', 'DESC')
-          .addOrderBy('Video_id', 'DESC')
-          .getManyAndCount();
-      }
-
-      if (sort === POPULAR) {
-        if (period !== PERIODS.all) {
-          const startDatetime = moment()
-            .subtract(...MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS[period])
-            .format(MOMENT_DATETIME_FORMAT);
-
-          qb.where('Video.createdAt > :startDatetime', { startDatetime });
-        }
-        return await this.popularityQuery(
-          qb.limit(VIDEO_ITEMS_PER_PAGE).offset(offset),
-        );
-      }
+    if (keyword) {
+      return await this.videoRepository.findAndCount({
+        relations: ['user'],
+        where: [
+          { title: Like(`%${keyword}%`) },
+          { description: Like(`%${keyword}%`), status: 1 },
+        ],
+        order: {
+          popularity: 'DESC',
+          id: 'DESC',
+        },
+        skip,
+        take,
+      });
     }
 
-    const search = await qb.where(VIDEO_SEARCH_QUERY, {
-      titleKeyword: '%' + keyword + '%',
-      descriptionKeyword: '%' + keyword + '%',
+    const where: QueryOptionWhere = {
+      status: 1,
+    };
+
+    if (sort === LATEST) {
+      return await this.videoRepository.findAndCount({
+        relations: ['user'],
+        where,
+        order: {
+          id: 'DESC',
+        },
+        skip,
+        take,
+      });
+    }
+
+    if (sort === POPULAR && period !== PERIODS.all) {
+      const startDatetime = moment()
+        .subtract(...MOMENT_SUBTRACT_FROM_NOW_ARGUMENTS[period])
+        .format(MOMENT_DATETIME_FORMAT);
+
+      where.createdAt = MoreThan(startDatetime);
+    }
+
+    return await this.videoRepository.findAndCount({
+      relations: ['user'],
+      where,
+      order: {
+        popularity: 'DESC',
+        id: 'DESC',
+      },
+      skip,
+      take,
     });
-
-    if (page) {
-      return await this.popularityQuery(
-        search.limit(VIDEO_ITEMS_PER_PAGE).offset(offset),
-      );
-    }
-
-    return await this.popularityQuery(search.limit(SEARCHED_ITEM_NUMBER));
   }
 
   public async instructToSerializeVideoInfo(
