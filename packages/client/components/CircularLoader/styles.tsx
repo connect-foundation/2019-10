@@ -5,8 +5,8 @@ export const Loader = styled.div`
   justify-content: ${props => props.justify};
 
   > div {
-    width: 3rem !important;
-    height: 3rem !important;
-    color: rgba(255, 255, 255, 0.1);
+    width: ${props => props.size}rem !important;
+    height: ${props => props.size}rem !important;
+    color: ${props => props.color};
   }
 `;

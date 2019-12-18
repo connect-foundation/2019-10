@@ -1,12 +1,15 @@
 import React from 'react';
-
 import * as S from './styles';
+import CircularLoader from '../CircularLoader';
 
 const CommentForm = ({
   rows = 1,
   reply = false,
+  avatar = true,
+  loading,
   value,
   active = reply,
+  submitMessage = '등록',
   onChange,
   onFocus,
   onBlur,
@@ -16,9 +19,12 @@ const CommentForm = ({
 }) => {
   return (
     <S.CommentForm {...rest}>
-      <S.User>
-        <img src="https://miro.medium.com/max/3150/1*n4VB9UbNNoB78-vGIhulag.jpeg" />
-      </S.User>
+      {/* TODO: 로그인 유저의 avatar로 변경하기 */}
+      {avatar && (
+        <S.User>
+          <img src="https://www.pngkey.com/png/detail/193-1938385_-pikachu-avatar.png" />
+        </S.User>
+      )}
       <S.Form onSubmit={onSubmit}>
         <S.StyledTextarea
           rows={rows}
@@ -34,7 +40,13 @@ const CommentForm = ({
             <button type="button" onClick={onCancel}>
               취소
             </button>
-            <button type="submit">등록</button>
+            <button type="submit">
+              {loading ? (
+                <CircularLoader size={2} thickness={4} color="white" />
+              ) : (
+                submitMessage
+              )}
+            </button>
           </div>
         )}
       </S.Form>

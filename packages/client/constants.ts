@@ -29,6 +29,10 @@ export const userActions = {
   logout: 'LOGOUT',
 };
 
+export const QUERY_STRING = {
+  keyword: 'keyword',
+};
+
 export const endpoint = {
   tags: '/tags',
   hotlist: '/',
@@ -94,6 +98,19 @@ export const signUpFormDataMaxLength = {
   introduction: 1500,
 };
 
+export const SEARCH_OPTION_LABELS = {
+  videos: '영상',
+  users: '사용자',
+  tags: '태그',
+  all: '모두',
+};
+export const SEARCH_OPTION_VALUES = {
+  videos: 'videos',
+  users: 'users',
+  tags: 'tags',
+  all: 'all',
+};
+
 export const orientation = {
   vertical: 'vertical',
   horizontal: 'horizontal',
@@ -138,3 +155,8 @@ export const VIDEO_UPLOAD_FORM_VALIDATION_MESSAGE = {
 export const TAG_VALIDATION_REGEX = {
   VALID_CHARACTERS: /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9-#._]+$/,
 };
+export const SET_TABS = 'setTabs';
+
+export const CENTER = 'center';
+
+export const ENTER = 'Enter';

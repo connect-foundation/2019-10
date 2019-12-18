@@ -11,7 +11,7 @@ export class OnlyGuestGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
 
     if (request.user) {
-      throw new BadRequestException('only guest');
+      throw new BadRequestException('Only allowed to a guest');
     }
 
     return true;

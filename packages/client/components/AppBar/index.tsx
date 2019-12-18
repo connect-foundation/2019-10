@@ -88,7 +88,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
           </Link>
 
           <button onClick={handleSearchBar}>
-            <SearchSVG width={24} height={24} />
+            <SearchSVG />
           </button>
 
           {user ? (

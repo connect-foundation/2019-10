@@ -14,6 +14,12 @@ declare global {
   }
 }
 
+declare global {
+  interface Request {
+    user?: UserToken;
+  }
+}
+
 @Injectable()
 export class DeserializerMiddleware implements NestMiddleware {
   public constructor(private readonly userSessionService: UserSessionService) {}

@@ -5,6 +5,10 @@ import { USER_VIDEOS_PER_PAGE } from '../../constants';
 const createUserAction: Action = id => ({
   method: 'GET',
   endpoint: `${process.env.API_SERVER_URL}/users/${id}`,
+<<<<<<< HEAD
+=======
+  credentials: 'include',
+>>>>>>> develop
 });
 
 export const useUser = id => {

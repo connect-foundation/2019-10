@@ -6,9 +6,10 @@ import { ClientContextProvider as FetchingProvider } from 'react-fetching-librar
 import Cookies from 'universal-cookie';
 
 import './interfaces/extend';
-import { endpoint } from '../../constants';
+// import { endpoint, QUERY_STRING } from '../../constants';
 import { UserProvider } from '../../components/UserProvider';
 import { VideoFileProvider } from '../../components/VideoFileProvider';
+import { SearchedResultsProvider } from '../../components/SearchResultsProvider';
 import { client } from '../../libs/fetching';
 import { requestCurrentUserInfo } from './helper/request-user-info';
 
@@ -49,29 +50,39 @@ class MyApp extends App<AppProps> {
 
     client.cache.setItems(cacheItems);
 
+    // TODO: page별 필요한 context 제공하기
     return (
       <FetchingProvider client={client}>
         <ThemeProvider theme={theme}>
           <UserProvider user={user}>
-            {this.isNeedFileProvider(pathname) ? (
+            {/* {this.isNeedFileProvider(pathname) ? (
               <VideoFileProvider>
                 <Component {...pageProps} />
               </VideoFileProvider>
             ) : (
-              <Component {...pageProps} />
-            )}
+                <Component {...pageProps} />
+            )} */}
+            <SearchedResultsProvider>
+              <VideoFileProvider>
+                <Component {...pageProps} />
+              </VideoFileProvider>
+            </SearchedResultsProvider>
           </UserProvider>
         </ThemeProvider>
       </FetchingProvider>
     );
   }
 
-  private isNeedFileProvider(pathname: string) {
-    return (
-      pathname === endpoint.uploadVideoFile ||
-      pathname === endpoint.uploadVideoDetail
-    );
-  }
+  // private insNeedSearchedResultsProvider(queryString: string) {
+  //   return queryString === QUERY_STRING.keyword;
+  // }
+
+  // private isNeedFileProvider(pathname: string) {
+  //   return (
+  //     pathname === endpoint.uploadVideoFile ||
+  //     pathname === endpoint.uploadVideoDetail
+  //   );
+  // }
 }
 
 function initProps(pathname: string): AppProps {
