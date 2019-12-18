@@ -1,7 +1,6 @@
 import {
   USER_NAME_REGEX,
   USER_FORM_VALIDATION_MESSAGE,
-  SERVER_ERROR_MESSAGE,
   signUpFormDataMaxLength,
 } from '../../../constants';
 import { ValidationStateFactory } from './validation-state-factory';
@@ -17,6 +16,7 @@ const isValidUsernameCharacters = (username: string): boolean => {
 
 export const validateUsername = (username: string): ValidationState => {
   username = username.trim();
+  //
 
   // username은 반드시 채워져야 합니다.
   if (!username) {
@@ -68,7 +68,7 @@ export const validateUsernameDuplicate = async (
   const { payload, error } = await getUserQuery(username);
 
   if (error) {
-    return ValidationStateFactory.makeFailValidationState(SERVER_ERROR_MESSAGE);
+    return ValidationStateFactory.makeFailValidationState('');
   }
 
   if (payload.username) {
