@@ -1,6 +1,6 @@
 import { ValidationState } from '../../../libs/validation-state/validation-state';
 
-export class UserFormValidationState {
+export class UserFormValidationStates {
   public constructor() {
     this.username = new ValidationState(false, '');
     this.description = new ValidationState(true, '');
