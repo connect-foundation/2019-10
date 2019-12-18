@@ -35,6 +35,8 @@ export const Input = styled.div`
     left: 1rem;
     top: calc(50% - 10px);
     vertical-align: middle;
+    width: 2rem;
+    height: 2rem;
 
     @media only screen and (min-width: ${BREAKPOINT}px) {
       left: 1.3rem;
