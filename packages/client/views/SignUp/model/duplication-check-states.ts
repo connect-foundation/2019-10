@@ -1,6 +1,6 @@
 import { ValidationState } from '../../../libs/validation-state/validation-state';
 
-export class DuplicationValidationState {
+export class DuplicationValidationStates {
   public constructor() {
     this.username = new ValidationState(false, '');
   }
