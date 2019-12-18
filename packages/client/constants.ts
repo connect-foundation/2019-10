@@ -38,7 +38,7 @@ export const endpoint = {
   login: '/auth/login',
   users: '/users',
   profileEdit: '/profile/edit',
-  verifyUsername: '/users/verify',
+  verifyUserInfo: '/users/verify',
 };
 
 export const SERVER_ENDPOINT = {
@@ -126,5 +126,3 @@ export const USER_FORM_VALIDATION_MESSAGE = {
   DESCRIPTION_LENGTH: `1500자 이하로 작성해주십시오.`,
   INVALID_CHARACTER: `특수 문자는 포함할 수 없습니다.`,
 };
-
-export const SERVER_ERROR_MESSAGE = `알 수 없는 오류가 발생했습니다. 새로고침하고 다시 시도해주세요.`;
