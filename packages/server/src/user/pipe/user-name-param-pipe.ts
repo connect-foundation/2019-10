@@ -3,10 +3,14 @@ import { USER_NAME_REGEX } from '../../common/regexes';
 
 @Injectable()
 export class UserNameParamPipe implements PipeTransform {
-  public async transform(userName: string): Promise<string> {
-    if (!USER_NAME_REGEX.test(userName)) {
+  public async transform(username: string): Promise<string> {
+    if (!this.isValidUserName(username)) {
       throw new BadRequestException();
     }
-    return userName;
+    return username;
+  }
+
+  private isValidUserName(username: string) {
+    return USER_NAME_REGEX.test(username);
   }
 }
