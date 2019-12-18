@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { endpoint } from '../../constants';
+import { endpoint, ENTER } from '../../constants';
 import { ArrowBackSVG, SearchSVG } from '../../svgs';
 
-import * as S from './styles';
+import * as S from './style';
 
 interface SearchBarProps {
   deactivate: () => void;
@@ -16,11 +16,19 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
   isActive,
 }) => {
   const router = useRouter();
-  const sendQuery = e => {
-    if (e.key === 'Enter') {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = e => {
+    if (e.target.value.trim()) {
+      setInputValue(e.target.value);
+    }
+  };
+
+  const handleKeyPress = e => {
+    if (e.key === ENTER) {
       router.push({
         pathname: endpoint.search,
-        query: { query: e.target.value },
+        query: { keyword: inputValue },
       });
     }
   };
@@ -32,8 +40,13 @@ export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
       </S.ArrowBack>
 
       <S.Input isActive={isActive}>
-        <SearchSVG width={20} height={20} viewBox="0 0 24 24" />
-        <input type="text" placeholder="검색" onKeyPress={sendQuery} />
+        <SearchSVG />
+        <input
+          onChange={handleChange}
+          type="text"
+          placeholder="검색"
+          onKeyPress={handleKeyPress}
+        />
       </S.Input>
     </>
   );

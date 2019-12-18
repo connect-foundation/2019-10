@@ -17,9 +17,11 @@ export const VideoInfo = styled.div`
     height: 2rem;
     border-bottom: 0.1rem solid #484c50;
     width: calc(100% + 4rem);
-    left: -2rem;
+    margin-left: -2rem;
 
     @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: 100%;
+      margin-left: 0;
       height: 3rem;
     }
   }
@@ -109,20 +111,26 @@ export const Tag = styled.div`
   margin-right: 1rem;
 `;
 
-export const Like = styled.div`
+export const Like = styled.button`
+  z-index: 1;
   display: inline-block;
+  background: unset;
+  border: unset;
+  outline: none;
+  padding: 0.5rem;
+  margin: -0.5rem;
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     position: absolute;
     bottom: 2.3rem;
-    right: 0;
+    right: 0rem;
   }
 
   div {
     width: 3rem;
     height: 3rem;
     border-radius: 10rem;
-    background-color: #484c50;
+    background-color: ${props => (props.active ? '#02cf5d' : '#484c50')};
     display: inline-block;
     vertical-align: middle;
     margin-right: 0.8rem;
@@ -134,7 +142,6 @@ export const Like = styled.div`
     }
 
     svg {
-      opacity: 0.5;
       margin: 0.6rem;
       margin-top: 0.7rem;
       width: 1.8rem;
@@ -146,15 +153,15 @@ export const Like = styled.div`
       }
 
       path:nth-child(2) {
-        fill: white;
+        fill: ${props => (props.active ? 'white' : '#acaeaf')};
       }
     }
   }
 
   span {
     vertical-align: middle;
-    color: white;
-    font-size: 1.4rem;
+    color: ${props => (props.active ? 'white' : 'rgba(255, 255, 255, 0.6)')};
+    font-size: 1.5rem;
     font-weight: ${fontWeight.bold};
   }
 `;

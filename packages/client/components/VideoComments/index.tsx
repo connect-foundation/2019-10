@@ -1,72 +1,67 @@
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-import * as S from './styles';
+import * as S from './style';
 import { sortOptions } from '../../constants';
 import CommentForm from '../CommentForm';
 import CommentItem from '../CommentItem';
 import { useRouter } from 'next/router';
-import { useComments, useCommentForm } from './hooks';
+import CircularLoader from '../CircularLoader';
+import { useComments } from './hook/use-comments';
 
 const VideoComments = () => {
   const router = useRouter();
   const { videoId } = router.query;
 
   const {
-    value,
-    active,
-    onChange,
-    onFocus,
-    onBlur,
-    onCancel,
-    onSubmit,
-  } = useCommentForm();
-
-  const {
-    comments,
     count,
     sort,
-    hasMore,
-    hasData,
-    onNext,
     onSort,
+    formLoading,
+    formValue,
+    formActive,
+    onFormChange,
+    onFormFocus,
+    onFormBlur,
+    onFormCancel,
+    onFormSubmit,
+    comments,
+    onNext,
+    hasMore,
+    submittedComments,
   } = useComments(videoId);
-
-  const loader = (
-    <S.CircularProgressContainer>
-      <S.CircularProgress thickness={4} />
-    </S.CircularProgressContainer>
-  );
 
   return (
     <S.VideoComments>
-      <S.Title>{!count ? '댓글' : `${count}개의 댓글`}</S.Title>
+      <S.Title>{count > 0 ? `${count}개의 댓글` : '댓글'}</S.Title>
       <S.StyledTabs items={sortOptions} activeValue={sort} onClick={onSort} />
       <CommentForm
-        value={value}
-        active={active}
-        onChange={onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onCancel={onCancel}
-        onSubmit={onSubmit}
+        loading={formLoading}
+        value={formValue}
+        active={formActive}
+        onChange={onFormChange}
+        onFocus={onFormFocus}
+        onBlur={onFormBlur}
+        onCancel={onFormCancel}
+        onSubmit={onFormSubmit}
       />
-      {hasData ? (
-        <InfiniteScroll
-          dataLength={comments.length}
-          next={onNext}
-          hasMore={hasMore}
-          loader={loader}
-        >
-          <div>
-            {comments.map(comment => (
-              <CommentItem key={comment.id} {...comment} />
-            ))}
-          </div>
-        </InfiniteScroll>
-      ) : (
-        loader
-      )}
+      {submittedComments.map(comment => (
+        <CommentItem key={comment.id} {...comment} />
+      ))}
+      <InfiniteScroll
+        style={{ overflow: 'hidden' }}
+        dataLength={comments.length}
+        hasMore={hasMore}
+        loader={<CircularLoader thickness={4} />}
+        next={onNext}
+        scrollThreshold={0.9}
+      >
+        <div>
+          {comments.map(comment => (
+            <CommentItem key={comment.id} {...comment} />
+          ))}
+        </div>
+      </InfiniteScroll>
     </S.VideoComments>
   );
 };

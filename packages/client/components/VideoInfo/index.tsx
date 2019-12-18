@@ -1,13 +1,25 @@
 import React from 'react';
 import moment from 'moment';
-import Skeleton from '@material-ui/lab/Skeleton';
 
 import * as S from './styles';
 import VideoInfoSkeleton from './skeleton';
 
 import { FavoriteSVG } from '../../svgs';
+import { useVideoLike } from './hook/use-video-like';
 
-const VideoInfo = ({ skeleton, views, createdAt, title, likedUsersCount }) => {
+const VideoInfo = ({
+  skeleton,
+  views,
+  createdAt,
+  title,
+  likedUsersCount,
+  likedByUser,
+}) => {
+  const { likesCount, liked, onLike } = useVideoLike(
+    likedUsersCount,
+    likedByUser,
+  );
+
   return skeleton ? (
     <VideoInfoSkeleton />
   ) : (
@@ -25,12 +37,13 @@ const VideoInfo = ({ skeleton, views, createdAt, title, likedUsersCount }) => {
         <S.Tag>whyPythonIsSlow</S.Tag>
       </S.Tags>
 
-      <S.Like>
+      <S.Like type="button" active={liked} onClick={onLike}>
         <div>
           <FavoriteSVG />
         </div>
         <span>
-          좋아요 {likedUsersCount === 0 ? '' : `${likedUsersCount}개`}
+          좋아요
+          {likesCount && likesCount > 0 ? ` ${likesCount}개` : ''}
         </span>
       </S.Like>
     </S.VideoInfo>
