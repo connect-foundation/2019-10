@@ -37,7 +37,7 @@ export const HeadMessage = styled.div`
   text-align: center;
   color: white;
   font-size: 2.8rem;
-  font-weight: ${fontWeight.bold};
+  font-weight: ${fontWeight.extraBold};
   margin-bottom: 5.5rem;
   @media only screen and (min-width: ${BREAKPOINT}px) {
     margin-bottom: 6rem;
