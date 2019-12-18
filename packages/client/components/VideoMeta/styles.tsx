@@ -17,9 +17,11 @@ export const VideoMeta = styled.div`
     height: 2rem;
     border-bottom: 0.1rem solid #484c50;
     width: calc(100% + 4rem);
-    left: -2rem;
+    margin-left: -2rem;
 
     @media only screen and (min-width: ${BREAKPOINT}px) {
+      width: 100%;
+      margin-left: 0;
       height: 3rem;
     }
   }

@@ -28,6 +28,10 @@ export const userActions = {
   logout: 'LOGOUT',
 };
 
+export const QUERY_STRING = {
+  keyword: 'keyword',
+};
+
 export const endpoint = {
   tags: '/tags',
   hotlist: '/',
@@ -97,6 +101,19 @@ export const DEBOUNCE_TIME = {
   USERNAME: 200,
 };
 
+export const SEARCH_OPTION_LABELS = {
+  videos: '영상',
+  users: '사용자',
+  tags: '태그',
+  all: '모두',
+};
+export const SEARCH_OPTION_VALUES = {
+  videos: 'videos',
+  users: 'users',
+  tags: 'tags',
+  all: 'all',
+};
+
 export const orientation = {
   vertical: 'vertical',
   horizontal: 'horizontal',
@@ -126,3 +143,8 @@ export const USER_FORM_VALIDATION_MESSAGE = {
   DESCRIPTION_LENGTH: `1500자 이하로 작성해주십시오.`,
   INVALID_CHARACTER: `특수 문자는 포함할 수 없습니다.`,
 };
+export const SET_TABS = 'setTabs';
+
+export const CENTER = 'center';
+
+export const ENTER = 'Enter';

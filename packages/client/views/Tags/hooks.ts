@@ -4,7 +4,7 @@ import { TAGS_PER_PAGE } from '../../constants';
 
 export const createTagListAction: Action = (page: number) => ({
   method: 'GET',
-  endpoint: `${process.env.API_URL_HOST}/tags?page=${page}`,
+  endpoint: `${process.env.API_SERVER_URL}/tags?page=${page}`,
 });
 
 export const useTags = (page: number) => {
