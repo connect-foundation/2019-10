@@ -1,7 +1,7 @@
 export class DuplicateCheckResult {
-  public constructor(value: boolean) {
-    this.value = value;
+  public constructor(result: boolean) {
+    this.isDuplicated = result;
   }
 
-  public readonly value: boolean;
+  public readonly isDuplicated: boolean;
 }
