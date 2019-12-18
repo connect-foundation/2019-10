@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import { useTag } from './use-tag';
-import { useVideos } from './use-videos';
-import { NATURAL_NUMBER_REGEX } from '../../../libs/regex';
+import { useTaggedVideos } from './use-tagged-videos';
 import { sortOptions, endpoint } from '../../../constants';
+import { NATURAL_NUMBER_REGEX } from '../../../libs/regex';
 
 export const useTagVideos = () => {
   const router = useRouter();
@@ -19,10 +19,14 @@ export const useTagVideos = () => {
   const [page, setPage] = useState(1);
 
   const { tag, error } = useTag(validatedTagId);
-  const { videos, hasMore } = useVideos(validatedTagId, page, activeSortOption);
+  const { allTaggedVideos, hasMore } = useTaggedVideos(
+    validatedTagId,
+    page,
+    activeSortOption,
+  );
 
   useEffect(() => {
-    if (!tagId || error) {
+    if (!validatedTagId || error) {
       router.push(endpoint.hotlist);
     }
   }, [error]);
@@ -38,7 +42,7 @@ export const useTagVideos = () => {
 
   return {
     tag,
-    videos,
+    allTaggedVideos,
     handleFilterClick,
     handlePageChange,
     activeSortOption,
