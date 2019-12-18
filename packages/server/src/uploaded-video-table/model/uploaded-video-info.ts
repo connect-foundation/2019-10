@@ -5,8 +5,9 @@ export class UploadedVideoInfo {
   public readonly title: string;
   public readonly description: string;
   public readonly userId: number;
-  public readonly tags: number[];
+  public readonly tags: string[];
   public source: string;
+  public thumbnail: string;
 
   public constructor(uploadedVideoInfoDto: UploadedVideoInfoDto) {
     this.id = uploadedVideoInfoDto.id;
@@ -15,5 +16,6 @@ export class UploadedVideoInfo {
     this.userId = uploadedVideoInfoDto.userId;
     this.tags = uploadedVideoInfoDto.tags;
     this.source = '';
+    this.thumbnail = '';
   }
 }
