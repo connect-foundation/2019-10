@@ -24,7 +24,7 @@ export class TagController {
 
   @Get('/')
   public async getTagList(
-    @Query(null, new TagListQueryPipe()) tagListqueryDto: TagListQueryDto,
+    @Query(new TagListQueryPipe()) tagListqueryDto: TagListQueryDto,
   ): Promise<TagListResponseDto> {
     const [tags, count] = await this.tagService.findTags(tagListqueryDto);
 
@@ -33,7 +33,7 @@ export class TagController {
 
   @Get('/:id')
   public async getTagById(
-    @Param(IdParserPipe) id: number,
+    @Param(new IdParserPipe()) id: number,
   ): Promise<TagResponseDto> {
     try {
       const tag = await this.tagService.findTagById(id);
@@ -45,8 +45,8 @@ export class TagController {
 
   @Get('/:id/videos')
   public async getTagVideoList(
-    @Param(null, new IdParserPipe()) id: number,
-    @Query(null, new TagVideoListQueryPipe())
+    @Param(new IdParserPipe()) id: number,
+    @Query(new TagVideoListQueryPipe())
     tagVideoListQueryDto: TagVideoListQueryDto,
   ): Promise<TagVideoListResponseDto> {
     try {
