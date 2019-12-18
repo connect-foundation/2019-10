@@ -7,5 +7,4 @@ export const makeSignUpAction: Action = (formData: FormData) => ({
   method: 'POST',
   endpoint: `${process.env.API_SERVER_URL}${endpoint.users}`,
   body: formData,
-  credentials: 'include',
 });

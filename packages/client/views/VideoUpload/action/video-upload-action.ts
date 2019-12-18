@@ -8,7 +8,8 @@ export const makeGetPreSignedUrlAction: Action = (fileName: string) => ({
   headers: {
     'Content-Type': 'application/json',
   },
-  body: { fileName: `workspace/${fileName}` },
+  // body: { fileName: `workspace/${fileName}` },
+  body: { fileName: `${process.env.VIDEO_BUCKEY_DIR}/${fileName}` },
   endpoint: process.env.GET_PRESIGNED_URL_LAMBDA_URL,
 });
 
@@ -30,5 +31,4 @@ export const makeSendVideoInfoAction: Action = (
   },
   body: uploadVideoDetailDTO,
   endpoint: `${process.env.API_SERVER_URL}${SERVER_ENDPOINT.VIDEO_UPLOAD}`,
-  credentials: 'include',
 });
