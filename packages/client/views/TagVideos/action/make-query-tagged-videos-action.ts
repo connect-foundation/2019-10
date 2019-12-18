@@ -2,7 +2,7 @@ import { Action } from 'react-fetching-library';
 
 import { endpoint } from '../../../constants';
 
-export const makeQueryTagVideosAction: Action = (
+export const makeQueryTaggedVideosAction: Action = (
   id: number,
   page: number,
   sort: string,
