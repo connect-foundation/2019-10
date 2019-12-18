@@ -9,12 +9,12 @@ import {
 } from '../helper/validate';
 import { UserFormState } from '../model/user-form-state';
 import { useDebounce } from '../../../hooks/use-debounce';
-import { makeGetUserAction } from '../action/make-get-user';
+import { makeQueryUserAction } from '../action/make-query-user';
 import { endpoint, DEBOUNCE_TIME } from '../../../constants';
 import { makeSignUpAction } from '../action/make-sign-up-action';
 import { SignUpFormDTOFactory } from '../dto/sign-up-form-dto-factory';
-import { UserFormValidationState } from '../model/user-form-validation-state';
-import { DuplicationValidationState } from '../model/duplication-check-state';
+import { UserFormValidationStates } from '../model/user-form-validation-states';
+import { DuplicationValidationStates } from '../model/duplication-check-states';
 import { ValidationState } from '../../../libs/validation-state/validation-state';
 
 export const useSignUp = () => {
@@ -23,18 +23,19 @@ export const useSignUp = () => {
     new UserFormState('', '', true),
   );
 
-  const [userFormValidationState, setUserFormValidationState] = useState(
-    new UserFormValidationState(),
+  const [userFormValidationStates, setUserFormValidationStates] = useState(
+    new UserFormValidationStates(),
   );
-  const [duplicationValidationState, setDuplicationValidationState] = useState(
-    new DuplicationValidationState(),
-  );
-  const isFormValidated = Object.keys(userFormValidationState).every(state => {
-    return Boolean(userFormValidationState[state].isValid);
+  const [
+    duplicationValidationStates,
+    setDuplicationValidationStates,
+  ] = useState(new DuplicationValidationStates());
+  const isFormValidated = Object.keys(userFormValidationStates).every(state => {
+    return Boolean(userFormValidationStates[state].isValid);
   });
-  const isNotDuplicated = Object.keys(duplicationValidationState).every(
+  const isNotDuplicated = Object.keys(duplicationValidationStates).every(
     state => {
-      return Boolean(duplicationValidationState[state].isValid);
+      return Boolean(duplicationValidationStates[state].isValid);
     },
   );
 
@@ -42,22 +43,22 @@ export const useSignUp = () => {
     userFormState.username,
     DEBOUNCE_TIME.USERNAME,
   );
-  const getUserAction = makeGetUserAction(debouncedUsername);
+  const getUserAction = makeQueryUserAction(debouncedUsername);
   const { query: getUserQuery } = useQuery(getUserAction, false);
 
   useEffect(() => {
-    if (!userFormValidationState.username.isValid) {
+    if (!userFormValidationStates.username.isValid) {
       return;
     }
 
     const checkDuplicate = async () => {
-      setDuplicationValidationState(new DuplicationValidationState());
+      setDuplicationValidationStates(new DuplicationValidationStates());
       const usernameValidationState = await validateUsernameDuplicate(
         debouncedUsername,
         getUserQuery,
       );
 
-      setDuplicationValidationState({
+      setDuplicationValidationStates({
         username: usernameValidationState,
       });
     };
@@ -76,8 +77,8 @@ export const useSignUp = () => {
       [name]: value,
     });
 
-    setUserFormValidationState({
-      ...userFormValidationState,
+    setUserFormValidationStates({
+      ...userFormValidationStates,
       [name]: validate(value),
     });
   };
@@ -89,6 +90,7 @@ export const useSignUp = () => {
     SignUpFormDTOFactory.makeSignUpFormDTO(
       userFormState.username,
       userFormState.description,
+      userFormState.isAgreed,
     ),
   );
 
@@ -108,8 +110,8 @@ export const useSignUp = () => {
   };
 
   return {
-    userFormValidationState,
-    duplicationValidationState,
+    userFormValidationStates,
+    duplicationValidationStates,
     changeUserName,
     changeDescription,
     isSubmitable,

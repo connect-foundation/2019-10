@@ -7,16 +7,16 @@ import { signUpFormDataMaxLength } from '../../constants';
 
 const SignUp: React.FunctionComponent = () => {
   const {
-    userFormValidationState,
-    duplicationValidationState,
+    userFormValidationStates,
+    duplicationValidationStates,
     changeUserName,
     changeDescription,
     isSubmitable,
     submitUserForm,
   } = useSignUp();
 
-  const userValidationErrorMessage = userFormValidationState.username.message;
-  const userDuplicateMessage = duplicationValidationState.username.message;
+  const userValidationErrorMessage = userFormValidationStates.username.message;
+  const userDuplicateMessage = duplicationValidationStates.username.message;
 
   return (
     <S.SignUp>
@@ -26,7 +26,7 @@ const SignUp: React.FunctionComponent = () => {
             <S.HeadMessage>거의 다 되었어요!</S.HeadMessage>
             <S.Form>
               <S.Item>
-                <S.Label valid={userFormValidationState.username.isValid}>
+                <S.Label valid={userFormValidationStates.username.isValid}>
                   <label htmlFor="username">
                     닉네임
                     <S.RequireMark />
@@ -49,7 +49,7 @@ const SignUp: React.FunctionComponent = () => {
                 </span>
               </S.Item>
               <S.Item>
-                <S.Label valid={userFormValidationState.description.isValid}>
+                <S.Label valid={userFormValidationStates.description.isValid}>
                   <label htmlFor="description">소개</label>
                   <span>(최대 1,500자)</span>
                 </S.Label>
@@ -61,7 +61,7 @@ const SignUp: React.FunctionComponent = () => {
                   autoComplete="off"
                   spellCheck={false}
                 />
-                <span>{userFormValidationState.description.message}</span>
+                <span>{userFormValidationStates.description.message}</span>
               </S.Item>
               <S.Item>
                 <S.Label>
