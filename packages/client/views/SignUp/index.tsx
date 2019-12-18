@@ -1,11 +1,13 @@
 import React from 'react';
+import { NextComponentType } from 'next';
 import { Grid } from '@material-ui/core';
 
 import * as S from './styles';
+import { redirect } from '../../libs/auth';
 import { useSignUp } from './hook/use-sign-up';
-import { signUpFormDataMaxLength } from '../../constants';
+import { signUpFormDataMaxLength, endpoint } from '../../constants';
 
-const SignUp: React.FunctionComponent = () => {
+const SignUp: NextComponentType = () => {
   const {
     userFormValidationStates,
     duplicationValidationStates,
@@ -82,6 +84,13 @@ const SignUp: React.FunctionComponent = () => {
       </S.Container>
     </S.SignUp>
   );
+};
+
+SignUp.getInitialProps = async ({ req, res, ...rest }) => {
+  if (req) {
+    redirect(res, endpoint.hotlist);
+  }
+  return rest;
 };
 
 export default SignUp;

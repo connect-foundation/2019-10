@@ -16,7 +16,6 @@ const isValidUsernameCharacters = (username: string): boolean => {
 
 export const validateUsername = (username: string): ValidationState => {
   username = username.trim();
-  //
 
   // username은 반드시 채워져야 합니다.
   if (!username) {
@@ -66,12 +65,13 @@ export const validateUsernameDuplicate = async (
   getUserQuery,
 ): Promise<ValidationState> => {
   const { payload, error } = await getUserQuery(username);
+  const { value: isUsernameUnique } = payload;
 
   if (error) {
     return ValidationStateFactory.makeFailValidationState('');
   }
 
-  if (payload.username) {
+  if (!isUsernameUnique) {
     return ValidationStateFactory.makeFailValidationState(
       createUsernameDuplicateMessage(username),
     );
