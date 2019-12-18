@@ -117,7 +117,7 @@ export const useVideoUpload = () => {
       const res = await sendVideoInfo(
         UploadVideoDetailDtoFactory.makeUploadVideoDetailDTO(
           id,
-          user.id,
+          user.userId,
           tags,
           textFormData,
         ),

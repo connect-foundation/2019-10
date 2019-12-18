@@ -1,6 +1,7 @@
 export interface User {
-  id: number;
+  userId: number;
   email: string;
   username: string;
   avatar: string;
+  githubAccessToken: string;
 }
