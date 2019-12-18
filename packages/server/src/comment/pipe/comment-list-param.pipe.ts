@@ -1,14 +1,12 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-
-import { CommentsRequestParamDto } from '../dto/comments-request-param.dto';
-import { CommentsParamDto } from '../dto/comments-param.dto';
+import { CommentListParamDto } from '../dto/comment-list-param.dto';
 
 @Injectable()
-export class CommentsParamPipe implements PipeTransform {
+export class CommentListParamPipe implements PipeTransform {
   public async transform(
-    value: CommentsRequestParamDto,
-  ): Promise<CommentsParamDto> {
-    const { id } = value;
+    value: CommentListParamDto,
+  ): Promise<CommentListParamDto> {
+    const id = value.id as string;
 
     if (!this.validateParam(id)) {
       throw new BadRequestException();

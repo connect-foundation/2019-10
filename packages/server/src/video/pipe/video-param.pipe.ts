@@ -1,13 +1,12 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PipeTransform } from '@nestjs/common/interfaces';
 
-import { VideoRequestParamDto } from '../dto/video-request-param.dto';
 import { VideoParamDto } from '../dto/video-param.dto';
 
 @Injectable()
 export class VideoParamPipe implements PipeTransform {
-  public async transform(value: VideoRequestParamDto): Promise<VideoParamDto> {
-    const { id } = value;
+  public async transform(value: VideoParamDto): Promise<VideoParamDto> {
+    const id = value.id as string;
 
     if (!this.validateId(id)) {
       throw new BadRequestException();

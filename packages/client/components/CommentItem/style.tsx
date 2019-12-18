@@ -78,23 +78,10 @@ export const Actions = styled.div`
     border: unset;
     padding: 0;
     margin: 0;
+    outline: unset;
     font-size: 1.5rem;
     font-weight: ${fontWeight.bold};
     color: rgba(255, 255, 255, 0.6);
-
-    svg {
-      width: 2rem;
-      height: 2rem;
-      vertical-align: middle;
-      path:nth-child(2) {
-        opacity: 0.6;
-        fill: white;
-      }
-    }
-
-    span.likes {
-      margin-left: 0.5rem;
-    }
 
     span {
       vertical-align: middle;
@@ -107,6 +94,23 @@ export const Actions = styled.div`
     opacity: 0.5;
     padding: 0 0.5rem;
     vertical-align: middle;
+  }
+`;
+
+export const Like = styled.button`
+  svg {
+    width: 2rem;
+    height: 2rem;
+    vertical-align: middle;
+    path:nth-child(2) {
+      fill: ${props => (props.active ? '#02cf5d' : '#acaeaf')};
+    }
+  }
+
+  span {
+    color: ${props => (props.active ? '#02cf5d' : 'inherit')};
+    vertical-align: middle;
+    margin-left: 0.5rem;
   }
 `;
 

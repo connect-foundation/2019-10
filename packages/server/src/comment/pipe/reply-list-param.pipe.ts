@@ -1,14 +1,11 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-
-import { RepliesRequestParamDto } from '../dto/replies-request-param.dto';
-import { RepliesParamDto } from '../dto/replies-param.dto';
+import { ReplyListParamDto } from '../dto/reply-list-param.dto';
 
 @Injectable()
-export class RepliesParamPipe implements PipeTransform {
-  public async transform(
-    value: RepliesRequestParamDto,
-  ): Promise<RepliesParamDto> {
-    const { id, commentId } = value;
+export class ReplyListParamPipe implements PipeTransform {
+  public async transform(value: ReplyListParamDto): Promise<ReplyListParamDto> {
+    const id = value.id as string;
+    const commentId = value.commentId as string;
 
     if (!this.validateId(id) || !this.validateId(commentId)) {
       throw new BadRequestException();

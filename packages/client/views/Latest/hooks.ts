@@ -4,7 +4,8 @@ import { LATEST_VIDEOS_PER_PAGE } from '../../constants';
 
 const createLatestAction: Action = page => ({
   method: 'GET',
-  endpoint: `${process.env.API_SERVER_HOST}/videos?page=${page}&sort=latest`,
+  endpoint: `${process.env.API_SERVER_URL}/videos?page=${page}&sort=latest`,
+  credentials: 'include',
 });
 
 export const useLatestVideos = page => {

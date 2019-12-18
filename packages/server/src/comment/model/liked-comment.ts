@@ -1,6 +1,6 @@
-export class RepliesParamDto {
+export class LikedComment {
   public constructor(
-    public readonly id: number,
     public readonly commentId: number,
+    public readonly userId: number,
   ) {}
 }
