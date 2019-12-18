@@ -52,13 +52,13 @@ export class UserController {
   public async getUserWithName(
     @Param('username', new UserNameParamPipe()) username: string,
   ): Promise<UserResponseDto | object> {
-    const user = await this.userService.findUserByName(username);
     try {
-      return new UserResponseDto(user);
-    } catch (err) {
+      const user = await this.userService.findUserByName(username);
       if (!user) {
         return {};
       }
+      return new UserResponseDto(user);
+    } catch (err) {
       throw new BadRequestException(err.message);
     }
   }
