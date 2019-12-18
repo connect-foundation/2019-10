@@ -11,6 +11,7 @@ export const endpoint = {
   users: 'users',
   tags: 'tags',
   videos: 'videos',
+  myself: 'myself',
 };
 
 export const clientPath = {

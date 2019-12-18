@@ -3,16 +3,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { User } from '../../entity/user.entity';
 import { GithubApiModule } from '../third-party-api/github-api/github-api.module';
-import { UserSerializerModule } from '../serializer/user-serializer.module';
 import { UserModule } from '../user/user.module';
 import { AuthenticationService } from './authentication.service';
 import { AuthenticationController } from './authentication.controller';
+import { UserSessionModule } from '../user-session/user-session.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     GithubApiModule,
-    UserSerializerModule,
+    UserSessionModule,
     UserModule,
   ],
   providers: [AuthenticationService],

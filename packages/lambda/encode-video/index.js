@@ -34,20 +34,6 @@ function makeOutputs() {
 
     return output;
   });
-
-  // return outputKeys.reduce((acc, outputKey, index) => {
-  //   const output = {
-  //     Key: outputKey,
-  //     PresetId: presets[index],
-  //     SegmentDuration: segmentDuration
-  //   };
-
-  //   if (outputKey !== "audio") {
-  //     output.ThumbnailPattern = thumbPattern + outputKey;
-  //   }
-
-  //   return [...acc, output];
-  // }, []);
 }
 
 exports.handler = async (event, context, callback) => {
@@ -65,10 +51,6 @@ exports.handler = async (event, context, callback) => {
   path.splice(path.length - 1, 1);
 
   const outputKey = path.join("/");
-
-  // const outputKey = path.reduce((acc, cur) => {
-  //   return `${acc}/${cur}`;
-  // });
 
   const playlistName = fileName;
 

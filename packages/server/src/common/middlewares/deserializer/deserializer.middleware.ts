@@ -1,6 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
+
 import { UserSessionService } from '../../../user-session/user-session.service';
 import { SessionJWTData } from '../../../authentication/model/session-jwt-data';
 import { UserToken } from '../../../user-session/model/user-session-token';
@@ -22,26 +23,24 @@ export class DeserializerMiddleware implements NestMiddleware {
     response: Response,
     next: () => void,
   ): Promise<void> {
-    const sessionToken = request.cookies.SessionToken;
+    const sessionId = request.cookies.sessionId;
 
-    if (!sessionToken) {
+    if (!sessionId) {
+      // console.log('sessionId is null');
       return next();
     }
 
     // tslint:disable-next-line: no-any
-    const token: any = jwt.verify(sessionToken, process.env.JWT_SECRET);
+    const token: any = jwt.verify(sessionId, process.env.JWT_SECRET);
 
-    const tokenData = new SessionJWTData(
-      token.data.sessionId,
-      token.data.userPublicInfo,
-    );
+    const tokenData = new SessionJWTData(token.data.sessionId);
 
     if (!tokenData.sessionId) {
       return next();
     }
 
-    const userToken = JSON.parse(
-      await this.userSessionService.find(tokenData.sessionId),
+    const userToken = await this.userSessionService.deserializeUser(
+      tokenData.sessionId,
     );
 
     if (userToken) {

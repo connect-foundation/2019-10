@@ -160,7 +160,6 @@ const VideoUpload: NextComponentType = () => {
         <S.Button primary onClick={uploadVideo}>
           등록하기
         </S.Button>
-        )}
       </S.ButtonContainer>
     </Layout>
   );

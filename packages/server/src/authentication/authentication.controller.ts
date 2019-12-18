@@ -48,7 +48,9 @@ export class AuthenticationController {
       userDetail.getAccessToken(),
     );
 
-    const sessionId = this.authenticationService.instructToSerialize(user);
+    const sessionId = await this.authenticationService.instructToSerialize(
+      user,
+    );
 
     setSessionTokenCookie(response, user, sessionId);
 
