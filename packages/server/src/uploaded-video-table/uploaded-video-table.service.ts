@@ -24,8 +24,18 @@ export class UploadedVideoTableService {
     );
   }
 
+  // public async find(id: string): Promise<UploadedVideoInfo> {
   public async find(id: string): Promise<UploadedVideoInfo> {
-    return JSON.parse(await this.uploadedVideoInfoTable.get(id));
+    const result = await this.uploadedVideoInfoTable
+      .multi()
+      .get(id)
+      .del(id)
+      .exec();
+
+    const uploadedVideoInfo = result[0][1];
+
+    return JSON.parse(uploadedVideoInfo);
+    // return JSON.parse(await this.uploadedVideoInfoTable.get(id));
   }
 
   public async remove(id: string): Promise<number> {

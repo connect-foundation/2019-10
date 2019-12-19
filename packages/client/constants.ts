@@ -21,8 +21,9 @@ export const fileType = {
   image: 'image',
 };
 
-export const fileActions = {
-  upload: 'UPLOAD',
+export const VIDEO_FILE_ACTIONS = {
+  UPLOAD: 'UPLOAD',
+  COMPLETE: 'COMPLETE',
 };
 
 export const userActions = {
@@ -48,6 +49,7 @@ export const endpoint = {
 
 export const SERVER_ENDPOINT = {
   VIDEO_UPLOAD: '/videos/upload',
+  MYSELF: '/myself',
 };
 
 export const periods = {
@@ -119,6 +121,7 @@ export const orientation = {
   vertical: 'vertical',
   horizontal: 'horizontal',
 };
+
 export const VIDEO_FORM_DATA_MAX_LENGTH = {
   TITLE: '45',
   DESCRIPTION: '3000',
@@ -131,10 +134,33 @@ export const ALLOWED_CHARS = ['.', '#', '-'];
 
 export const SPACEBAR = ' ';
 
-export const TITLE = 'title';
-export const DESCRIPTION = 'description';
-
 export const VIDEO_TYPE = 'video/mp4,video/x-m4v,video/*';
+
+export const VIDEO_UPLOAD_FORM = {
+  TITLE: 'title',
+  DESCRIPTION: 'description',
+};
+
+export const VIDEO_UPLOAD_FORM_VALIDATION_CONDITION = {
+  TITLE_LENGTH: 45,
+  DESCRIPTION_LENGTH: 3000,
+};
+
+export const VIDEO_UPLOAD_FORM_VALIDATION_REGEX = {
+  VALID_CHARACTERS: /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9-*()!%._ \r\n]+$/,
+};
+
+export const VIDEO_UPLOAD_FORM_VALIDATION_MESSAGE = {
+  TITLE_LENGTH: '제목의 길이는 45자가 최대입니다.',
+  DESCRIPTION_LENGTH: '설명의 길이는 3000자가 최대입니다.',
+  INVALID_CHARACTERS:
+    '사용할 수 없는 문자가 포함되었습니다.(특수문자는 -, _, (, ), !, % 가능)',
+  EMPTY_VALUE: '필수 항목입니다!',
+};
+
+export const TAG_VALIDATION_REGEX = {
+  VALID_CHARACTERS: /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9-#._]+$/,
+};
 
 export const USER_NAME_REGEX = /^[\s0-9a-zA-Z\u3131-\uD79D]{1,30}$/iu;
 
@@ -144,6 +170,7 @@ export const USER_FORM_VALIDATION_MESSAGE = {
   DESCRIPTION_LENGTH: `1500자 이하로 작성해주십시오.`,
   INVALID_CHARACTER: `특수 문자는 포함할 수 없습니다.`,
 };
+
 export const SET_TABS = 'setTabs';
 
 export const CENTER = 'center';

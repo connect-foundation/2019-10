@@ -2,18 +2,16 @@ import React from 'react';
 import App, { AppProps } from 'next/app';
 import { ThemeProvider } from 'styled-components';
 import 'isomorphic-unfetch';
-import jwt from 'jsonwebtoken';
 import { ClientContextProvider as FetchingProvider } from 'react-fetching-library';
 import Cookies from 'universal-cookie';
 
 import './interfaces/extend';
 // import { endpoint, QUERY_STRING } from '../../constants';
 import { UserProvider } from '../../components/UserProvider';
-import { FileProvider } from '../../components/FileProvider';
+import { VideoFileProvider } from '../../components/VideoFileProvider';
 import { SearchedResultsProvider } from '../../components/SearchResultsProvider';
 import { client } from '../../libs/fetching';
-import { Token } from './interfaces/Token';
-import { User } from './interfaces/User';
+import { requestCurrentUserInfo } from './helper/request-user-info';
 
 class MyApp extends App<AppProps> {
   public static async getInitialProps(appContext) {
@@ -22,12 +20,16 @@ class MyApp extends App<AppProps> {
     const props = initProps(pathname);
 
     if (req) {
-      const cookies = new Cookies(req.headers.cookie);
-
-      const token = cookies.get(process.env.JWT_SESSION_TOKEN_KEY);
-
       try {
-        props.user = extractUserPublicInfo(token);
+        const cookies = new Cookies(req.headers.cookie);
+
+        const sessionId = cookies.get(process.env.JWT_SESSION_TOKEN_KEY);
+
+        if (!sessionId) {
+          throw new Error();
+        }
+
+        props.user = await requestCurrentUserInfo(sessionId);
         appContext.ctx.isLoggedIn = true;
       } catch (err) {
         appContext.ctx.isLoggedIn = false;
@@ -54,16 +56,16 @@ class MyApp extends App<AppProps> {
         <ThemeProvider theme={theme}>
           <UserProvider user={user}>
             {/* {this.isNeedFileProvider(pathname) ? (
-              <FileProvider>
+              <VideoFileProvider>
                 <Component {...pageProps} />
-              </FileProvider>
+              </VideoFileProvider>
             ) : (
                 <Component {...pageProps} />
             )} */}
             <SearchedResultsProvider>
-              <FileProvider>
+              <VideoFileProvider>
                 <Component {...pageProps} />
-              </FileProvider>
+              </VideoFileProvider>
             </SearchedResultsProvider>
           </UserProvider>
         </ThemeProvider>
@@ -89,14 +91,6 @@ function initProps(pathname: string): AppProps {
     pathname,
     user: null,
   };
-}
-
-function extractUserPublicInfo(token: string): User {
-  const {
-    data: { userPublicInfo },
-  } = jwt.verify(token, process.env.JWT_SECRET) as Token;
-
-  return userPublicInfo;
 }
 
 export default MyApp;

@@ -1,4 +1,4 @@
-export class TextFormData {
+export class VideoFormData {
   public constructor() {
     this.title = '';
     this.description = '';

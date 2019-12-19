@@ -4,7 +4,6 @@ import { useQuery, Action } from 'react-fetching-library';
 const createVideoAction: Action = id => ({
   method: 'GET',
   endpoint: `${process.env.API_SERVER_URL}/videos/${id}`,
-  credentials: 'include',
 });
 
 export const useVideo = id => {

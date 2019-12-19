@@ -2,23 +2,18 @@ import React from 'react';
 import { NextComponentType } from 'next';
 import { Grid } from '@material-ui/core';
 
-import * as S from './styles';
-import { redirect } from '../../libs/auth';
+import * as S from './style';
 import { useSignUp } from './hook/use-sign-up';
 import { signUpFormDataMaxLength, endpoint } from '../../constants';
 
 const SignUp: NextComponentType = () => {
   const {
     userFormValidationStates,
-    duplicationValidationStates,
     changeUserName,
     changeDescription,
-    isSubmitable,
+    checkSubmitAvailable,
     submitUserForm,
   } = useSignUp();
-
-  const userValidationErrorMessage = userFormValidationStates.username.message;
-  const userDuplicateMessage = duplicationValidationStates.username.message;
 
   return (
     <S.SignUp>
@@ -44,11 +39,9 @@ const SignUp: NextComponentType = () => {
                   type="text"
                   spellCheck={false}
                 />
-                <span>
-                  {userValidationErrorMessage
-                    ? userValidationErrorMessage
-                    : userDuplicateMessage}
-                </span>
+                {!userFormValidationStates.username.isValid && (
+                  <span>{userFormValidationStates.username.message}</span>
+                )}
               </S.Item>
               <S.Item>
                 <S.Label valid={userFormValidationStates.description.isValid}>
@@ -63,7 +56,9 @@ const SignUp: NextComponentType = () => {
                   autoComplete="off"
                   spellCheck={false}
                 />
-                <span>{userFormValidationStates.description.message}</span>
+                {!userFormValidationStates.description.isValid && (
+                  <span>{userFormValidationStates.description.message}</span>
+                )}
               </S.Item>
               <S.Item>
                 <S.Label>
@@ -74,7 +69,10 @@ const SignUp: NextComponentType = () => {
                 </S.Label>
               </S.Item>
               <S.SubmitButton>
-                <button disabled={!isSubmitable} onClick={submitUserForm}>
+                <button
+                  disabled={!checkSubmitAvailable()}
+                  onClick={submitUserForm}
+                >
                   가입하기
                 </button>
               </S.SubmitButton>
@@ -84,13 +82,6 @@ const SignUp: NextComponentType = () => {
       </S.Container>
     </S.SignUp>
   );
-};
-
-SignUp.getInitialProps = async ({ req, res, ...rest }) => {
-  if (req) {
-    redirect(res, endpoint.hotlist);
-  }
-  return rest;
 };
 
 export default SignUp;

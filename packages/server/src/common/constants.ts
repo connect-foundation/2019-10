@@ -11,6 +11,11 @@ export const endpoint = {
   users: 'users',
   tags: 'tags',
   videos: 'videos',
+  myself: 'myself',
+};
+
+export const USER_ENDPOINT = {
+  VERIFY: '/verify/:username',
 };
 
 export const clientPath = {

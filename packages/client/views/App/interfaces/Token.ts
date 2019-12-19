@@ -1,9 +1,7 @@
-import { User } from './User';
-
+// deprecated
 export interface Token {
   data: {
     sessionId: string;
-    userPublicInfo: User;
   };
   iat: number;
   exp: number;

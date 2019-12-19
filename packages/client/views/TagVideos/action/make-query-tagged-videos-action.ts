@@ -8,5 +8,5 @@ export const makeQueryTaggedVideosAction: Action = (
   sort: string,
 ) => ({
   method: 'GET',
-  endpoint: `${process.env.API_URL_HOST}${endpoint.tags}/${id}/videos?page=${page}&sort=${sort}`,
+  endpoint: `${process.env.API_SERVER_URL}${endpoint.tags}/${id}/videos?page=${page}&sort=${sort}`,
 });

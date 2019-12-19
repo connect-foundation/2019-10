@@ -4,17 +4,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as jwt from 'jsonwebtoken';
 import { GithubApiService } from '../third-party-api/github-api/github-api.service';
-import { UserSerializerService } from '../serializer/user-serializer.service';
 import { User } from '../../entity/user.entity';
 import { GithubOauthCodeDto } from '../third-party-api/github-api/dto/github-oauth-code.dto';
 import { GithubUserDetail } from '../third-party-api/model/github-user-detail';
 import { ONE_MINUTE_SECONDS } from '../common/constants';
+import { UserSessionService } from '../user-session/user-session.service';
 
 @Injectable()
 export class AuthenticationService {
   public constructor(
     private readonly githubApiService: GithubApiService,
-    private readonly userSerializerService: UserSerializerService,
+    private readonly userSessionService: UserSessionService,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
@@ -42,8 +42,8 @@ export class AuthenticationService {
     return user;
   }
 
-  public instructToSerialize(userEntity: User): string {
-    const tokenId = this.userSerializerService.serializeUser(userEntity);
+  public async instructToSerialize(userEntity: User): Promise<string> {
+    const tokenId = await this.userSessionService.serializeUser(userEntity);
 
     return tokenId;
   }

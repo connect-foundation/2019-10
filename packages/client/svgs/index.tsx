@@ -15,6 +15,7 @@ import SettingsSVG from './SettingsSVG';
 import PowerSVG from './PowerSVG';
 import PhotoSVG from './PhotoSVG';
 import CancelSVG from './CancelSVG';
+import CheckSVG from './CheckSVG';
 
 export {
   ArrowDropDownSVG,
@@ -34,4 +35,5 @@ export {
   PowerSVG,
   CancelSVG,
   PhotoSVG,
+  CheckSVG,
 };

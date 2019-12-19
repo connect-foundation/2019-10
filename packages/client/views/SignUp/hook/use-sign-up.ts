@@ -1,24 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-fetching-library';
+import { useQuery, useMutation } from 'react-fetching-library';
 
 import {
   validateUsername,
   validateDescription,
-  validateUsernameDuplicate,
+  makeUsernameDuplicatedMessage,
 } from '../helper/validate';
 import { UserFormState } from '../model/user-form-state';
-import { useDebounce } from '../../../hooks/use-debounce';
+import { useDebounce } from '../../../libs/debounce/use-debounce';
 import { makeQueryUserAction } from '../action/make-query-user';
 import { endpoint, DEBOUNCE_TIME } from '../../../constants';
 import { makeSignUpAction } from '../action/make-sign-up-action';
-import { SignUpFormDTOFactory } from '../dto/sign-up-form-dto-factory';
 import { UserFormValidationStates } from '../model/user-form-validation-states';
-import { DuplicationValidationStates } from '../model/duplication-check-states';
 import { ValidationState } from '../../../libs/validation-state/validation-state';
+import { RESPONSE_STATUS } from '../../../response';
+import { ValidationStateFactory } from '../../VideoUpload/helper/validation-state-factory';
 
 export const useSignUp = () => {
   const router = useRouter();
+
   const [userFormState, setUserFormState] = useState(
     new UserFormState('', '', true),
   );
@@ -26,44 +27,53 @@ export const useSignUp = () => {
   const [userFormValidationStates, setUserFormValidationStates] = useState(
     new UserFormValidationStates(),
   );
-  const [
-    duplicationValidationStates,
-    setDuplicationValidationStates,
-  ] = useState(new DuplicationValidationStates());
-  const isFormValidated = Object.keys(userFormValidationStates).every(state => {
-    return Boolean(userFormValidationStates[state].isValid);
-  });
-  const isNotDuplicated = Object.keys(duplicationValidationStates).every(
-    state => {
-      return Boolean(duplicationValidationStates[state].isValid);
-    },
-  );
+
+  const [isFetching, setIsFetching] = useState(false);
 
   const debouncedUsername = useDebounce(
     userFormState.username,
     DEBOUNCE_TIME.USERNAME,
   );
-  const getUserAction = makeQueryUserAction(debouncedUsername);
-  const { query: getUserQuery } = useQuery(getUserAction, false);
+
+  const { query: getUserQuery } = useQuery(
+    makeQueryUserAction(debouncedUsername),
+    false,
+  );
+  const { mutate: signUp } = useMutation(makeSignUpAction);
 
   useEffect(() => {
-    if (!userFormValidationStates.username.isValid) {
+    if (!(userFormValidationStates.username.isValid && debouncedUsername)) {
       return;
     }
 
-    const checkDuplicate = async () => {
-      setDuplicationValidationStates(new DuplicationValidationStates());
-      const usernameValidationState = await validateUsernameDuplicate(
-        debouncedUsername,
-        getUserQuery,
-      );
+    const checkIsDuplicated = async () => {
+      const { payload, error } = await getUserQuery();
 
-      setDuplicationValidationStates({
-        username: usernameValidationState,
+      if (!payload) {
+        return;
+      }
+
+      const { isDuplicated } = payload;
+
+      if (error) {
+        // TODO
+      }
+
+      if (!(payload && isDuplicated)) {
+        return;
+      }
+
+      const username = debouncedUsername;
+
+      setUserFormValidationStates({
+        ...userFormValidationStates,
+        username: ValidationStateFactory.makeFailValidationState(
+          makeUsernameDuplicatedMessage(username),
+        ),
       });
     };
 
-    checkDuplicate();
+    checkIsDuplicated();
   }, [debouncedUsername]);
 
   const changeUserForm = (
@@ -83,38 +93,48 @@ export const useSignUp = () => {
     });
   };
 
-  const changeUserName = e => changeUserForm(e, validateUsername);
-  const changeDescription = e => changeUserForm(e, validateDescription);
-
-  const signUpAction = makeSignUpAction(
-    SignUpFormDTOFactory.makeSignUpFormDTO(
-      userFormState.username,
-      userFormState.description,
-      userFormState.isAgreed,
-    ),
-  );
-
-  const { query: createUser } = useQuery(signUpAction, false);
-
-  const isSubmitable = isFormValidated && isNotDuplicated;
-
   const submitUserForm = async e => {
-    const { error } = await createUser();
+    setIsFetching(true);
+
+    const { error, status } = await signUp(userFormState);
+
+    if (status === RESPONSE_STATUS.UNPROCESSABLE_ENTITY) {
+      setIsFetching(false);
+
+      // will be deprecated
+      window.alert('이미 가입된 유저입니다.');
+    }
+
+    if (status === RESPONSE_STATUS.UNAUTHORIZED) {
+      router.push(endpoint.login);
+    }
 
     if (error) {
       // handle Error
       return;
     }
 
-    router.push(endpoint.hotlist);
+    window.location.href = endpoint.hotlist;
   };
+
+  const checkFormVerified = () => {
+    return Object.keys(userFormValidationStates).every(state => {
+      return userFormValidationStates[state].isValid;
+    });
+  };
+
+  const checkSubmitAvailable = () => {
+    return !isFetching && checkFormVerified();
+  };
+
+  const changeUserName = e => changeUserForm(e, validateUsername);
+  const changeDescription = e => changeUserForm(e, validateDescription);
 
   return {
     userFormValidationStates,
-    duplicationValidationStates,
     changeUserName,
     changeDescription,
-    isSubmitable,
+    checkSubmitAvailable,
     submitUserForm,
   };
 };

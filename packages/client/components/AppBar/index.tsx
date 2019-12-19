@@ -49,7 +49,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({
 
   const menuItems = user && (
     <>
-      <Link href={`/users/${user.id}`}>
+      <Link href={`/users/${user.userId}`}>
         <a>
           <ProfileSVG />
           <span>내 프로필</span>

@@ -1,6 +1,6 @@
-import { useVideoFileDispatch } from '../../components/FileProvider/hooks';
+import { useVideoFileDispatch } from '../../../components/VideoFileProvider/hooks';
 import { useRef } from 'react';
-import { fileActions, fileType, endpoint } from '../../constants';
+import { VIDEO_FILE_ACTIONS, fileType, endpoint } from '../../../constants';
 import { useRouter } from 'next/router';
 
 export const useVideoSelection = () => {
@@ -20,7 +20,7 @@ export const useVideoSelection = () => {
     }
 
     fileDispatch({
-      type: fileActions.upload,
+      type: VIDEO_FILE_ACTIONS.UPLOAD,
       file: currentFile ? currentFile : null,
     });
 

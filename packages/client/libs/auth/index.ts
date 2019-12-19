@@ -11,16 +11,12 @@ export const onlyMember = () => {
   const router = useRouter();
   const user = useUser();
 
-  if (checkLogInStatusClientSide(user)) {
+  if (!user) {
     router.push(endpoint.hotlist);
   }
 };
 
-export const checkLogInStatusClientSide = user => {
-  return !user;
-};
-
-export const checkLogInStatusServerSide = (isLoggedIn: boolean) => {
+export const validateRequest = (isLoggedIn: boolean) => {
   return typeof window !== 'undefined' || isLoggedIn;
 };
 

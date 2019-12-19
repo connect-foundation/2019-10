@@ -4,7 +4,6 @@ import { Repository, Like } from 'typeorm';
 
 import { User } from '../../entity/user.entity';
 import { Video } from '../../entity/video.entity';
-import { UserSerializerService } from '../serializer/user-serializer.service';
 import { UserListQueryDto } from './dto/user-list-query.dto';
 import { getOffset } from '../libs/get-offset';
 import {
@@ -18,11 +17,12 @@ import {
 import { ParsedGithubUserDetail } from './model/parsed-github-user-detail';
 import { SignUpFormDataDto } from './dto/sign-up-user-form.dto';
 import { SignUpUserData } from './model/sign-up-form-data';
+import { UserSessionService } from '../user-session/user-session.service';
 
 @Injectable()
 export class UserService {
   public constructor(
-    private readonly userSerializerService: UserSerializerService,
+    private readonly userSessionService: UserSessionService,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
@@ -62,8 +62,8 @@ export class UserService {
     return user;
   }
 
-  public instructToSerialize(userEntity: User): string {
-    const tokenId = this.userSerializerService.serializeUser(userEntity);
+  public async instructToSerialize(userEntity: User): Promise<string> {
+    const tokenId = await this.userSessionService.serializeUser(userEntity);
 
     return tokenId;
   }

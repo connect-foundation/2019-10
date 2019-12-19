@@ -15,7 +15,11 @@ import {
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import { endpoint, GITHUB_USER_DETAIL } from '../common/constants';
+import {
+  endpoint,
+  GITHUB_USER_DETAIL,
+  USER_ENDPOINT,
+} from '../common/constants';
 import { UserService } from '../user/user.service';
 import { UserListQueryPipe } from '../user/pipe/user-list-query-pipe';
 import { UserListQueryDto } from '../user/dto/user-list-query.dto';
@@ -32,7 +36,6 @@ import { UserVideoListParamDto } from '../user/dto/user-video-list-param.dto';
 import { UserVideoListQueryDto } from '../user/dto/user-video-list-query.dto';
 import { UserVideoListResponseDto } from '../user/dto/user-video-list-response.dto';
 import { User } from '../../entity/user.entity';
-import { IdParserPipe } from '../common/pipes/id-parser/id-parser.pipe';
 import { UserNameParamPipe } from '../user/pipe/user-name-param-pipe';
 import { DuplicateCheckResult } from './model/duplicate-check-result';
 
@@ -52,17 +55,16 @@ export class UserController {
     }
   }
 
-  @Get('/verify/:username')
+  @Get(USER_ENDPOINT.VERIFY)
   public async checkDuplicateUsername(
     @Param('username', new UserNameParamPipe()) username: string,
   ): Promise<DuplicateCheckResult> {
     try {
       const user = await this.userService.findUserByName(username);
-      if (!user) {
-        return new DuplicateCheckResult(true);
-      }
 
-      return new DuplicateCheckResult(false);
+      // console.log({ user });
+
+      return new DuplicateCheckResult(!!user);
     } catch (err) {
       throw new BadRequestException(err.message);
     }
@@ -85,7 +87,7 @@ export class UserController {
         signUpUserFormDto,
       );
 
-      this.login(response, user);
+      await this.login(response, user);
       deleteCookie(response, GITHUB_USER_DETAIL);
 
       return response.sendStatus(201);
@@ -105,8 +107,8 @@ export class UserController {
     }
   }
 
-  private login(response: Response, user: User): void {
-    const sessionId = this.userService.instructToSerialize(user);
+  private async login(response: Response, user: User): Promise<void> {
+    const sessionId = await this.userService.instructToSerialize(user);
     setSessionTokenCookie(response, user, sessionId);
   }
 

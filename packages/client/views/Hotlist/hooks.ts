@@ -5,7 +5,6 @@ import { HOTLIST_VIDEOS_PER_PAGE } from '../../constants';
 const createHotlistAction: Action = (page, period) => ({
   method: 'GET',
   endpoint: `${process.env.API_SERVER_URL}/videos?page=${page}&sort=popular&period=${period}`,
-  credentials: 'include',
 });
 
 export const useHotlistVideos = (page, period) => {

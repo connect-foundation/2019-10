@@ -123,6 +123,10 @@ export const ItemHead = styled.div`
   margin-bottom: 1rem;
 `;
 
+export const ItemBody = styled.div`
+  margin-bottom: 2rem;
+`;
+
 export const ItemTitle = styled.span`
   vertical-align: middle;
   font-size: 1.6rem;
@@ -149,7 +153,7 @@ export const VideoTitle = styled.input`
   background-color: #484c50;
   border: none;
   outline: none;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 `;
 
 export const VideoDescription = styled(TextareaAutosize)`
@@ -157,14 +161,13 @@ export const VideoDescription = styled(TextareaAutosize)`
   font-size: 1.6rem;
   color: white;
   padding: 1.6rem;
-
   line-height: 2.4rem;
   border-radius: 0.5rem;
   background-color: #484c50;
   border: none;
   outline: none;
-  margin-bottom: 3rem;
-  resize: none;
+  margin-bottom: 1rem;
+  resize: unset;
 `;
 
 export const TagContainer = styled.div`
@@ -227,4 +230,10 @@ export const Button = styled.button`
     width: 15.8rem;
     margin: 0 1.2rem;
   }
+`;
+
+export const ValidationMessage = styled.span`
+  font-size: 1.6rem;
+  font-weight: ${fontWeight.bold};
+  color: red;
 `;
