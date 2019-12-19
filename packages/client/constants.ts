@@ -11,6 +11,7 @@ export const PERSISTENT = 'persistent';
 
 export const TAGS_PER_PAGE = 24;
 export const HOTLIST_VIDEOS_PER_PAGE = 20;
+export const TAG_VIDEOS_PER_PAGE = 20;
 export const LATEST_VIDEOS_PER_PAGE = 20;
 export const USER_VIDEOS_PER_PAGE = 12;
 export const COMMENTS_PER_PAGE = 5;

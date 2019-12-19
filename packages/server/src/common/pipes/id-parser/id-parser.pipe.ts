@@ -1,13 +1,13 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-
 import { IdParserDto } from './dto/id-parser.dto';
+import { NATURAL_NUMBER_REGEX } from '../../../common/regexes';
 
 @Injectable()
 export class IdParserPipe implements PipeTransform {
   public transform(idParserDto: IdParserDto) {
     const { id } = idParserDto;
 
-    if (!this.isOnlyDigit(id)) {
+    if (!this.isNaturalNumber(id)) {
       throw new BadRequestException('Invalid Url');
     }
 
@@ -15,8 +15,7 @@ export class IdParserPipe implements PipeTransform {
     return digitId;
   }
 
-  private isOnlyDigit(id: string) {
-    const onlyDigitRegex = RegExp(/^[0-9]*$/m);
-    return id.match(onlyDigitRegex);
+  private isNaturalNumber(id: string) {
+    return id.match(NATURAL_NUMBER_REGEX);
   }
 }
