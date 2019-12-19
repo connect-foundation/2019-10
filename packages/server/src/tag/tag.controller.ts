@@ -20,15 +20,19 @@ import { endpoint } from '../common/constants';
 
 @Controller(endpoint.tags)
 export class TagController {
-  public constructor(private readonly tagService: TagService) {}
+  public constructor(private readonly tagService: TagService) { }
 
   @Get('/')
   public async getTagList(
     @Query(new TagListQueryPipe()) tagListqueryDto: TagListQueryDto,
   ): Promise<TagListResponseDto> {
-    const [tags, count] = await this.tagService.findTags(tagListqueryDto);
+    try {
+      const [tags, count] = await this.tagService.findTags(tagListqueryDto);
 
-    return new TagListResponseDto(tags, count);
+      return new TagListResponseDto(tags, count);
+    } catch (err) {
+      throw new BadRequestException();
+    }
   }
 
   @Get('/:id')

@@ -4,8 +4,9 @@ import {
   Get,
   Query,
   Param,
-  NotFoundException,
   Post,
+  NotFoundException,
+  BadRequestException,
   Patch,
   UseGuards,
   Req,
@@ -46,7 +47,7 @@ export class VideoController {
   public constructor(
     private readonly videoService: VideoService,
     private readonly commentService: CommentService,
-  ) {}
+  ) { }
 
   @Post('/upload')
   public async saveVideoInfo(
@@ -81,11 +82,15 @@ export class VideoController {
   public async getVideos(
     @Query(new VideoListQueryPipe()) videoListQueryDto: VideoListQueryDto,
   ): Promise<VideoListResponseDto> {
-    const [videos, count] = await this.videoService.findVideos(
-      videoListQueryDto,
-    );
+    try {
+      const [videos, count] = await this.videoService.findVideos(
+        videoListQueryDto,
+      );
 
-    return new VideoListResponseDto(videos, count);
+      return new VideoListResponseDto(videos, count);
+    } catch (err) {
+      throw new BadRequestException();
+    }
   }
 
   @Post('/:id/likes')

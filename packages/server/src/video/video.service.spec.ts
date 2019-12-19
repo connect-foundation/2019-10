@@ -3,9 +3,11 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, Like, MoreThan } from 'typeorm';
 import * as moment from 'moment';
 
-import { Video } from '../../../typeorm/src/entity/video.entity';
+import { Video } from '../../entity/video.entity';
+import { Comment } from '../../entity/comment.entity';
 
 import { VideoService } from './video.service';
+import { UploadedVideoTableService } from '../uploaded-video-table/uploaded-video-table.service';
 import { VideoListQueryDto } from './dto/video-list-query.dto';
 
 import { VIDEO_LIST } from './video.test.dummy.data';
@@ -20,11 +22,13 @@ import {
 
 describe('-- VideoService --', () => {
   let videoService: VideoService;
+  let uploadedVideoTableService: UploadedVideoTableService;
   let testingModule: TestingModule;
   let videoRepository: Repository<Video>;
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
+      imports: [UploadedVideoTableService, Comment],
       providers: [
         VideoService,
         {
@@ -33,10 +37,14 @@ describe('-- VideoService --', () => {
             findAndCount: jest.fn().mockResolvedValue(VIDEO_LIST),
           },
         },
+        UploadedVideoTableService,
       ],
     }).compile();
 
     videoService = testingModule.get<VideoService>(VideoService);
+    uploadedVideoTableService = testingModule.get<UploadedVideoTableService>(
+      UploadedVideoTableService,
+    );
     videoRepository = testingModule.get<Repository<Video>>(
       getRepositoryToken(Video),
     );

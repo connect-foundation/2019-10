@@ -3,6 +3,7 @@ const { Component } = require('@serverless/core');
 class Deploy extends Component {
   async default(inputs = {}) {
     const { stage } = inputs;
+
     require('dotenv').config({ path: `${__dirname}/env/${stage}.env` });
 
     const alias = process.env.ALIAS || stage;
