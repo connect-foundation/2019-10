@@ -44,7 +44,7 @@ export const useVideoUpload = () => {
 
   const [tags, setTags] = useState([]);
   const [currentTag, setCurrentTag] = useState('');
-  const [textFormData, setTextFormData] = useState(new VideoFormData());
+  const [videoFormData, setVideoFormData] = useState(new VideoFormData());
   const [thumbnail, setThumbnail] = useState();
   const [thumbnailObjectURL, setThumbnailObjectURL] = useState();
   const [isUploading, setIsUploading] = useState(false);
@@ -119,7 +119,7 @@ export const useVideoUpload = () => {
           id,
           user.userId,
           tags,
-          textFormData,
+          videoFormData,
         ),
       );
 
@@ -127,8 +127,6 @@ export const useVideoUpload = () => {
         // error control
         return;
       }
-
-      // console.log(res);
     } catch (err) {
       // console.log(err);
     }
@@ -160,8 +158,8 @@ export const useVideoUpload = () => {
   ) => {
     const { name, value } = e.target;
 
-    setTextFormData({
-      ...textFormData,
+    setVideoFormData({
+      ...videoFormData,
       [name]: value,
     });
 
@@ -211,7 +209,7 @@ export const useVideoUpload = () => {
     thumbnailInput,
     tags,
     tagInput,
-    textFormData,
+    textFormData: videoFormData,
     moveBackPage,
     previewVideo,
     uploadVideo,

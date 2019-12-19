@@ -32,7 +32,6 @@ export class DeserializerMiddleware implements NestMiddleware {
     const sessionId = request.cookies.sessionId;
 
     if (!sessionId) {
-      // console.log('sessionId is null');
       return next();
     }
 

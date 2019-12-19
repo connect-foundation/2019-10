@@ -41,7 +41,8 @@ const SignUp: React.FunctionComponent = () => {
     }
 
     if (!response.error) {
-      router.push(endpoint.hotlist);
+      // 회원가입 이후 유저 정보를 컨텍스트로 유지하기 위해서 서버사이르 렌더링 유도
+      window.location.href = endpoint.hotlist;
     }
   };
 

@@ -14,8 +14,6 @@ export class MyselfController {
     try {
       const authorization = request.headers.authorization;
 
-      // console.log({ authorization });
-
       if (!authorization) {
         throw new Error('authorization is not provided');
       }

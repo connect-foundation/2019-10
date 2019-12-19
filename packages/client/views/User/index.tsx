@@ -28,7 +28,7 @@ const User = () => {
     count,
     sort,
     hasMore,
-    hasData: hasVideosData,
+    hasVideosData,
     onNext,
     onSort,
   } = useVideos(userId);

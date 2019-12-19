@@ -141,7 +141,7 @@ export const VIDEO_UPLOAD_FORM_VALIDATION_CONDITION = {
 };
 
 export const VIDEO_UPLOAD_FORM_VALIDATION_REGEX = {
-  VALID_CHARACTERS: /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9-*()!%._ ]+$/,
+  VALID_CHARACTERS: /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9-*()!%._ \r\n]+$/,
 };
 
 export const VIDEO_UPLOAD_FORM_VALIDATION_MESSAGE = {

@@ -23,8 +23,6 @@ export class TranscoderWebhookController {
   public async listenTranscoderNotification(
     @Body() notificationMessage: TranscoderNotificationDto,
   ) {
-    // console.log({ notificationMessage });
-
     notificationMessage = JSON.parse(notificationMessage.toString().trim());
 
     if (notificationMessage.state === TranscoderNotificationState.completed) {
@@ -42,8 +40,8 @@ export class TranscoderWebhookController {
         where: { id: videoInfo.userId },
       });
 
-      const tags = await Promise.all([
-        ...videoInfo.tags.map(async (tagName: string) => {
+      const tags = await Promise.all(
+        videoInfo.tags.map(async (tagName: string) => {
           const tagEntities = await this.tagRepository.find({
             where: { name: tagName },
           });
@@ -61,7 +59,7 @@ export class TranscoderWebhookController {
 
           return tag;
         }),
-      ]);
+      );
 
       const video = this.videoRepository.create({
         title: videoInfo.title,

@@ -31,7 +31,7 @@ const CommentItem = ({
 
   let myComment = false;
   if (loggedInUser) {
-    myComment = user.id === loggedInUser.id;
+    myComment = user.id === loggedInUser.userId;
   }
 
   const {

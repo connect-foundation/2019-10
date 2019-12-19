@@ -44,19 +44,19 @@ export const useVideos = id => {
   const [sort, setSort] = useState('popular'); // popular or latest
   const [count, setCount] = useState(null);
   const [videos, setVideos] = useState([]);
-  const [hasData, setHasData] = useState(false);
+  const [hasVideosData, setHasVideosData] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const action = createVideosAction(id, page, sort);
   const { payload, error, ...rest } = useQuery(action);
 
   useEffect(() => {
     setPage(1);
-    setHasData(false);
+    setHasVideosData(false);
   }, [sort]);
 
   useEffect(() => {
     if (payload && !error) {
-      setHasData(true);
+      setHasVideosData(true);
       setHasMore(payload.data.length >= USER_VIDEOS_PER_PAGE);
       setCount(payload.count);
       page === 1
@@ -70,7 +70,7 @@ export const useVideos = id => {
     count,
     sort,
     hasMore,
-    hasData,
+    hasVideosData,
     onNext: () => setPage(page + 1),
     onSort: value => setSort(value),
   };

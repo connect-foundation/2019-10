@@ -9,7 +9,7 @@ import {
 } from '../../../constants';
 import { ValidationStateFactory } from './validation-state-factory';
 
-const isValidatedTitleLength = (title: string): boolean => {
+const isTitleLengthValid = (title: string): boolean => {
   return title.length <= VIDEO_UPLOAD_FORM_VALIDATION_CONDITION.TITLE_LENGTH;
 };
 
@@ -28,7 +28,7 @@ export const validateTitle = (title: string): ValidationState => {
   }
 
   // 45자 이상 불가능
-  if (!isValidatedTitleLength(title)) {
+  if (!isTitleLengthValid(title)) {
     return ValidationStateFactory.makeFailValidationState(
       VIDEO_UPLOAD_FORM_VALIDATION_MESSAGE.TITLE_LENGTH,
     );
