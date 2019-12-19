@@ -16,14 +16,17 @@ export const useTaggedVideos = (id: number, page: number, sort: string) => {
   }, [sort]);
 
   useEffect(() => {
+    if (error) {
+      // handle Error
+      return;
+    }
     if (!taggedVideos) {
       // handle Error
       return;
     }
-    if (!error) {
-      setHasMore(taggedVideos.data.length >= TAG_VIDEOS_PER_PAGE);
-      setTaggedVideos([...allTaggedVideos, ...taggedVideos.data]);
-    }
+
+    setHasMore(taggedVideos.data.length >= TAG_VIDEOS_PER_PAGE);
+    setTaggedVideos([...allTaggedVideos, ...taggedVideos.data]);
   }, [taggedVideos]);
 
   return { allTaggedVideos, hasMore };
