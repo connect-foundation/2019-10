@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-fetching-library';
-import { SEARCH_OPTION_VALUES } from '../../../constants';
+import { SEARCH_OPTION_VALUES, SET_MAP } from '../../../constants';
 import { makeQuerySearchAction } from '../action/make-query-search-action';
-import { setOptionMap } from '../helper/set-option-map';
+import { useSearchedResultsDispatch } from '../../../components/SearchResultsProvider/hook/use-searched-results';
 
 export const useSearchUsers = (page, keyword) => {
   const [users, setUsers] = useState([]);
@@ -22,11 +22,17 @@ export const useSearchUsers = (page, keyword) => {
       return;
     }
     if (payload && !error) {
+      const optionMapDispatch = useSearchedResultsDispatch();
+
       setUserHasData(true);
       setUserHasMore(payload.data.length >= 20);
       setUsers([...payload.data]);
       setUserCount(payload.count);
-      setOptionMap(SEARCH_OPTION_VALUES.users, payload.count);
+      optionMapDispatch({
+        type: SET_MAP,
+        value: SEARCH_OPTION_VALUES.tags,
+        count: payload.count,
+      });
     }
   }, [payload]);
 

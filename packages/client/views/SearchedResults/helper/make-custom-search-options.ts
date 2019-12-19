@@ -1,10 +1,10 @@
 import { SEARCH_OPTION_LABELS, SEARCH_OPTION_VALUES } from '../../../constants';
-import { makeCustomOptionMap } from '../helper/make-custom-option-map';
+import { useSearchedResults } from '../../../components/SearchResultsProvider/hook/use-searched-results';
 
 export const makeCustomSearchOptions = () => {
   const customSearchOptions = [];
 
-  const optionMap = makeCustomOptionMap();
+  const optionMap = useSearchedResults().maps;
 
   optionMap.forEach((key, value) => {
     if (key.count) {

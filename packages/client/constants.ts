@@ -172,6 +172,7 @@ export const USER_FORM_VALIDATION_MESSAGE = {
 };
 
 export const SET_TABS = 'setTabs';
+export const SET_MAP = 'setMap';
 
 export const CENTER = 'center';
 
