@@ -46,20 +46,19 @@ export const useSignUp = () => {
       return;
     }
 
+    if (!debouncedUsername) {
+      return;
+    }
+
     const checkIsDuplicated = async () => {
       const { payload, error } = await getUserQuery();
-
-      if (!payload) {
-        return;
-      }
-
       const { isDuplicated } = payload;
 
       if (error) {
         // TODO
       }
 
-      if (!(payload && isDuplicated)) {
+      if (!isDuplicated) {
         return;
       }
 

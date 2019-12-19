@@ -59,8 +59,6 @@ export class UserController {
     try {
       const user = await this.userService.findUserByName(username);
 
-      // console.log({ user });
-
       return new DuplicateCheckResult(!!user);
     } catch (err) {
       throw new BadRequestException(err.message);
