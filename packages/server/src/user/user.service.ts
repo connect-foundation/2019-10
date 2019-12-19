@@ -68,6 +68,15 @@ export class UserService {
     return tokenId;
   }
 
+  public async findUserByName(username: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: {
+        username,
+      },
+    });
+    return user;
+  }
+
   public async findUser(id): Promise<User> {
     return this.userRepository
       .createQueryBuilder()

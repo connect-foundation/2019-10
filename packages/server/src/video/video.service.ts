@@ -38,7 +38,7 @@ export class VideoService {
       where: { id },
     });
   }
-  
+
   public async findVideos(
     videoListQueryDto: VideoListQueryDto,
   ): Promise<[Video[], number]> {

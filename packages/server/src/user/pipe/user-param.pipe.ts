@@ -7,7 +7,6 @@ import { NATURAL_NUMBER_REGEX } from '../../common/regexes';
 export class UserParamPipe implements PipeTransform {
   public async transform(value: UserParamDto): Promise<UserParamDto> {
     const id = value.id as string;
-
     if (!this.validateId(id)) {
       throw new BadRequestException();
     }
