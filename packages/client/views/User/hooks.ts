@@ -38,10 +38,7 @@ export const useUser = id => {
 const createVideosAction: Action = (id, page, sort) => ({
   method: 'GET',
   endpoint: `${process.env.API_SERVER_URL}/users/${id}/videos?page=${page}&sort=${sort}`,
-<<<<<<< HEAD
-=======
   credentials: 'include',
->>>>>>> 493286dabfe6a86c332e1c70704dee706fc67382
 });
 
 export const useVideos = id => {
