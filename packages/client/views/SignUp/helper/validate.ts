@@ -57,25 +57,6 @@ export const validateDescription = (description: string): ValidationState => {
   return ValidationStateFactory.makeSuccessValidationState();
 };
 
-const createUsernameDuplicateMessage = (name: string): string =>
-  `'${name}'은 이미 사용중인 닉네임입니다. 다른 닉네임을 작성해 주십시오.`;
-
-export const validateUsernameDuplicate = async (
-  username: string,
-  getUserQuery,
-): Promise<ValidationState> => {
-  const { payload, error } = await getUserQuery(username);
-  const { value: isUsernameUnique } = payload;
-
-  if (error) {
-    return ValidationStateFactory.makeFailValidationState('');
-  }
-
-  if (!isUsernameUnique) {
-    return ValidationStateFactory.makeFailValidationState(
-      createUsernameDuplicateMessage(username),
-    );
-  }
-
-  return ValidationStateFactory.makeSuccessValidationState();
+export const makeUsernameDuplicatedMessage = (username: string) => {
+  return `${username}은 이미 등록된 사용자 이름입니다.`;
 };

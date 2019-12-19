@@ -15,7 +15,11 @@ import {
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import { endpoint, GITHUB_USER_DETAIL } from '../common/constants';
+import {
+  endpoint,
+  GITHUB_USER_DETAIL,
+  USER_ENDPOINT,
+} from '../common/constants';
 import { UserService } from '../user/user.service';
 import { UserListQueryPipe } from '../user/pipe/user-list-query-pipe';
 import { UserListQueryDto } from '../user/dto/user-list-query.dto';
@@ -32,7 +36,6 @@ import { UserVideoListParamDto } from '../user/dto/user-video-list-param.dto';
 import { UserVideoListQueryDto } from '../user/dto/user-video-list-query.dto';
 import { UserVideoListResponseDto } from '../user/dto/user-video-list-response.dto';
 import { User } from '../../entity/user.entity';
-import { IdParserPipe } from '../common/pipes/id-parser/id-parser.pipe';
 import { UserNameParamPipe } from '../user/pipe/user-name-param-pipe';
 import { DuplicateCheckResult } from './model/duplicate-check-result';
 
@@ -49,17 +52,14 @@ export class UserController {
     return new UserListResponseDto(users, count);
   }
 
-  @Get('/verify/:username')
+  @Get(USER_ENDPOINT.VERIFY)
   public async checkDuplicateUsername(
     @Param('username', new UserNameParamPipe()) username: string,
   ): Promise<DuplicateCheckResult> {
     try {
       const user = await this.userService.findUserByName(username);
-      if (!user) {
-        return new DuplicateCheckResult(true);
-      }
 
-      return new DuplicateCheckResult(false);
+      return new DuplicateCheckResult(!!user);
     } catch (err) {
       throw new BadRequestException(err.message);
     }

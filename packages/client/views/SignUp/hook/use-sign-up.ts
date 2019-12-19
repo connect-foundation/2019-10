@@ -5,10 +5,10 @@ import { useQuery, useMutation } from 'react-fetching-library';
 import {
   validateUsername,
   validateDescription,
-  validateUsernameDuplicate,
+  makeUsernameDuplicatedMessage,
 } from '../helper/validate';
 import { UserFormState } from '../model/user-form-state';
-import { useDebounce } from '../../../hooks/use-debounce';
+import { useDebounce } from '../../../libs/debounce/use-debounce';
 import { makeQueryUserAction } from '../action/make-query-user';
 import { endpoint, DEBOUNCE_TIME } from '../../../constants';
 import { makeSignUpAction } from '../action/make-sign-up-action';
@@ -28,42 +28,44 @@ export const useSignUp = () => {
     new UserFormValidationStates(),
   );
 
-  // const [duplicationValidationState, setDuplicationValidationState] = useState(
-  //   new DuplicationValidationState(),
-  // );
-
-  // will be deprecated
-  // will be deprecated
-  const [isUsernameDuplicated, setIsUsernameDuplicated] = useState(
-    ValidationStateFactory.makeSuccessValidationState(),
-  );
   const [isFetching, setIsFetching] = useState(false);
 
-  // will be deprecated
   const debouncedUsername = useDebounce(
     userFormState.username,
     DEBOUNCE_TIME.USERNAME,
   );
 
-  // will be deprecated
-  const getUserAction = makeQueryUserAction(debouncedUsername);
-  const { query: getUserQuery } = useQuery(getUserAction, false);
+  const { query: getUserQuery } = useQuery(
+    makeQueryUserAction(debouncedUsername),
+    false,
+  );
+  const { mutate: signUp } = useMutation(makeSignUpAction);
 
-  // will be deprecated
   useEffect(() => {
-    if (!userFormValidationStates.username.isValid) {
+    if (!(userFormValidationStates.username.isValid && debouncedUsername)) {
       return;
     }
 
     const checkIsDuplicated = async () => {
-      // setIsUsernameDuplicated(snew DuplicationValidationState());
+      const { payload, error } = await getUserQuery();
+      const { isDuplicated } = payload;
 
-      const usernameValidationState = await validateUsernameDuplicate(
-        debouncedUsername, // will be deprecated
-        getUserQuery,
-      );
+      if (error) {
+        // TODO
+      }
 
-      setIsUsernameDuplicated(usernameValidationState);
+      if (!(payload && isDuplicated)) {
+        return;
+      }
+
+      const username = debouncedUsername;
+
+      setUserFormValidationStates({
+        ...userFormValidationStates,
+        username: ValidationStateFactory.makeFailValidationState(
+          makeUsernameDuplicatedMessage(username),
+        ),
+      });
     };
 
     checkIsDuplicated();
@@ -85,8 +87,6 @@ export const useSignUp = () => {
       [name]: validate(value),
     });
   };
-
-  const { mutate: signUp } = useMutation(makeSignUpAction);
 
   const submitUserForm = async e => {
     setIsFetching(true);
@@ -118,30 +118,18 @@ export const useSignUp = () => {
     });
   };
 
-  const checkUsernameDuplicated = () => {
-    Object.keys(isUsernameDuplicated).every(state => {
-      return isUsernameDuplicated[state].isValid;
-    });
-  };
-
   const checkSubmitAvailable = () => {
-    return !isFetching && checkFormVerified() && checkUsernameDuplicated();
+    return !isFetching && checkFormVerified();
   };
 
   const changeUserName = e => changeUserForm(e, validateUsername);
   const changeDescription = e => changeUserForm(e, validateDescription);
 
-  const userValidationStateMessage = userFormValidationStates.username.message
-    ? userFormValidationStates.username.message
-    : isUsernameDuplicated.message;
-
   return {
     userFormValidationStates,
-    isUsernameDuplicated,
     changeUserName,
     changeDescription,
     checkSubmitAvailable,
     submitUserForm,
-    userValidationStateMessage,
   };
 };

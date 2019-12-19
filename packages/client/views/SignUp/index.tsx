@@ -3,7 +3,6 @@ import { NextComponentType } from 'next';
 import { Grid } from '@material-ui/core';
 
 import * as S from './style';
-import { redirect } from '../../libs/auth';
 import { useSignUp } from './hook/use-sign-up';
 import { signUpFormDataMaxLength, endpoint } from '../../constants';
 
@@ -14,7 +13,6 @@ const SignUp: NextComponentType = () => {
     changeDescription,
     checkSubmitAvailable,
     submitUserForm,
-    userValidationStateMessage,
   } = useSignUp();
 
   return (
@@ -41,7 +39,9 @@ const SignUp: NextComponentType = () => {
                   type="text"
                   spellCheck={false}
                 />
-                <span>{userValidationStateMessage}</span>
+                {!userFormValidationStates.username.isValid && (
+                  <span>{userFormValidationStates.username.message}</span>
+                )}
               </S.Item>
               <S.Item>
                 <S.Label valid={userFormValidationStates.description.isValid}>
@@ -56,7 +56,9 @@ const SignUp: NextComponentType = () => {
                   autoComplete="off"
                   spellCheck={false}
                 />
-                <span>{userFormValidationStates.description.message}</span>
+                {!userFormValidationStates.description.isValid && (
+                  <span>{userFormValidationStates.description.message}</span>
+                )}
               </S.Item>
               <S.Item>
                 <S.Label>
@@ -80,13 +82,6 @@ const SignUp: NextComponentType = () => {
       </S.Container>
     </S.SignUp>
   );
-};
-
-SignUp.getInitialProps = async ({ req, res, ...rest }) => {
-  if (req) {
-    redirect(res, endpoint.hotlist);
-  }
-  return rest;
 };
 
 export default SignUp;

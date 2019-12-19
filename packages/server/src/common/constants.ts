@@ -14,6 +14,10 @@ export const endpoint = {
   myself: 'myself',
 };
 
+export const USER_ENDPOINT = {
+  VERIFY: '/verify/:username',
+};
+
 export const clientPath = {
   signUp: 'http://localhost:3000/auth/signup',
   main: 'http://localhost:3000',
