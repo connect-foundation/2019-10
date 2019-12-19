@@ -13,7 +13,7 @@ describe('UserListQueryPipe', () => {
   });
 
   describe('success calls', () => {
-    it('should let the UserListQueryDto go on through', () => {
+    it('should let UserListQueryDto to go through', () => {
       const userListQueryDto = new UserListQueryDto('1', '권');
       const result: UserListQueryDto = { page: 1, keyword: '권' };
       expect(pipe.transform(userListQueryDto)).resolves.toBe(result);
@@ -21,7 +21,7 @@ describe('UserListQueryPipe', () => {
   });
 
   describe('unsuccess calls', () => {
-    it('should throw an error if given a non-numberic page', () => {
+    it('should throw an error if non-numeric page is given', () => {
       const userListQueryDto = new UserListQueryDto('1가나다', '권');
       try {
         pipe.transform(userListQueryDto);

@@ -1,4 +1,4 @@
-import { VideoListQueryPipe } from './video-list-query-pipe';
+import { VideoListQueryPipe } from './video-list-query.pipe';
 import { VideoListQueryDto } from '../dto/video-list-query.dto';
 
 describe('VideoListQueryPipe', () => {
@@ -13,7 +13,7 @@ describe('VideoListQueryPipe', () => {
   });
 
   describe('success calls', () => {
-    it('should let the VideoListQueryDto go on through with keyword', () => {
+    it('should properly validate query string when page and keyword is provided', () => {
       const videoListQueryDto = new VideoListQueryDto(
         '1',
         undefined,
@@ -29,7 +29,7 @@ describe('VideoListQueryPipe', () => {
       expect(pipe.transform(videoListQueryDto)).resolves.toBe(result);
     });
 
-    it('should let the VideoListQueryDto go on through with no keyword', () => {
+    it('should properly validate query string when page, sort, period is provided', () => {
       const videoListQueryDto = new VideoListQueryDto(
         '1',
         'popular',
@@ -63,7 +63,7 @@ describe('VideoListQueryPipe', () => {
       }
     });
 
-    it('should throw an error if given a sort that is not latest or popular', () => {
+    it('should throw an error when sort receives invalid value', () => {
       const videoListQueryDto = new VideoListQueryDto(
         '1',
         'test',
@@ -79,7 +79,7 @@ describe('VideoListQueryPipe', () => {
       }
     });
 
-    it('should throw an error if given invalid period', () => {
+    it('should throw an error when period receives invalid value', () => {
       const videoListQueryDto = new VideoListQueryDto(
         '1',
         'popular',
@@ -95,7 +95,7 @@ describe('VideoListQueryPipe', () => {
       }
     });
 
-    it('should throw an error if given latest sort and valid period', () => {
+    it('should throw an error when sort value is latest but receives period value', () => {
       const videoListQueryDto = new VideoListQueryDto(
         '1',
         'latest',
