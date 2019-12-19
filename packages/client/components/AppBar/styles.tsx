@@ -5,7 +5,7 @@ import { BREAKPOINT, fontWeight } from '../../constants';
 
 export const AppBar = styled(MaterialAppBar)`
   && {
-    background-color: #383d3f;
+    background-color: ${props => props.background};
     color: white;
     position: fixed;
     z-index: 2;

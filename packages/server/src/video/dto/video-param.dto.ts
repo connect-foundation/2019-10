@@ -1,3 +1,3 @@
 export class VideoParamDto {
-  public constructor(public readonly id: number) {}
+  public constructor(public readonly id: number | string) {}
 }

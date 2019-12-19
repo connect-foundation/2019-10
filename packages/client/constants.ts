@@ -11,6 +11,7 @@ export const PERSISTENT = 'persistent';
 
 export const TAGS_PER_PAGE = 24;
 export const HOTLIST_VIDEOS_PER_PAGE = 20;
+export const TAG_VIDEOS_PER_PAGE = 20;
 export const LATEST_VIDEOS_PER_PAGE = 20;
 export const USER_VIDEOS_PER_PAGE = 12;
 export const COMMENTS_PER_PAGE = 5;
@@ -28,6 +29,10 @@ export const userActions = {
   logout: 'LOGOUT',
 };
 
+export const QUERY_STRING = {
+  keyword: 'keyword',
+};
+
 export const endpoint = {
   tags: '/tags',
   hotlist: '/',
@@ -38,6 +43,7 @@ export const endpoint = {
   login: '/auth/login',
   users: '/users',
   profileEdit: '/profile/edit',
+  verifyUserInfo: '/users/verify',
 };
 
 export const SERVER_ENDPOINT = {
@@ -89,7 +95,24 @@ export const fontWeight = {
 
 export const signUpFormDataMaxLength = {
   username: 30,
-  introduction: 1500,
+  description: 1500,
+};
+
+export const DEBOUNCE_TIME = {
+  USERNAME: 200,
+};
+
+export const SEARCH_OPTION_LABELS = {
+  videos: '영상',
+  users: '사용자',
+  tags: '태그',
+  all: '모두',
+};
+export const SEARCH_OPTION_VALUES = {
+  videos: 'videos',
+  users: 'users',
+  tags: 'tags',
+  all: 'all',
 };
 
 export const orientation = {
@@ -112,3 +135,17 @@ export const TITLE = 'title';
 export const DESCRIPTION = 'description';
 
 export const VIDEO_TYPE = 'video/mp4,video/x-m4v,video/*';
+
+export const USER_NAME_REGEX = /^[\s0-9a-zA-Z\u3131-\uD79D]{1,30}$/iu;
+
+export const USER_FORM_VALIDATION_MESSAGE = {
+  EMPTY_VALUE: `필수 항목입니다.`,
+  USERNAME_LENGTH: `30자 이하로 작성해주십시오.`,
+  DESCRIPTION_LENGTH: `1500자 이하로 작성해주십시오.`,
+  INVALID_CHARACTER: `특수 문자는 포함할 수 없습니다.`,
+};
+export const SET_TABS = 'setTabs';
+
+export const CENTER = 'center';
+
+export const ENTER = 'Enter';

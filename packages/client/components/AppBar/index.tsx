@@ -15,12 +15,13 @@ import * as S from './styles';
 
 import SearchBar from '../SearchBar';
 import { useUser } from '../UserProvider/hooks';
+import { AppBarProps } from './interface';
 
-interface AppBarProps {
-  maxWidth?: number;
-}
-
-export const AppBar: React.FunctionComponent<AppBarProps> = () => {
+export const AppBar: React.FunctionComponent<AppBarProps> = ({
+  backgroundColor = '#383d3f',
+  searchBar = true,
+  buttons = true,
+}) => {
   const [isSearchBarActive, setSearchBarActive] = useState(false);
   const [isMenuActive, setMenuActive] = useState(false);
 
@@ -68,7 +69,7 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
   );
 
   return (
-    <S.AppBar>
+    <S.AppBar background={backgroundColor}>
       <S.Container>
         <S.Logo isSearchBarActive={isSearchBarActive}>
           <Link href="/">
@@ -78,67 +79,86 @@ export const AppBar: React.FunctionComponent<AppBarProps> = () => {
           </Link>
         </S.Logo>
 
-        <S.MobileButtons isSearchBarActive={isSearchBarActive}>
-          <Link href={user ? endpoint.uploadVideoFile : endpoint.login}>
-            <a>
-              <button>
-                <CloudSVG />
-              </button>
-            </a>
-          </Link>
-
-          <button onClick={handleSearchBar}>
-            <SearchSVG width={24} height={24} />
-          </button>
-
-          {user ? (
-            <button onClick={handleAvatarClick}>
-              <img src={user.avatar} />
-            </button>
-          ) : (
-            <Link href={endpoint.login}>
+        {buttons && (
+          <S.MobileButtons isSearchBarActive={isSearchBarActive}>
+            <Link href={user ? endpoint.uploadVideoFile : endpoint.login}>
               <a>
                 <button>
-                  <ProfileSVG />
+                  <CloudSVG />
                 </button>
               </a>
             </Link>
-          )}
-        </S.MobileButtons>
 
-        <SearchBar deactivate={handleSearchBar} isActive={isSearchBarActive} />
+            <button onClick={handleSearchBar}>
+              <SearchSVG width={24} height={24} />
+            </button>
 
-        <S.DesktopButtons>
-          <Link href={user ? endpoint.uploadVideoFile : endpoint.login}>
-            <a>
-              <button className="primary">
-                <CloudSVG />
-                <span>업로드</span>
-              </button>
-            </a>
-          </Link>
-          {user ? (
-            <S.DesktopAvatar>
+            {user ? (
               <button onClick={handleAvatarClick}>
                 <img src={user.avatar} />
               </button>
-              {isMenuActive && (
-                <S.DesktopMenu onClick={e => e.stopPropagation()}>
-                  {menuItems}
-                </S.DesktopMenu>
-              )}
-            </S.DesktopAvatar>
-          ) : (
-            <Link href={endpoint.login}>
+            ) : (
+              <Link href={endpoint.login}>
+                <a>
+                  <button>
+                    <ProfileSVG />
+                  </button>
+                </a>
+              </Link>
+            )}
+          </S.MobileButtons>
+        )}
+
+        {searchBar && (
+          <SearchBar
+            deactivate={handleSearchBar}
+            isActive={isSearchBarActive}
+          />
+        )}
+
+        {buttons && (
+          <S.DesktopButtons>
+            <Link href={user ? endpoint.uploadVideoFile : endpoint.login}>
               <a>
-                <button>
-                  <ProfileSVG />
-                  <span>로그인</span>
+                <button className="primary">
+                  <CloudSVG />
+                  <span>업로드</span>
                 </button>
               </a>
             </Link>
-          )}
-        </S.DesktopButtons>
+            {user ? (
+              <S.DesktopAvatar>
+                <button onClick={handleAvatarClick}>
+                  <img src={user.avatar} />
+                </button>
+                {isMenuActive && (
+                  <S.DesktopMenu onClick={e => e.stopPropagation()}>
+                    {menuItems}
+                  </S.DesktopMenu>
+                )}
+              </S.DesktopAvatar>
+            ) : (
+              <>
+                <Link href={endpoint.login}>
+                  {user ? (
+                    <a className="avatar">
+                      <button>
+                        <img src={user.avatar} />
+                      </button>
+                    </a>
+                  ) : (
+                    <a>
+                      <button>
+                        <ProfileSVG />
+                        <span>로그인</span>
+                      </button>
+                    </a>
+                  )}
+                </Link>
+              </>
+            )}
+          </S.DesktopButtons>
+        )}
         {isMenuActive && (
           <S.MobileMenu>
             <div onClick={e => e.stopPropagation()}>{menuItems}</div>

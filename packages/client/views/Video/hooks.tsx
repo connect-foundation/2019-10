@@ -3,16 +3,20 @@ import { useQuery, Action } from 'react-fetching-library';
 
 const createVideoAction: Action = id => ({
   method: 'GET',
-  endpoint: `${process.env.API_SERVER_HOST}/videos/${id}`,
+  endpoint: `${process.env.API_SERVER_URL}/videos/${id}`,
+  credentials: 'include',
 });
 
 export const useVideo = id => {
   const [hasData, setHasData] = useState(false);
+  // TODO: 기본 값 model로 작성하기
   const [video, setVideo] = useState({
+    id: '',
     views: null,
     createdAt: '',
     title: '',
     likedUsersCount: null,
+    likedByUser: false,
     description: '',
     user: {
       id: '',

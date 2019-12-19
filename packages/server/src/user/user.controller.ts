@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
+
 import { endpoint, GITHUB_USER_DETAIL } from '../common/constants';
 import { UserService } from '../user/user.service';
 import { UserListQueryPipe } from '../user/pipe/user-list-query-pipe';
@@ -31,6 +32,9 @@ import { UserVideoListParamDto } from '../user/dto/user-video-list-param.dto';
 import { UserVideoListQueryDto } from '../user/dto/user-video-list-query.dto';
 import { UserVideoListResponseDto } from '../user/dto/user-video-list-response.dto';
 import { User } from '../../entity/user.entity';
+import { IdParserPipe } from '../common/pipes/id-parser/id-parser.pipe';
+import { UserNameParamPipe } from '../user/pipe/user-name-param-pipe';
+import { DuplicateCheckResult } from './model/duplicate-check-result';
 
 @Controller(endpoint.users)
 export class UserController {
@@ -45,6 +49,22 @@ export class UserController {
       return new UserListResponseDto(users, count);
     } catch (err) {
       throw new BadRequestException();
+    }
+  }
+
+  @Get('/verify/:username')
+  public async checkDuplicateUsername(
+    @Param('username', new UserNameParamPipe()) username: string,
+  ): Promise<DuplicateCheckResult> {
+    try {
+      const user = await this.userService.findUserByName(username);
+      if (!user) {
+        return new DuplicateCheckResult(true);
+      }
+
+      return new DuplicateCheckResult(false);
+    } catch (err) {
+      throw new BadRequestException(err.message);
     }
   }
 

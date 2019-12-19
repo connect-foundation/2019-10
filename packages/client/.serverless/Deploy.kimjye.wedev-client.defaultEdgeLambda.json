@@ -1,10 +1,10 @@
 {
   "name": "up93vyv-eocnyazj",
-  "hash": "BBk98AoaQLVVGWZzAdlZgaWG5obb+oI8ctD5EFS3008=",
+  "hash": "9xqtdb65owkm/P/2u/YMKalAL/SH7bcxubBiZvqwayw=",
   "description": "Default Lambda@Edge for Next CloudFront distribution",
   "memory": 512,
   "timeout": 10,
-  "code": "/Users/alexkwon/Developments/boostmembership/2019-10/packages/client/.serverless_nextjs/default-lambda",
+  "code": "C:\\Users\\jihye\\Desktop\\2019-10\\packages\\client\\.serverless_nextjs\\default-lambda",
   "shims": [],
   "handler": "index.handler",
   "runtime": "nodejs10.x",

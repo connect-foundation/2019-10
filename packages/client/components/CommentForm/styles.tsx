@@ -3,6 +3,7 @@ import { BREAKPOINT, fontWeight } from '../../constants';
 import { TextareaAutosize } from '@material-ui/core';
 
 export const CommentForm = styled.div`
+  width: 100%;
   margin-bottom: 4rem;
   display: flex;
 
@@ -31,13 +32,14 @@ export const User = styled.div`
 export const Form = styled.form`
   width: 100%;
 
-  div {
+  > div {
     margin-top: 1rem;
     display: flex;
     justify-content: flex-end;
 
     button {
       background: unset;
+      width: 6.7rem;
       height: 3.2rem;
       line-height: 3.4rem;
       padding: 0 1.8rem;
