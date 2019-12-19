@@ -9,7 +9,7 @@ import { DESCRIPTION_MAX_LENGTH } from '../constants';
 export class UserUpdateBodyPipe implements PipeTransform {
   public async transform(user: UserUpdateBodyDto): Promise<UserUpdateBodyDto> {
     if (!this.validateUpdateUserBodyDto(user)) {
-      throw new BadRequestException('invalid User Body');
+      throw new BadRequestException('Invalid User Body');
     }
 
     return user;

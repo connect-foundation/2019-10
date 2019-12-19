@@ -155,7 +155,7 @@ export class UserController {
 
       return user;
     } catch (err) {
-      throw new BadRequestException(err.msg);
+      throw new BadRequestException(err.message);
     }
   }
 }
