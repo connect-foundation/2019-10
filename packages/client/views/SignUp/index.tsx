@@ -70,7 +70,7 @@ const SignUp: NextComponentType = () => {
               </S.Item>
               <S.SubmitButton>
                 <button
-                  disabled={!checkSubmitAvailable}
+                  disabled={!checkSubmitAvailable()}
                   onClick={submitUserForm}
                 >
                   가입하기

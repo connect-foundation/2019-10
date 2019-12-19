@@ -48,6 +48,11 @@ export const useSignUp = () => {
 
     const checkIsDuplicated = async () => {
       const { payload, error } = await getUserQuery();
+
+      if (!payload) {
+        return;
+      }
+
       const { isDuplicated } = payload;
 
       if (error) {
