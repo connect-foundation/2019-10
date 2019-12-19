@@ -4,5 +4,5 @@ import { endpoint } from '../../../constants';
 
 export const makeQueryTagAction: Action = (id: number) => ({
   method: 'GET',
-  endpoint: `${process.env.API_URL_HOST}${endpoint.tags}/${id}`,
+  endpoint: `${process.env.API_SERVER_URL}${endpoint.tags}/${id}`,
 });
