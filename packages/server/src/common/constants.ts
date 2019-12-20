@@ -1,8 +1,8 @@
-export const TranscoderNotificationState = {
-  progressing: 'PROGRESSING',
-  completed: 'COMPLETED',
-  warning: 'WARNING',
-  error: 'ERROR',
+export const TRANSCODER_NOTIFICATION_STATE = {
+  PROGRESSING: 'PROGRESSING',
+  COMPLETED: 'COMPLETED',
+  WARNING: 'WARNING',
+  ERROR: 'ERROR',
 };
 
 export const endpoint = {
