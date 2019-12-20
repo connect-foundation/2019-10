@@ -49,13 +49,13 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({
 
   const menuItems = user && (
     <>
-      <Link href={`/users/${user.userId}`}>
+      <Link prefetch={false} href={`/users/${user.userId}`}>
         <a>
           <ProfileSVG />
           <span>내 프로필</span>
         </a>
       </Link>
-      <Link href={endpoint.profileEdit}>
+      <Link prefetch={false} href={endpoint.profileEdit}>
         <a>
           <SettingsSVG />
           <span>프로필 변경</span>
