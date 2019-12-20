@@ -28,6 +28,7 @@ export const useReplies = (videoId, commentId) => {
       const data = await queryState.query();
       if (data.payload && !data.error) {
         setCount(data.payload.count);
+        setSubmittedReplies([]);
         setReplies(data.payload.data);
         setHasMore(data.payload.data.length >= 5);
       }

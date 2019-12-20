@@ -3,17 +3,16 @@ import { useRouter } from 'next/router';
 
 import { format } from '../../libs/timeago';
 
-import * as S from './styles';
+import * as S from './style';
 import { FavoriteSVG } from '../../svgs';
 import { CircularProgress } from '@material-ui/core';
 import { useUser } from '../UserProvider/hooks';
-import {
-  useCommentLike,
-  useReplies,
-  useCommentEdit,
-  useCommentDelete,
-} from './hooks';
+
 import CommentForm from '../CommentForm';
+import { useCommentDelete } from './hook/use-comment-delete';
+import { useReplies } from './hook/use-replies';
+import { useCommentLike } from './hook/use-comment-like';
+import { useCommentEdit } from './hook/use-comment-edit';
 
 const CommentItem = ({
   reply,
@@ -33,7 +32,7 @@ const CommentItem = ({
 
   let myComment = false;
   if (loggedInUser) {
-    myComment = user.id === loggedInUser.id;
+    myComment = user.id === loggedInUser.userId;
   }
 
   const commentEditState = useCommentEdit(videoId, id, content);
