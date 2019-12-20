@@ -16,7 +16,7 @@ export const useTags = (page: number) => {
 
   useEffect(() => {
     if (payload && !error) {
-      setHasMore(payload.count >= TAGS_PER_PAGE);
+      setHasMore(payload.data.length >= TAGS_PER_PAGE);
       setTags([...tags, ...payload.data]);
     }
   }, [payload]);
