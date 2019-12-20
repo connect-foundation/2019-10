@@ -2,12 +2,17 @@ import { Response, CookieOptions } from 'express';
 import * as jwt from 'jsonwebtoken';
 
 import { User } from '../../../entity/user.entity';
-import { ONE_DAY_MILLISECONDS, ONE_DAY_SECONDS } from '../../common/constants';
+import {
+  ONE_DAY_MILLISECONDS,
+  ONE_DAY_SECONDS,
+  DOMAIN,
+} from '../../common/constants';
 
 export function deleteCookie(response: Response, name: string): void {
   setTokenOnResponseCookie(response, name, '', {
     maxAge: 0,
     httpOnly: true,
+    domain: DOMAIN,
   });
 }
 
@@ -23,7 +28,7 @@ export function setSessionTokenCookie(
     process.env.JWT_SESSION_TOKEN_KEY,
     sessionToken,
     {
-      domain: 'wedev.tv',
+      domain: DOMAIN,
       maxAge: 30 * ONE_DAY_MILLISECONDS,
       httpOnly: true,
       secure: true,

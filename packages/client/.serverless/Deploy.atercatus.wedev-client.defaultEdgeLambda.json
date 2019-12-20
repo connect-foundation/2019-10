@@ -1,6 +1,6 @@
 {
   "name": "up93vyv-hazm53j",
-  "hash": "RTvq5L0IA9eIRwsqrvCCNItHp6R5YhCNb9f3NbvNHwE=",
+  "hash": "ggBs5hPk1afW1ZuGVXgta7XxrSFFevOu5Obde0n2hC8=",
   "description": "Default Lambda@Edge for Next CloudFront distribution",
   "memory": 512,
   "timeout": 10,

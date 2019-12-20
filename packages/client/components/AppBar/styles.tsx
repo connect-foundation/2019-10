@@ -129,6 +129,7 @@ export const DesktopAvatar = styled.div`
   position: relative;
 
   button {
+    outline: none;
     background: unset;
     padding: unset;
     margin-left: 0;

@@ -9,6 +9,8 @@ import { GithubOauthCodeDto } from '../third-party-api/github-api/dto/github-oau
 import { GithubUserDetail } from '../third-party-api/model/github-user-detail';
 import { ONE_MINUTE_SECONDS } from '../common/constants';
 import { UserSessionService } from '../user-session/user-session.service';
+import { Request } from 'express';
+import { SessionJWTData } from './model/session-jwt-data';
 
 @Injectable()
 export class AuthenticationService {
@@ -17,6 +19,19 @@ export class AuthenticationService {
     private readonly userSessionService: UserSessionService,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
+
+  public async logoutUser(request: Request) {
+    const sessionId = request.cookies.sessionId;
+
+    // tslint:disable-next-line: no-any
+    const token: any = jwt.verify(sessionId, process.env.JWT_SECRET);
+
+    const tokenData = new SessionJWTData(token.data.sessionId);
+
+    console.log({ tokenData });
+
+    await this.userSessionService.remove(tokenData.sessionId);
+  }
 
   public async getGithubUserDetail(
     codeDto: GithubOauthCodeDto,

@@ -24,9 +24,7 @@ const VideoSelection: NextComponentType = () => {
           </S.Title>
           <S.FileContainer>
             <CloudSVG />
-            <S.BrowserText>
-              업로드 하려는 파일을 끌어다 놓아주세요
-            </S.BrowserText>
+            <S.BrowserText>업로드 하려는 파일을 선택해주세요</S.BrowserText>
             <S.MobileText>업로드 하려는 파일을 선택해주세요</S.MobileText>
             <S.UploadButton onClick={showExplorer}>
               파일 선택하기
