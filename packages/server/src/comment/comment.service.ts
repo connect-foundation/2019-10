@@ -46,6 +46,9 @@ export class CommentService {
     video.commentsCount = video.commentsCount + 1;
     this.videoRepository.save(video);
 
+    const user = await this.userRepository.findOne(userId);
+    comment.user = user;
+
     return comment;
   }
 
@@ -77,6 +80,9 @@ export class CommentService {
     const video = await this.videoRepository.findOne(videoId);
     video.commentsCount = video.commentsCount + 1;
     await this.videoRepository.save(video);
+
+    const user = await this.userRepository.findOne(userId);
+    reply.user = user;
 
     return reply;
   }
@@ -155,8 +161,8 @@ export class CommentService {
         },
         status: 1,
       })
-      .orderBy('Comment_popularity', 'DESC')
-      .addOrderBy('Comment_id', 'DESC')
+      .orderBy('Comment_id', 'DESC')
+      .addOrderBy('Comment_popularity', 'DESC')
       .getManyAndCount();
   }
 
@@ -215,8 +221,8 @@ export class CommentService {
     await this.commentRepository
       .createQueryBuilder()
       .relation(Comment, 'likedUsers')
-      .of(userId)
-      .add(commentId);
+      .of(commentId)
+      .add(userId);
 
     const comment = await this.findComment(commentId);
     comment.likedUsersCount = comment.likedUsersCount + 1;
@@ -230,27 +236,27 @@ export class CommentService {
     await this.commentRepository
       .createQueryBuilder()
       .relation(Comment, 'likedUsers')
-      .of(userId)
-      .remove(commentId);
+      .of(commentId)
+      .remove(userId);
 
     const comment = await this.findComment(commentId);
     comment.likedUsersCount = comment.likedUsersCount - 1;
     return await this.commentRepository.save(comment);
   }
 
-  public async checkLikedByUser(
-    commentId: number,
-    userId: number,
-  ): Promise<boolean> {
-    const likedComment = await this.userRepository
-      .createQueryBuilder()
-      .where({
-        id: userId,
-      })
-      .relation(User, 'likedComments')
-      .of(commentId)
-      .loadOne();
+  // public async checkLikedByUser(
+  //   commentId: number,
+  //   userId: number,
+  // ): Promise<boolean> {
+  //   const likedComment = await this.userRepository
+  //     .createQueryBuilder()
+  //     .where({
+  //       id: userId,
+  //     })
+  //     .relation(User, 'likedComments')
+  //     .of(commentId)
+  //     .loadOne();
 
-    return Boolean(likedComment);
-  }
+  //   return Boolean(likedComment);
+  // }
 }

@@ -20,11 +20,11 @@ const CommentForm = ({
   return (
     <S.CommentForm {...rest}>
       {/* TODO: 로그인 유저의 avatar로 변경하기 */}
-      {avatar && (
+      {/* {avatar && (
         <S.User>
           <img src="https://www.pngkey.com/png/detail/193-1938385_-pikachu-avatar.png" />
         </S.User>
-      )}
+      )} */}
       <S.Form onSubmit={onSubmit}>
         <S.StyledTextarea
           rows={rows}

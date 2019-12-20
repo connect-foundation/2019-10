@@ -47,7 +47,7 @@ export class VideoController {
   public constructor(
     private readonly videoService: VideoService,
     private readonly commentService: CommentService,
-  ) { }
+  ) {}
 
   @Post('/upload')
   public async saveVideoInfo(
@@ -104,10 +104,11 @@ export class VideoController {
 
     await this.checkVideoExistence(id);
 
-    const likedByUser = await this.videoService.checkLikedByUser(id, userId);
-    if (likedByUser) {
-      throw new ConflictException('Already liked the video');
-    }
+    // TODO
+    // const likedByUser = await this.videoService.checkLikedByUser(id, userId);
+    // if (likedByUser) {
+    //   throw new ConflictException('Already liked the video');
+    // }
 
     const likedVideo = await this.videoService.likeVideo(id, userId);
 
@@ -127,10 +128,11 @@ export class VideoController {
 
     await this.checkVideoExistence(id);
 
-    const likedByUser = await this.videoService.checkLikedByUser(id, userId);
-    if (!likedByUser) {
-      throw new NotFoundException('Video is not liked by the user');
-    }
+    // TODO
+    // const likedByUser = await this.videoService.checkLikedByUser(id, userId);
+    // if (!likedByUser) {
+    //   throw new NotFoundException('Video is not liked by the user');
+    // }
 
     const unlikedVideo = await this.videoService.unlikeVideo(id, userId);
 
@@ -209,6 +211,7 @@ export class VideoController {
       comments,
       request.user.userId,
     );
+    console.log({ likes });
     return new CommentListResponseDto(comments, count, likes);
   }
 
@@ -312,13 +315,14 @@ export class VideoController {
     await this.checkVideoExistence(id);
     await this.checkCommentExistence(id, commentId);
 
-    const likedByUser = await this.commentService.checkLikedByUser(
-      commentId,
-      userId,
-    );
-    if (likedByUser) {
-      throw new ConflictException('Already liked the video');
-    }
+    // TODO
+    // const likedByUser = await this.commentService.checkLikedByUser(
+    //   commentId,
+    //   userId,
+    // );
+    // if (likedByUser) {
+    //   throw new ConflictException('Already liked the video');
+    // }
 
     const likedComment = await this.commentService.likeComment(
       commentId,
@@ -341,13 +345,14 @@ export class VideoController {
     await this.checkVideoExistence(id);
     await this.checkCommentExistence(id, commentId);
 
-    const likedByUser = await this.commentService.checkLikedByUser(
-      commentId,
-      userId,
-    );
-    if (!likedByUser) {
-      throw new NotFoundException('Video is not liked by the user');
-    }
+    // TODO
+    // const likedByUser = await this.commentService.checkLikedByUser(
+    //   commentId,
+    //   userId,
+    // );
+    // if (!likedByUser) {
+    //   throw new NotFoundException('Video is not liked by the user');
+    // }
 
     const unlikedComment = await this.commentService.unlikeComment(
       commentId,
