@@ -49,7 +49,7 @@ const VideoItem = ({
       </Link>
       <S.Details mobileType={mobileType} desktopType={desktopType}>
         {showUser && (
-          <Link href="/users/[userId]" as={`/users/1`}>
+          <Link href="/users/[userId]" as={`/users/${user.id}`}>
             <a onClick={e => e.stopPropagation()}>
               <S.Avatar>
                 <img src={user.avatar} />
@@ -64,7 +64,7 @@ const VideoItem = ({
             </a>
           </Link>
           {showUser && (
-            <Link href="/users/[userId]" as={`/users/1`}>
+            <Link href="/users/[userId]" as={`/users/${user.id}`}>
               <a onClick={e => e.stopPropagation()}>
                 <S.Username>{user.username}</S.Username>
               </a>
