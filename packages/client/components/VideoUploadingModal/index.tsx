@@ -11,9 +11,9 @@ export const VideoUploadingModal = () => {
           <CircularProgress thickness={5} />
         </S.LoadingSpinner>
         <S.Description>
-          동영상 업로드 하는 중 입니다.
+          동영상을 업로드 하는 중 입니다.
           <br />
-          업로드가 완료될 때 까지 이 브라우저 탭을 열린 상태로 유지하세요.
+          업로드가 완료될 때 까지 브라우저 탭을 열린 상태로 유지해 주세요.
         </S.Description>
       </S.Container>
     </S.VideoUploadingModal>
