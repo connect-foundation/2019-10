@@ -6,9 +6,8 @@ export const makeCustomSearchOptions = () => {
   const { optionMap } = useSearchedResults();
 
   optionMap.forEach((optionValue, optionTab) => {
-
     if (optionValue.isVisible) {
-      customSearchOptions.push({ label: optionValue.label, optionTab });
+      customSearchOptions.push({ label: optionValue.label, value: optionTab });
     }
   });
 
