@@ -17,7 +17,7 @@ export const useSearchVideos = (page, keyword) => {
   );
   const { payload, error } = useQuery(action);
 
-  const optionMapDispatch = useSearchedResultsDispatch();
+  const dispathOptionMap = useSearchedResultsDispatch();
 
   useEffect(() => {
     if (error) {
@@ -29,7 +29,7 @@ export const useSearchVideos = (page, keyword) => {
       setVideoHasMore(payload.data.length >= 20);
       setVideos([...payload.data]);
       setVideoCount(payload.count);
-      optionMapDispatch({
+      dispathOptionMap({
         type: SET_OPTION_VISIBILITY,
         value: SEARCH_OPTION_VALUES.videos,
         isVisible: payload.count ? true : false,

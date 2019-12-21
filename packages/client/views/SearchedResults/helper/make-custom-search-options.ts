@@ -5,9 +5,10 @@ export const makeCustomSearchOptions = () => {
   const customSearchOptions = [];
   const { optionMap } = useSearchedResults();
 
-  optionMap.forEach((key, value) => {
-    if (key.isVisible) {
-      customSearchOptions.push({ label: key.label, value });
+  optionMap.forEach((optionValue, optionTab) => {
+
+    if (optionValue.isVisible) {
+      customSearchOptions.push({ label: optionValue.label, optionTab });
     }
   });
 

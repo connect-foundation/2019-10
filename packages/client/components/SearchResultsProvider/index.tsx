@@ -28,9 +28,7 @@ const reducer = (state, action) => {
 const optionMap = makeCustomOptionMap();
 
 export const SearchedResultsProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    optionMap,
-  });
+  const [state, dispatch] = useReducer(reducer, { optionMap });
 
   return (
     <SearchedResultsDispatchContext.Provider value={dispatch}>

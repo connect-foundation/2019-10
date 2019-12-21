@@ -17,7 +17,7 @@ export const useSearchTags = (page, keyword) => {
   );
   const { payload, error } = useQuery(action);
 
-  const optionMapDispatch = useSearchedResultsDispatch();
+  const dispatchOptionMap = useSearchedResultsDispatch();
 
   useEffect(() => {
     if (error) {
@@ -29,7 +29,7 @@ export const useSearchTags = (page, keyword) => {
       setTagHasMore(payload.data.length >= 20);
       setTags([...payload.data]);
       setTagCount(payload.count);
-      optionMapDispatch({
+      dispatchOptionMap({
         type: SET_OPTION_VISIBILITY,
         value: SEARCH_OPTION_VALUES.tags,
         isVisible: payload.count ? true : false,

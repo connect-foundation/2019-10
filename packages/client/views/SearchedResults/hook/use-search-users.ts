@@ -17,7 +17,7 @@ export const useSearchUsers = (page, keyword) => {
   );
   const { payload, error } = useQuery(action);
 
-  const optionMapDispatch = useSearchedResultsDispatch();
+  const dispathOptionMap = useSearchedResultsDispatch();
 
   useEffect(() => {
     if (error) {
@@ -30,7 +30,7 @@ export const useSearchUsers = (page, keyword) => {
       setUserHasMore(payload.data.length >= 20);
       setUsers([...payload.data]);
       setUserCount(payload.count);
-      optionMapDispatch({
+      dispathOptionMap({
         type: SET_OPTION_VISIBILITY,
         value: SEARCH_OPTION_VALUES.users,
         isVisible: payload.count ? true : false,
