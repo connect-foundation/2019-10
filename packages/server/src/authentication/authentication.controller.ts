@@ -1,5 +1,5 @@
-import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Get, Query, Res, UseGuards, Req } from '@nestjs/common';
+import { Response, Request } from 'express';
 
 import {
   endpoint,
@@ -15,12 +15,26 @@ import {
   setTokenOnResponseCookie,
 } from '../libs/cookie-setter';
 import { GithubUserDetail } from '../third-party-api/model/github-user-detail';
+import { OnlyMemberGuard } from '../common/guards/only-member.guard';
+import { deleteCookie } from '../libs/cookie-setter';
 
 @Controller(endpoint.auth)
 export class AuthenticationController {
   public constructor(
     private readonly authenticationService: AuthenticationService,
   ) {}
+
+  @Get(endpoint.LOGOUT)
+  @UseGuards(OnlyMemberGuard)
+  public async logout(@Req() request: Request, @Res() response: Response) {
+    await this.authenticationService.logoutUser(request);
+
+    deleteCookie(response, process.env.JWT_SESSION_TOKEN_KEY);
+
+    response.redirect(
+      `${process.env.CLIENT_SERVER_URL}${CLIENT_ENDPOINT.HOTLIST}`,
+    );
+  }
 
   @Get(endpoint.githubLogin)
   @UseGuards(OnlyGuestGuard)

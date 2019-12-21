@@ -50,6 +50,7 @@ export const endpoint = {
 export const SERVER_ENDPOINT = {
   VIDEO_UPLOAD: '/videos/upload',
   MYSELF: '/myself',
+  LOGOUT: '/auth/logout',
 };
 
 export const periods = {

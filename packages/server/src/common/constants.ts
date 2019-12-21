@@ -1,8 +1,8 @@
-export const TranscoderNotificationState = {
-  progressing: 'PROGRESSING',
-  completed: 'COMPLETED',
-  warning: 'WARNING',
-  error: 'ERROR',
+export const TRANSCODER_NOTIFICATION_STATE = {
+  PROGRESSING: 'PROGRESSING',
+  COMPLETED: 'COMPLETED',
+  WARNING: 'WARNING',
+  ERROR: 'ERROR',
 };
 
 export const endpoint = {
@@ -12,6 +12,7 @@ export const endpoint = {
   tags: 'tags',
   videos: 'videos',
   myself: 'myself',
+  LOGOUT: 'logout',
 };
 
 export const USER_ENDPOINT = {
@@ -21,6 +22,11 @@ export const USER_ENDPOINT = {
 export const clientPath = {
   signUp: 'http://localhost:3000/auth/signup',
   main: 'http://localhost:3000',
+};
+
+export const CLIENT_ENDPOINT = {
+  SIGN_UP: '/auth/signup',
+  HOTLIST: '/',
 };
 
 export const GITHUB_USER_DETAIL = 'GithubUserDetail';
@@ -101,6 +107,5 @@ export const COMMENT_QUERY_SELECT_COLUMNS = [
 ];
 
 export const USER_VIDEO_ITEMS_PER_PAGE = 12;
-export const CLIENT_ENDPOINT = {
-  SIGN_UP: '/auth/signup',
-};
+
+export const DOMAIN = 'wedev.tv';

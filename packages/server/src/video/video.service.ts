@@ -125,8 +125,8 @@ export class VideoService {
     await this.videoRepository
       .createQueryBuilder()
       .relation(Video, 'likedUsers')
-      .of(userId)
-      .add(id);
+      .of(id)
+      .add(userId);
 
     const video = await this.findVideo(id);
     video.likedUsersCount = video.likedUsersCount + 1;
@@ -137,24 +137,24 @@ export class VideoService {
     await this.videoRepository
       .createQueryBuilder()
       .relation(Video, 'likedUsers')
-      .of(userId)
-      .remove(id);
+      .of(id)
+      .remove(userId);
 
     const video = await this.findVideo(id);
     video.likedUsersCount = video.likedUsersCount - 1;
     return await this.videoRepository.save(video);
   }
 
-  public async checkLikedByUser(id: number, userId: number): Promise<boolean> {
-    const likedVideo = await this.userRepository
-      .createQueryBuilder()
-      .where({
-        id: userId,
-      })
-      .relation(User, 'likedVideos')
-      .of(id)
-      .loadOne();
+  // public async checkLikedByUser(id: number, userId: number): Promise<boolean> {
+  //   const likedVideo = await this.userRepository
+  //     .createQueryBuilder()
+  //     .where({
+  //       id: userId,
+  //     })
+  //     .relation(User, 'likedVideos')
+  //     .of(id)
+  //     .loadOne();
 
-    return Boolean(likedVideo);
-  }
+  //   return Boolean(likedVideo);
+  // }
 }

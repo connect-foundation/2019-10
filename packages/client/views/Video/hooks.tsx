@@ -11,12 +11,15 @@ export const useVideo = id => {
   // TODO: 기본 값 model로 작성하기
   const [video, setVideo] = useState({
     id: '',
-    views: null,
-    createdAt: '',
     title: '',
-    likedUsersCount: null,
-    likedByUser: false,
     description: '',
+    likedUsersCount: null,
+    views: null,
+    source: null,
+    thumbnail: null,
+    playtime: null,
+    createdAt: '',
+    likedByUser: false,
     user: {
       id: '',
       username: '',

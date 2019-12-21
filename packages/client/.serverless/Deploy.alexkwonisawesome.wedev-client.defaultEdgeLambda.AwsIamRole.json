@@ -2,8 +2,8 @@
   "name": "up93vyv-8gak7og",
   "arn": "arn:aws:iam::579164850622:role/up93vyv-8gak7og",
   "service": [
-    "lambda.amazonaws.com",
-    "edgelambda.amazonaws.com"
+    "edgelambda.amazonaws.com",
+    "lambda.amazonaws.com"
   ],
   "policy": {
     "arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"

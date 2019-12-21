@@ -11,6 +11,7 @@ export const Tag = styled.div`
   color: white;
   background-color: #484c50;
   border-radius: 0.5rem;
+  cursor: pointer;
 `;
 
 export const TagTitle = styled.div`

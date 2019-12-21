@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
-import { endpoint } from '../../constants';
+import { endpoint, SERVER_ENDPOINT } from '../../constants';
 import {
   LogoSVG,
   CloudSVG,
@@ -49,19 +49,19 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({
 
   const menuItems = user && (
     <>
-      <Link href={`/users/${user.userId}`}>
+      <Link href={`/users/${user.userId}`} prefetch={false}>
         <a>
           <ProfileSVG />
           <span>내 프로필</span>
         </a>
       </Link>
-      <Link href={endpoint.profileEdit}>
+      <Link href={endpoint.profileEdit} prefetch={false}>
         <a>
           <SettingsSVG />
           <span>프로필 변경</span>
         </a>
       </Link>
-      <a>
+      <a href={`${process.env.API_SERVER_URL}${SERVER_ENDPOINT.LOGOUT}`}>
         <PowerSVG />
         <span>로그아웃</span>
       </a>
