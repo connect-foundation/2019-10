@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -22,9 +22,19 @@ const VideoItem = ({
   desktopType = ORIENTATION.vertical,
 }) => {
   const router = useRouter();
+  const [thumbnailOrientation, setThumbnailOrientation] = useState(null);
 
   const handleClick = () => {
     router.push('/videos/[videoId]', `/videos/${id}`);
+  };
+
+  const handleImageLoad = e => {
+    const { offsetWidth, offsetHeight } = e.target as HTMLImageElement;
+    setThumbnailOrientation(
+      offsetWidth > offsetHeight
+        ? ORIENTATION.horizontal
+        : ORIENTATION.vertical,
+    );
   };
 
   return skeleton ? (
@@ -42,7 +52,18 @@ const VideoItem = ({
       <Link href="/videos/[videoId]" as={`/videos/${id}`}>
         <a onClick={e => e.stopPropagation()}>
           <S.Thumbnail mobileType={mobileType} desktopType={desktopType}>
-            <img src={thumbnail} />
+            <img
+              src={thumbnail}
+              style={{
+                width:
+                  thumbnailOrientation === ORIENTATION.horizontal
+                    ? '100%'
+                    : null,
+                height:
+                  thumbnailOrientation === ORIENTATION.vertical ? '100%' : null,
+              }}
+              onLoad={handleImageLoad}
+            />
             <div>{playtime}</div>
           </S.Thumbnail>
         </a>
