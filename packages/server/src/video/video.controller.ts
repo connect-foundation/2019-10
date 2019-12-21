@@ -14,6 +14,8 @@ import {
   ConflictException,
   ForbiddenException,
 } from '@nestjs/common';
+import { Request } from 'express';
+
 import { endpoint } from '../common/constants';
 import { VideoService } from './video.service';
 import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
@@ -40,7 +42,7 @@ import { CommentBodyDto } from '../comment/dto/comment-body.dto';
 import { CommentParamPipe } from '../comment/pipe/comment-param.pipe';
 import { CommentParamDto } from '../comment/dto/comment-param.dto';
 import { UpdatingCommentPipe } from '../comment/pipe/updating-comment.pipe';
-import { Request } from 'express';
+import { VideoTagListResponseDTO } from './dto/video-tag-list-response.dto';
 
 @Controller(endpoint.videos)
 export class VideoController {
@@ -360,6 +362,15 @@ export class VideoController {
     );
 
     return new CommentResponseDto(unlikedComment);
+  }
+
+  @Get('/:id/tags')
+  public async getVideoTags(
+    @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
+  ): Promise<VideoTagListResponseDTO> {
+    const id = videoParamDto.id as number;
+    const tags = await this.videoService.findVideoTags(id);
+    return new VideoTagListResponseDTO(tags);
   }
 
   private async checkVideoExistence(id: number) {
