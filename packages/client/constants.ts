@@ -124,8 +124,8 @@ export const SEARCH_OPTION_VALUES = {
 };
 
 export const ORIENTATION = {
-  vertical: 'vertical',
-  horizontal: 'horizontal',
+  VERTICAL: 'vertical',
+  HORIZONTAL: 'horizontal',
 };
 
 export const VIDEO_FORM_DATA_MAX_LENGTH = {

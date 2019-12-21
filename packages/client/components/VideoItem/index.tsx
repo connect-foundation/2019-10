@@ -18,8 +18,8 @@ const VideoItem = ({
   createdAt,
   user,
   showUser = true,
-  mobileType = ORIENTATION.vertical,
-  desktopType = ORIENTATION.vertical,
+  mobileType = ORIENTATION.VERTICAL,
+  desktopType = ORIENTATION.VERTICAL,
 }) => {
   const router = useRouter();
   const [thumbnailOrientation, setThumbnailOrientation] = useState(null);
@@ -32,8 +32,8 @@ const VideoItem = ({
     const { offsetWidth, offsetHeight } = e.target as HTMLImageElement;
     setThumbnailOrientation(
       offsetWidth > offsetHeight
-        ? ORIENTATION.horizontal
-        : ORIENTATION.vertical,
+        ? ORIENTATION.HORIZONTAL
+        : ORIENTATION.VERTICAL,
     );
   };
 
@@ -56,11 +56,11 @@ const VideoItem = ({
               src={thumbnail}
               style={{
                 width:
-                  thumbnailOrientation === ORIENTATION.horizontal
+                  thumbnailOrientation === ORIENTATION.HORIZONTAL
                     ? '100%'
                     : null,
                 height:
-                  thumbnailOrientation === ORIENTATION.vertical ? '100%' : null,
+                  thumbnailOrientation === ORIENTATION.VERTICAL ? '100%' : null,
               }}
               onLoad={handleImageLoad}
             />

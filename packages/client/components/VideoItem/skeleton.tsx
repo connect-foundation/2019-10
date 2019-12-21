@@ -5,8 +5,8 @@ import * as S from './styles';
 import { ORIENTATION } from '../../constants';
 
 const VideoItemSkeleton = ({
-  mobileType = ORIENTATION.vertical,
-  desktopType = ORIENTATION.vertical,
+  mobileType = ORIENTATION.VERTICAL,
+  desktopType = ORIENTATION.VERTICAL,
   showUser = true,
 }) => {
   return (

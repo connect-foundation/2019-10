@@ -62,7 +62,7 @@ const User = () => {
                         count={USER_VIDEOS_PER_PAGE}
                         md={4}
                         showUser={false}
-                        mobileType={ORIENTATION.horizontal}
+                        mobileType={ORIENTATION.HORIZONTAL}
                       />
                     </S.ContainerGrid>
                   )
@@ -75,7 +75,7 @@ const User = () => {
                         <VideoItem
                           {...video}
                           showUser={false}
-                          mobileType={ORIENTATION.horizontal}
+                          mobileType={ORIENTATION.HORIZONTAL}
                         />
                       </Grid>
                     ))}

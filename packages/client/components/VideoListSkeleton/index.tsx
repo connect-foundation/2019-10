@@ -7,8 +7,8 @@ const VideoListSkeleton = ({
   count,
   md,
   showUser = true,
-  mobileType = ORIENTATION.vertical,
-  desktopType = ORIENTATION.vertical,
+  mobileType = ORIENTATION.VERTICAL,
+  desktopType = ORIENTATION.VERTICAL,
 }) => {
   const items = [];
   for (let i = 0; i < count; i += 1) {
