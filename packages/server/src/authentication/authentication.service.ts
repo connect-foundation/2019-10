@@ -28,8 +28,6 @@ export class AuthenticationService {
 
     const tokenData = new SessionJWTData(token.data.sessionId);
 
-    console.log({ tokenData });
-
     await this.userSessionService.remove(tokenData.sessionId);
   }
 
