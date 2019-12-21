@@ -36,6 +36,7 @@ export const User = styled.div`
     border-radius: 100%;
     vertical-align: middle;
     margin-right: 1.6rem;
+    cursor: pointer;
   }
 
   span {
@@ -43,6 +44,7 @@ export const User = styled.div`
     font-size: 1.6rem;
     font-weight: ${fontWeight.bold};
     vertical-align: middle;
+    cursor: pointer;
   }
 `;
 
