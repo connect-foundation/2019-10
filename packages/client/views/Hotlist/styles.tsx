@@ -59,9 +59,5 @@ export const Title = styled.div`
 `;
 
 export const StyledInfiniteScroll = styled(InfiniteScroll)`
-  height: auto;
   overflow: visible !important;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
