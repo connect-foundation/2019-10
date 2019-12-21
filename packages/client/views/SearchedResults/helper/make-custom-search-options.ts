@@ -3,10 +3,10 @@ import { useSearchedResults } from '../../../components/SearchResultsProvider/ho
 
 export const makeCustomSearchOptions = () => {
   const customSearchOptions = [];
-  const optionMap = useSearchedResults().optionMap;
+  const { optionMap } = useSearchedResults();
 
   optionMap.forEach((key, value) => {
-    if (key.isView) {
+    if (key.isVisible) {
       customSearchOptions.push({ label: key.label, value });
     }
   });

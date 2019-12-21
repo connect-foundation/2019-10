@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-fetching-library';
-import { SEARCH_OPTION_VALUES, SET_MAP } from '../../../constants';
+import { SEARCH_OPTION_VALUES, SET_OPTION_VISIBILITY } from '../../../constants';
 import { makeQuerySearchAction } from '../action/make-query-search-action';
 import { useSearchedResultsDispatch } from '../../../components/SearchResultsProvider/hook/use-searched-results';
 
@@ -30,9 +30,9 @@ export const useSearchVideos = (page, keyword) => {
       setVideos([...payload.data]);
       setVideoCount(payload.count);
       optionMapDispatch({
-        type: SET_MAP,
+        type: SET_OPTION_VISIBILITY,
         value: SEARCH_OPTION_VALUES.videos,
-        isView: payload.count ? true : false,
+        isVisible: payload.count ? true : false,
       });
     }
   }, [payload]);
