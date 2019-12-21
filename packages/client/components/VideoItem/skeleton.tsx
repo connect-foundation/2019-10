@@ -2,11 +2,11 @@ import React from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 import * as S from './styles';
-import { orientation } from '../../constants';
+import { ORIENTATION } from '../../constants';
 
 const VideoItemSkeleton = ({
-  mobileType = orientation.vertical,
-  desktopType = orientation.vertical,
+  mobileType = ORIENTATION.vertical,
+  desktopType = ORIENTATION.vertical,
   showUser = true,
 }) => {
   return (

@@ -6,7 +6,7 @@ import { format } from '../../libs/timeago';
 
 import * as S from './styles';
 import VideoItemSkeleton from './skeleton';
-import { orientation } from '../../constants';
+import { ORIENTATION } from '../../constants';
 
 const VideoItem = ({
   skeleton,
@@ -18,8 +18,8 @@ const VideoItem = ({
   createdAt,
   user,
   showUser = true,
-  mobileType = orientation.vertical,
-  desktopType = orientation.vertical,
+  mobileType = ORIENTATION.vertical,
+  desktopType = ORIENTATION.vertical,
 }) => {
   const router = useRouter();
 

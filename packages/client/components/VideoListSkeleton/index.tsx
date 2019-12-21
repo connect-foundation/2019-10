@@ -6,7 +6,7 @@ import { ORIENTATION } from '../../constants';
 const VideoListSkeleton = ({
   count,
   md,
-  showUser,
+  showUser = true,
   mobileType = ORIENTATION.vertical,
   desktopType = ORIENTATION.vertical,
 }) => {

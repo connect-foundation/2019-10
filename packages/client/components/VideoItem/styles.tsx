@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAKPOINT, fontWeight, orientation } from '../../constants';
+import { BREAKPOINT, fontWeight, ORIENTATION } from '../../constants';
 
 export const VideoItem = styled.div`
   user-select: none;
@@ -7,7 +7,7 @@ export const VideoItem = styled.div`
   width: 100%;
 
   ${props => {
-    if (props.mobileType === orientation.vertical) {
+    if (props.mobileType === ORIENTATION.vertical) {
       return `
         margin-bottom: 1.4rem;
       `;
@@ -21,7 +21,7 @@ export const VideoItem = styled.div`
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     ${props => {
-      if (props.desktopType === orientation.vertical) {
+      if (props.desktopType === ORIENTATION.vertical) {
         return `
           display: inherit;
           margin-bottom: 2.6rem;
@@ -36,7 +36,7 @@ export const VideoItem = styled.div`
 
   && > a {
     ${props => {
-      if (props.mobileType === orientation.vertical) {
+      if (props.mobileType === ORIENTATION.vertical) {
         return ``;
       } else {
         return `
@@ -48,7 +48,7 @@ export const VideoItem = styled.div`
 
     @media only screen and (min-width: ${BREAKPOINT}px) {
       ${props => {
-        if (props.desktopType === orientation.vertical) {
+        if (props.desktopType === ORIENTATION.vertical) {
           return ``;
         } else {
           return `
@@ -68,7 +68,7 @@ export const Thumbnail = styled.div`
   background-color: black;
 
   ${props => {
-    if (props.mobileType === orientation.vertical) {
+    if (props.mobileType === ORIENTATION.vertical) {
       return `
         margin-left: -2rem;
         width: calc(100% + 4rem);
@@ -80,7 +80,7 @@ export const Thumbnail = styled.div`
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     ${props => {
-      if (props.desktopType === orientation.vertical) {
+      if (props.desktopType === ORIENTATION.vertical) {
         return `
           margin-left: 0;
           width: 100%;
@@ -124,7 +124,7 @@ export const ThumbnailSkeleton = styled.div`
     overflow: hidden;
 
     ${props => {
-      if (props.mobileType === orientation.vertical) {
+      if (props.mobileType === ORIENTATION.vertical) {
         return `
         margin-left: -2rem;
         width: calc(100% + 4.8rem);
@@ -136,7 +136,7 @@ export const ThumbnailSkeleton = styled.div`
 
     @media only screen and (min-width: ${BREAKPOINT}px) {
       ${props => {
-        if (props.desktopType === orientation.vertical) {
+        if (props.desktopType === ORIENTATION.vertical) {
           return `
           margin-left: 0;
           width: 100%;
@@ -153,7 +153,7 @@ export const ThumbnailSkeleton = styled.div`
 
 export const Details = styled.div`
   ${props => {
-    if (props.mobileType === orientation.vertical) {
+    if (props.mobileType === ORIENTATION.vertical) {
       return `
         width: 100%;
         display: flex;
@@ -173,7 +173,7 @@ export const Details = styled.div`
 
   @media only screen and (min-width: ${BREAKPOINT}px) {
     ${props => {
-      if (props.desktopType === orientation.vertical) {
+      if (props.desktopType === ORIENTATION.vertical) {
         return `
           display: flex;
           align-items: flex-start;

@@ -7,44 +7,25 @@ import * as S from './styles';
 import Layout from '../../components/Layout';
 import UserProfile from '../../components/UserProfile';
 import VideoItem from '../../components/VideoItem';
-import { makeChunkList } from '../../libs/makeChunkList';
 import {
-  sortOptions,
-  orientation,
+  SORT_OPTION,
   USER_VIDEOS_PER_PAGE,
+  ORIENTATION,
 } from '../../constants';
-import { useUser, useVideos } from './hooks';
-import VideoItemSkeleton from '../../components/VideoItem/skeleton';
-import CircularLoader from '../../components/CircularLoader';
+import VideoListSkeleton from '../../components/VideoListSkeleton';
+import { useUserProfile } from './hook/use-user-profile';
+import { useUserVideos } from './hook/use-user-videos';
 
 const User = () => {
-  const router = useRouter();
-  const { userId } = router.query;
-
-  const { user, hasData } = useUser(userId);
-
+  const { user } = useUserProfile();
   const {
-    videos,
-    count,
     sort,
+    count,
+    videos,
     hasMore,
-    hasVideosData,
-    onNext,
-    onSort,
-  } = useVideos(userId);
-  const videoChunks = makeChunkList(videos, 3);
-
-  const skeleton = [];
-  for (let i = 0; i < USER_VIDEOS_PER_PAGE; i += 1) {
-    skeleton.push(
-      <Grid key={i} item xs={12} md={4}>
-        <VideoItemSkeleton
-          showUser={false}
-          mobileType={orientation.horizontal}
-        />
-      </Grid>,
-    );
-  }
+    handleSort,
+    handleNext,
+  } = useUserVideos();
 
   return (
     <Layout drawer={false}>
@@ -52,10 +33,10 @@ const User = () => {
         <Grid container spacing={0} justify="center">
           <Grid item xs={12} md={9}>
             <UserProfile
-              skeleton={!hasData}
-              avatar={user.avatar}
-              username={user.username}
-              description={user.description}
+              skeleton={!user}
+              avatar={user && user.avatar}
+              username={user && user.username}
+              description={user && user.description}
             />
           </Grid>
         </Grid>
@@ -65,46 +46,38 @@ const User = () => {
             <Grid item xs={12} md={9}>
               <S.Title>{!count ? '영상' : `${count}개의 영상`}</S.Title>
               <S.StyledTabs
-                items={sortOptions}
+                items={SORT_OPTION}
                 activeValue={sort}
-                onClick={onSort}
+                onClick={handleSort}
               />
 
-              {hasVideosData ? (
-                <S.StyledInfiniteScroll
-                  dataLength={videos.length}
-                  next={onNext}
-                  hasMore={hasMore}
-                  loader={<CircularLoader />}
-                >
-                  {videoChunks.map((chunk, i) => {
-                    return (
-                      <S.ContainerGrid
-                        key={i}
-                        container
-                        spacing={2}
-                        justify="flex-start"
-                      >
-                        {chunk.map(video => {
-                          return (
-                            <Grid key={video.id} item xs={12} md={4}>
-                              <VideoItem
-                                {...video}
-                                showUser={false}
-                                mobileType={orientation.horizontal}
-                              />
-                            </Grid>
-                          );
-                        })}
-                      </S.ContainerGrid>
-                    );
-                  })}
-                </S.StyledInfiniteScroll>
-              ) : (
-                <S.ContainerGrid container spacing={2} justify="flex-start">
-                  {skeleton}
+              <S.StyledInfiniteScroll
+                dataLength={videos.length}
+                next={handleNext}
+                hasMore={hasMore}
+                loader={
+                  <S.ContainerGrid container spacing={2}>
+                    <VideoListSkeleton
+                      count={USER_VIDEOS_PER_PAGE}
+                      md={4}
+                      showUser={false}
+                      mobileType={ORIENTATION.horizontal}
+                    />
+                  </S.ContainerGrid>
+                }
+              >
+                <S.ContainerGrid container spacing={2}>
+                  {videos.map(video => (
+                    <Grid key={video.id} item xs={12} md={4}>
+                      <VideoItem
+                        {...video}
+                        showUser={false}
+                        mobileType={ORIENTATION.horizontal}
+                      />
+                    </Grid>
+                  ))}
                 </S.ContainerGrid>
-              )}
+              </S.StyledInfiniteScroll>
             </Grid>
           </S.ContainerGrid>
         </S.Videos>

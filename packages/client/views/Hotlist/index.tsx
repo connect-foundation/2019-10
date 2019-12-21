@@ -1,5 +1,5 @@
 import Grid from '@material-ui/core/Grid';
-import { periodOptions } from '../../constants';
+import { periodOptions, HOTLIST_VIDEOS_PER_PAGE } from '../../constants';
 import * as S from './styles';
 import HotlistSVG from '../../svgs/HotlistSVG/';
 import Layout from '../../components/Layout';
@@ -36,7 +36,7 @@ const Hotlist: React.FunctionComponent = () => {
           hasMore={hasMore}
           loader={
             <S.ContainerGrid container spacing={2}>
-              <VideoListSkeleton count={20} md={3} showUser />
+              <VideoListSkeleton count={HOTLIST_VIDEOS_PER_PAGE} md={3} />
             </S.ContainerGrid>
           }
         >
