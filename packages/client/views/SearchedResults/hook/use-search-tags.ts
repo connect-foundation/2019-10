@@ -17,13 +17,14 @@ export const useSearchTags = (page, keyword) => {
   );
   const { payload, error } = useQuery(action);
 
+  const optionMapDispatch = useSearchedResultsDispatch();
+
   useEffect(() => {
     if (error) {
       return;
     }
-    if (payload && !error) {
-      const optionMapDispatch = useSearchedResultsDispatch();
 
+    if (payload && !error) {
       setTagHasData(true);
       setTagHasMore(payload.data.length >= 20);
       setTags([...payload.data]);
@@ -31,7 +32,7 @@ export const useSearchTags = (page, keyword) => {
       optionMapDispatch({
         type: SET_MAP,
         value: SEARCH_OPTION_VALUES.tags,
-        count: payload.count,
+        isView: payload.count ? true : false,
       });
     }
   }, [payload]);

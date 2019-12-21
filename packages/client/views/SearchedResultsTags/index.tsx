@@ -16,26 +16,18 @@ import {
   CENTER,
 } from '../../constants';
 import { useSearchTags } from '../SearchedResults/hook/use-search-tags';
-import { useSearchedResults } from '../../components/SearchResultsProvider/hook/use-searched-results';
-import { makeOptionMap } from '../SearchedResults/helper/make-option-map';
 import { makeRouter } from '../SearchedResults/helper/filter-router';
+import { makeCustomSearchOptions } from '../SearchedResults/helper/make-custom-search-options';
 
 const SearchedResultsTags: React.FunctionComponent = () => {
   const router = useRouter();
   const searchKeyword = router.query.keyword;
-  const options = useSearchedResults();
-  const optionArray = options.split(',');
 
   const [page, setPage] = useState(1);
 
   const { tags, tagHasMore, tagHasData } = useSearchTags(page, searchKeyword);
 
-  const optionMap = makeOptionMap();
-
-  const customSearchOptions = optionArray.reduce((acc, cur) => {
-    acc.push({ label: optionMap.get(cur), value: cur });
-    return acc;
-  }, []);
+  const customSearchOptions = makeCustomSearchOptions();
 
   const handlePageChange = () => {
     setPage(page + 1);
@@ -73,8 +65,8 @@ const SearchedResultsTags: React.FunctionComponent = () => {
                 />
               </S.StyledInfiniteScroll>
             ) : (
-              <CircularProgress size={28} thickness={4.5} />
-            )}
+                <CircularProgress size={28} thickness={4.5} />
+              )}
           </Grid>
         </S.ContainerGrid>
       </S.Container>

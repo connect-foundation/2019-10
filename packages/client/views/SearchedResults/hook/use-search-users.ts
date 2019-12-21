@@ -17,12 +17,14 @@ export const useSearchUsers = (page, keyword) => {
   );
   const { payload, error } = useQuery(action);
 
+  const optionMapDispatch = useSearchedResultsDispatch();
+
   useEffect(() => {
     if (error) {
       return;
     }
+
     if (payload && !error) {
-      const optionMapDispatch = useSearchedResultsDispatch();
 
       setUserHasData(true);
       setUserHasMore(payload.data.length >= 20);
@@ -30,8 +32,8 @@ export const useSearchUsers = (page, keyword) => {
       setUserCount(payload.count);
       optionMapDispatch({
         type: SET_MAP,
-        value: SEARCH_OPTION_VALUES.tags,
-        count: payload.count,
+        value: SEARCH_OPTION_VALUES.users,
+        isView: payload.count ? true : false,
       });
     }
   }, [payload]);

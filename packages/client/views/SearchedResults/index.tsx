@@ -13,7 +13,6 @@ import ViewMore from '../../components/ViewMore';
 import {
   SEARCH_OPTION_LABELS,
   SEARCH_OPTION_VALUES,
-  SET_TABS,
   CENTER,
 } from '../../constants';
 import { useSearchVideos } from './hook/use-search-videos';
@@ -21,10 +20,7 @@ import { useSearchUsers } from './hook/use-search-users';
 import { useSearchTags } from './hook/use-search-tags';
 
 import { makeRouter } from './helper/filter-router';
-import { makeOptionString } from './helper/make-option-string';
 import { makeCustomSearchOptions } from './helper/make-custom-search-options';
-
-import { useSearchedResultsDispatch } from '../../components/SearchResultsProvider/hook/use-searched-results';
 
 const SearchedResults: React.FunctionComponent = () => {
   const router = useRouter();
@@ -47,13 +43,6 @@ const SearchedResults: React.FunctionComponent = () => {
 
   if (hasData) {
     customSearchOptions = makeCustomSearchOptions();
-    const options = makeOptionString(customSearchOptions);
-
-    const searchedResultsDispatch = useSearchedResultsDispatch();
-    searchedResultsDispatch({
-      type: SET_TABS,
-      tabs: options,
-    });
   }
 
   const handleFilterClick = optionValue => {
@@ -76,66 +65,66 @@ const SearchedResults: React.FunctionComponent = () => {
                 <span>"{searchKeyword}"에 대한 검색결과가 없습니다...</span>
               </S.NoResults>
             ) : (
-              <>
-                <S.StyledTabs
-                  items={customSearchOptions}
-                  activeValue={activeSearch}
-                  onClick={handleFilterClick}
-                />
-                <S.Line />
+                <>
+                  <S.StyledTabs
+                    items={customSearchOptions}
+                    activeValue={activeSearch}
+                    onClick={handleFilterClick}
+                  />
+                  <S.Line />
 
-                {videoCount > 0 && (
-                  <>
-                    <SearchedResultsArea
-                      data={videos}
-                      type={SEARCH_OPTION_VALUES.videos}
-                      subject={SEARCH_OPTION_LABELS.videos}
-                    />
-                    {videoCount > 5 && (
-                      <ViewMore
-                        searchKeyword={searchKeyword}
-                        optionValue={SEARCH_OPTION_VALUES.videos}
+                  {videoCount > 0 && (
+                    <>
+                      <SearchedResultsArea
+                        data={videos}
+                        type={SEARCH_OPTION_VALUES.videos}
+                        subject={SEARCH_OPTION_LABELS.videos}
                       />
-                    )}
-                    <S.Line />
-                  </>
-                )}
+                      {videoCount > 5 && (
+                        <ViewMore
+                          searchKeyword={searchKeyword}
+                          optionValue={SEARCH_OPTION_VALUES.videos}
+                        />
+                      )}
+                      <S.Line />
+                    </>
+                  )}
 
-                {userCount > 0 && (
-                  <>
-                    <SearchedResultsArea
-                      data={users}
-                      type={SEARCH_OPTION_VALUES.users}
-                      subject={SEARCH_OPTION_LABELS.users}
-                    />
-                    {userCount > 5 && (
-                      <ViewMore
-                        searchKeyword={searchKeyword}
-                        optionValue={SEARCH_OPTION_VALUES.users}
+                  {userCount > 0 && (
+                    <>
+                      <SearchedResultsArea
+                        data={users}
+                        type={SEARCH_OPTION_VALUES.users}
+                        subject={SEARCH_OPTION_LABELS.users}
                       />
-                    )}
-                    <S.Line />
-                  </>
-                )}
+                      {userCount > 5 && (
+                        <ViewMore
+                          searchKeyword={searchKeyword}
+                          optionValue={SEARCH_OPTION_VALUES.users}
+                        />
+                      )}
+                      <S.Line />
+                    </>
+                  )}
 
-                {tagCount > 0 && (
-                  <>
-                    <SearchedResultsArea
-                      data={tags}
-                      type={SEARCH_OPTION_VALUES.tags}
-                      subject={SEARCH_OPTION_LABELS.tags}
-                    />
-                    {tagCount > 5 && (
-                      <ViewMore
-                        searchKeyword={searchKeyword}
-                        optionValue={SEARCH_OPTION_VALUES.tags}
+                  {tagCount > 0 && (
+                    <>
+                      <SearchedResultsArea
+                        data={tags}
+                        type={SEARCH_OPTION_VALUES.tags}
+                        subject={SEARCH_OPTION_LABELS.tags}
                       />
-                    )}
-                    <S.Line />
-                  </>
-                )}
-              </>
-            )}
+                      {tagCount > 5 && (
+                        <ViewMore
+                          searchKeyword={searchKeyword}
+                          optionValue={SEARCH_OPTION_VALUES.tags}
+                        />
+                      )}
+                      <S.Line />
+                    </>
+                  )}
+                </>
+              )}
           </Grid>
         </S.ContainerGrid>
       </S.Container>

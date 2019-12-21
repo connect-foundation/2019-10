@@ -6,5 +6,4 @@ import {
 } from '../context';
 
 export const useSearchedResults = () => useContext(SearchedResultsStateContext);
-export const useSearchedResultsDispatch = () =>
-  useContext(SearchedResultsDispatchContext);
+export const useSearchedResultsDispatch = () => useContext(SearchedResultsDispatchContext);

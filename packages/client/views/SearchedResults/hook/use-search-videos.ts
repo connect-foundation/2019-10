@@ -17,21 +17,22 @@ export const useSearchVideos = (page, keyword) => {
   );
   const { payload, error } = useQuery(action);
 
+  const optionMapDispatch = useSearchedResultsDispatch();
+
   useEffect(() => {
     if (error) {
       return;
     }
-    if (payload && !error) {
-      const optionMapDispatch = useSearchedResultsDispatch();
 
+    if (payload && !error) {
       setVideoHasData(true);
       setVideoHasMore(payload.data.length >= 20);
       setVideos([...payload.data]);
       setVideoCount(payload.count);
       optionMapDispatch({
         type: SET_MAP,
-        value: SEARCH_OPTION_VALUES.tags,
-        count: payload.count,
+        value: SEARCH_OPTION_VALUES.videos,
+        isView: payload.count ? true : false,
       });
     }
   }, [payload]);
