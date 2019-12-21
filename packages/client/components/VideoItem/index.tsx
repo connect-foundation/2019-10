@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-
 import { format } from '../../libs/timeago';
-
 import * as S from './styles';
 import VideoItemSkeleton from './skeleton';
 import { ORIENTATION } from '../../constants';
+import { parsePlaytime } from '../../libs/parse-playtime';
 
 const VideoItem = ({
   skeleton,
@@ -64,7 +63,7 @@ const VideoItem = ({
               }}
               onLoad={handleImageLoad}
             />
-            <div>{playtime}</div>
+            <div>{parsePlaytime(playtime)}</div>
           </S.Thumbnail>
         </a>
       </Link>
