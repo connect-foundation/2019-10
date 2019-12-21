@@ -6,6 +6,7 @@ import Layout from '../../components/Layout';
 import VideoItem from '../../components/VideoItem';
 import { useHotlistVideos } from './hook/use-hotlist-videos';
 import VideoListSkeleton from '../../components/VideoListSkeleton';
+import CircularProgress from '../../components/CircularProgress';
 
 const Hotlist: React.FunctionComponent = () => {
   const {
@@ -35,9 +36,13 @@ const Hotlist: React.FunctionComponent = () => {
           next={handleNext}
           hasMore={hasMore}
           loader={
-            <S.ContainerGrid container spacing={2}>
-              <VideoListSkeleton count={HOTLIST_VIDEOS_PER_PAGE} md={3} />
-            </S.ContainerGrid>
+            videos.length > 0 ? (
+              <CircularProgress size={28} thickness={4.5} />
+            ) : (
+              <S.ContainerGrid container spacing={2}>
+                <VideoListSkeleton count={HOTLIST_VIDEOS_PER_PAGE} md={3} />
+              </S.ContainerGrid>
+            )
           }
         >
           {videos.length > 0 && (

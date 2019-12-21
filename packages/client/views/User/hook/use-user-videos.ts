@@ -31,7 +31,7 @@ export const useUserVideos = () => {
       setHasMore(data.payload.data.length >= USER_VIDEOS_PER_PAGE);
     };
     fetch();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     const fetch = async () => {

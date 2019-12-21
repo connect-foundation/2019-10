@@ -1,9 +1,7 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import { useRouter } from 'next/router';
-
 import * as S from './styles';
-
+import CircularProgress from '../../components/CircularProgress';
 import Layout from '../../components/Layout';
 import UserProfile from '../../components/UserProfile';
 import VideoItem from '../../components/VideoItem';
@@ -56,27 +54,33 @@ const User = () => {
                 next={handleNext}
                 hasMore={hasMore}
                 loader={
-                  <S.ContainerGrid container spacing={2}>
-                    <VideoListSkeleton
-                      count={USER_VIDEOS_PER_PAGE}
-                      md={4}
-                      showUser={false}
-                      mobileType={ORIENTATION.horizontal}
-                    />
-                  </S.ContainerGrid>
-                }
-              >
-                <S.ContainerGrid container spacing={2}>
-                  {videos.map(video => (
-                    <Grid key={video.id} item xs={12} md={4}>
-                      <VideoItem
-                        {...video}
+                  videos.length > 0 ? (
+                    <CircularProgress size={28} thickness={4.5} />
+                  ) : (
+                    <S.ContainerGrid container spacing={2}>
+                      <VideoListSkeleton
+                        count={USER_VIDEOS_PER_PAGE}
+                        md={4}
                         showUser={false}
                         mobileType={ORIENTATION.horizontal}
                       />
-                    </Grid>
-                  ))}
-                </S.ContainerGrid>
+                    </S.ContainerGrid>
+                  )
+                }
+              >
+                {videos.length > 0 && (
+                  <S.ContainerGrid container spacing={2}>
+                    {videos.map(video => (
+                      <Grid key={video.id} item xs={12} md={4}>
+                        <VideoItem
+                          {...video}
+                          showUser={false}
+                          mobileType={ORIENTATION.horizontal}
+                        />
+                      </Grid>
+                    ))}
+                  </S.ContainerGrid>
+                )}
               </S.StyledInfiniteScroll>
             </Grid>
           </S.ContainerGrid>

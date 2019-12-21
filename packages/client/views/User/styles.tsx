@@ -35,7 +35,11 @@ export const StyledTabs = styled(Tabs)`
 `;
 
 export const StyledInfiniteScroll = styled(InfiniteScroll)`
+  height: auto;
   overflow: visible !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const ContainerGrid = styled(MaterialGrid)`

@@ -25,7 +25,7 @@ export const useHotlistVideos = () => {
       setHasMore(data.payload.data.length >= HOTLIST_VIDEOS_PER_PAGE);
     };
     fetch();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     const fetch = async () => {
