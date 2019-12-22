@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
-import { useRouter } from 'next/router';
+import React from 'react';
 
 import * as S from './style';
-import TagsSVG from '../../svgs/TagsSVG';
-import { SORT_OPTION } from '../../constants';
-import Layout from '../../components/Layout';
-import VideoItem from '../../components/VideoItem';
-import CircularProgress from '../../components/CircularProgress';
 import { useTag } from './hook/use-tag';
+import TagsSVG from '../../svgs/TagsSVG';
+import Layout from '../../components/Layout';
+import { SORT_OPTION } from '../../constants';
+import VideoItem from '../../components/VideoItem';
 import { useTaggedVideos } from './hook/use-tagged-videos';
+import CircularProgress from '../../components/CircularProgress';
 
 const TagVideos: React.FunctionComponent = () => {
   const { tag } = useTag();

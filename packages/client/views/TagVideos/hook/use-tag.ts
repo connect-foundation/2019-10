@@ -1,9 +1,9 @@
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-fetching-library';
 
 import { Tag } from '../model/tag';
 import { makeQueryTagAction } from '../action/make-query-tag-action';
-import { useRouter } from 'next/router';
 import { NATURAL_NUMBER_REGEX } from '../../../libs/regex';
 
 export const useTag = () => {

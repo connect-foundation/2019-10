@@ -1,9 +1,9 @@
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-fetching-library';
 
 import { TAG_VIDEOS_PER_PAGE, SORT } from '../../../constants';
 import { makeQueryTaggedVideosAction } from '../action/make-query-tagged-videos-action';
-import { useRouter } from 'next/router';
 import { NATURAL_NUMBER_REGEX } from '../../../libs/regex';
 
 export const useTaggedVideos = () => {
