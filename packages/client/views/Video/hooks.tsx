@@ -46,9 +46,13 @@ export const useVideo = id => {
       await mutateIncreaseView(receivedVideo.id);
     };
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       increaseViews();
     }, delay);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [receivedVideo, error]);
 
   return {
