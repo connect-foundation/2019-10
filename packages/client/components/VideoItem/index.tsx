@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-
 import { format } from '../../libs/timeago';
-
 import * as S from './styles';
 import VideoItemSkeleton from './skeleton';
-import { orientation } from '../../constants';
+import { ORIENTATION } from '../../constants';
+import { parsePlaytime } from '../../libs/parse-playtime';
 
 const VideoItem = ({
   skeleton,
@@ -18,13 +17,23 @@ const VideoItem = ({
   createdAt,
   user,
   showUser = true,
-  mobileType = orientation.vertical,
-  desktopType = orientation.vertical,
+  mobileType = ORIENTATION.VERTICAL,
+  desktopType = ORIENTATION.VERTICAL,
 }) => {
   const router = useRouter();
+  const [thumbnailOrientation, setThumbnailOrientation] = useState(null);
 
   const handleClick = () => {
     router.push('/videos/[videoId]', `/videos/${id}`);
+  };
+
+  const handleImageLoad = e => {
+    const { offsetWidth, offsetHeight } = e.target as HTMLImageElement;
+    setThumbnailOrientation(
+      offsetWidth > offsetHeight
+        ? ORIENTATION.HORIZONTAL
+        : ORIENTATION.VERTICAL,
+    );
   };
 
   return skeleton ? (
@@ -42,8 +51,19 @@ const VideoItem = ({
       <Link href="/videos/[videoId]" as={`/videos/${id}`}>
         <a onClick={e => e.stopPropagation()}>
           <S.Thumbnail mobileType={mobileType} desktopType={desktopType}>
-            <img src={thumbnail} />
-            <div>{playtime}</div>
+            <img
+              src={thumbnail}
+              style={{
+                width:
+                  thumbnailOrientation === ORIENTATION.HORIZONTAL
+                    ? '100%'
+                    : null,
+                height:
+                  thumbnailOrientation === ORIENTATION.VERTICAL ? '100%' : null,
+              }}
+              onLoad={handleImageLoad}
+            />
+            <div>{parsePlaytime(playtime)}</div>
           </S.Thumbnail>
         </a>
       </Link>

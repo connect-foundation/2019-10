@@ -7,6 +7,5 @@ export const makeEditCommentAction: Action = ({
 }) => ({
   method: 'PATCH',
   endpoint: `${process.env.API_SERVER_URL}/videos/${videoId}/comments/${commentId}`,
-  credentials: 'include',
   body: payload,
 });

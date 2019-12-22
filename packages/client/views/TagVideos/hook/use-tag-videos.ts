@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { useTag } from './use-tag';
 import { useTaggedVideos } from './use-tagged-videos';
-import { sortOptions, endpoint } from '../../../constants';
+import { SORT, endpoint } from '../../../constants';
 import { NATURAL_NUMBER_REGEX } from '../../../libs/regex';
 
 export const useTagVideos = () => {
@@ -13,9 +13,7 @@ export const useTagVideos = () => {
     ? Number(tagId.toString())
     : null;
 
-  const [activeSortOption, setActiveSortOption] = useState(
-    sortOptions[0].value,
-  );
+  const [activeSortOption, setActiveSortOption] = useState(SORT.POPULAR);
   const [page, setPage] = useState(1);
 
   const { tag, error } = useTag(validatedTagId);

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import * as S from './style';
 import TagsSVG from '../../svgs/TagsSVG';
-import { sortOptions } from '../../constants';
+import { SORT_OPTION } from '../../constants';
 import Layout from '../../components/Layout';
 import VideoItem from '../../components/VideoItem';
 import { useTagVideos } from './hook/use-tag-videos';
@@ -28,7 +28,7 @@ const TagVideos: React.FunctionComponent = () => {
           <span>{tag.name !== null && tag.name}</span>
         </S.Title>
         <S.StyledTabs
-          items={sortOptions}
+          items={SORT_OPTION}
           activeValue={activeSortOption}
           onClick={handleFilterClick}
         />
