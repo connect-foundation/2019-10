@@ -1,11 +1,14 @@
 import React from 'react';
 import moment from 'moment';
+import Link from 'next/link';
 
 import * as S from './styles';
 import VideoInfoSkeleton from './skeleton';
-
 import { FavoriteSVG } from '../../svgs';
 import { useVideoLike } from './hook/use-video-like';
+import { VideoTag } from './model/video-tag';
+import { useVideoTags } from './hook/use-video-tags';
+import { endpoint } from '../../constants';
 
 const VideoInfo = ({
   skeleton,
@@ -19,6 +22,7 @@ const VideoInfo = ({
     likedUsersCount,
     likedByUser,
   );
+  const { videoTags } = useVideoTags();
 
   return skeleton ? (
     <VideoInfoSkeleton />
@@ -33,8 +37,15 @@ const VideoInfo = ({
       <S.Title>{title}</S.Title>
 
       <S.Tags>
-        <S.Tag>python</S.Tag>
-        <S.Tag>whyPythonIsSlow</S.Tag>
+        {videoTags.map((tag: VideoTag) => (
+          <Link
+            key={tag.id}
+            href={`${endpoint.tags}/[tagId]`}
+            as={`${endpoint.tags}/${tag.id}`}
+          >
+            <S.Tag>{tag.name}</S.Tag>
+          </Link>
+        ))}
       </S.Tags>
 
       <S.Like type="button" active={liked} onClick={onLike}>
