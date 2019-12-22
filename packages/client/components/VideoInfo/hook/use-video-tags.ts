@@ -2,9 +2,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-fetching-library';
 
-import { VideoTag } from '../model/video-tag';
 import { makeQueryVideoTagsAction } from '../action/make-query-video-tags-action';
-import { Tag } from '../../TagItem/interface/tag';
+import { Tag } from '../interface/tag';
 
 export const useVideoTags = () => {
   const router = useRouter();
@@ -26,7 +25,8 @@ export const useVideoTags = () => {
       return;
     }
 
-    setVideoTags(payload.data.map((tag: Tag) => new VideoTag(tag)));
+    const tags: Tag[] = payload;
+    setVideoTags(tags);
   }, [payload]);
 
   return {
