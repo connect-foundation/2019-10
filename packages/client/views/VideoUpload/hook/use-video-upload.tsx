@@ -63,7 +63,18 @@ export const useVideoUpload = () => {
   const sendVideoInfo = useMutation(makeSendVideoInfoAction).mutate;
 
   const uploadVideoToBucket = async (id: string) => {
-    const videoName = `${id}/${video.name}`;
+    // will be deprecated
+    const randomString = Math.random()
+      .toString(36)
+      .substring(7);
+
+    //  will be deprecated
+    const tmp = video.name.split('.');
+    const ext = tmp[tmp.length - 1];
+
+    // v4 is will be deprecated
+    const videoName = `${id}/${randomString}.${ext}`;
+
     const { payload } = await getPreSignedUrl(videoName);
     const videoPreSignedUrl = payload;
 
