@@ -99,6 +99,16 @@ export class VideoService {
     });
   }
 
+  // TODO
+  public async increaseViews(videoId: number) {
+    this.videoRepository
+      .createQueryBuilder()
+      .update(Video)
+      .set({ views: () => 'views + 1' })
+      .where('id = :id', { id: videoId })
+      .execute();
+  }
+
   public async instructToSerializeVideoInfo(
     uploadedVideoInfoDto: UploadedVideoInfoDto,
   ): Promise<void> {

@@ -47,8 +47,16 @@ export const endpoint = {
   verifyUserInfo: '/users/verify',
 };
 
+export const METHOD = {
+  GET: 'GET',
+  PATCH: 'PATCH',
+};
+
+export const VIDEOS = '/videos';
 export const SERVER_ENDPOINT = {
-  VIDEO_UPLOAD: '/videos/upload',
+  VIDEO_UPLOAD: `${VIDEOS}/upload`,
+  INCREASE_VIEWS: '/views',
+  // VIDEO_UPLOAD: '/videos/upload',
   MYSELF: '/myself',
   LOGOUT: '/auth/logout',
 };
