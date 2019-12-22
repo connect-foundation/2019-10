@@ -13,6 +13,7 @@ import {
   Delete,
   ForbiddenException,
 } from '@nestjs/common';
+import { Request } from 'express';
 
 import { endpoint, VIDEOS_ENDPOINT } from '../common/constants';
 import { VideoService } from './video.service';
@@ -40,7 +41,7 @@ import { CommentBodyDto } from '../comment/dto/comment-body.dto';
 import { CommentParamPipe } from '../comment/pipe/comment-param.pipe';
 import { CommentParamDto } from '../comment/dto/comment-param.dto';
 import { UpdatingCommentPipe } from '../comment/pipe/updating-comment.pipe';
-import { Request } from 'express';
+import { ExtractedTag } from './interface/VideoTag';
 
 @Controller(endpoint.videos)
 export class VideoController {
@@ -375,6 +376,15 @@ export class VideoController {
     );
 
     return new CommentResponseDto(unlikedComment);
+  }
+
+  @Get('/:id/tags')
+  public async getVideoTags(
+    @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
+  ): Promise<ExtractedTag[]> {
+    const id = videoParamDto.id as number;
+    const tags: ExtractedTag[] = await this.videoService.findVideoTags(id);
+    return tags;
   }
 
   private async checkVideoExistence(id: number) {

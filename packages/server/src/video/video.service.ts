@@ -3,8 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as moment from 'moment';
 import { Repository, MoreThan, Like } from 'typeorm';
 
-import { Video } from '../../entity/video.entity';
+import { Tag } from '../../entity/tag.entity';
 import { User } from '../../entity/user.entity';
+import { Video } from '../../entity/video.entity';
 import { UploadedVideoTableService } from '../uploaded-video-table/uploaded-video-table.service';
 import { VideoListQueryDto } from './dto/video-list-query.dto';
 import {
@@ -30,6 +31,8 @@ export class VideoService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly uploadedVideoTableService: UploadedVideoTableService,
+    @InjectRepository(Tag)
+    private readonly tagRepository: Repository<Tag>,
   ) {}
 
   public async findVideo(id: number): Promise<Video> {
@@ -153,6 +156,18 @@ export class VideoService {
     const video = await this.findVideo(id);
     video.likedUsersCount = video.likedUsersCount - 1;
     return await this.videoRepository.save(video);
+  }
+
+  public async findVideoTags(videoId: number): Promise<Tag[]> {
+    const tags = await this.tagRepository
+      .createQueryBuilder('Tag')
+      .leftJoin('Tag.videos', 'Video')
+      .where('Video.id = :videoId', { videoId })
+      .andWhere('Tag.status = :status', { status: 1 })
+      .select(['Tag.id', 'Tag.name'])
+      .getMany();
+
+    return tags;
   }
 
   // public async checkLikedByUser(id: number, userId: number): Promise<boolean> {

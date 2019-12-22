@@ -109,6 +109,7 @@ export const Tag = styled.div`
   background: #484c50;
   border-radius: 10rem;
   margin-right: 1rem;
+  cursor: pointer;
 `;
 
 export const Like = styled.button`

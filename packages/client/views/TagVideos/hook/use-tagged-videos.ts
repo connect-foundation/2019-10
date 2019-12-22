@@ -1,33 +1,77 @@
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-fetching-library';
 
-import { TAG_VIDEOS_PER_PAGE } from '../../../constants';
+import { TAG_VIDEOS_PER_PAGE, SORT } from '../../../constants';
 import { makeQueryTaggedVideosAction } from '../action/make-query-tagged-videos-action';
+import { NATURAL_NUMBER_REGEX } from '../../../libs/regex';
 
-export const useTaggedVideos = (id: number, page: number, sort: string) => {
-  const [allTaggedVideos, setTaggedVideos] = useState([]);
+export const useTaggedVideos = () => {
+  const router = useRouter();
+  const { tagId } = router.query;
+  const validatedTagId = NATURAL_NUMBER_REGEX.test(tagId.toString())
+    ? Number(tagId.toString())
+    : null;
+
+  const [sort, setSort] = useState(SORT.POPULAR);
+  const [page, setPage] = useState(1);
+
+  const [taggedVideos, setTaggedVideos] = useState([]);
   const [hasMore, setHasMore] = useState(true);
 
-  const getTaggedVideosAction = makeQueryTaggedVideosAction(id, page, sort);
-  const { payload: taggedVideos, error } = useQuery(getTaggedVideosAction);
+  const getTaggedVideosAction = makeQueryTaggedVideosAction(
+    validatedTagId,
+    page,
+    sort,
+  );
+  const state = useQuery(getTaggedVideosAction, false);
 
   useEffect(() => {
-    setTaggedVideos([]);
+    if (page === 1) {
+      return;
+    }
+
+    const fetch = async () => {
+      const { payload, error } = await state.query();
+      if (!payload || error) {
+        return;
+      }
+
+      setHasMore(payload.data.length >= TAG_VIDEOS_PER_PAGE);
+      setTaggedVideos([...taggedVideos, ...payload.data]);
+    };
+    fetch();
+  }, [page]);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const { payload, error } = await state.query();
+      if (!payload || error) {
+        return;
+      }
+
+      setHasMore(payload.data.length >= TAG_VIDEOS_PER_PAGE);
+      setTaggedVideos(payload.data);
+    };
+    fetch();
   }, [sort]);
 
-  useEffect(() => {
-    if (error) {
-      // handle Error
-      return;
-    }
-    if (!taggedVideos) {
-      // handle Error
-      return;
-    }
+  const handleFilterClick = value => {
+    setSort(value);
+    setPage(1);
+  };
 
-    setHasMore(taggedVideos.data.length >= TAG_VIDEOS_PER_PAGE);
-    setTaggedVideos([...allTaggedVideos, ...taggedVideos.data]);
-  }, [taggedVideos]);
+  const handlePageChange = () => {
+    if (taggedVideos.length > 0) {
+      setPage(page + 1);
+    }
+  };
 
-  return { allTaggedVideos, hasMore };
+  return {
+    taggedVideos,
+    hasMore,
+    handleFilterClick,
+    handlePageChange,
+    sort,
+  };
 };

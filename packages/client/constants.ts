@@ -45,6 +45,7 @@ export const endpoint = {
   users: '/users',
   profileEdit: '/profile/edit',
   verifyUserInfo: '/users/verify',
+  VIDEOS: '/videos',
 };
 
 export const METHOD = {
