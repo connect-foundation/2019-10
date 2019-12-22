@@ -100,11 +100,9 @@ export class TranscoderWebhookService {
   }
 
   private async findTag(tagName: string): Promise<Tag> {
-    const tagEntities = await this.tagRepository.find({
+    const tag = await this.tagRepository.findOne({
       where: { name: tagName },
     });
-
-    const tag = tagEntities[0];
 
     return tag;
   }
