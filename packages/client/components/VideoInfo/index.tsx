@@ -3,7 +3,7 @@ import moment from 'moment';
 import Link from 'next/link';
 
 import * as S from './styles';
-import { Tag } from './interface/tag';
+import { ExtractedTag } from './interface/tag';
 import VideoInfoSkeleton from './skeleton';
 import { FavoriteSVG } from '../../svgs';
 import { useVideoLike } from './hook/use-video-like';
@@ -37,7 +37,7 @@ const VideoInfo = ({
       <S.Title>{title}</S.Title>
 
       <S.Tags>
-        {videoTags.map((tag: Tag) => (
+        {videoTags.map((tag: ExtractedTag) => (
           <Link
             key={tag.id}
             href={`${endpoint.tags}/[tagId]`}

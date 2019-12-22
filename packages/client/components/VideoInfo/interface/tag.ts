@@ -1,4 +1,4 @@
-export interface Tag {
+export interface ExtractedTag {
   readonly id: number;
   readonly name: string;
 }

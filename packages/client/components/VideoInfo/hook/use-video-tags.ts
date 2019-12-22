@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-fetching-library';
 
 import { makeQueryVideoTagsAction } from '../action/make-query-video-tags-action';
-import { Tag } from '../interface/tag';
+import { ExtractedTag } from '../interface/tag';
 
 export const useVideoTags = () => {
   const router = useRouter();
@@ -12,22 +12,21 @@ export const useVideoTags = () => {
   const [videoTags, setVideoTags] = useState([]);
 
   const getVideoTags = makeQueryVideoTagsAction(videoId);
-  const { payload, error } = useQuery(getVideoTags);
+  const state = useQuery(getVideoTags, false);
 
   useEffect(() => {
-    if (error) {
-      // handle Error
-      return;
-    }
+    const fetch = async () => {
+      const { payload, error } = await state.query();
+      if (!payload || error) {
+        // handle Error
+        return;
+      }
 
-    if (!payload) {
-      // handle Error
-      return;
-    }
-
-    const tags: Tag[] = payload;
-    setVideoTags(tags);
-  }, [payload]);
+      const tags: ExtractedTag[] = payload;
+      setVideoTags(tags);
+    };
+    fetch();
+  }, []);
 
   return {
     videoTags,
