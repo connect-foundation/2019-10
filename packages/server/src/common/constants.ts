@@ -15,6 +15,10 @@ export const endpoint = {
   LOGOUT: 'logout',
 };
 
+export const VIDEOS_ENDPOINT = {
+  INCREASE_VIEWS: '/:id/views',
+};
+
 export const USER_ENDPOINT = {
   VERIFY: '/verify/:username',
 };

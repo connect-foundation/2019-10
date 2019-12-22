@@ -11,10 +11,10 @@ import {
   UseGuards,
   Req,
   Delete,
-  ConflictException,
   ForbiddenException,
 } from '@nestjs/common';
-import { endpoint } from '../common/constants';
+
+import { endpoint, VIDEOS_ENDPOINT } from '../common/constants';
 import { VideoService } from './video.service';
 import { UploadedVideoInfoDto } from './dto/uploaded-video-info.dto';
 import { CommentService } from '../comment/comment.service';
@@ -90,6 +90,22 @@ export class VideoController {
       return new VideoListResponseDto(videos, count);
     } catch (err) {
       throw new BadRequestException();
+    }
+  }
+
+  // TODO
+  @Patch(VIDEOS_ENDPOINT.INCREASE_VIEWS)
+  public async increaseViews(
+    @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
+  ) {
+    try {
+      const videoId = videoParamDto.id as number;
+
+      await this.videoService.increaseViews(videoId);
+
+      return true;
+    } catch (err) {
+      return false;
     }
   }
 
