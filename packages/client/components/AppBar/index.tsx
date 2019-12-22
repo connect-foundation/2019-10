@@ -55,12 +55,12 @@ export const AppBar: React.FunctionComponent<AppBarProps> = ({
           <span>내 프로필</span>
         </a>
       </Link>
-      <Link href={endpoint.profileEdit} prefetch={false}>
+      {/* <Link href={endpoint.profileEdit} prefetch={false}>
         <a>
           <SettingsSVG />
           <span>프로필 변경</span>
         </a>
-      </Link>
+      </Link> */}
       <a href={`${process.env.API_SERVER_URL}${SERVER_ENDPOINT.LOGOUT}`}>
         <PowerSVG />
         <span>로그아웃</span>

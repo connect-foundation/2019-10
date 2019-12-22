@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import * as S from './style';
 import VideoItem from '../VideoItem';
-import { SEARCH_OPTION_VALUES, orientation } from '../../constants';
+import { SEARCH_OPTION_VALUES, ORIENTATION } from '../../constants';
 
 const SearchedResultsArea = ({ subject, data, type }) => {
   let children;
@@ -51,8 +51,8 @@ const SearchedResultsArea = ({ subject, data, type }) => {
           <VideoItem
             {...video}
             showUser={false}
-            mobileType={orientation.horizontal}
-            desktopType={orientation.horizontal}
+            mobileType={ORIENTATION.HORIZONTAL}
+            desktopType={ORIENTATION.HORIZONTAL}
           />
         </S.Videos>
       );

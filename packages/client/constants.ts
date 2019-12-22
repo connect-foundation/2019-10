@@ -54,7 +54,7 @@ export const SERVER_ENDPOINT = {
   LOGOUT: '/auth/logout',
 };
 
-export const periods = {
+export const PERIOD = {
   week: 'week',
   month: 'month',
   year: 'year',
@@ -64,30 +64,35 @@ export const periods = {
 export const periodOptions = [
   {
     label: '일주일',
-    value: periods.week,
+    value: PERIOD.week,
   },
   {
     label: '한달',
-    value: periods.month,
+    value: PERIOD.month,
   },
   {
     label: '일년',
-    value: periods.year,
+    value: PERIOD.year,
   },
   {
     label: '전체',
-    value: periods.all,
+    value: PERIOD.all,
   },
 ];
 
-export const sortOptions = [
+export const SORT = {
+  POPULAR: 'popular',
+  LATEST: 'latest',
+};
+
+export const SORT_OPTION = [
   {
     label: '인기 순',
-    value: 'popular',
+    value: SORT.POPULAR,
   },
   {
     label: '최신 순',
-    value: 'latest',
+    value: SORT.LATEST,
   },
 ];
 
@@ -119,9 +124,9 @@ export const SEARCH_OPTION_VALUES = {
   all: 'all',
 };
 
-export const orientation = {
-  vertical: 'vertical',
-  horizontal: 'horizontal',
+export const ORIENTATION = {
+  VERTICAL: 'vertical',
+  HORIZONTAL: 'horizontal',
 };
 
 export const VIDEO_FORM_DATA_MAX_LENGTH = {

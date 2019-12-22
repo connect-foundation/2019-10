@@ -66,17 +66,6 @@ export const Tag = styled.div`
   border-radius: 0.5rem;
 `;
 
-export const TagTitle = styled.div`
-  font-size: 1.8rem;
-  font-weight: ${fontWeight.bold};
-  margin-bottom: 0.5rem;
-`;
-
-export const TagCount = styled.div`
-  font-size: 1.6rem;
-  font-weight: ${fontWeight.regular};
-`;
-
 export const StyledInfiniteScroll = styled(InfiniteScroll)`
   height: auto;
   overflow: visible !important;
