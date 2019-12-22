@@ -3,21 +3,32 @@ import {
   SearchedResultsStateContext,
   SearchedResultsDispatchContext,
 } from './context';
-import { SET_TABS } from '../../constants';
+import { SET_OPTION_VISIBILITY, SEARCH_OPTION_VALUES } from '../../constants';
+import { makeCustomOptionMap } from './helper/make-custom-option-map';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case SET_TABS:
-      return action.tabs;
+
+    case SET_OPTION_VISIBILITY:
+      const newMap = new Map(state.optionMap);
+      const valueObject = state.optionMap.get(SEARCH_OPTION_VALUES[action.value]);
+      valueObject.isVisible = action.isVisible;
+      newMap.set(SEARCH_OPTION_VALUES[action.value], Object.create(valueObject));
+
+      return {
+        ...state,
+        optionMap: newMap,
+      };
+
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
 };
 
+const optionMap = makeCustomOptionMap();
+
 export const SearchedResultsProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    tabs: '',
-  });
+  const [state, dispatch] = useReducer(reducer, { optionMap });
 
   return (
     <SearchedResultsDispatchContext.Provider value={dispatch}>

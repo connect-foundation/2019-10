@@ -177,7 +177,7 @@ export const USER_FORM_VALIDATION_MESSAGE = {
   INVALID_CHARACTER: `특수 문자는 포함할 수 없습니다.`,
 };
 
-export const SET_TABS = 'setTabs';
+export const SET_OPTION_VISIBILITY = 'setOptionVisibility';
 
 export const CENTER = 'center';
 

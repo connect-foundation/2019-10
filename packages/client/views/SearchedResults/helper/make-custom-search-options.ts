@@ -1,14 +1,13 @@
 import { SEARCH_OPTION_LABELS, SEARCH_OPTION_VALUES } from '../../../constants';
-import { makeCustomOptionMap } from '../helper/make-custom-option-map';
+import { useSearchedResults } from '../../../components/SearchResultsProvider/hook/use-searched-results';
 
 export const makeCustomSearchOptions = () => {
   const customSearchOptions = [];
+  const { optionMap } = useSearchedResults();
 
-  const optionMap = makeCustomOptionMap();
-
-  optionMap.forEach((key, value) => {
-    if (key.count) {
-      customSearchOptions.push({ label: key.label, value });
+  optionMap.forEach((optionValue, optionTab) => {
+    if (optionValue.isVisible) {
+      customSearchOptions.push({ label: optionValue.label, value: optionTab });
     }
   });
 
