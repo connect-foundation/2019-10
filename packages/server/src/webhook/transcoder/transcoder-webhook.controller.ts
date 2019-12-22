@@ -13,7 +13,7 @@ export class TranscoderWebhookController {
   public async listenTranscoderNotification(
     @Body() transcoderNotificationDto: TranscoderNotificationDto,
   ) {
-    await this.transcoderWebhookService.synchronizeVideoInfo(
+    await this.transcoderWebhookService.saveVideoInfo(
       transcoderNotificationDto,
     );
 

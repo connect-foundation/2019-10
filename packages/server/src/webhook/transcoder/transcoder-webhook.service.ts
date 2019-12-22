@@ -20,6 +20,29 @@ export class TranscoderWebhookService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
+  public async saveVideoInfo(
+    transcoderNotificationDto: TranscoderNotificationDto,
+  ): Promise<void> {
+    const notificationMessage = this.parseNotificationMessage(
+      transcoderNotificationDto,
+    );
+
+    if (notificationMessage.state === TRANSCODER_NOTIFICATION_STATE.COMPLETED) {
+      const videoInfo = await this.getVideoInfo(notificationMessage);
+
+      const user = await this.findOwner(videoInfo.userId);
+
+      const tags = await this.getTags(videoInfo);
+
+      await this.saveVideoEntity(
+        videoInfo,
+        tags,
+        user,
+        notificationMessage.outputs[0].duration,
+      );
+    }
+  }
+
   private parseNotificationMessage(
     transcoderNotificationDto: TranscoderNotificationDto,
   ): TranscoderNotificationDto {
@@ -64,29 +87,42 @@ export class TranscoderWebhookService {
   private async getTags(videoInfo: UploadedVideoInfo): Promise<Tag[]> {
     const tags = await Promise.all(
       videoInfo.tags.map(async (tagName: string) => {
-        const tagEntities = await this.tagRepository.find({
-          where: { name: tagName },
-        });
-
-        const tag = tagEntities[0];
+        const tag = await this.findTag(tagName);
 
         if (!tag) {
-          const tagInfo = this.tagRepository.create({ name: tagName });
-          tagInfo.videosCount = 1;
-          const newTag = await this.tagRepository.save(tagInfo);
-
-          return newTag;
+          return await this.createNewTag(tagName);
         }
-        tag.videosCount += 1;
-
-        return tag;
+        return this.getIncreasedVideosCountTag(tag);
       }),
     );
 
     return tags;
   }
 
-  private async saveVideoInfo(
+  private async findTag(tagName: string): Promise<Tag> {
+    const tag = await this.tagRepository.findOne({
+      where: { name: tagName },
+    });
+
+    return tag;
+  }
+
+  private async createNewTag(tagName: string): Promise<Tag> {
+    const tagInfo = this.tagRepository.create({ name: tagName });
+    tagInfo.videosCount = 1;
+    const newTag = await this.tagRepository.save(tagInfo);
+
+    return newTag;
+  }
+
+  private async getIncreasedVideosCountTag(tag: Tag): Promise<Tag> {
+    tag.videosCount += 1;
+    await this.tagRepository.save(tag);
+
+    return tag;
+  }
+
+  private async saveVideoEntity(
     videoInfo: UploadedVideoInfo,
     tags: Tag[],
     user: User,
@@ -105,41 +141,26 @@ export class TranscoderWebhookService {
     await this.videoRepository.save(video);
   }
 
-  public async synchronizeVideoInfo(
-    transcoderNotificationDto: TranscoderNotificationDto,
-  ): Promise<void> {
-    const notificationMessage = this.parseNotificationMessage(
-      transcoderNotificationDto,
+  private async getVideoInfo(
+    notificationMessage: TranscoderNotificationDto,
+  ): Promise<UploadedVideoInfo> {
+    const sourcePrefix = this.getSourcePrefix(
+      notificationMessage.outputKeyPrefix,
     );
 
-    if (notificationMessage.state === TRANSCODER_NOTIFICATION_STATE.COMPLETED) {
-      const sourcePrefix = this.getSourcePrefix(
-        notificationMessage.outputKeyPrefix,
-      );
+    const mpdSourceUrl = this.getMpdSourceUrl(
+      sourcePrefix,
+      notificationMessage.playlists[0].name,
+    );
 
-      const mpdSourceUrl = this.getMpdSourceUrl(
-        sourcePrefix,
-        notificationMessage.playlists[0].name,
-      );
+    const id = this.getId(notificationMessage.outputKeyPrefix);
 
-      const id = this.getId(notificationMessage.outputKeyPrefix);
+    const videoInfo = await this.deserializeVideoInfo(
+      id,
+      mpdSourceUrl,
+      sourcePrefix,
+    );
 
-      const videoInfo = await this.deserializeVideoInfo(
-        id,
-        mpdSourceUrl,
-        sourcePrefix,
-      );
-
-      const user = await this.findOwner(videoInfo.userId);
-
-      const tags = await this.getTags(videoInfo);
-
-      await this.saveVideoInfo(
-        videoInfo,
-        tags,
-        user,
-        notificationMessage.outputs[0].duration,
-      );
-    }
+    return videoInfo;
   }
 }

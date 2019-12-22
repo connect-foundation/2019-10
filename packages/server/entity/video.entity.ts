@@ -7,11 +7,7 @@ import {
   ManyToOne,
   JoinTable,
   JoinColumn,
-  BeforeInsert,
   BeforeUpdate,
-  EventSubscriber,
-  EntitySubscriberInterface,
-  UpdateEvent,
 } from 'typeorm';
 
 import { Base } from './base.entity';

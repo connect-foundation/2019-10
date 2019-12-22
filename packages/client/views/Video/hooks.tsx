@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useQuery, Action } from 'react-fetching-library';
+import { useQuery, Action, useMutation } from 'react-fetching-library';
+import { makeIncreaseViewAction } from './action/make-increase-view-action';
 
 const createVideoAction: Action = id => ({
   method: 'GET',
@@ -27,14 +28,32 @@ export const useVideo = id => {
     },
   });
   const action = createVideoAction(id);
-  const { payload, error, ...rest } = useQuery(action);
+  const { payload: receivedVideo, error, ...rest } = useQuery(action);
+  const { mutate: mutateIncreaseView } = useMutation(makeIncreaseViewAction);
 
   useEffect(() => {
-    if (payload && !error) {
-      setHasData(true);
-      setVideo(payload);
+    if (!receivedVideo || error) {
+      return;
     }
-  }, [payload, error]);
+
+    setHasData(true);
+    setVideo(receivedVideo);
+
+    // TODO
+    // will be deprecated
+    const delay = (receivedVideo.playtime / 2) * 1000;
+    const increaseViews = async () => {
+      await mutateIncreaseView(receivedVideo.id);
+    };
+
+    const timer = setTimeout(() => {
+      increaseViews();
+    }, delay);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [receivedVideo, error]);
 
   return {
     video,
