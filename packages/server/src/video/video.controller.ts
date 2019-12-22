@@ -211,7 +211,6 @@ export class VideoController {
       comments,
       request.user.userId,
     );
-    console.log({ likes });
     return new CommentListResponseDto(comments, count, likes);
   }
 

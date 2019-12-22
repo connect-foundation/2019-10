@@ -31,6 +31,7 @@ export const Avatar = styled.div`
     border-radius: 100%;
     vertical-align: middle;
     margin-right: 1.3rem;
+    cursor: pointer;
 
     @media only screen and (min-width: ${BREAKPOINT}px) {
       width: ${props => (props.reply ? '3rem' : '3.6rem')};
@@ -51,6 +52,7 @@ export const User = styled.div`
     font-size: 1.5rem;
     font-weight: ${fontWeight.bold};
     vertical-align: middle;
+    cursor: pointer;
   }
 
   span.dates-ago {
@@ -58,6 +60,7 @@ export const User = styled.div`
     color: rgba(255, 255, 255, 0.6);
     font-weight: ${fontWeight.regular};
     margin-left: 1rem;
+    cursor: default;
   }
 `;
 
