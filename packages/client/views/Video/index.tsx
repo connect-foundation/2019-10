@@ -2,14 +2,12 @@ import { Grid } from '@material-ui/core';
 import { useRouter } from 'next/router';
 
 import * as S from './styles';
-
+import { useVideo } from './hooks';
 import Layout from '../../components/Layout';
 import VideoInfo from '../../components/VideoInfo';
 import VideoMeta from '../../components/VideoMeta';
-
-import { useVideo } from './hooks';
-import VideoComments from '../../components/VideoComments';
 import VideoPlayer from '../../components/VideoPlayer';
+import VideoComments from '../../components/VideoComments';
 
 const Video = () => {
   const router = useRouter();
@@ -33,6 +31,7 @@ const Video = () => {
             <VideoMeta
               skeleton={!hasData}
               username={video.user.username}
+              userId={video.user.id}
               avatar={video.user.avatar}
               description={video.description}
             />

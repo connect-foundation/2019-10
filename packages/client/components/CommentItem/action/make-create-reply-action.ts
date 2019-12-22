@@ -7,6 +7,5 @@ export const makeCreateReplyAction: Action = ({
 }) => ({
   method: 'POST',
   endpoint: `${process.env.API_SERVER_URL}/videos/${videoId}/comments/${commentId}`,
-  credentials: 'include',
   body: payload,
 });

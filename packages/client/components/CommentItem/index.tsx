@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-
-import { format } from '../../libs/timeago';
+import { CircularProgress } from '@material-ui/core';
 
 import * as S from './style';
-import { FavoriteSVG } from '../../svgs';
-import { CircularProgress } from '@material-ui/core';
-import { useUser } from '../UserProvider/hooks';
-
 import CommentForm from '../CommentForm';
-import { useCommentDelete } from './hook/use-comment-delete';
+import { FavoriteSVG } from '../../svgs';
+import { endpoint } from '../../constants';
+import { format } from '../../libs/timeago';
 import { useReplies } from './hook/use-replies';
+import { useUser } from '../UserProvider/hooks';
 import { useCommentLike } from './hook/use-comment-like';
 import { useCommentEdit } from './hook/use-comment-edit';
+import { useCommentDelete } from './hook/use-comment-delete';
 
 const CommentItem = ({
   reply,
@@ -60,9 +60,14 @@ const CommentItem = ({
 
   return (
     <S.CommentItem reply={reply}>
-      <S.Avatar reply={reply}>
-        <img src={user.avatar} />
-      </S.Avatar>
+      <Link
+        href={`${endpoint.users}/[userId]`}
+        as={`${endpoint.users}/${user.id}`}
+      >
+        <S.Avatar reply={reply}>
+          <img src={user.avatar} />
+        </S.Avatar>
+      </Link>
       <S.Content>
         {commentEditState.edit ? (
           <CommentForm
@@ -84,7 +89,12 @@ const CommentItem = ({
         ) : (
           <>
             <S.User>
-              <span>{user.username}</span>
+              <Link
+                href={`${endpoint.users}/[userId]`}
+                as={`${endpoint.users}/${user.id}`}
+              >
+                <span>{user.username}</span>
+              </Link>
               <span className="dates-ago">{format(createdAt, 'ko')}</span>
             </S.User>
             <S.Description>

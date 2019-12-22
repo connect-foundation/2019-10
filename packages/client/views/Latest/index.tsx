@@ -6,16 +6,12 @@ import LatestSVG from '../../svgs/LatestSVG/';
 import Layout from '../../components/Layout';
 import VideoItem from '../../components/VideoItem';
 import CircularProgress from '../../components/CircularProgress';
-import { useLatestVideos } from './hooks';
+import { useLatestVideos } from './hook/use-latest-videos';
+import { LATEST_VIDEOS_PER_PAGE } from '../../constants';
+import VideoListSkeleton from '../../components/VideoListSkeleton';
 
 const Latest: React.FunctionComponent = () => {
-  const [page, setPage] = useState(1);
-
-  const { videos, hasMore } = useLatestVideos(page);
-
-  const handlePageChange = () => {
-    setPage(page + 1);
-  };
+  const { videos, hasMore, handleNext } = useLatestVideos();
 
   return (
     <Layout>
@@ -27,19 +23,27 @@ const Latest: React.FunctionComponent = () => {
 
         <S.StyledInfiniteScroll
           dataLength={videos.length}
-          next={handlePageChange}
+          next={handleNext}
           hasMore={hasMore}
-          loader={<CircularProgress size={28} thickness={4.5} />}
+          loader={
+            videos.length > 0 ? (
+              <CircularProgress size={28} thickness={4.5} />
+            ) : (
+              <S.ContainerGrid container spacing={2}>
+                <VideoListSkeleton count={LATEST_VIDEOS_PER_PAGE} md={3} />
+              </S.ContainerGrid>
+            )
+          }
         >
-          <S.ContainerGrid container spacing={2}>
-            {videos.map(video => {
-              return (
+          {videos.length > 0 && (
+            <S.ContainerGrid container spacing={2}>
+              {videos.map(video => (
                 <Grid key={video.id} item xs={12} md={3}>
                   <VideoItem {...video} />
                 </Grid>
-              );
-            })}
-          </S.ContainerGrid>
+              ))}
+            </S.ContainerGrid>
+          )}
         </S.StyledInfiniteScroll>
       </S.Container>
     </Layout>
