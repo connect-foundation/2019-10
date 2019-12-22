@@ -42,7 +42,7 @@ import { CommentBodyDto } from '../comment/dto/comment-body.dto';
 import { CommentParamPipe } from '../comment/pipe/comment-param.pipe';
 import { CommentParamDto } from '../comment/dto/comment-param.dto';
 import { UpdatingCommentPipe } from '../comment/pipe/updating-comment.pipe';
-import { VideoTagListResponseDTO } from './dto/video-tag-list-response.dto';
+import { ExtractedTag } from './interface/VideoTag';
 
 @Controller(endpoint.videos)
 export class VideoController {
@@ -366,10 +366,10 @@ export class VideoController {
   @Get('/:id/tags')
   public async getVideoTags(
     @Param(new VideoParamPipe()) videoParamDto: VideoParamDto,
-  ): Promise<VideoTagListResponseDTO> {
+  ): Promise<ExtractedTag[]> {
     const id = videoParamDto.id as number;
-    const tags = await this.videoService.findVideoTags(id);
-    return new VideoTagListResponseDTO(tags);
+    const tags: ExtractedTag[] = await this.videoService.findVideoTags(id);
+    return tags;
   }
 
   private async checkVideoExistence(id: number) {
