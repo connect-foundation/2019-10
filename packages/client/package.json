@@ -30,7 +30,7 @@
     "timeago.js": "^4.0.1",
     "universal-cookie": "^4.0.2",
     "uuid": "^3.3.3",
-    "validator": "^12.1.0",
+    "validator": "^13.7.0",
     "webpack": "^4.41.2"
   },
   "devDependencies": {
