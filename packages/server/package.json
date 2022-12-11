@@ -22,7 +22,7 @@
   "dependencies": {
     "@nestjs/common": "^6.10.8",
     "@nestjs/core": "^6.10.8",
-    "@nestjs/platform-express": "^6.10.8",
+    "@nestjs/platform-express": "^9.2.1",
     "@nestjs/typeorm": "^6.2.0",
     "async-redis": "^1.1.7",
     "aws-lambda": "^0.1.2",
